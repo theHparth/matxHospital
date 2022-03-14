@@ -38,9 +38,11 @@ const login = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
-  const token = user.createJWT();
+  const accessToken = user.createJWT();
   user.password = undefined;
-  res.status(StatusCodes.OK).json({ user, token, location: user.location });
+  res
+    .status(StatusCodes.OK)
+    .json({ user, accessToken, location: user.location });
 };
 const updateUser = async (req, res) => {
   const { email, name, lastName, location } = req.body;
@@ -56,9 +58,11 @@ const updateUser = async (req, res) => {
 
   await user.save();
 
-  const token = user.createJWT();
+  const accessToken = user.createJWT();
 
-  res.status(StatusCodes.OK).json({ user, token, location: user.location });
+  res
+    .status(StatusCodes.OK)
+    .json({ user, accessToken, location: user.location });
 };
 
 export { register, login, updateUser };

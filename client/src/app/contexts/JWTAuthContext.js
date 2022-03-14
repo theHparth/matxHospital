@@ -3,33 +3,48 @@ import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
 
-const initialState = {
-    isAuthenticated: false,
-    isInitialised: false,
-    user: null,
-}
+import {
+    DISPLAY_ALERT,
+    CLEAR_ALERT,
+    SETUP_USER_BEGIN,
+    SETUP_USER_SUCCESS,
+    SETUP_USER_ERROR,
+    TOGGLE_SIDEBAR,
+    LOGOUT_USER,
+    UPDATE_USER_BEGIN,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_ERROR,
+    HANDLE_CHANGE,
+    CLEAR_VALUES,
+} from './actions'
+// const initialState = {
+//     isAuthenticated: false,
+//     isInitialised: false,
+//     user: null,
+// }
 
-const isValidToken = (accessToken) => {
-    if (!accessToken) {
-        return false
-    }
+// const isValidToken = (accessToken) => {
+//     if (!accessToken) {
+//         return false
+//     }
 
-    const decodedToken = jwtDecode(accessToken)
-    const currentTime = Date.now() / 1000
-    return decodedToken.exp > currentTime
-}
+//     const decodedToken = jwtDecode(accessToken)
+//     const currentTime = Date.now() / 1000
+//     return decodedToken.exp > currentTime
+// }
 
-const setSession = (accessToken) => {
-    if (accessToken) {
-        localStorage.setItem('accessToken', accessToken)
-        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-    } else {
-        localStorage.removeItem('accessToken')
-        delete axios.defaults.headers.common.Authorization
-    }
-}
+// const setSession = (accessToken, user) => {
+//     if (accessToken && user) {
+//         localStorage.setItem('accessToken', accessToken)
+//         localStorage.setItem('user', user)
+//         axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+//     } else {
+//         localStorage.removeItem('accessToken')
+//         delete axios.defaults.headers.common.Authorization
+//     }
+// }
 
-const reducer = (state, action) => {
+const reducerr = (state, action) => {
     switch (action.type) {
         case 'INIT': {
             const { isAuthenticated, user } = action.payload
@@ -72,118 +87,190 @@ const reducer = (state, action) => {
     }
 }
 
+const token = localStorage.getItem('token')
+const user = localStorage.getItem('user')
+
 const AuthContext = createContext({
     ...initialState,
     method: 'JWT',
-    login: () => Promise.resolve(),
-    logout: () => {},
-    register: () => Promise.resolve(),
+    // login: () => Promise.resolve(),
+    // logout: () => {},
+    // register: () => Promise.resolve(),
+    // isAuthenticated: false,
+    // isInitialised: false,
+    // me
+
+    isLoading: false,
+    showAlert: false,
+    alertText: '',
+    alertType: '',
+    user: user ? JSON.parse(user) : null,
+    token: token,
 })
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const login = async (email, password) => {
-        // const response = await axios.post('/api/auth/login', {
-        //     email,
-        //     password,
-        // })
-        // const { accessToken, user } = response.data
+    const authFetch = axios.create({
+        baseURL: '/api/v1',
+    })
 
-        // setSession(accessToken)
+    authFetch.interceptors.request.use(
+        (config) => {
+            config.headers.common['Authorization'] = `Bearer ${state.token}`
+            return config
+        },
+        (error) => {
+            return Promise.reject(error)
+        }
+    )
+    // response
 
-        const response = await axios.post('/api/v1/auth/login', {
-            email,
-            password,
-        })
-        const { token, user } = response.data
-        var accessToken = token
-        console.log(user)
-        setSession(accessToken)
-
-        dispatch({
-            type: 'LOGIN',
-            payload: {
-                user,
-            },
-        })
-    }
-
-    const register = async (email, username, password) => {
-        const response = await axios.post('/api/auth/register', {
-            email,
-            username,
-            password,
-        })
-
-        const { accessToken, user } = response.data
-
-        setSession(accessToken)
-
-        dispatch({
-            type: 'REGISTER',
-            payload: {
-                user,
-            },
-        })
-    }
-
-    const logout = () => {
-        setSession(null)
-        dispatch({ type: 'LOGOUT' })
-    }
-
-    useEffect(() => {
-        ;(async () => {
-            try {
-                const accessToken = window.localStorage.getItem('accessToken')
-
-                if (accessToken && isValidToken(accessToken)) {
-                    setSession(accessToken)
-                    const response = await axios.get('/api/auth/profile')
-                    const { user } = response.data
-
-                    dispatch({
-                        type: 'INIT',
-                        payload: {
-                            isAuthenticated: true,
-                            user,
-                        },
-                    })
-                } else {
-                    dispatch({
-                        type: 'INIT',
-                        payload: {
-                            isAuthenticated: false,
-                            user: null,
-                        },
-                    })
-                }
-            } catch (err) {
-                console.error(err)
-                dispatch({
-                    type: 'INIT',
-                    payload: {
-                        isAuthenticated: false,
-                        user: null,
-                    },
-                })
+    authFetch.interceptors.response.use(
+        (response) => {
+            return response
+        },
+        (error) => {
+            // console.log(error.response)
+            if (error.response.status === 401) {
+                logoutUser()
             }
-        })()
-    }, [])
+            return Promise.reject(error)
+        }
+    )
 
-    if (!state.isInitialised) {
-        return <MatxLoading />
+    const addUserToLocalStorage = ({ user, token, location }) => {
+        localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('token', token)
     }
+
+    const removeUserFromLocalStorage = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+    }
+    const logoutUser = () => {
+        dispatch({ type: LOGOUT_USER })
+        removeUserFromLocalStorage()
+    }
+
+    const setupUser = async ({ currentUser, endPoint, alertText }) => {
+        dispatch({ type: SETUP_USER_BEGIN })
+        try {
+            const { data } = await axios.post(
+                `/api/v1/auth/${endPoint}`,
+                currentUser
+            )
+
+            const { user, token, location } = data
+            dispatch({
+                type: SETUP_USER_SUCCESS,
+                payload: { user, token, location, alertText },
+            })
+            addUserToLocalStorage({ user, token, location })
+        } catch (error) {
+            dispatch({
+                type: SETUP_USER_ERROR,
+                payload: { msg: error.response.data.msg },
+            })
+        }
+        // clearAlert()
+    }
+
+    // const login = async (email, password) => {
+    //     // const response = await axios.post('/api/auth/login', {
+    //     //     email,
+    //     //     password,
+    //     // })
+    //     // const { accessToken, user } = response.data
+
+    //     // setSession(accessToken)
+
+    //     const response = await axios.post('/api/v1/auth/login', {
+    //         email,
+    //         password,
+    //     })
+    //     const { accessToken, user } = response.data
+
+    //     setSession(accessToken, user)
+
+    //     dispatch({
+    //         type: 'LOGIN',
+    //         payload: {
+    //             user,
+    //         },
+    //     })
+    // }
+
+    // const register = async (email, username, password) => {
+    //     const response = await axios.post('/api/auth/register', {
+    //         email,
+    //         username,
+    //         password,
+    //     })
+
+    //     const { accessToken, user } = response.data
+
+    //     setSession(accessToken)
+
+    //     dispatch({
+    //         type: 'REGISTER',
+    //         payload: {
+    //             user,
+    //         },
+    //     })
+    // }
+
+    // useEffect(() => {
+    //     ;(async () => {
+    //         try {
+    //             const accessToken = localStorage.getItem('accessToken')
+    //             // const user = window.localStorage.getItem('user')
+
+    //             if (accessToken && isValidToken(accessToken)) {
+    //                 setSession(accessToken)
+    //                 const response = await axios.get('/api/auth/profile')
+    //                 const { user } = response.data
+
+    //                 dispatch({
+    //                     type: 'INIT',
+    //                     payload: {
+    //                         isAuthenticated: true,
+    //                         user,
+    //                     },
+    //                 })
+    //             } else {
+    //                 dispatch({
+    //                     type: 'INIT',
+    //                     payload: {
+    //                         isAuthenticated: false,
+    //                         user: null,
+    //                     },
+    //                 })
+    //             }
+    //         } catch (err) {
+    //             console.error(err)
+    //             dispatch({
+    //                 type: 'INIT',
+    //                 payload: {
+    //                     isAuthenticated: false,
+    //                     user: null,
+    //                 },
+    //             })
+    //         }
+    //     })()
+    // }, [])
+
+    // if (!state.isInitialised) {
+    //     return <MatxLoading />
+    // }
 
     return (
         <AuthContext.Provider
             value={{
                 ...state,
                 method: 'JWT',
-                login,
-                logout,
-                register,
+                logoutUser,
+                setupUser,
             }}
         >
             {children}
@@ -192,3 +279,9 @@ export const AuthProvider = ({ children }) => {
 }
 
 export default AuthContext
+
+const useAppContext = () => {
+    return useContext(AuthContext)
+}
+
+export { AuthProvider, initialState, useAppContext }

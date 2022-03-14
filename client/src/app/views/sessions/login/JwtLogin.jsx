@@ -7,11 +7,14 @@ import {
     FormControlLabel,
 } from '@mui/material'
 import React, { useState } from 'react'
-import useAuth from 'app/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { Box, styled, useTheme } from '@mui/system'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Paragraph, Span } from 'app/components/Typography'
+
+// import useAuth from 'app/hooks/useAuth'
+
+import { useAppContext } from '../../../contexts/JWTAuthContext'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -49,39 +52,84 @@ const StyledProgress = styled(CircularProgress)(() => ({
     left: '25px',
 }))
 
+const initialState = {
+    name: '',
+    email: '',
+    password: '',
+    isMember: true,
+}
+
 const JwtLogin = () => {
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false)
-    const [userInfo, setUserInfo] = useState({
-        email: 'jason@ui-lib.com',
-        password: 'dummyPass',
-        // email: 'z@gmail.com',
-        // password: 'zzzzzz',
-    })
-    const [message, setMessage] = useState('')
-    const { login } = useAuth()
 
-    const handleChange = ({ target: { name, value } }) => {
-        let temp = { ...userInfo }
-        temp[name] = value
-        setUserInfo(temp)
+    const [values, setValues] = useState(initialState)
+    const { user, isLoading, showAlert, displayAlert, setupUser } =
+        useAppContext()
+
+    // const [loading, setLoading] = useState(false)
+    // const [userInfo, setUserInfo] = useState({
+    //     // email: 'jason@ui-lib.com',
+    //     // password: 'dummyPass',
+    //     email: 'z@gmail.com',
+    //     password: 'zzzzzz',
+    // })
+    // const [message, setMessage] = useState('')
+    // const { login } = useAuth()
+
+    // const handleChange = ({ target: { name, value } }) => {
+    //     let temp = { ...userInfo }
+    //     temp[name] = value
+    //     setUserInfo(temp)
+    // }
+
+    // const { palette } = useTheme()
+    // const textError = palette.error.main
+    // const textPrimary = palette.primary.main
+
+    // const handleFormSubmit = async (event) => {
+    //     setLoading(true)
+    //     try {
+    //         await login(userInfo.email, userInfo.password)
+    //         navigate('/')
+    //     } catch (e) {
+    //         console.log(e)
+    //         setMessage(e.message)
+    //         setLoading(false)
+    //     }
+    // }
+    const handleChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value })
     }
-
-    const { palette } = useTheme()
-    const textError = palette.error.main
-    const textPrimary = palette.primary.main
-
-    const handleFormSubmit = async (event) => {
-        setLoading(true)
-        try {
-            await login(userInfo.email, userInfo.password)
-            navigate('/')
-        } catch (e) {
-            console.log(e)
-            setMessage(e.message)
-            setLoading(false)
+    const onSubmit = (e) => {
+        e.preventDefault()
+        const { name, email, password, isMember } = values
+        if (!email || !password || (!isMember && !name)) {
+            displayAlert()
+            return
+        }
+        const currentUser = { name, email, password }
+        if (isMember) {
+            setupUser({
+                currentUser,
+                endPoint: 'login',
+                alertText: 'Login Successful! Redirecting...',
+            })
+        } else {
+            setupUser({
+                currentUser,
+                endPoint: 'register',
+                alertText: 'User Created! Redirecting...',
+            })
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            setTimeout(() => {
+                navigate('/')
+            }, 3000)
+        }
+    }, [user, navigate])
 
     return (
         <JWTRoot>
@@ -97,7 +145,28 @@ const JwtLogin = () => {
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
                         <ContentBox>
-                            <ValidatorForm onSubmit={handleFormSubmit}>
+                            <ValidatorForm onSubmit={onSubmit}>
+                                <h3>
+                                    {values.isMember ? 'Login' : 'Register'}
+                                </h3>
+                                {/* {showAlert && <Alert />} */}
+                                {!values.isMember && (
+                                    <TextValidator
+                                        sx={{ mb: 3, width: '100%' }}
+                                        variant="outlined"
+                                        size="small"
+                                        label="Name"
+                                        onChange={handleChange}
+                                        type="email"
+                                        name="name"
+                                        value={values.name}
+                                        validators={['required', 'isEmail']}
+                                        errorMessages={[
+                                            'this field is required',
+                                            'email is not valid',
+                                        ]}
+                                    />
+                                )}
                                 <TextValidator
                                     sx={{ mb: 3, width: '100%' }}
                                     variant="outlined"
@@ -106,7 +175,7 @@ const JwtLogin = () => {
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
-                                    value={userInfo.email}
+                                    value={values.email}
                                     validators={['required', 'isEmail']}
                                     errorMessages={[
                                         'this field is required',
@@ -121,7 +190,7 @@ const JwtLogin = () => {
                                     onChange={handleChange}
                                     name="password"
                                     type="password"
-                                    value={userInfo.password}
+                                    value={values.password}
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />

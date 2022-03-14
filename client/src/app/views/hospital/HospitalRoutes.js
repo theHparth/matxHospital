@@ -1,20 +1,17 @@
 import React, { lazy } from 'react'
 import Loadable from 'app/components/Loadable/Loadable'
-import { authRoles } from 'app/auth/authRoles'
 
 const AddHospital = Loadable(lazy(() => import('./AddHospital')))
 const AllHospital = Loadable(lazy(() => import('./AllHospital')))
 
 const HospitalRoutes = [
     {
-        path: '/api/v1/hospitals/addHospital',
+        path: '/addHospital',
         element: <AddHospital />,
-        auth: authRoles.editor,
     },
     {
-        path: '/api/v1/hospitals/allHospitals',
+        path: '/allHospitals',
         element: <AllHospital />,
-        auth: authRoles.editor,
     },
     // {
     //     path: '/api/v1/hospitals/editHospitals',
