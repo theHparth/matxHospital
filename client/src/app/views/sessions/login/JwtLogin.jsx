@@ -6,7 +6,7 @@ import {
     CircularProgress,
     FormControlLabel,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, styled, useTheme } from '@mui/system'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
@@ -15,6 +15,7 @@ import { Paragraph, Span } from 'app/components/Typography'
 // import useAuth from 'app/hooks/useAuth'
 
 import { useAppContext } from '../../../contexts/JWTAuthContext'
+import { Alert } from '../../../components'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -149,7 +150,6 @@ const JwtLogin = () => {
                                 <h3>
                                     {values.isMember ? 'Login' : 'Register'}
                                 </h3>
-                                {/* {showAlert && <Alert />} */}
                                 {!values.isMember && (
                                     <TextValidator
                                         sx={{ mb: 3, width: '100%' }}
@@ -194,32 +194,11 @@ const JwtLogin = () => {
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />
-                                <FormControlLabel
-                                    sx={{ mb: '12px', maxWidth: 288 }}
-                                    name="agreement"
-                                    onChange={handleChange}
-                                    control={
-                                        <Checkbox
-                                            size="small"
-                                            onChange={({
-                                                target: { checked },
-                                            }) =>
-                                                handleChange({
-                                                    target: {
-                                                        name: 'agreement',
-                                                        value: checked,
-                                                    },
-                                                })
-                                            }
-                                            checked={userInfo.agreement || true}
-                                        />
-                                    }
-                                    label="Remeber me"
-                                />
+                                {/* {showAlert && <Alert />} */}
 
-                                {message && (
-                                    <Paragraph sx={{ color: textError }}>
-                                        {message}
+                                {showAlert && (
+                                    <Paragraph>
+                                        <Alert />
                                     </Paragraph>
                                 )}
 
@@ -228,36 +207,21 @@ const JwtLogin = () => {
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            disabled={loading}
+                                            disabled={isLoading}
                                             type="submit"
                                         >
-                                            Sign in
+                                            Submit
                                         </Button>
-                                        {loading && (
-                                            <StyledProgress
-                                                size={24}
-                                                className="buttonProgress"
-                                            />
-                                        )}
                                     </Box>
-                                    <Span sx={{ mr: 1, ml: '20px' }}>or</Span>
-                                    <Button
-                                        sx={{ textTransform: 'capitalize' }}
-                                        onClick={() =>
-                                            navigate('/session/signup')
-                                        }
-                                    >
-                                        Sign up
-                                    </Button>
                                 </FlexBox>
-                                <Button
+                                {/* <Button
                                     sx={{ color: textPrimary }}
                                     onClick={() =>
                                         navigate('/session/forgot-password')
                                     }
                                 >
                                     Forgot password?
-                                </Button>
+                                </Button> */}
                             </ValidatorForm>
                         </ContentBox>
                     </Grid>

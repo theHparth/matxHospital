@@ -1,3 +1,5 @@
+import Alert from './Alert'
+
 export { default as Breadcrumb } from './Breadcrumb/Breadcrumb'
 export { default as MatxDivider } from './MatxDivider/MatxDivider'
 export { default as MatxMenu } from './MatxMenu/MatxMenu'
@@ -33,3 +35,5 @@ export { default as SimpleCard } from './cards/SimpleCard'
 export { default as MatxLogo } from './MatxLogo/MatxLogo'
 export { default as FacebookIcon } from './icons/FacebookIcon'
 export { default as GoogleIcon } from './icons/GoogleIcon'
+
+export { default as Alert } from './Alert'

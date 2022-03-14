@@ -1,7 +1,8 @@
-import React, { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useEffect, useContext, useReducer } from 'react'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
+import reducer from './reducer'
 
 import {
     DISPLAY_ALERT,
@@ -22,6 +23,22 @@ import {
 //     isInitialised: false,
 //     user: null,
 // }
+const initialState = {
+    method: 'JWT',
+    // login: () => Promise.resolve(),
+    // logout: () => {},
+    // register: () => Promise.resolve(),
+    // isAuthenticated: false,
+    // isInitialised: false,
+    // me
+
+    isLoading: false,
+    showAlert: false,
+    alertText: '',
+    alertType: '',
+    user: user ? JSON.parse(user) : null,
+    token: token,
+}
 
 // const isValidToken = (accessToken) => {
 //     if (!accessToken) {
@@ -90,25 +107,13 @@ const reducerr = (state, action) => {
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
 
-const AuthContext = createContext({
-    ...initialState,
-    method: 'JWT',
-    // login: () => Promise.resolve(),
-    // logout: () => {},
-    // register: () => Promise.resolve(),
-    // isAuthenticated: false,
-    // isInitialised: false,
-    // me
+// const AuthContext = createContext({
+//     ...initialState,
 
-    isLoading: false,
-    showAlert: false,
-    alertText: '',
-    alertType: '',
-    user: user ? JSON.parse(user) : null,
-    token: token,
-})
+// })
+const AppContext = React.createContext()
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const authFetch = axios.create({
@@ -265,7 +270,7 @@ export const AuthProvider = ({ children }) => {
     // }
 
     return (
-        <AuthContext.Provider
+        <AuthProvider.Provider
             value={{
                 ...state,
                 method: 'JWT',
@@ -274,14 +279,14 @@ export const AuthProvider = ({ children }) => {
             }}
         >
             {children}
-        </AuthContext.Provider>
+        </AuthProvider.Provider>
     )
 }
 
-export default AuthContext
+// export default AuthContext
 
 const useAppContext = () => {
-    return useContext(AuthContext)
+    return useContext(AuthProvider)
 }
 
 export { AuthProvider, initialState, useAppContext }

@@ -1,3 +1,5 @@
+import React, { useReducer, useContext } from 'react'
+
 import {
     DISPLAY_ALERT,
     CLEAR_ALERT,
@@ -13,7 +15,7 @@ import {
     CLEAR_VALUES,
 } from './actions'
 
-import { initialState } from './appContext'
+import { initialState } from './JWTAuthContext'
 
 const reducer = (state, action) => {
     if (action.type === DISPLAY_ALERT) {
