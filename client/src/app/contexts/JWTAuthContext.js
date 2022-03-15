@@ -82,7 +82,6 @@ export const AuthProvider = ({ children }) => {
 
     authFetch.interceptors.request.use(
         (config) => {
-            console.log(localStorage.getItem('token') + '----------------')
             config.headers.common['Authorization'] = `Bearer ${state.token}`
             return config
         },

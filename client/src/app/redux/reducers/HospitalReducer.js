@@ -14,6 +14,9 @@ import {
     EDIT_HOSPITAL_SUCCESS,
     EDIT_HOSPITAL_ERROR,
     SHOW_STATS_BEGIN,
+    HANDLE_CHANGE,
+    CLEAR_ALERT,
+    DISPLAY_ALERT,
 } from '../actions/HospitalActions'
 
 const initialState = {
@@ -27,7 +30,6 @@ const initialState = {
     address: '',
     contect: '',
     password: '',
-    confirmPassword: '',
     email: '',
     pincode: '',
 }
@@ -74,6 +76,7 @@ const HospitalReducer = function (state = initialState, action) {
                 isLoading: true,
             }
         }
+        // edit hospital
         case EDIT_HOSPITAL_SUCCESS: {
             return {
                 ...state,
@@ -92,6 +95,36 @@ const HospitalReducer = function (state = initialState, action) {
                 alertType: 'danger',
             }
         }
+        //delete state
+        case DELETE_HOSPITAL_BEGIN: {
+            return { ...state, isLoading: true }
+        }
+        case SET_EDIT_HOSPITAL: {
+            // const hospitalN = state.hospitals.find(
+            //     (hospital) => hospital._id === action.payload.id
+            // )
+            const subscriber = {action.payload.subscriber}
+            const {
+                _id,
+                address,
+                pincode,
+                contect,
+                email,
+                username,
+                password,
+            } = subscriber
+            return {
+                ...state,
+                isEditing: true,
+                _id,address,
+                pincode,
+                contect,
+                email,
+                username,
+                password,
+            }
+        }
+
         // case GET_CART_LIST: {
         //     return {
         //         ...state,

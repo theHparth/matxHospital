@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import { DatePicker } from '@mui/lab'
+
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import {
     editHospital,
@@ -23,32 +23,47 @@ import {
     clearAlert,
     displayAlert,
 } from 'app/redux/actions/HospitalActions'
+import Alert from '../../components/Alert'
 
 const TextField = styled(TextValidator)(() => ({
     width: '100%',
     marginBottom: '16px',
 }))
 
-const SimpleForm = () => {
-    const [state, setState] = useState()
-    const [isLoading, isEditing, showAlert, address, contect, email, pincode] =
-        useSelector(
-            (x) => [
-                x.isLoading,
-                x.isEditing,
-                x.showAlert,
-                x.address,
-                x.contect,
-                x.email,
-                x.pincode,
-            ],
-            shallowEqual
-        )
+const SimpleForm = (props) => {
+    const [state, setState] = useState({
+        username: '',
+        contect: '',
+        pincode: '',
+        address: '',
+        password: '',
+        email: '',
+    })
+    const [
+        isLoading,
+        isEditing,
+        showAlert,
+        addresss,
+        contects,
+        emails,
+        pincodes,
+        passwords,
+        usernames,
+    ] = useSelector(
+        (x) => [
+            x.isLoading,
+            x.isEditing,
+            x.showAlert,
+            x.username,
+            x.address,
+            x.contect,
+            x.email,
+            x.pincode,
+            x.password,
+        ],
+        shallowEqual
+    )
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (post) setPostData(post)
-    }, [post])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -61,9 +76,16 @@ const SimpleForm = () => {
             editHospital(state)
             return
         }
-        addHospital(state)
+
+        dispatch(addHospital(state))
     }
 
+    // const handleHospitalInput = (e) => {
+    //     const name = e.target.name
+    //     const value = e.target.value
+    //     console.log(name, value)
+    //     dispatch(handleHospitalChange({ name, value }))
+    // }
     const handleHospitalInput = (event) => {
         event.persist()
         setState({
@@ -71,36 +93,34 @@ const SimpleForm = () => {
             [event.target.name]: event.target.value,
         })
     }
-
-    // const { username, address, contect, password, confirmPassword, email } =
-    //     state
+    const { username, contect, pincode, address, password, email } = state
 
     /////////////////////////////////////////////////////////////////////
-    useEffect(() => {
-        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            console.log(value)
+    // useEffect(() => {
+    //     ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+    //         console.log(value)
 
-            if (value !== state.password) {
-                return false
-            }
-            return true
-        })
-        return () => ValidatorForm.removeValidationRule('isPasswordMatch')
-    }, [state.password])
+    //         if (value !== state.password) {
+    //             return false
+    //         }
+    //         return true
+    //     })
+    //     return () => ValidatorForm.removeValidationRule('isPasswordMatch')
+    // }, [state.password])
 
     return (
         <div>
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>
                     <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        {/* <h3>{isEditing ? 'edit Hospital' : 'add Hospital'}</h3>
-                        {showAlert && <Alert />} */}
+                        <h3>{isEditing ? 'edit Hospital' : 'add Hospital'}</h3>
+                        {showAlert && <Alert />}
                         <TextField
                             type="text"
                             name="username"
                             id="standard-basic"
                             onChange={handleHospitalInput}
-                            value={username || ''}
+                            value={usernames || username || ''}
                             validators={[
                                 'required',
                                 'minStringLength: 4',
@@ -114,9 +134,23 @@ const SimpleForm = () => {
                             name="address"
                             id="standard-basic"
                             onChange={handleHospitalInput}
-                            value={address || ''}
+                            value={addresss || address || ''}
                             validators={['required']}
                             label="Address"
+                            errorMessages={['this field is required']}
+                        />
+                        <TextField
+                            type="text"
+                            name="pincode"
+                            id="standard-basic"
+                            onChange={handleHospitalInput}
+                            value={pincodes || pincode || ''}
+                            validators={[
+                                'required',
+                                'minStringLength: 5',
+                                'maxStringLength: 5',
+                            ]}
+                            label="Pincode"
                             errorMessages={['this field is required']}
                         />
 
@@ -125,7 +159,7 @@ const SimpleForm = () => {
                             onChange={handleHospitalInput}
                             type="email"
                             name="email"
-                            value={email || ''}
+                            value={emails || email || ''}
                             validators={['required', 'isEmail']}
                             errorMessages={[
                                 'this field is required',
@@ -138,8 +172,12 @@ const SimpleForm = () => {
                             onChange={handleHospitalInput}
                             type="text"
                             name="contect"
-                            value={contect || ''}
-                            validators={['required']}
+                            value={contects || contect || ''}
+                            validators={[
+                                'required',
+                                'minStringLength: 10',
+                                'maxStringLength: 12',
+                            ]}
                             errorMessages={['this field is required']}
                         />
                         <TextField
@@ -147,11 +185,11 @@ const SimpleForm = () => {
                             onChange={handleHospitalInput}
                             name="password"
                             type="password"
-                            value={password || ''}
+                            value={passwords || password || ''}
                             validators={['required']}
                             errorMessages={['this field is required']}
                         />
-                        <TextField
+                        {/* <TextField
                             label="Confirm Password"
                             onChange={handleHospitalInput}
                             name="confirmPassword"
@@ -162,7 +200,7 @@ const SimpleForm = () => {
                                 'this field is required',
                                 "password didn't match",
                             ]}
-                        />
+                        /> */}
                     </Grid>
                 </Grid>
                 <Button color="primary" variant="contained" type="submit">

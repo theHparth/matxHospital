@@ -1,8 +1,11 @@
-import { useAppContext } from "../context/appContext";
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 
 const Alert = () => {
-  const { alertType, alertText } = useAppContext();
-  return <div className={`alert alert-${alertType}`}>{alertText}</div>;
-};
+    const [alertType, alertText] = useSelector(
+        (x) => [x.alertType, x.alertText],
+        shallowEqual
+    )
+    return <div className={`alert alert-${alertType}`}>{alertText}</div>
+}
 
-export default Alert;
+export default Alert

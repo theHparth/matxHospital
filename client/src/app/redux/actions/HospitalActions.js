@@ -49,7 +49,7 @@ export const getHospitalsData = () => async (dispatch) => {
     }
 }
 
-export const addHospital = () => async (dispatch) => {
+export const addHospital = (state) => async (dispatch) => {
     //   dispatch({ type: CREATE_HOSPITAL_BEGIN })
     try {
         const { address, pincode, contect, email, username, password } = state
@@ -72,18 +72,30 @@ export const addHospital = () => async (dispatch) => {
     }
     clearAlert()
 }
-export const editHospital = (state) => (dispatch) => {
+
+// export const handleHospitalChange =
+//     ({ name, value }) =>
+//     (dispatch) => {
+//         dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
+//     }
+
+// edit hospital
+export const setEditHospital = (subscriber) => (dispatch) => {
+    console.log({ subscriber })
+    console.log('-------------------------------------')
+    dispatch({ type: SET_EDIT_HOSPITAL, payload: { subscriber } })
+}
+
+export const editHospital = async (state) => async (dispatch) => {
     dispatch({ type: EDIT_HOSPITAL_BEGIN })
 
     try {
-        const { address, pincode, contect, email, password, username } = state
+        const { address, pincode, contect, email } = state
         await authFetch.patch(`/hospitals/${state.editHospitalId}`, {
             address,
             pincode,
             contect,
             email,
-            password,
-            username,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
         dispatch({ type: CLEAR_VALUES_HOSPITAL })
@@ -96,20 +108,29 @@ export const editHospital = (state) => (dispatch) => {
     }
     clearAlert()
 }
-const handleHospitalChange = ({ name, value }) => {
-    dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
-}
 
+// delete the
+export const deleteHospital = (hospitalId) => async (dispatch) => {
+    dispatch({ type: DELETE_HOSPITAL_BEGIN })
+    console.log('deleted')
+    try {
+        await authFetch.delete(`/hospitals/${hospitalId}`)
+        getHospitalsData()
+    } catch (error) {
+        // logoutUser()
+        console.log(error)
+    }
+}
 ///////////////////////////////////////////////////////////////
-export const clearValues = () => {
+export const clearValues = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES })
 }
-export const clearAlert = () => {
+export const clearAlert = () => (dispatch) => {
     setTimeout(() => {
         dispatch({ type: CLEAR_ALERT })
     }, 3000)
 }
-export const displayAlert = () => {
+export const displayAlert = () => (dispatch) => {
     dispatch({ type: DISPLAY_ALERT })
     clearAlert()
 }

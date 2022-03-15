@@ -10,9 +10,14 @@ import {
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Box, styled } from '@mui/system'
-import redu from '../../redux/reducers/HospitalReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { getHospitalsData } from 'app/redux/actions/HospitalActions'
+import {
+    getHospitalsData,
+    setEditHospital,
+    deleteHospital,
+} from 'app/redux/actions/HospitalActions'
+import { Link, useParams } from 'react-router-dom'
+import { sub } from 'date-fns/esm'
 
 const StyledTable = styled(Table)(({ theme }) => ({
     whiteSpace: 'pre',
@@ -34,15 +39,19 @@ const StyledTable = styled(Table)(({ theme }) => ({
     },
 }))
 
-const HospitalData = () => {
+const HospitalData = (props) => {
     const { hospitalsData } = useSelector((state) => state.hospitalList)
     const dispatch = useDispatch()
 
     useEffect(() => {
+        // console.log(props.location.state)
         dispatch(getHospitalsData())
     }, [])
 
-    // console.log(hospitalsData)
+    // useEffect(() => {
+    //     const { userData } = useParams()
+    //     console.log(userData)
+    // }, [userData])
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
@@ -54,6 +63,10 @@ const HospitalData = () => {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value)
         setPage(0)
+    }
+
+    const data = (id) => {
+        return setEditHospital(id)
     }
 
     return (
@@ -80,15 +93,32 @@ const HospitalData = () => {
                                 <TableCell align="left">
                                     {subscriber.address}
                                 </TableCell>
+                                <TableCell>{subscriber.email}</TableCell>
                                 <TableCell align="left">
                                     {subscriber.pincode}
                                 </TableCell>
                                 <TableCell align="left">
                                     {subscriber.contect}
                                 </TableCell>
-                                <TableCell>{subscriber.email}</TableCell>
-                                <TableCell>{subscriber.Edit}</TableCell>
                                 <TableCell>
+                                    <Link
+                                        to={`/addHospital`}
+                                        onClick={() =>
+                                            dispatch(
+                                                setEditHospital(subscriber._id)
+                                            )
+                                        }
+                                    >
+                                        <IconButton>
+                                            <Icon color="error">edit</Icon>
+                                        </IconButton>
+                                    </Link>
+                                </TableCell>
+                                <TableCell
+                                    onClick={() =>
+                                        dispatch(deleteHospital(subscriber._id))
+                                    }
+                                >
                                     <IconButton>
                                         <Icon color="error">close</Icon>
                                     </IconButton>
@@ -102,7 +132,7 @@ const HospitalData = () => {
                 sx={{ px: 2 }}
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={subscribarList.length}
+                count={hospitalsData.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 backIconButtonProps={{
