@@ -13,11 +13,11 @@ const App = () => {
 
     return (
         <Provider store={Store}>
-            {/* <SettingsProvider> */}
-            <MatxTheme>
-                <AuthProvider>{all_pages}</AuthProvider>
-            </MatxTheme>
-            {/* </SettingsProvider> */}
+            <SettingsProvider>
+                <MatxTheme>
+                    <AuthProvider>{all_pages}</AuthProvider>
+                </MatxTheme>
+            </SettingsProvider>
         </Provider>
     )
 }

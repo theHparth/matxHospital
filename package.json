@@ -42,11 +42,11 @@
     "node": "16.x"
   },
   "skipFiles": [
-  "<node_internals>/**/*.js"
-],
-"debug.javascript.terminalOptions": {
+    "<node_internals>/**/*.js"
+  ],
+  "debug.javascript.terminalOptions": {
     "skipFiles": [
-        "<node_internals>/**"
+      "<node_internals>/**"
     ]
-}
+  }
 }

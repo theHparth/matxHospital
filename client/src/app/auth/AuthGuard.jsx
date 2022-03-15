@@ -28,8 +28,6 @@ const AuthGuard = ({ children }) => {
     const { pathname } = useLocation()
     const routes = flat(AllPages())
 
-    console.log(user)
-
     const isUserRoleAuthenticated = getUserRoleAuthStatus(
         pathname,
         user,

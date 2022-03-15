@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import jwtDecode from 'jwt-decode'
-import axios from 'axios.js'
+import axios from 'axios'
 import { MatxLoading } from 'app/components'
 
 const initialState = {
@@ -47,16 +47,16 @@ const reducer = (state, action) => {
                 user: null,
             }
         }
-        case 'REGISTER': {
-            const { user, token } = action.payload
+        // case 'REGISTER': {
+        //     const { user, token } = action.payload
 
-            return {
-                ...state,
-                isAuthenticated: true,
-                user,
-                token,
-            }
-        }
+        //     return {
+        //         ...state,
+        //         isAuthenticated: true,
+        //         user,
+        //         token,
+        //     }
+        // }
         default: {
             return { ...state }
         }
@@ -66,6 +66,7 @@ const reducer = (state, action) => {
 const AuthContext = createContext({
     ...initialState,
     method: 'JWT',
+    taoken: '',
     login: () => Promise.resolve(),
     logout: () => {},
     register: () => Promise.resolve(),
@@ -81,6 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     authFetch.interceptors.request.use(
         (config) => {
+            console.log(localStorage.getItem('token') + '----------------')
             config.headers.common['Authorization'] = `Bearer ${state.token}`
             return config
         },
@@ -95,7 +97,6 @@ export const AuthProvider = ({ children }) => {
             return response
         },
         (error) => {
-            // console.log(error.response)
             if (error.response.status === 401) {
                 logout()
             }
@@ -121,7 +122,6 @@ export const AuthProvider = ({ children }) => {
             })
             const { token, user } = response.data
 
-            console.log(user)
             addUserToLocalStorage({ user, token })
 
             dispatch({
@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const register = async (email, name, password) => {
-        const response = await authFetch.post('auth/register', {
+        const response = await authFetch.post('/auth/register', {
             email,
             name,
             password,
@@ -164,6 +164,15 @@ export const AuthProvider = ({ children }) => {
         dispatch({ type: 'LOGOUT' })
     }
 
+    const getAllHospital = async () => {
+        console.log('----------------')
+        const { response } = await authFetch('/hospitals')
+        const { hospitals } = response.data
+        return response.data
+    }
+    //
+
+    // ----------------------------------------------------------------
     useEffect(() => {
         ;(async () => {
             try {
@@ -174,7 +183,6 @@ export const AuthProvider = ({ children }) => {
                     //addUserToLocalStorage({ user, token })
                     // const response = await authFetch.get('/auth/hospitals')
                     // const { user } = response.data
-                    console.log(user)
                     dispatch({
                         type: 'INIT',
                         payload: {
@@ -216,6 +224,7 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 register,
+                getAllHospital,
             }}
         >
             {children}

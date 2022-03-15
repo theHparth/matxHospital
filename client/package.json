@@ -2,6 +2,7 @@
     "name": "matx-react",
     "version": "3.0.0",
     "private": true,
+    "proxy": "http://localhost:5000",
     "dependencies": {
         "@auth0/auth0-spa-js": "^1.19.2",
         "@emotion/react": "^11.5.0",
@@ -78,6 +79,6 @@
     "skipFiles": [
         "<node_internals>/**"
     ]
-},
-      "proxy": "http://localhost:5000"
+}
+      
 }
