@@ -62,18 +62,18 @@ const getAllHospital = async (req, res) => {
   //
 
   // setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
+  // const page = Number(req.query.page) || 1;
+  // const limit = Number(req.query.limit) || 10;
+  // const skip = (page - 1) * limit;
 
-  result = result.skip(skip).limit(limit);
+  // result = result.skip(skip).limit(limit);
 
   const hospitals = await result;
 
   const totalHospitals = await Hospital.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalHospitals / limit);
-
-  res.status(StatusCodes.OK).json({ hospitals, totalHospitals, numOfPages });
+  // const numOfPages = Math.ceil(totalHospitals / limit);
+  // numOfPages;
+  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
 };
 
 const updateHospital = async (req, res) => {

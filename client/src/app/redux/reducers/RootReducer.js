@@ -10,7 +10,7 @@ const RootReducer = combineReducers({
     navigations: NavigationReducer,
     scrumboard: ScrumBoardReducer,
     ecommerce: EcommerceReducer,
-    hospital: HospitalReducer,
+    hospitalList: HospitalReducer,
 })
 
 export default RootReducer

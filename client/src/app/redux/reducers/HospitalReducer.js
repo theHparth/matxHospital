@@ -16,35 +16,82 @@ import {
     SHOW_STATS_BEGIN,
 } from '../actions/HospitalActions'
 
-const initialState = { hospitals: [], totalHospitals: 0, numOfPages: 0 }
+const initialState = {
+    hospitalsData: [],
+    isLoading: false,
+    showAlert: true,
+    alertType: '',
+    alertText: '',
+    isEditing: false,
+    username: '',
+    address: '',
+    contect: '',
+    password: '',
+    confirmPassword: '',
+    email: '',
+    pincode: '',
+}
 const HospitalReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_HOSPITAL_SUCCESS: {
             return {
                 ...state,
-                hospitals: action.payload.hospitals,
-                totalHospitals: action.payload.totalHospitals,
-                numOfPages: action.payload.numOfPages,
+                hospitalsData: action.payload.hospitals,
             }
         }
-        // case GET_CATEGORY_LIST: {
-        //     return {
-        //         ...state,
-        //         categoryList: [...action.payload],
-        //     }
-        // }
-        // case GET_RATING_LIST: {
-        //     return {
-        //         ...state,
-        //         ratingList: [...action.payload],
-        //     }
-        // }
-        // case GET_BRAND_LIST: {
-        //     return {
-        //         ...state,
-        //         brandList: [...action.payload],
-        //     }
-        // }
+        case CREATE_HOSPITAL_BEGIN: {
+            return { ...state, isLoading: true }
+        }
+
+        case CREATE_HOSPITAL_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'New Hoapital Added!',
+            }
+        }
+        case CREATE_HOSPITAL_ERROR: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            }
+        }
+        case HANDLE_CHANGE: {
+            return {
+                ...state,
+                page: 1,
+                [action.payload.name]: action.payload.value,
+            }
+        }
+        case EDIT_HOSPITAL_BEGIN: {
+            return {
+                ...state,
+                isLoading: true,
+            }
+        }
+        case EDIT_HOSPITAL_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Hospital Updated!',
+            }
+        }
+        case EDIT_HOSPITAL_ERROR: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertText: action.payload.msg,
+                alertType: 'danger',
+            }
+        }
         // case GET_CART_LIST: {
         //     return {
         //         ...state,
@@ -57,18 +104,39 @@ const HospitalReducer = function (state = initialState, action) {
         //         cartList: [...action.payload],
         //     }
         // }
-        // case DELETE_PRODUCT_FROM_CART: {
-        //     return {
-        //         ...state,
-        //         cartList: [...action.payload],
-        //     }
-        // }
-        // case UPDATE_CART_AMOUNT: {
-        //     return {
-        //         ...state,
-        //         cartList: [...action.payload],
-        //     }
-        // }
+        /////////////////////////////////////////////////////////
+        case CLEAR_ALERT: {
+            return {
+                ...state,
+                showAlert: false,
+                alertType: '',
+                alertText: '',
+            }
+        }
+        case CLEAR_VALUES_HOSPITAL: {
+            const initialState = {
+                isEditing: false,
+                username: '',
+                address: '',
+                contect: '',
+                password: '',
+                confirmPassword: '',
+                email: '',
+                pincode: '',
+            }
+            return {
+                ...state,
+                ...initialState,
+            }
+        }
+        case DISPLAY_ALERT: {
+            return {
+                ...state,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: 'Please provide all values!',
+            }
+        }
         default: {
             return {
                 ...state,

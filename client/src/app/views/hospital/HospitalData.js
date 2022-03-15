@@ -8,9 +8,9 @@ import {
     Icon,
     TablePagination,
 } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, styled } from '@mui/system'
-
+import redu from '../../redux/reducers/HospitalReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHospitalsData } from 'app/redux/actions/HospitalActions'
 
@@ -34,82 +34,15 @@ const StyledTable = styled(Table)(({ theme }) => ({
     },
 }))
 
-const subscribarList = [
-    {
-        name: 'john doe',
-        date: '18 january, 2019',
-        amount: 1000,
-        status: 'close',
-        company: 'ABC Fintech LTD.',
-    },
-    {
-        name: 'kessy bryan',
-        date: '10 january, 2019',
-        amount: 9000,
-        status: 'open',
-        company: 'My Fintech LTD.',
-    },
-    {
-        name: 'kessy bryan',
-        date: '10 january, 2019',
-        amount: 9000,
-        status: 'open',
-        company: 'My Fintech LTD.',
-    },
-    {
-        name: 'james cassegne',
-        date: '8 january, 2019',
-        amount: 5000,
-        status: 'close',
-        company: 'Collboy Tech LTD.',
-    },
-    {
-        name: 'lucy brown',
-        date: '1 january, 2019',
-        amount: 89000,
-        status: 'open',
-        company: 'ABC Fintech LTD.',
-    },
-    {
-        name: 'lucy brown',
-        date: '1 january, 2019',
-        amount: 89000,
-        status: 'open',
-        company: 'ABC Fintech LTD.',
-    },
-    {
-        name: 'lucy brown',
-        date: '1 january, 2019',
-        amount: 89000,
-        status: 'open',
-        company: 'ABC Fintech LTD.',
-    },
-    {
-        name: 'lucy brown',
-        date: '1 january, 2019',
-        amount: 89000,
-        status: 'open',
-        company: 'ABC Fintech LTD.',
-    },
-    {
-        name: 'lucy brown',
-        date: '1 january, 2019',
-        amount: 89000,
-        status: 'open',
-        company: 'ABC Fintech LTD.',
-    },
-]
-
 const HospitalData = () => {
-    const { hospitalList } = useSelector((state) => state.hospital)
+    const { hospitalsData } = useSelector((state) => state.hospitalList)
     const dispatch = useDispatch()
-    let hospitalListLoded = false
 
     useEffect(() => {
-        getHospitalsData(dispatch)
-    }, [dispatch])
+        dispatch(getHospitalsData())
+    }, [])
 
-    // console.log(hospitalList)
+    // console.log(hospitalsData)
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
@@ -128,16 +61,16 @@ const HospitalData = () => {
             <StyledTable>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Company</TableCell>
-                        <TableCell>Start Date</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Amount</TableCell>
-                        <TableCell>Action</TableCell>
+                        <TableCell>Address</TableCell>
+                        <TableCell>Pincode</TableCell>
+                        <TableCell>Contect</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Edit</TableCell>
+                        <TableCell>Delete</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {subscribarList
+                    {hospitalsData
                         .slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
@@ -145,16 +78,16 @@ const HospitalData = () => {
                         .map((subscriber, index) => (
                             <TableRow key={index}>
                                 <TableCell align="left">
-                                    {subscriber.name}
+                                    {subscriber.address}
                                 </TableCell>
                                 <TableCell align="left">
-                                    {subscriber.company}
+                                    {subscriber.pincode}
                                 </TableCell>
                                 <TableCell align="left">
-                                    {subscriber.date}
+                                    {subscriber.contect}
                                 </TableCell>
-                                <TableCell>{subscriber.status}</TableCell>
-                                <TableCell>${subscriber.amount}</TableCell>
+                                <TableCell>{subscriber.email}</TableCell>
+                                <TableCell>{subscriber.Edit}</TableCell>
                                 <TableCell>
                                     <IconButton>
                                         <Icon color="error">close</Icon>

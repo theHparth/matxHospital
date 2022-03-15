@@ -164,12 +164,11 @@ export const AuthProvider = ({ children }) => {
         dispatch({ type: 'LOGOUT' })
     }
 
-    const getAllHospital = async () => {
-        console.log('----------------')
-        const { response } = await authFetch('/hospitals')
-        const { hospitals } = response.data
-        return response.data
-    }
+    // const getAllHospital = async () => {
+    //     const { response } = await authFetch('/hospitals')
+    //     const { hospitals } = response.data
+    //     return response.data
+    // }
     //
 
     // ----------------------------------------------------------------
@@ -224,7 +223,6 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 register,
-                getAllHospital,
             }}
         >
             {children}

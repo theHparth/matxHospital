@@ -16,9 +16,11 @@ export const EDIT_HOSPITAL_SUCCESS = 'EDIT_HOSPITAL_SUCCESS'
 export const EDIT_HOSPITAL_ERROR = 'EDIT_HOSPITAL_ERROR'
 export const SHOW_STATS_BEGIN = 'SHOW_STATS_BEGIN'
 
-// const authFetch = axios.create({
-//     baseURL: '/api/v1',
-// })
+export const HANDLE_CHANGE = 'HANDLE_CHANGE'
+export const CLEAR_VALUES = 'CLEAR_VALUES'
+export const CLEAR_ALERT = 'CLEAR_ALERT'
+export const DISPLAY_ALERT = ' DISPLAY_ALERT'
+
 const authFetch = axios.create({
     baseURL: '/api/v1',
     headers: {
@@ -27,7 +29,7 @@ const authFetch = axios.create({
     },
 })
 
-export const getHospitalsData = async (dispatch) => {
+export const getHospitalsData = () => async (dispatch) => {
     // const { page, search } = state
 
     // let url = `/hospitals?page=${page}`
@@ -37,20 +39,77 @@ export const getHospitalsData = async (dispatch) => {
     // dispatch({ type: GET_HOSPITAL_BEGIN })
     try {
         const { data } = await authFetch.get('/hospitals')
-        // console.log(data)
-        const { hospitals, totalHospitals, numOfPages } = data
-        console.log(hospitals)
+        const { hospitals } = data
         dispatch({
             type: GET_HOSPITAL_SUCCESS,
-            payload: {
-                hospitals,
-                totalHospitals,
-                numOfPages,
-            },
+            payload: { hospitals },
         })
     } catch (error) {
         console.log(error)
-        // logoutUser()
     }
-    // clearAlert()
+}
+
+export const addHospital = () => async (dispatch) => {
+    //   dispatch({ type: CREATE_HOSPITAL_BEGIN })
+    try {
+        const { address, pincode, contect, email, username, password } = state
+        await authFetch.post('/hospitals', {
+            address,
+            pincode,
+            contect,
+            email,
+            username,
+            password,
+        })
+        dispatch({ type: CREATE_HOSPITAL_SUCCESS })
+        dispatch({ type: CLEAR_VALUES })
+    } catch (error) {
+        if (error.response.status === 401) return
+        dispatch({
+            type: CREATE_HOSPITAL_ERROR,
+            payload: { msg: error.response.data.msg },
+        })
+    }
+    clearAlert()
+}
+export const editHospital = (state) => (dispatch) => {
+    dispatch({ type: EDIT_HOSPITAL_BEGIN })
+
+    try {
+        const { address, pincode, contect, email, password, username } = state
+        await authFetch.patch(`/hospitals/${state.editHospitalId}`, {
+            address,
+            pincode,
+            contect,
+            email,
+            password,
+            username,
+        })
+        dispatch({ type: EDIT_HOSPITAL_SUCCESS })
+        dispatch({ type: CLEAR_VALUES_HOSPITAL })
+    } catch (error) {
+        if (error.response.status === 401) return
+        dispatch({
+            type: EDIT_HOSPITAL_ERROR,
+            payload: { msg: error.response.data.msg },
+        })
+    }
+    clearAlert()
+}
+const handleHospitalChange = ({ name, value }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
+}
+
+///////////////////////////////////////////////////////////////
+export const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES })
+}
+export const clearAlert = () => {
+    setTimeout(() => {
+        dispatch({ type: CLEAR_ALERT })
+    }, 3000)
+}
+export const displayAlert = () => {
+    dispatch({ type: DISPLAY_ALERT })
+    clearAlert()
 }
