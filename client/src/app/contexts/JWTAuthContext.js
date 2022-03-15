@@ -9,25 +9,17 @@ const initialState = {
     user: null,
 }
 
-const isValidToken = (accessToken) => {
-    if (!accessToken) {
-        return false
-    }
-
-    const decodedToken = jwtDecode(accessToken)
-    const currentTime = Date.now() / 1000
-    return decodedToken.exp > currentTime
-}
-
-const setSession = (accessToken) => {
-    if (accessToken) {
-        localStorage.setItem('accessToken', accessToken)
-        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-    } else {
-        localStorage.removeItem('accessToken')
-        delete axios.defaults.headers.common.Authorization
-    }
-}
+// const setSession = (token, user) => {
+//     if (token && user) {
+//         localStorage.setItem('token', token)
+//         localStorage.setItem('user', user)
+//         axios.defaults.headers.common.Authorization = `Bearer ${token}`
+//     } else {
+//         localStorage.removeItem('token')
+//         localStorage.removeItem('name')
+//         delete axios.defaults.headers.common.Authorization
+//     }
+// }
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -42,14 +34,24 @@ const reducer = (state, action) => {
             }
         }
         case 'LOGIN': {
-            const { user } = action.payload
+            const { user, token } = action.payload
 
             return {
                 ...state,
                 isAuthenticated: true,
                 user,
+                token,
             }
         }
+        case 'LOGIN_ERROR': {
+            const { msg } = action.payload
+
+            return {
+                ...state,
+                msg,
+            }
+        }
+
         case 'LOGOUT': {
             return {
                 ...state,
@@ -58,12 +60,13 @@ const reducer = (state, action) => {
             }
         }
         case 'REGISTER': {
-            const { user } = action.payload
+            const { user, token } = action.payload
 
             return {
                 ...state,
                 isAuthenticated: true,
                 user,
+                token,
             }
         }
         default: {
@@ -83,42 +86,82 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
+    const authFetch = axios.create({
+        baseURL: '/api/v1',
+    })
+    // request
+
+    authFetch.interceptors.request.use(
+        (config) => {
+            config.headers.common['Authorization'] = `Bearer ${state.token}`
+            return config
+        },
+        (error) => {
+            return Promise.reject(error)
+        }
+    )
+    // response
+
+    authFetch.interceptors.response.use(
+        (response) => {
+            return response
+        },
+        (error) => {
+            // console.log(error.response)
+            if (error.response.status === 401) {
+                logout()
+            }
+            return Promise.reject(error)
+        }
+    )
+
+    const addUserToLocalStorage = ({ user, token }) => {
+        localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('token', token)
+    }
+
+    const removeUserFromLocalStorage = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+    }
+
     const login = async (email, password) => {
-        // const response = await axios.post('/api/auth/login', {
-        //     email,
-        //     password,
-        // })
-        // const { accessToken, user } = response.data
+        try {
+            const response = await authFetch.post('/auth/login', {
+                email,
+                password,
+            })
+            const { token, user } = response.data
 
-        // setSession(accessToken)
+            console.log(user)
+            addUserToLocalStorage({ user, token })
 
-        const response = await axios.post('/api/v1/auth/login', {
-            email,
-            password,
-        })
-        const { token, user } = response.data
-        var accessToken = token
-        console.log(user)
-        setSession(accessToken)
-
-        dispatch({
-            type: 'LOGIN',
-            payload: {
-                user,
-            },
-        })
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user,
+                    token,
+                },
+            })
+        } catch (error) {
+            dispatch({
+                type: 'LOGIN_ERROR',
+                payload: { msg: error.response.data.msg },
+            })
+        }
+        // clearAlert()
     }
 
     const register = async (email, username, password) => {
-        const response = await axios.post('/api/auth/register', {
+        const response = await authFetch.post('auth/register', {
             email,
             username,
             password,
         })
 
-        const { accessToken, user } = response.data
+        const { token, user } = response.data
 
-        setSession(accessToken)
+        addUserToLocalStorage({ user, token })
 
         dispatch({
             type: 'REGISTER',
@@ -129,20 +172,21 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        setSession(null)
+        removeUserFromLocalStorage()
         dispatch({ type: 'LOGOUT' })
     }
 
     useEffect(() => {
         ;(async () => {
             try {
-                const accessToken = window.localStorage.getItem('accessToken')
+                const token = window.localStorage.getItem('token')
+                const user = window.localStorage.getItem('user')
 
-                if (accessToken && isValidToken(accessToken)) {
-                    setSession(accessToken)
-                    const response = await axios.get('/api/auth/profile')
-                    const { user } = response.data
-
+                if (token && user) {
+                    addUserToLocalStorage({ user, token })
+                    // const response = await authFetch.get('/auth/hospitals')
+                    // const { user } = response.data
+                    console.log(user)
                     dispatch({
                         type: 'INIT',
                         payload: {

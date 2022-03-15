@@ -13,7 +13,7 @@ const getUserRoleAuthStatus = (pathname, user, routes) => {
 
     const authenticated =
         matched && matched.auth && matched.auth.length
-            ? matched.auth.includes(user.role)
+            ? matched.auth.includes(user)
             : true
     console.log(matched, user)
     return authenticated
