@@ -9,18 +9,6 @@ const initialState = {
     user: null,
 }
 
-// const setSession = (token, user) => {
-//     if (token && user) {
-//         localStorage.setItem('token', token)
-//         localStorage.setItem('user', user)
-//         axios.defaults.headers.common.Authorization = `Bearer ${token}`
-//     } else {
-//         localStorage.removeItem('token')
-//         localStorage.removeItem('name')
-//         delete axios.defaults.headers.common.Authorization
-//     }
-// }
-
 const reducer = (state, action) => {
     switch (action.type) {
         case 'INIT': {
@@ -152,10 +140,10 @@ export const AuthProvider = ({ children }) => {
         // clearAlert()
     }
 
-    const register = async (email, username, password) => {
+    const register = async (email, name, password) => {
         const response = await authFetch.post('auth/register', {
             email,
-            username,
+            name,
             password,
         })
 
@@ -183,7 +171,7 @@ export const AuthProvider = ({ children }) => {
                 const user = window.localStorage.getItem('user')
 
                 if (token && user) {
-                    addUserToLocalStorage({ user, token })
+                    //addUserToLocalStorage({ user, token })
                     // const response = await authFetch.get('/auth/hospitals')
                     // const { user } = response.data
                     console.log(user)

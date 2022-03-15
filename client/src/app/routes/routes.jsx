@@ -1,6 +1,6 @@
 import AuthGuard from 'app/auth/AuthGuard'
 import NotFound from 'app/views/sessions/NotFound'
-import HospitalRoutes from 'app/views/hospital/HospitalRoutes'
+import hospitalRoutes from 'app/views/hospital/HospitalRoutes'
 import chartsRoute from 'app/views/charts/ChartsRoute'
 import materialRoutes from 'app/views/material-kit/MaterialRoutes'
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes'
@@ -18,7 +18,7 @@ export const AllPages = () => {
             ),
             children: [
                 ...dashboardRoutes,
-                ...HospitalRoutes,
+                ...hospitalRoutes,
                 ...chartsRoute,
                 ...materialRoutes,
             ],

@@ -15,12 +15,12 @@ export const navigations = [
             {
                 name: 'Add Hospital',
                 iconText: 'SI',
-                path: '/api/v1/hospitals/addHospital',
+                path: '/addHospital',
             },
             {
                 name: 'Hospital List',
                 iconText: 'SI',
-                path: '/api/v1/hospitals/allHospitals',
+                path: '/allHospitals',
             },
         ],
     },
