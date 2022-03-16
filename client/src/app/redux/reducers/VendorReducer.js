@@ -11,8 +11,8 @@ import {
     EDIT_ERROR,
     CLEAR_VALUES,
     HANDLE_CHANGE,
-    CLEAR_ALERT,
-    DISPLAY_ALERT,
+    CLEAR_VENDOR_ALERT,
+    DISPLAY_VENDOR_ALERT,
 } from '../actions/VendorActions'
 
 const initialState = {
@@ -117,7 +117,7 @@ const VendorReducer = function (state = initialState, action) {
 
         /////////////////////////////////////////////////////////
 
-        case CLEAR_ALERT: {
+        case CLEAR_VENDOR_ALERT: {
             return {
                 ...state,
                 showAlert: false,
@@ -131,7 +131,6 @@ const VendorReducer = function (state = initialState, action) {
                 address: '',
                 contect: '',
                 password: '',
-                // confirmPassword: '',
                 email: '',
                 pincode: '',
             }
@@ -140,7 +139,7 @@ const VendorReducer = function (state = initialState, action) {
                 ...initialState,
             }
         }
-        case DISPLAY_ALERT: {
+        case DISPLAY_VENDOR_ALERT: {
             return {
                 ...state,
                 showAlert: true,

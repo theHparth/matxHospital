@@ -16,6 +16,8 @@ const TextField = styled(TextValidator)(() => ({
 const SimpleForm = (props) => {
     const {
         showAlert,
+        alertType,
+        alertText,
         isLoading,
         address,
         contect,
@@ -24,6 +26,7 @@ const SimpleForm = (props) => {
         fname,
         _id,
     } = useSelector((x) => x.vendorList)
+
     const [state, setState] = useState({
         id: _id,
 
@@ -72,7 +75,11 @@ const SimpleForm = (props) => {
                 <Grid container spacing={6}>
                     <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                         <h3>{_id ? 'Edit Vendor' : 'Add Vendor'}</h3>
-                        {showAlert && <Alert />}
+                        {showAlert && (
+                            <div className={`alert alert-${alertType}`}>
+                                {alertText}
+                            </div>
+                        )}
                         <TextField
                             type="text"
                             name="fname"

@@ -14,8 +14,8 @@ export const EDIT_ERROR = 'EDIT_ERROR'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
-export const CLEAR_ALERT = 'CLEAR_ALERT'
-export const DISPLAY_ALERT = ' DISPLAY_ALERT'
+export const CLEAR_VENDOR_ALERT = 'CLEAR_ALERT'
+export const DISPLAY_VENDOR_ALERT = ' DISPLAY_ALERT'
 
 const authFetch = axios.create({
     baseURL: '/api/v1',
@@ -31,11 +31,11 @@ const clearValues = () => (dispatch) => {
 }
 const clearAlert = () => (dispatch) => {
     setTimeout(() => {
-        dispatch({ type: CLEAR_ALERT })
+        dispatch({ type: CLEAR_VENDOR_ALERT })
     }, 3000)
 }
 const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_ALERT })
+    dispatch({ type: DISPLAY_VENDOR_ALERT })
     dispatch(clearAlert())
 }
 ////////////////////////////////////////////////////////////////////////
@@ -66,13 +66,13 @@ const getAllData = (state) => async (dispatch) => {
 
 const add = (state) => async (dispatch) => {
     try {
-        const { address, pincode, contect, email, name } = state
+        const { address, pincode, contect, email, fname } = state
         await authFetch.post('/vendors', {
             address,
             pincode,
             contect,
             email,
-            name,
+            fname,
         })
         dispatch({ type: CREATE_SUCCESS })
         dispatch(clearValues())
