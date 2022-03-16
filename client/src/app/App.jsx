@@ -7,6 +7,9 @@ import { MatxTheme } from 'app/components'
 import { useRoutes } from 'react-router-dom'
 import { AuthProvider } from 'app/contexts/JWTAuthContext'
 import { SettingsProvider } from 'app/contexts/SettingsContext'
+// import 'normalize.css'
+
+import './index.css'
 
 const App = () => {
     const all_pages = useRoutes(AllPages())

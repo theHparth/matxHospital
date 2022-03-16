@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { editHospital, addHospital } from 'app/redux/actions/HospitalActions'
+import { edit, add } from 'app/redux/actions/VendorActions'
 import Alert from '../../components/Alert'
 
 const TextField = styled(TextValidator)(() => ({
@@ -21,26 +21,24 @@ const SimpleForm = (props) => {
         contect,
         email,
         pincode,
-        password,
-        username,
+        fname,
         _id,
-    } = useSelector((x) => x.hospitalList)
+    } = useSelector((x) => x.vendorList)
     const [state, setState] = useState({
         id: _id,
-        username: '',
+
         contect: contect,
         pincode: pincode,
         address: address,
-        password: '',
+        fname: fname,
         email: email,
     })
     const clear = () => {
         setState({
-            username: '',
+            fname: '',
             contect: '',
             pincode: '',
             address: '',
-            password: '',
             email: '',
             id: '',
         })
@@ -51,15 +49,15 @@ const SimpleForm = (props) => {
         e.preventDefault()
 
         if (_id) {
-            dispatch(editHospital(state))
+            dispatch(edit(state))
             clear()
         } else {
-            dispatch(addHospital(state))
+            dispatch(add(state))
             clear()
         }
     }
 
-    const handleHospitalInput = (e) => {
+    const handleInput = (e) => {
         const name = e.target.name
         const value = e.target.value
 
@@ -73,23 +71,23 @@ const SimpleForm = (props) => {
             <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                 <Grid container spacing={6}>
                     <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                        <h3>{_id ? 'Edit Hospital' : 'Add Hospital'}</h3>
+                        <h3>{_id ? 'Edit Vendor' : 'Add Vendor'}</h3>
                         {showAlert && <Alert />}
                         <TextField
                             type="text"
-                            name="username"
+                            name="fname"
                             id="standard-basic"
-                            onChange={handleHospitalInput}
-                            value={state.username}
+                            onChange={handleInput}
+                            value={state.fname}
                             validators={['required']}
-                            label="Username"
+                            label="Vendor Name"
                             errorMessages={['this field is required']}
                         />
                         <TextField
                             type="text"
                             name="address"
                             id="standard-basic"
-                            onChange={handleHospitalInput}
+                            onChange={handleInput}
                             value={state.address}
                             validators={['required']}
                             label="Address"
@@ -99,7 +97,7 @@ const SimpleForm = (props) => {
                             type="text"
                             name="pincode"
                             id="standard-basic"
-                            onChange={handleHospitalInput}
+                            onChange={handleInput}
                             value={state.pincode}
                             validators={['required']}
                             label="Pincode"
@@ -108,7 +106,7 @@ const SimpleForm = (props) => {
 
                         <TextField
                             label="Email"
-                            onChange={handleHospitalInput}
+                            onChange={handleInput}
                             type="email"
                             name="email"
                             value={state.email}
@@ -121,34 +119,13 @@ const SimpleForm = (props) => {
 
                         <TextField
                             label="Mobile Nubmer"
-                            onChange={handleHospitalInput}
+                            onChange={handleInput}
                             type="text"
                             name="contect"
                             value={state.contect}
                             validators={['required']}
                             errorMessages={['this field is required']}
                         />
-                        <TextField
-                            label="Password"
-                            onChange={handleHospitalInput}
-                            name="password"
-                            type="password"
-                            value={state.password}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                        />
-                        {/* <TextField
-                            label="Confirm Password"
-                            onChange={handleHospitalInput}
-                            name="confirmPassword"
-                            type="password"
-                            value={confirmPassword || ''}
-                            validators={['required', 'isPasswordMatch']}
-                            errorMessages={[
-                                'this field is required',
-                                "password didn't match",
-                            ]}
-                        /> */}
                     </Grid>
                 </Grid>
                 <Button
@@ -184,28 +161,3 @@ const SimpleForm = (props) => {
 }
 
 export default SimpleForm
-
-// const [
-//     isLoading,
-//     isEditing,
-//     showAlert,
-//     address,
-//     contect,
-//     email,
-//     pincode,
-//     password,
-//     username,
-// ] = useSelector(
-//     (x) => [
-//         x.isLoading,
-//         x.isEditing,
-//         x.showAlert,
-//         x.username,
-//         x.address,
-//         x.contect,
-//         x.email,
-//         x.pincode,
-//         x.password,
-//     ],
-//     shallowEqual
-// )

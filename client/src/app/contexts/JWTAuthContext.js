@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 import { MatxLoading } from 'app/components'
 
@@ -7,6 +6,7 @@ const initialState = {
     isAuthenticated: false,
     isInitialised: false,
     user: null,
+    token: null,
 }
 
 const reducer = (state, action) => {
@@ -45,6 +45,7 @@ const reducer = (state, action) => {
                 ...state,
                 isAuthenticated: false,
                 user: null,
+                token: null,
             }
         }
         // case 'REGISTER': {

@@ -66,7 +66,6 @@ const getHospitalsData = () => async (dispatch) => {
 }
 
 const addHospital = (state) => async (dispatch) => {
-    //   dispatch({ type: CREATE_HOSPITAL_BEGIN })
     try {
         const { address, pincode, contect, email, username, password } = state
         await authFetch.post('/hospitals', {
@@ -95,13 +94,11 @@ const handleHospitalChange =
         dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
     }
 
-// edit hospital
 const setEditHospital = (subscriber) => (dispatch) => {
     dispatch({ type: SET_EDIT_HOSPITAL, payload: { subscriber } })
 }
 
 const editHospital = (state) => async (dispatch) => {
-    // dispatch({ type: EDIT_HOSPITAL_BEGIN })
     console.log('11111111111111111111')
     try {
         const { address, pincode, contect, email, username, password, id } =

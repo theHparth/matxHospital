@@ -1,7 +1,8 @@
 import React from 'react'
-import SimpleForm from './SimpleForm'
-import { Breadcrumb, SimpleCard } from 'app/components'
+
+import VendorData from './VendorData'
 import { Box, styled } from '@mui/system'
+import { Breadcrumb, SimpleCard } from 'app/components'
 
 const Container = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -16,23 +17,26 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const AddHospital = () => {
+const AllVendor = () => {
     return (
         <Container>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
                         { name: 'Material', path: '/material' },
-                        { name: 'Form' },
+                        { name: 'Table' },
                     ]}
                 />
             </div>
-            <SimpleCard>
-                <SimpleForm />
-            </SimpleCard>
+            {/* <SimpleCard title="Simple Table">
+                <SimpleTable />
+            </SimpleCard> */}
             <Box py="12px" />
+            <SimpleCard title="Vendor List">
+                <VendorData />
+            </SimpleCard>
         </Container>
     )
 }
 
-export default AddHospital
+export default AllVendor

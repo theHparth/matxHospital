@@ -1,55 +1,59 @@
 import {
+    CREATE_BEGIN,
+    CREATE_SUCCESS,
+    CREATE_ERROR,
+    GET_BEGIN,
+    GET_SUCCESS,
+    SET_EDIT,
+    DELETE_BEGIN,
+    EDIT_BEGIN,
+    EDIT_SUCCESS,
+    EDIT_ERROR,
     CLEAR_VALUES,
-    CREATE_HOSPITAL_BEGIN,
-    CREATE_HOSPITAL_SUCCESS,
-    CREATE_HOSPITAL_ERROR,
-    GET_HOSPITAL_SUCCESS,
-    SET_EDIT_HOSPITAL,
-    DELETE_HOSPITAL_BEGIN,
-    EDIT_HOSPITAL_BEGIN,
-    EDIT_HOSPITAL_SUCCESS,
-    EDIT_HOSPITAL_ERROR,
     HANDLE_CHANGE,
     CLEAR_ALERT,
     DISPLAY_ALERT,
-} from '../actions/HospitalActions'
+} from '../actions/VendorActions'
 
 const initialState = {
-    hospitalsData: [],
+    vendorData: [],
     isLoading: false,
     showAlert: true,
     alertType: '',
     alertText: '',
     isEditing: false,
-    username: '',
+    fname: '',
     address: '',
     contect: '',
-    password: '',
     email: '',
     pincode: '',
 }
-const HospitalReducer = function (state = initialState, action) {
+
+const VendorReducer = function (state = initialState, action) {
     switch (action.type) {
-        case GET_HOSPITAL_SUCCESS: {
+        case GET_BEGIN: {
+            return { ...state, isLoading: true, showAlert: false }
+        }
+        case GET_SUCCESS: {
             return {
                 ...state,
-                hospitalsData: action.payload.hospitals,
+                vendorData: action.payload.vendorList,
             }
         }
-        case CREATE_HOSPITAL_BEGIN: {
+        case CREATE_BEGIN: {
             return { ...state, isLoading: true }
         }
 
-        case CREATE_HOSPITAL_SUCCESS: {
+        case CREATE_SUCCESS: {
             return {
                 ...state,
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'New Hoapital Added!',
+                alertText: 'New Vendor Added!',
             }
         }
-        case CREATE_HOSPITAL_ERROR: {
+        case CREATE_ERROR: {
             return {
                 ...state,
                 isLoading: false,
@@ -65,23 +69,23 @@ const HospitalReducer = function (state = initialState, action) {
                 [action.payload.name]: action.payload.value,
             }
         }
-        case EDIT_HOSPITAL_BEGIN: {
+        case EDIT_BEGIN: {
             return {
                 ...state,
                 isLoading: true,
             }
         }
-        // edit hospital
-        case EDIT_HOSPITAL_SUCCESS: {
+        // edit VENDOR
+        case EDIT_SUCCESS: {
             return {
                 ...state,
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'Hospital Updated!',
+                alertText: 'Vendor Updated!',
             }
         }
-        case EDIT_HOSPITAL_ERROR: {
+        case EDIT_ERROR: {
             return {
                 ...state,
                 isLoading: false,
@@ -91,20 +95,13 @@ const HospitalReducer = function (state = initialState, action) {
             }
         }
         //delete state
-        case DELETE_HOSPITAL_BEGIN: {
+        case DELETE_BEGIN: {
             return { ...state, isLoading: true }
         }
-        case SET_EDIT_HOSPITAL: {
+        case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const {
-                _id,
-                address,
-                pincode,
-                contect,
-                email,
-                username,
-                password,
-            } = subscriber
+            const { _id, address, pincode, contect, email, fname, password } =
+                subscriber
             return {
                 ...state,
                 isEditing: true,
@@ -113,12 +110,13 @@ const HospitalReducer = function (state = initialState, action) {
                 pincode,
                 contect,
                 email,
-                username,
+                fname,
                 password,
             }
         }
 
         /////////////////////////////////////////////////////////
+
         case CLEAR_ALERT: {
             return {
                 ...state,
@@ -129,7 +127,7 @@ const HospitalReducer = function (state = initialState, action) {
         }
         case CLEAR_VALUES: {
             const initialState = {
-                username: '',
+                fname: '',
                 address: '',
                 contect: '',
                 password: '',
@@ -158,4 +156,4 @@ const HospitalReducer = function (state = initialState, action) {
     }
 }
 
-export default HospitalReducer
+export default VendorReducer

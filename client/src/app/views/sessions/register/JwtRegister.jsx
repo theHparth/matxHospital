@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Box, styled } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
 import { Span } from 'app/components/Typography'
-import { Card, Checkbox, FormControlLabel, Grid, Button } from '@mui/material'
+import { Card, Grid, Button } from '@mui/material'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 const FlexBox = styled(Box)(() => ({

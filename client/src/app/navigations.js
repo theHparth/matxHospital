@@ -10,7 +10,7 @@ export const navigations = [
     },
     {
         name: 'Hospitals',
-        icon: 'hospital',
+        icon: 'library_add',
         children: [
             {
                 name: 'Add Hospital',
@@ -21,6 +21,22 @@ export const navigations = [
                 name: 'Hospital List',
                 iconText: 'SI',
                 path: '/allHospitals',
+            },
+        ],
+    },
+    {
+        name: 'Vendor',
+        icon: 'person_add',
+        children: [
+            {
+                name: 'Add Vendor',
+                iconText: 'SI',
+                path: '/addVendor',
+            },
+            {
+                name: 'Vendor List',
+                iconText: 'SI',
+                path: '/allVendor',
             },
         ],
     },

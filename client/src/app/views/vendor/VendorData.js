@@ -12,10 +12,10 @@ import React, { useEffect } from 'react'
 import { Box, styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    getHospitalsData,
-    setEditHospital,
-    deleteHospital,
-} from 'app/redux/actions/HospitalActions'
+    getAllData,
+    setEditData,
+    deleteData,
+} from 'app/redux/actions/VendorActions'
 import { Link } from 'react-router-dom'
 
 const StyledTable = styled(Table)(({ theme }) => ({
@@ -38,12 +38,12 @@ const StyledTable = styled(Table)(({ theme }) => ({
     },
 }))
 
-const HospitalData = (props) => {
-    const { hospitalsData } = useSelector((state) => state.hospitalList)
+const VendorData = (props) => {
+    const { vendorData } = useSelector((state) => state.vendorList)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getHospitalsData())
+        dispatch(getAllData())
     }, [dispatch])
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -63,39 +63,35 @@ const HospitalData = (props) => {
             <StyledTable>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Address</TableCell>
-                        <TableCell>Pincode</TableCell>
+                        <TableCell>Name</TableCell>
                         <TableCell>Contect</TableCell>
                         <TableCell>Email</TableCell>
-                        <TableCell>Edit</TableCell>
+                        <TableCell>Address</TableCell>
+                        <TableCell align="center">Pincode</TableCell>
+                        <TableCell align="center">Edit</TableCell>
                         <TableCell>Delete</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {hospitalsData
+                    {vendorData
                         .slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                         )
                         .map((subscriber, index) => (
                             <TableRow key={index}>
-                                <TableCell align="left">
-                                    {subscriber.address}
-                                </TableCell>
+                                <TableCell>{subscriber.fname}</TableCell>
+                                <TableCell>{subscriber.contect}</TableCell>
                                 <TableCell>{subscriber.email}</TableCell>
-                                <TableCell align="left">
+                                <TableCell>{subscriber.address}</TableCell>
+                                <TableCell align="center">
                                     {subscriber.pincode}
                                 </TableCell>
-                                <TableCell align="left">
-                                    {subscriber.contect}
-                                </TableCell>
-                                <TableCell>
+                                <TableCell align="center">
                                     <Link
-                                        to={`/addHospital`}
+                                        to={`/addVendor`}
                                         onClick={() =>
-                                            dispatch(
-                                                setEditHospital(subscriber)
-                                            )
+                                            dispatch(setEditData(subscriber))
                                         }
                                     >
                                         <IconButton>
@@ -109,9 +105,7 @@ const HospitalData = (props) => {
                                             alert(
                                                 'Are you sure you want to delete?'
                                             )
-                                            dispatch(
-                                                deleteHospital(subscriber._id)
-                                            )
+                                            dispatch(deleteData(subscriber._id))
                                         }
                                     }}
                                 >
@@ -128,7 +122,7 @@ const HospitalData = (props) => {
                 sx={{ px: 2 }}
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={hospitalsData.length}
+                count={vendorData.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 backIconButtonProps={{
@@ -144,4 +138,4 @@ const HospitalData = (props) => {
     )
 }
 
-export default HospitalData
+export default VendorData

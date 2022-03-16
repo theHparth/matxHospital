@@ -4,6 +4,7 @@ import chartsRoute from './views/charts/ChartsRoute'
 import dashboardRoutes from './views/dashboard/DashboardRoutes'
 import materialRoutes from './views/material-kit/MaterialRoutes'
 import hospitalRoutes from './views/hospital/HospitalRoutes'
+import vendorRoutes from './views/vendor/VendorRoutes'
 
 const redirectRoute = [
     {
@@ -22,6 +23,7 @@ const errorRoute = [
 const routes = [
     ...dashboardRoutes,
     ...hospitalRoutes,
+    ...vendorRoutes,
     ...materialRoutes,
     ...chartsRoute,
     ...redirectRoute,

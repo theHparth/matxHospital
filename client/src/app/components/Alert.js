@@ -1,4 +1,4 @@
-import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const Alert = () => {
     const { alertType, alertText } = useSelector((x) => x.hospitalList)

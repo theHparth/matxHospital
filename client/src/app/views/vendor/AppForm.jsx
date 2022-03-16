@@ -1,5 +1,6 @@
 import React from 'react'
 import SimpleForm from './SimpleForm'
+import StepperForm from './StepperForm'
 import { Breadcrumb, SimpleCard } from 'app/components'
 import { Box, styled } from '@mui/system'
 
@@ -16,7 +17,7 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const AddHospital = () => {
+const AppForm = () => {
     return (
         <Container>
             <div className="breadcrumb">
@@ -31,8 +32,11 @@ const AddHospital = () => {
                 <SimpleForm />
             </SimpleCard>
             <Box py="12px" />
+            <SimpleCard title="stepper form">
+                <StepperForm />
+            </SimpleCard>
         </Container>
     )
 }
 
-export default AddHospital
+export default AppForm

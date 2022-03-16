@@ -16,7 +16,7 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const AddHospital = () => {
+const AddVendor = () => {
     return (
         <Container>
             <div className="breadcrumb">
@@ -35,4 +35,4 @@ const AddHospital = () => {
     )
 }
 
-export default AddHospital
+export default AddVendor
