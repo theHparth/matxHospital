@@ -105,7 +105,7 @@ const HospitalData = (props) => {
                                         to={`/addHospital`}
                                         onClick={() =>
                                             dispatch(
-                                                setEditHospital(subscriber._id)
+                                                setEditHospital(subscriber)
                                             )
                                         }
                                     >
@@ -115,9 +115,16 @@ const HospitalData = (props) => {
                                     </Link>
                                 </TableCell>
                                 <TableCell
-                                    onClick={() =>
-                                        dispatch(deleteHospital(subscriber._id))
-                                    }
+                                    onClick={() => {
+                                        {
+                                            alert(
+                                                'Are you sure you want to delete?'
+                                            )
+                                            dispatch(
+                                                deleteHospital(subscriber._id)
+                                            )
+                                        }
+                                    }}
                                 >
                                     <IconButton>
                                         <Icon color="error">close</Icon>

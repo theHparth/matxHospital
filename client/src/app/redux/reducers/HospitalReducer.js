@@ -1,8 +1,5 @@
 import {
-    UPDATE_HOSPITAL_BEGIN,
-    UPDATE_HOSPITAL_SUCCESS,
-    UPDATE_HOSPITAL_ERROR,
-    CLEAR_VALUES_HOSPITAL,
+    CLEAR_VALUES,
     CREATE_HOSPITAL_BEGIN,
     CREATE_HOSPITAL_SUCCESS,
     CREATE_HOSPITAL_ERROR,
@@ -59,7 +56,7 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
-                alertType: 'danger',
+                alertType: 'warning',
                 alertText: action.payload.msg,
             }
         }
@@ -100,10 +97,7 @@ const HospitalReducer = function (state = initialState, action) {
             return { ...state, isLoading: true }
         }
         case SET_EDIT_HOSPITAL: {
-            // const hospitalN = state.hospitals.find(
-            //     (hospital) => hospital._id === action.payload.id
-            // )
-            const subscriber = {action.payload.subscriber}
+            const subscriber = action.payload.subscriber
             const {
                 _id,
                 address,
@@ -116,7 +110,8 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 isEditing: true,
-                _id,address,
+                _id,
+                address,
                 pincode,
                 contect,
                 email,
@@ -125,18 +120,6 @@ const HospitalReducer = function (state = initialState, action) {
             }
         }
 
-        // case GET_CART_LIST: {
-        //     return {
-        //         ...state,
-        //         cartList: [...action.payload],
-        //     }
-        // }
-        // case ADD_PRODUCT_TO_CART: {
-        //     return {
-        //         ...state,
-        //         cartList: [...action.payload],
-        //     }
-        // }
         /////////////////////////////////////////////////////////
         case CLEAR_ALERT: {
             return {
@@ -146,14 +129,13 @@ const HospitalReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        case CLEAR_VALUES_HOSPITAL: {
+        case CLEAR_VALUES: {
             const initialState = {
-                isEditing: false,
                 username: '',
                 address: '',
                 contect: '',
                 password: '',
-                confirmPassword: '',
+                // confirmPassword: '',
                 email: '',
                 pincode: '',
             }

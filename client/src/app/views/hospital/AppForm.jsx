@@ -28,7 +28,7 @@ const AppForm = () => {
                     ]}
                 />
             </div>
-            <SimpleCard title="Simple Form">
+            <SimpleCard>
                 <SimpleForm />
             </SimpleCard>
             <Box py="12px" />
