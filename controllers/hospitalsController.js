@@ -13,15 +13,19 @@ import mongoose from "mongoose";
 import moment from "moment";
 
 const addHospital = async (req, res) => {
-  const { address, pincode, contect, email } = req.body;
+  const { address, pincode, contect, email, hospitalName } = req.body;
 
-  if (!address || !pincode || !contect || !email) {
+  if (!address || !pincode || !contect || !email || !hospitalName) {
     throw new BadRequestError("Please provide all values");
   }
 
   const userAlreadyExists = await Hospital.findOne({ email });
   if (userAlreadyExists) {
     throw new BadRequestError("Email is used");
+  }
+  const userAlreadyExistsUsername = await Hospital.findOne({ hospitalName });
+  if (userAlreadyExistsUsername) {
+    throw new BadRequestError("Username is already taken");
   }
   req.body.createdBy = req.user.userId;
 
@@ -84,9 +88,9 @@ const getAllHospital = async (req, res) => {
 const updateHospital = async (req, res) => {
   const { id: hospitalId } = req.params;
 
-  const { address, pincode, contect, email } = req.body;
+  const { address, pincode, contect, email, hospitalName } = req.body;
 
-  if (!address || !pincode || !contect || !email) {
+  if (!address || !pincode || !contect || !email || !hospitalName) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -94,6 +98,14 @@ const updateHospital = async (req, res) => {
 
   if (!hospital) {
     throw new NotFoundError(`No job with id :${hospitalId}`);
+  }
+  const userAlreadyExists = await Hospital.findOne({ email });
+  if (userAlreadyExists) {
+    throw new BadRequestError("Email is used");
+  }
+  const userAlreadyExistsUsername = await Hospital.findOne({ hospitalName });
+  if (userAlreadyExistsUsername) {
+    throw new BadRequestError("Username is already taken");
   }
   // check permissions
 

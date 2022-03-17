@@ -20,27 +20,28 @@ const AddHospital = () => {
         email,
         pincode,
         password,
-        username,
+        hospitalName,
         _id,
     } = useSelector((x) => x.hospitalList)
     const [state, setState] = useState({
         id: _id,
-        username: '',
+
         contect: contect,
         pincode: pincode,
         address: address,
         password: '',
         email: email,
+        hospitalName: hospitalName,
     })
     const clear = () => {
         setState({
-            username: '',
             contect: '',
             pincode: '',
             address: '',
             password: '',
             email: '',
             id: '',
+            hospitalName: '',
         })
     }
     const dispatch = useDispatch()
@@ -94,12 +95,12 @@ const AddHospital = () => {
                                 {showAlert && <Alert />}
                                 <TextField
                                     type="text"
-                                    name="username"
+                                    name="hospitalName"
                                     id="standard-basic"
                                     onChange={handleHospitalInput}
-                                    value={state.username}
+                                    value={state.hospitalName}
                                     validators={['required']}
-                                    label="Username"
+                                    label="HospitalName  ||  Username"
                                     errorMessages={['this field is required']}
                                 />
                                 <TextField

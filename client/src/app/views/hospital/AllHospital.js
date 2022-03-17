@@ -59,6 +59,7 @@ const AllHospital = () => {
                     <StyledTable>
                         <TableHead>
                             <TableRow>
+                                <TableCell>Hospital Name</TableCell>
                                 <TableCell>Address</TableCell>
                                 <TableCell>Pincode</TableCell>
                                 <TableCell>Contect</TableCell>
@@ -76,6 +77,9 @@ const AllHospital = () => {
                                 .map((subscriber, index) => (
                                     <TableRow key={index}>
                                         <TableCell align="left">
+                                            {subscriber.hospitalName}
+                                        </TableCell>
+                                        <TableCell>
                                             {subscriber.address}
                                         </TableCell>
                                         <TableCell>

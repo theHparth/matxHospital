@@ -21,6 +21,7 @@ const initialState = {
     alertType: '',
     alertText: '',
     isEditing: false,
+    hospitalName: '',
     username: '',
     address: '',
     contect: '',
@@ -104,6 +105,7 @@ const HospitalReducer = function (state = initialState, action) {
                 email,
                 username,
                 password,
+                hospitalName,
             } = subscriber
             return {
                 ...state,
@@ -115,6 +117,7 @@ const HospitalReducer = function (state = initialState, action) {
                 email,
                 username,
                 password,
+                hospitalName,
             }
         }
 
@@ -136,6 +139,7 @@ const HospitalReducer = function (state = initialState, action) {
                 // confirmPassword: '',
                 email: '',
                 pincode: '',
+                hospitalName: '',
             }
             return {
                 ...state,

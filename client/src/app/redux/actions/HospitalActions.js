@@ -67,7 +67,15 @@ const getHospitalsData = () => async (dispatch) => {
 
 const addHospital = (state) => async (dispatch) => {
     try {
-        const { address, pincode, contect, email, username, password } = state
+        const {
+            address,
+            pincode,
+            contect,
+            email,
+            username,
+            password,
+            hospitalName,
+        } = state
         await authFetch.post('/hospitals', {
             address,
             pincode,
@@ -75,6 +83,7 @@ const addHospital = (state) => async (dispatch) => {
             email,
             username,
             password,
+            hospitalName,
         })
         dispatch({ type: CREATE_HOSPITAL_SUCCESS })
         dispatch(clearValues())
@@ -99,10 +108,17 @@ const setEditHospital = (subscriber) => (dispatch) => {
 }
 
 const editHospital = (state) => async (dispatch) => {
-    console.log('11111111111111111111')
     try {
-        const { address, pincode, contect, email, username, password, id } =
-            state
+        const {
+            address,
+            pincode,
+            contect,
+            email,
+            username,
+            password,
+            id,
+            hospitalName,
+        } = state
         console.log(address, pincode, contect, email, id)
         await authFetch.patch(`/hospitals/${id}`, {
             address,
@@ -111,6 +127,7 @@ const editHospital = (state) => async (dispatch) => {
             email,
             username,
             password,
+            hospitalName,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
         dispatch(clearValues())

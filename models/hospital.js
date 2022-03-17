@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const HospitalSchema = new mongoose.Schema(
   {
+    hospitalName: {
+      type: String,
+      required: [true, "Please provide Hoapital Name"],
+      maxlength: 150,
+    },
     address: {
       type: String,
       required: [true, "Please provide address"],
@@ -20,7 +25,7 @@ const HospitalSchema = new mongoose.Schema(
     pincode: {
       type: Number,
       required: [true, "Please provide pincode"],
-      maxlength: 150,
+      maxlength: 5,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
