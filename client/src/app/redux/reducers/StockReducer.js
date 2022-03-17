@@ -102,18 +102,28 @@ const StockReducer = function (state = initialState, action) {
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const { _id, address, pincode, contect, email, fname, password } =
-                subscriber
+            const {
+                _id,
+                description,
+                vendor_name,
+                vendor_id,
+                price,
+                qty,
+                box,
+                stock_name,
+            } = subscriber
+
             return {
                 ...state,
                 isEditing: true,
                 _id,
-                address,
-                pincode,
-                contect,
-                email,
-                fname,
-                password,
+                description,
+                vendor_name,
+                vendor_id,
+                price,
+                qty,
+                box,
+                stock_name,
             }
         }
 

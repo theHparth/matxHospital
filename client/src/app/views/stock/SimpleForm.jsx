@@ -28,6 +28,17 @@ const SimpleForm = () => {
         _id,
         stock_name,
     } = useSelector((x) => x.stockList)
+    console.log('1234567890987654321234567890')
+    console.log(
+        description,
+        vendor_name,
+        vendor_id,
+        price,
+        qty,
+        box,
+        stock_name,
+        _id
+    )
 
     const [state, setState] = useState({
         id: _id,
@@ -113,9 +124,9 @@ const SimpleForm = () => {
                                 <option
                                     key={key}
                                     name="vendor_id"
-                                    value={data._id}
+                                    value={state.vendor_id || data._id}
                                 >
-                                    {data.fname}
+                                    {state.vendor_name || data.fname}
                                 </option>
                             ))}
                         </select>
@@ -147,7 +158,7 @@ const SimpleForm = () => {
                             onChange={handleInput}
                             value={state.description}
                             validators={['required']}
-                            label="Address"
+                            label="Description"
                             errorMessages={['this field is required']}
                         />
                         <TextField
