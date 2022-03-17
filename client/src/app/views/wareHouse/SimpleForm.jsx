@@ -116,10 +116,10 @@ const SimpleForm = () => {
                                 {alertText}
                             </div>
                         )}
-                        {/* Select Vendor */}
+                        Select Vendor
                         {/* <TextField> */}
                         <select onChange={handleInputOption}>
-                            <option>Select Vendor</option>
+                            <option value="" />
                             {Object.values(vendorData).map((data, key) => (
                                 <option
                                     key={key}

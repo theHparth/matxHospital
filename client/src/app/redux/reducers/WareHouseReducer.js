@@ -31,7 +31,7 @@ const initialState = {
     stock_name: '',
 }
 
-const StockReducer = function (state = initialState, action) {
+const WereHouseReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_BEGIN: {
             return { ...state, isLoading: true, showAlert: false }
@@ -105,7 +105,11 @@ const StockReducer = function (state = initialState, action) {
             const {
                 _id,
                 description,
-
+                vendor_name,
+                vendor_id,
+                price,
+                qty,
+                box,
                 stock_name,
             } = subscriber
 
@@ -114,7 +118,11 @@ const StockReducer = function (state = initialState, action) {
                 isEditing: true,
                 _id,
                 description,
-
+                vendor_name,
+                vendor_id,
+                price,
+                qty,
+                box,
                 stock_name,
             }
         }
@@ -158,4 +166,4 @@ const StockReducer = function (state = initialState, action) {
         }
     }
 }
-export default StockReducer
+export default WereHouseReducer

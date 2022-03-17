@@ -39,13 +39,15 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }))
 
 const StockData = (props) => {
-    const { stockData } = useSelector((state) => state.stockList)
+    let { stockData } = useSelector((state) => state.stockList)
+    console.log(stockData)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getAllData())
     }, [dispatch])
 
+    var stockDatas = stockData || []
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -75,7 +77,7 @@ const StockData = (props) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {stockData
+                    {stockDatas
                         .slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
@@ -122,7 +124,7 @@ const StockData = (props) => {
                 sx={{ px: 2 }}
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={stockData.length}
+                count={stockDatas.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 backIconButtonProps={{

@@ -26,10 +26,23 @@ const authFetch = axios.create({
 
 const add = (state) => async (dispatch) => {
     try {
-        const { description, stock_name } = state
-        await authFetch.post('/stocks', {
+        const {
             description,
+            vendor_name,
+            vendor_id,
+            price,
+            qty,
+            box,
             stock_name,
+        } = state
+        await authFetch.post('/wereHouse', {
+            description,
+            vendor_name,
+            vendor_id,
+            price,
+            qty,
+            stock_name,
+            box,
         })
         dispatch({ type: CREATE_SUCCESS })
         dispatch(clearValues())
@@ -45,7 +58,7 @@ const add = (state) => async (dispatch) => {
 
 const getAllData = (state) => async (dispatch) => {
     try {
-        const { data } = await authFetch.get('/stocks')
+        const { data } = await authFetch.get('/wereHouse')
         const { stockList } = data
         // console.log(stockList)
         dispatch({
@@ -65,10 +78,23 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const { description, id, stock_name } = state
-        await authFetch.patch(`/stocks/${id}`, {
+        const {
             description,
-
+            vendor_name,
+            vendor_id,
+            price,
+            qty,
+            box,
+            id,
+            stock_name,
+        } = state
+        await authFetch.patch(`/wereHouse/${id}`, {
+            description,
+            vendor_name,
+            vendor_id,
+            price,
+            qty,
+            box,
             stock_name,
         })
         dispatch({ type: EDIT_SUCCESS })
@@ -88,7 +114,7 @@ const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
     // const { logout } = useAuth()
     try {
-        await authFetch.delete(`/stocks/${Id}`)
+        await authFetch.delete(`/wereHouse/${Id}`)
         dispatch(getAllData())
     } catch (error) {
         // logout()

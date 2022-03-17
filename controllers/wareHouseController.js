@@ -6,16 +6,19 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStock = async (req, res) => {
-  const { description, stock_name } = req.body;
+  const { description, vendor_name, vendor_id, price, qty, box, stock_name } =
+    req.body;
   // here you can remove vendor_id
-  if (!description || !stock_name) {
+  if (
+    !description ||
+    !vendor_name ||
+    !vendor_id ||
+    !price ||
+    !qty ||
+    !box ||
+    !stock_name
+  ) {
     throw new BadRequestError("Please provide all values");
-  }
-
-  const stockAlreadyExists = await stocks.findOne({ stock_name });
-  console.log(stockAlreadyExists);
-  if (stockAlreadyExists) {
-    throw new BadRequestError("Stock already in Database");
   }
   req.body.createdBy = req.user.userId;
 
@@ -31,7 +34,7 @@ const getAllStock = async (req, res) => {
   };
 
   if (search) {
-    queryObject.stock_name = { $regex: search, $options: "i" };
+    queryObject.position = { $regex: search, $options: "i" };
   }
   // NO AWAIT
 
@@ -72,9 +75,18 @@ const getAllStock = async (req, res) => {
 const updateStock = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { description, stock_name } = req.body;
+  const { description, vendor_id, vendor_name, price, qty, box, stock_name } =
+    req.body;
 
-  if (!description || !stock_name) {
+  if (
+    !description ||
+    !vendor_name ||
+    !vendor_id ||
+    !price ||
+    !qty ||
+    !box ||
+    !stock_name
+  ) {
     throw new BadRequestError("Please provide all values");
   }
 
