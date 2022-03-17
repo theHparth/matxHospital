@@ -39,7 +39,7 @@ const displayAlert = () => (dispatch) => {
 }
 ////////////////////////////////////////////////////////////////////////
 
-const getAllData = (state) => async (dispatch) => {
+const getAllVendor = (state) => async (dispatch) => {
     // const { search } = state
 
     // let url = `/vendors?`
@@ -123,7 +123,7 @@ const deleteData = (Id) => async (dispatch) => {
     // const { logout } = useAuth()
     try {
         await authFetch.delete(`/vendors/${Id}`)
-        dispatch(getAllData())
+        dispatch(getAllVendor())
     } catch (error) {
         // logout()
         console.log(error)
@@ -134,7 +134,7 @@ export {
     clearValues,
     clearAlert,
     displayAlert,
-    getAllData,
+    getAllVendor,
     add,
     handleDataChange,
     setEditData,

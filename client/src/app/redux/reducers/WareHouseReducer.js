@@ -39,7 +39,7 @@ const WareHouseReducer = function (state = initialState, action) {
         case GET_SUCCESS: {
             return {
                 ...state,
-                stockData: action.payload.wereHouseStockData,
+                wereHouseStockData: action.payload.stockList,
             }
         }
         case CREATE_BEGIN: {

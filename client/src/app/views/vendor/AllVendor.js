@@ -13,7 +13,7 @@ import React, { useEffect } from 'react'
 import { Box, styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    getAllData,
+    getAllVendor,
     setEditData,
     deleteData,
 } from 'app/redux/actions/VendorActions'
@@ -29,13 +29,13 @@ const AllVendor = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllData())
+        dispatch(getAllVendor())
     }, [dispatch])
 
     // if (vendorData.length === 0) {
     //     return <h2>No Stocks to display...</h2>
     // }
-
+    var vendorDatass = vendorData || []
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -73,7 +73,7 @@ const AllVendor = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {vendorData
+                            {vendorDatass
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -138,7 +138,7 @@ const AllVendor = () => {
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={vendorData.length}
+                        count={vendorDatass.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{

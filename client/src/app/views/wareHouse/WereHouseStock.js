@@ -26,7 +26,7 @@ import moment from 'moment'
 
 const WereHouseStock = () => {
     let { wereHouseStockData } = useSelector(
-        (state) => state.wereHouseStockList
+        (state) => state.wareHouseStockList
     )
 
     const dispatch = useDispatch()
@@ -69,14 +69,14 @@ const WereHouseStock = () => {
                             <TableRow>
                                 <TableCell>Stock Name</TableCell>
                                 <TableCell>Vendor Name</TableCell>
-                                <TableCell> box / Qty </TableCell>
+                                <TableCell>box / Qty</TableCell>
                                 <TableCell>price</TableCell>
                                 <TableCell>Date</TableCell>
 
                                 {/* <TableCell>Address</TableCell>
                         <TableCell align="center">Pincode</TableCell> */}
-                                <TableCell align="center">Edit</TableCell>
-                                <TableCell>Delete</TableCell>
+                                {/* <TableCell align="center">Edit</TableCell> */}
+                                <TableCell align="center">Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -104,36 +104,36 @@ const WereHouseStock = () => {
                                         </TableCell>
 
                                         <TableCell align="center">
-                                            <Link
-                                                to={`/addStockInWereHouse`}
-                                                onClick={() =>
-                                                    dispatch(
-                                                        setEditData(subscriber)
-                                                    )
-                                                }
-                                            >
-                                                <IconButton>
+                                            <IconButton>
+                                                <Link
+                                                    to={`/addStockInWereHouse`}
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            setEditData(
+                                                                subscriber
+                                                            )
+                                                        )
+                                                    }
+                                                >
                                                     <Icon color="error">
                                                         edit
                                                     </Icon>
-                                                </IconButton>
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell
-                                            onClick={() => {
-                                                {
-                                                    alert(
-                                                        'Are you sure you want to delete?'
-                                                    )
-                                                    dispatch(
-                                                        deleteData(
-                                                            subscriber._id
+                                                </Link>
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() => {
+                                                    {
+                                                        alert(
+                                                            'Are you sure you want to delete?'
                                                         )
-                                                    )
-                                                }
-                                            }}
-                                        >
-                                            <IconButton>
+                                                        dispatch(
+                                                            deleteData(
+                                                                subscriber._id
+                                                            )
+                                                        )
+                                                    }
+                                                }}
+                                            >
                                                 <Icon color="error">close</Icon>
                                             </IconButton>
                                         </TableCell>

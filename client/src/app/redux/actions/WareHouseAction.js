@@ -52,7 +52,7 @@ const getAllData = (state) => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/wereHouse')
         const { stockList } = data
-        // console.log(stockList)
+        console.log(stockList)
         dispatch({
             type: GET_SUCCESS,
             payload: { stockList },

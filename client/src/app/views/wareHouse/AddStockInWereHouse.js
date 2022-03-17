@@ -6,10 +6,10 @@ import { Span } from 'app/components/Typography'
 import React, { useState, useEffect } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { edit, add } from 'app/redux/actions/StockActions'
 
-import { getAllData as vendorData } from 'app/redux/actions/VendorActions'
+import { getAllVendor } from 'app/redux/actions/VendorActions'
 import { getAllData as stockDataList } from 'app/redux/actions/StockActions'
 import { Container, TextField } from '../../components/MyComponents/form/index'
 
@@ -28,25 +28,15 @@ const AddStockInWereHouse = () => {
         _id,
         stock_name,
     } = useSelector((x) => x.stockList)
-    console.log(
-        description,
-        vendor_name,
-        vendor_id,
-        price,
-        qty,
-        box,
-        stock_name,
-        _id
-    )
 
     const [state, setState] = useState({
         id: _id,
-        description: description,
+        description: description || '',
         vendor_name: vendor_name || 'Please Select a vendor name',
-        vendor_id: vendor_id,
-        price: price,
-        qty: qty,
-        box: box,
+        vendor_id: vendor_id || '',
+        price: price || '',
+        qty: qty || '',
+        box: box || '',
         stock_name: stock_name || 'Please Select a stock name',
     })
     const clear = () => {
@@ -74,13 +64,25 @@ const AddStockInWereHouse = () => {
     }
     // for getting vendor data
     const { wereHouseStockData } = useSelector(
-        (state) => state.wereHouseStockList
+        (states) => states.wareHouseStockList
     )
-    const { stockData } = useSelector((state) => state.stockList)
+    const { stockData } = useSelector((states) => states.stockList)
+    const { vendorData } = useSelector((states) => states.vendorList)
+
+    // useEffect(() => {
+    // }, [dispatch])
+
     useEffect(() => {
-        dispatch(vendorData())
         dispatch(stockDataList())
+        dispatch(getAllVendor())
     }, [dispatch])
+
+    console.log('1')
+    console.log(wereHouseStockData)
+    console.log('2')
+    console.log(stockData)
+    console.log('3')
+    console.log(vendorData)
 
     const handleInput = (e) => {
         const name = e.target.name
