@@ -26,13 +26,22 @@ const authFetch = axios.create({
 
 const add = (state) => async (dispatch) => {
     try {
-        const { description, vendor_name, vendor_id, price, qty, box } = state
+        const {
+            description,
+            vendor_name,
+            vendor_id,
+            price,
+            qty,
+            box,
+            stock_name,
+        } = state
         await authFetch.post('/stocks', {
             description,
             vendor_name,
             vendor_id,
             price,
             qty,
+            stock_name,
             box,
         })
         dispatch({ type: CREATE_SUCCESS })
@@ -51,7 +60,7 @@ const getAllData = (state) => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/stocks')
         const { stockList } = data
-
+        console.log(stockList)
         dispatch({
             type: GET_SUCCESS,
             payload: { stockList },
@@ -69,8 +78,16 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const { description, vendor_name, vendor_id, price, qty, box, id } =
-            state
+        const {
+            description,
+            vendor_name,
+            vendor_id,
+            price,
+            qty,
+            box,
+            id,
+            stock_name,
+        } = state
         await authFetch.patch(`/stocks/${id}`, {
             description,
             vendor_name,
@@ -78,6 +95,7 @@ const edit = (state) => async (dispatch) => {
             price,
             qty,
             box,
+            stock_name,
         })
         dispatch({ type: EDIT_SUCCESS })
         dispatch(clearValues())

@@ -26,6 +26,7 @@ const SimpleForm = () => {
         qty,
         box,
         _id,
+        stock_name,
     } = useSelector((x) => x.stockList)
 
     const [state, setState] = useState({
@@ -36,6 +37,7 @@ const SimpleForm = () => {
         price: price,
         qty: qty,
         box: box,
+        stock_name: stock_name,
     })
     const clear = () => {
         setState({
@@ -46,6 +48,7 @@ const SimpleForm = () => {
             price: 1,
             qty: 1,
             box: 1,
+            stock_name: '',
         })
     }
     const dispatch = useDispatch()
@@ -127,6 +130,16 @@ const SimpleForm = () => {
                             label="Vendor Name"
                             errorMessages={['this field is required']}
                         /> */}
+                        <TextField
+                            type="text"
+                            name="stock_name"
+                            id="standard-basic"
+                            onChange={handleInput}
+                            value={state.stock_name}
+                            validators={['required']}
+                            label="Stock Name"
+                            errorMessages={['this field is required']}
+                        />
                         <TextField
                             type="text"
                             name="description"

@@ -28,6 +28,7 @@ const initialState = {
     price: 0,
     qty: 0,
     box: 0,
+    stock_name: '',
 }
 
 const StockReducer = function (state = initialState, action) {

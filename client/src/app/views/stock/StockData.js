@@ -45,7 +45,7 @@ const StockData = (props) => {
     useEffect(() => {
         dispatch(getAllData())
     }, [dispatch])
-    console.log(stockData)
+
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -63,9 +63,11 @@ const StockData = (props) => {
             <StyledTable>
                 <TableHead>
                     <TableRow>
+                        <TableCell>Stock Name</TableCell>
                         <TableCell>Vendor Name</TableCell>
-                        <TableCell>Qty.</TableCell>
                         <TableCell>Price</TableCell>
+                        <TableCell>Qty.</TableCell>
+                        <TableCell>Box</TableCell>
                         {/* <TableCell>Address</TableCell>
                         <TableCell align="center">Pincode</TableCell> */}
                         <TableCell align="center">Edit</TableCell>
@@ -80,10 +82,11 @@ const StockData = (props) => {
                         )
                         .map((subscriber, index) => (
                             <TableRow key={index}>
+                                <TableCell>{subscriber.stock_name}</TableCell>
                                 <TableCell>{subscriber.vendor_name}</TableCell>
-                                <TableCell>{subscriber.qty}</TableCell>
                                 <TableCell>{subscriber.price}</TableCell>
-                                <TableCell>{subscriber.address}</TableCell>
+                                <TableCell>{subscriber.qty}</TableCell>
+                                <TableCell>{subscriber.box}</TableCell>
                                 <TableCell align="center">
                                     <Link
                                         to={`/addStock`}

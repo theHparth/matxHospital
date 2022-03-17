@@ -6,9 +6,18 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStock = async (req, res) => {
-  const { description, vendor_name, vendor_id, price, qty, box } = req.body;
+  const { description, vendor_name, vendor_id, price, qty, box, stock_name } =
+    req.body;
   // here you can remove vendor_id
-  if (!description || !vendor_name || !vendor_id || !price || !qty || !box) {
+  if (
+    !description ||
+    !vendor_name ||
+    !vendor_id ||
+    !price ||
+    !qty ||
+    !box ||
+    !stock_name
+  ) {
     throw new BadRequestError("Please provide all values");
   }
   req.body.createdBy = req.user.userId;
@@ -66,9 +75,18 @@ const getAllStock = async (req, res) => {
 const updateStock = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { description, vendor_id, vendor_name, price, qty, box } = req.body;
+  const { description, vendor_id, vendor_name, price, qty, box, stock_name } =
+    req.body;
 
-  if (!description || !vendor_name || !vendor_id || !price || !qty || !box) {
+  if (
+    !description ||
+    !vendor_name ||
+    !vendor_id ||
+    !price ||
+    !qty ||
+    !box ||
+    !stock_name
+  ) {
     throw new BadRequestError("Please provide all values");
   }
 

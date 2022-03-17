@@ -3,6 +3,11 @@ import mongoose from "mongoose";
 
 const StockSchema = new mongoose.Schema(
   {
+    stock_name: {
+      type: String,
+      required: [true, "Please provide stock name"],
+      maxlength: 100,
+    },
     description: {
       type: String,
       required: [true, "Please provide Description"],
@@ -11,6 +16,11 @@ const StockSchema = new mongoose.Schema(
     vendor_name: {
       type: String,
       required: [true, "Please select vendor"],
+      maxlength: 100,
+    },
+    vendor_id: {
+      type: String,
+      required: [true, "Please select Id"],
       maxlength: 100,
     },
     price: {
