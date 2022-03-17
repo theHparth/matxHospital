@@ -9,6 +9,7 @@ import MatxLayout from '../components/MatxLayout/MatxLayout'
 import { Navigate } from 'react-router-dom'
 import vendorRoutes from 'app/views/vendor/VendorRoutes'
 import stockRoutes from 'app/views/stock/StockRoutes'
+import wereHouseRoutes from 'app/views/wareHouse/WereHouseRoutes'
 
 export const AllPages = () => {
     const all_routes = [
@@ -23,6 +24,7 @@ export const AllPages = () => {
                 ...hospitalRoutes,
                 ...vendorRoutes,
                 ...stockRoutes,
+                ...wereHouseRoutes,
                 ...chartsRoute,
                 ...materialRoutes,
             ],

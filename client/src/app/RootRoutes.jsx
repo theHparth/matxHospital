@@ -6,6 +6,7 @@ import materialRoutes from './views/material-kit/MaterialRoutes'
 import hospitalRoutes from './views/hospital/HospitalRoutes'
 import vendorRoutes from './views/vendor/VendorRoutes'
 import stockRoutes from './views/stock/StockRoutes'
+import wereHouseRoutes from './views/wareHouse/WereHouseRoutes'
 
 const redirectRoute = [
     {
@@ -26,6 +27,7 @@ const routes = [
     ...hospitalRoutes,
     ...vendorRoutes,
     ...stockRoutes,
+    ...wereHouseRoutes,
     ...materialRoutes,
     ...chartsRoute,
     ...redirectRoute,

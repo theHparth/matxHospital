@@ -6,6 +6,7 @@ import NavigationReducer from './NavigationReducer'
 import HospitalReducer from './HospitalReducer'
 import VendorReducer from './VendorReducer'
 import StockReducer from './StockReducer'
+import WareHouseReducer from './WareHouseReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -15,6 +16,7 @@ const RootReducer = combineReducers({
     hospitalList: HospitalReducer,
     vendorList: VendorReducer,
     stockList: StockReducer,
+    wareHouseStockList: WareHouseReducer,
 })
 
 export default RootReducer

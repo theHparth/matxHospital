@@ -1,23 +1,14 @@
-import stocks from "../models/Stocks.js";
+import stocks from "../models/Warehouse.js";
 import { StatusCodes } from "http-status-codes";
 
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
 
-const addStock = async (req, res) => {
-  const { description, vendor_name, vendor_id, price, qty, box, stock_name } =
-    req.body;
+const addStockinWereHouse = async (req, res) => {
+  const { description, vendor_name, price, qty, box, stock_name } = req.body;
   // here you can remove vendor_id
-  if (
-    !description ||
-    !vendor_name ||
-    !vendor_id ||
-    !price ||
-    !qty ||
-    !box ||
-    !stock_name
-  ) {
+  if (!description || !vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
   req.body.createdBy = req.user.userId;
@@ -26,7 +17,7 @@ const addStock = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
-const getAllStock = async (req, res) => {
+const getAllStockfromWereHouse = async (req, res) => {
   const { status, sort, search } = req.query;
 
   const queryObject = {
@@ -72,21 +63,12 @@ const getAllStock = async (req, res) => {
   res.status(StatusCodes.OK).json({ stockList });
 };
 
-const updateStock = async (req, res) => {
+const updateStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { description, vendor_id, vendor_name, price, qty, box, stock_name } =
-    req.body;
+  const { description, vendor_name, price, qty, box, stock_name } = req.body;
 
-  if (
-    !description ||
-    !vendor_name ||
-    !vendor_id ||
-    !price ||
-    !qty ||
-    !box ||
-    !stock_name
-  ) {
+  if (!description || !vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -111,7 +93,7 @@ const updateStock = async (req, res) => {
   res.status(StatusCodes.OK).json({ updatedStock });
 };
 
-const deleteStock = async (req, res) => {
+const deleteStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
   const stock = await stocks.findOne({ _id: stockId });
@@ -127,4 +109,9 @@ const deleteStock = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Stock removed" });
 };
 
-export { addStock, deleteStock, getAllStock, updateStock };
+export {
+  addStockinWereHouse,
+  deleteStockfromWereHouse,
+  getAllStockfromWereHouse,
+  updateStockfromWereHouse,
+};

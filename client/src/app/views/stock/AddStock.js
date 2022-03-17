@@ -1,32 +1,16 @@
 import { Breadcrumb, SimpleCard } from 'app/components'
 import { Box, styled } from '@mui/system'
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { getAllData } from 'app/redux/actions/VendorActions'
 
 import { Button, Icon, Grid } from '@mui/material'
 import { Span } from 'app/components/Typography'
 import React, { useState, useEffect } from 'react'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { edit, add } from 'app/redux/actions/StockActions'
 
-const Container = styled('div')(({ theme }) => ({
-    margin: '30px',
-    [theme.breakpoints.down('sm')]: {
-        margin: '16px',
-    },
-    '& .breadcrumb': {
-        marginBottom: '30px',
-        [theme.breakpoints.down('sm')]: {
-            marginBottom: '16px',
-        },
-    },
-}))
-
-const TextField = styled(TextValidator)(() => ({
-    width: '100%',
-    marginBottom: '16px',
-}))
+import { Container, TextField } from '../../components/MyComponents/form/index'
 
 const AddStock = () => {
     const {

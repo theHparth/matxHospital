@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 // import vendorDetail from "../controllers/vendoresController.js";
 
-const StockSchema = new mongoose.Schema(
+const WereHouseSchema = new mongoose.Schema(
   {
     stock_name: {
       type: String,
@@ -13,10 +13,10 @@ const StockSchema = new mongoose.Schema(
       required: [true, "Please select vendor"],
       maxlength: 100,
     },
-    vendor_id: {
+    description: {
       type: String,
-      required: [true, "Please select Id"],
-      maxlength: 100,
+      required: [true, "Please select vendor"],
+      maxlength: 500,
     },
     price: {
       type: Number,
@@ -42,4 +42,4 @@ const StockSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Stocks", StockSchema);
+export default mongoose.model("WereHouseStocks", WereHouseSchema);

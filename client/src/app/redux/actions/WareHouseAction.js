@@ -26,19 +26,11 @@ const authFetch = axios.create({
 
 const add = (state) => async (dispatch) => {
     try {
-        const {
-            description,
-            vendor_name,
-            vendor_id,
-            price,
-            qty,
-            box,
-            stock_name,
-        } = state
+        const { description, vendor_name, price, qty, box, stock_name } = state
         await authFetch.post('/wereHouse', {
             description,
             vendor_name,
-            vendor_id,
+
             price,
             qty,
             stock_name,

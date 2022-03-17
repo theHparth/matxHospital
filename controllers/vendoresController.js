@@ -12,6 +12,10 @@ const addVendor = async (req, res) => {
   if (!fname || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
+  const userAlreadyExists = await vendors.findOne({ fname });
+  if (userAlreadyExists) {
+    throw new BadRequestError("Vendor name should be unique");
+  }
   req.body.createdBy = req.user.userId;
 
   const vendor = await vendors.create(req.body);

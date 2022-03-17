@@ -18,42 +18,13 @@ import {
 } from 'app/redux/actions/StockActions'
 import { Link } from 'react-router-dom'
 import { Breadcrumb, SimpleCard } from 'app/components'
-
-const Container = styled('div')(({ theme }) => ({
-    margin: '30px',
-    [theme.breakpoints.down('sm')]: {
-        margin: '16px',
-    },
-    '& .breadcrumb': {
-        marginBottom: '30px',
-        [theme.breakpoints.down('sm')]: {
-            marginBottom: '16px',
-        },
-    },
-}))
-const StyledTable = styled(Table)(({ theme }) => ({
-    whiteSpace: 'pre',
-    '& thead': {
-        '& tr': {
-            '& th': {
-                paddingLeft: 0,
-                paddingRight: 0,
-            },
-        },
-    },
-    '& tbody': {
-        '& tr': {
-            '& td': {
-                paddingLeft: 0,
-                textTransform: 'capitalize',
-            },
-        },
-    },
-}))
+import {
+    Container,
+    StyledTable,
+} from '../../components/MyComponents/table/index'
 
 const AllStock = () => {
     let { stockData } = useSelector((state) => state.stockList)
-    console.log(stockData)
     const dispatch = useDispatch()
 
     useEffect(() => {

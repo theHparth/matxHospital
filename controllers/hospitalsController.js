@@ -18,6 +18,11 @@ const addHospital = async (req, res) => {
   if (!address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
+
+  const userAlreadyExists = await Hospital.findOne({ email });
+  if (userAlreadyExists) {
+    throw new BadRequestError("Email is used");
+  }
   req.body.createdBy = req.user.userId;
 
   const hospital = await Hospital.create(req.body);

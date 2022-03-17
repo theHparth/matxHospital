@@ -56,6 +56,22 @@ export const navigations = [
             },
         ],
     },
+    {
+        name: 'Werehouse',
+        icon: 'business',
+        children: [
+            {
+                name: 'Werehouse Stock In ',
+                iconText: 'SI',
+                path: '/addStockInWereHouse',
+            },
+            {
+                name: 'Werehouse Stock List',
+                iconText: 'SI',
+                path: '/wereHouseStock',
+            },
+        ],
+    },
 
     // {
     //     name: 'Session/Auth',

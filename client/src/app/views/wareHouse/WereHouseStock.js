@@ -1,4 +1,3 @@
-import { Breadcrumb, SimpleCard } from 'app/components'
 import {
     IconButton,
     Table,
@@ -16,26 +15,31 @@ import {
     getAllData,
     setEditData,
     deleteData,
-} from 'app/redux/actions/VendorActions'
+} from 'app/redux/actions/WareHouseAction'
 import { Link } from 'react-router-dom'
-
+import { Breadcrumb, SimpleCard } from 'app/components'
 import {
     Container,
     StyledTable,
 } from '../../components/MyComponents/table/index'
+import moment from 'moment'
 
-const AllVendor = () => {
-    const { vendorData } = useSelector((state) => state.vendorList)
+const WereHouseStock = () => {
+    let { wereHouseStockData } = useSelector(
+        (state) => state.wereHouseStockList
+    )
+
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getAllData())
     }, [dispatch])
 
-    // if (vendorData.length === 0) {
+    // if (wereHouseStockData.length === 0) {
     //     return <h2>No Stocks to display...</h2>
     // }
 
+    var wereHouseStockDatass = wereHouseStockData || []
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -52,28 +56,31 @@ const AllVendor = () => {
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Add Vendor', path: '/addVendor' },
-                        { name: 'Form' },
+                        { name: 'Add Stock', path: '/addStock' },
+                        { name: 'Table' },
                     ]}
                 />
             </div>
 
-            <SimpleCard title="Vendor List">
+            <SimpleCard title="Stocks List">
                 <Box width="100%" overflow="auto">
                     <StyledTable>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Contect</TableCell>
-                                <TableCell>Email</TableCell>
-                                <TableCell>Address</TableCell>
-                                <TableCell align="center">Pincode</TableCell>
+                                <TableCell>Stock Name</TableCell>
+                                <TableCell>Vendor Name</TableCell>
+                                <TableCell> box / Qty </TableCell>
+                                <TableCell>price</TableCell>
+                                <TableCell>Date</TableCell>
+
+                                {/* <TableCell>Address</TableCell>
+                        <TableCell align="center">Pincode</TableCell> */}
                                 <TableCell align="center">Edit</TableCell>
                                 <TableCell>Delete</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {vendorData
+                            {wereHouseStockDatass
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -81,23 +88,24 @@ const AllVendor = () => {
                                 .map((subscriber, index) => (
                                     <TableRow key={index}>
                                         <TableCell>
-                                            {subscriber.fname}
+                                            {subscriber.stock_name}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.contect}
+                                            {subscriber.vendor_name}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.email}
+                                            {subscriber.box}/{subscriber.qty}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.address}
+                                            {subscriber.price}
                                         </TableCell>
-                                        <TableCell align="center">
-                                            {subscriber.pincode}
+                                        <TableCell>
+                                            {subscriber.createdAt}
                                         </TableCell>
+
                                         <TableCell align="center">
                                             <Link
-                                                to={`/addVendor`}
+                                                to={`/addStockInWereHouse`}
                                                 onClick={() =>
                                                     dispatch(
                                                         setEditData(subscriber)
@@ -138,7 +146,7 @@ const AllVendor = () => {
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={vendorData.length}
+                        count={wereHouseStockDatass.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{
@@ -156,4 +164,4 @@ const AllVendor = () => {
     )
 }
 
-export default AllVendor
+export default WereHouseStock

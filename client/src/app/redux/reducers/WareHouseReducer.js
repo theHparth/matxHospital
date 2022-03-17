@@ -13,10 +13,10 @@ import {
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
-} from '../actions/StockActions'
+} from '../actions/WareHouseAction'
 
 const initialState = {
-    stockData: [],
+    wereHouseStockData: [],
     isLoading: false,
     showAlert: true,
     alertType: '',
@@ -31,7 +31,7 @@ const initialState = {
     stock_name: '',
 }
 
-const WereHouseReducer = function (state = initialState, action) {
+const WareHouseReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_BEGIN: {
             return { ...state, isLoading: true, showAlert: false }
@@ -39,7 +39,7 @@ const WereHouseReducer = function (state = initialState, action) {
         case GET_SUCCESS: {
             return {
                 ...state,
-                stockData: action.payload.stockList,
+                stockData: action.payload.wereHouseStockData,
             }
         }
         case CREATE_BEGIN: {
@@ -166,4 +166,4 @@ const WereHouseReducer = function (state = initialState, action) {
         }
     }
 }
-export default WereHouseReducer
+export default WareHouseReducer
