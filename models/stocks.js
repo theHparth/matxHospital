@@ -14,13 +14,18 @@ const StockSchema = new mongoose.Schema(
       maxlength: 100,
     },
     price: {
-      type: String,
+      type: Number,
       required: [true, "Please add price"],
       maxlength: 100,
     },
     qty: {
-      type: String,
+      type: Number,
       required: [true, "Please add Qty."],
+      maxlength: 100,
+    },
+    box: {
+      type: Number,
+      required: [true, "Please proide total Box."],
       maxlength: 100,
     },
     createdBy: {

@@ -42,7 +42,7 @@ export const navigations = [
     },
     {
         name: 'Stocks',
-        icon: 'item',
+        icon: 'business',
         children: [
             {
                 name: 'Add Stock',

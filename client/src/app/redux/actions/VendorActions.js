@@ -98,7 +98,6 @@ const setEditData = (subscriber) => (dispatch) => {
 const edit = (state) => async (dispatch) => {
     try {
         const { address, pincode, contect, email, fname, id } = state
-        console.log(address, pincode, fname, contect, email, id)
         await authFetch.patch(`/vendors/${id}`, {
             address,
             pincode,

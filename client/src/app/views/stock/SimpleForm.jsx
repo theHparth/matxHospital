@@ -3,11 +3,10 @@ import { styled } from '@mui/system'
 import { Span } from 'app/components/Typography'
 import React, { useState, useEffect } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import Manu from './Menu'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { edit, add } from 'app/redux/actions/StockActions'
-import Alert from '../../components/Alert'
+
 import { getAllData } from 'app/redux/actions/VendorActions'
 const TextField = styled(TextValidator)(() => ({
     width: '100%',
@@ -25,25 +24,28 @@ const SimpleForm = () => {
         vendor_id,
         price,
         qty,
+        box,
         _id,
     } = useSelector((x) => x.stockList)
 
     const [state, setState] = useState({
-        id: vendor_id,
-
+        id: _id,
         description: description,
         vendor_name: vendor_name,
         vendor_id: vendor_id,
         price: price,
         qty: qty,
+        box: box,
     })
     const clear = () => {
         setState({
+            id: '',
             description: '',
             vendor_name: '',
             vendor_id: '',
-            price: 0,
-            qty: 0,
+            price: 1,
+            qty: 1,
+            box: 1,
         })
     }
     const dispatch = useDispatch()
@@ -60,25 +62,32 @@ const SimpleForm = () => {
     }
     // for getting vendor data
     const { vendorData } = useSelector((state) => state.vendorList)
-    const vendorInfo = {}
     useEffect(() => {
         dispatch(getAllData())
     }, [dispatch])
-    vendorData.map((x) => (vendorInfo[x._id] = x.fname))
 
     const handleInput = (e) => {
         const name = e.target.name
         const value = e.target.value
-        var valuess = Object.values(vendorData).filter(function (item) {
-            if (item._id == e.target.value) {
-                return item
-            }
-        })
-        console.log(valuess[0].fname)
+
         setState({
             ...state,
-            vendor_name: valuess[0].fname,
             [name]: value,
+        })
+    }
+
+    const handleInputOption = (e) => {
+        const ffname = []
+        Object.values(vendorData).filter(function (item) {
+            if (item._id == e.target.value) {
+                ffname.push(item.fname)
+            }
+        })
+
+        setState({
+            ...state,
+            vendor_id: e.target.value,
+            vendor_name: ffname[0],
         })
     }
 
@@ -93,9 +102,10 @@ const SimpleForm = () => {
                                 {alertText}
                             </div>
                         )}
-                        Select Vendor
+                        {/* Select Vendor */}
                         {/* <TextField> */}
-                        <select onChange={handleInput}>
+                        <select onChange={handleInputOption}>
+                            <option>Select Vendor</option>
                             {Object.values(vendorData).map((data, key) => (
                                 <option
                                     key={key}
@@ -138,16 +148,22 @@ const SimpleForm = () => {
                             errorMessages={['this field is required']}
                         />
                         <TextField
-                            label="Total Qty."
+                            label="Total Box."
+                            onChange={handleInput}
+                            type="number"
+                            name="box"
+                            value={state.box}
+                            validators={['required', 'minNumber:1']}
+                            errorMessages={['this field is required']}
+                        />
+                        <TextField
+                            label="Qty in one Box"
                             onChange={handleInput}
                             type="number"
                             name="qty"
                             value={state.qty}
-                            validators={['required']}
-                            errorMessages={[
-                                'this field is required',
-                                'email is not valid',
-                            ]}
+                            validators={['required', 'minNumber:1']}
+                            errorMessages={['this field is required']}
                         />
                     </Grid>
                 </Grid>

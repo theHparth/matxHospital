@@ -45,7 +45,7 @@ const StockData = (props) => {
     useEffect(() => {
         dispatch(getAllData())
     }, [dispatch])
-
+    console.log(stockData)
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -86,7 +86,7 @@ const StockData = (props) => {
                                 <TableCell>{subscriber.address}</TableCell>
                                 <TableCell align="center">
                                     <Link
-                                        to={`/addItem`}
+                                        to={`/addStock`}
                                         onClick={() =>
                                             dispatch(setEditData(subscriber))
                                         }
