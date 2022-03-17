@@ -40,6 +40,22 @@ export const navigations = [
             },
         ],
     },
+    {
+        name: 'Stocks',
+        icon: 'item',
+        children: [
+            {
+                name: 'Add Stock',
+                iconText: 'SI',
+                path: '/addStock',
+            },
+            {
+                name: 'Stock List',
+                iconText: 'SI',
+                path: '/allStock',
+            },
+        ],
+    },
 
     // {
     //     name: 'Session/Auth',

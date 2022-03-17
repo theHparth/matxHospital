@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+// import onlyVendorsName from "../controllers/jobsController.js";
+
+// onlyVendorsName
 
 const VendorSchema = new mongoose.Schema(
   {

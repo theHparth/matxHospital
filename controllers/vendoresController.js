@@ -1,5 +1,6 @@
 import vendors from "../models/Vendor.js";
 import { StatusCodes } from "http-status-codes";
+import mongoose from "mongoose";
 
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
@@ -17,13 +18,28 @@ const addVendor = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ vendor });
 };
 
+const onlyVendorsName = async (req, res) => {
+  vendors.find({}, function (err, vendor) {
+    var userMap = {};
+
+    vendor.forEach(function (v) {
+      userMap[v._id] = v.fname;
+    });
+    if (!userMap) {
+      console.log("No Vendor in Database");
+      return [];
+    }
+    return userMap;
+  });
+};
+
 const getAllVendor = async (req, res) => {
   const { status, sort, search } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
   };
-
+  // console.log(queryObject);
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
@@ -109,4 +125,4 @@ const deleteVendor = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
 };
 
-export { addVendor, deleteVendor, getAllVendor, updateVendor };
+export { addVendor, deleteVendor, getAllVendor, updateVendor, onlyVendorsName };
