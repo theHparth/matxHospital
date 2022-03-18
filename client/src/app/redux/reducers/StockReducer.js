@@ -3,7 +3,7 @@ import {
     CREATE_SUCCESS,
     CREATE_ERROR,
     GET_BEGIN,
-    GET_SUCCESS,
+    GET_SUCCESS_STOCK,
     SET_EDIT,
     DELETE_BEGIN,
     EDIT_BEGIN,
@@ -36,7 +36,7 @@ const StockReducer = function (state = initialState, action) {
         case GET_BEGIN: {
             return { ...state, isLoading: true, showAlert: false }
         }
-        case GET_SUCCESS: {
+        case GET_SUCCESS_STOCK: {
             return {
                 ...state,
                 stockData: action.payload.stockList,

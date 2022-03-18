@@ -4,7 +4,7 @@ export const CREATE_BEGIN = 'CREATE_BEGIN'
 export const CREATE_SUCCESS = 'CREATE_SUCCESS'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
-export const GET_SUCCESS = 'GET_SUCCESS'
+export const GET_SUCCESS_STOCK = 'GET_SUCCESS_STOCK'
 export const SET_EDIT = 'SET_EDIT'
 export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
@@ -49,7 +49,7 @@ const getAllData = (state) => async (dispatch) => {
         const { stockList } = data
         // console.log(stockList)
         dispatch({
-            type: GET_SUCCESS,
+            type: GET_SUCCESS_STOCK,
             payload: { stockList },
         })
     } catch (error) {

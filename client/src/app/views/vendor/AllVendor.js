@@ -25,7 +25,7 @@ import {
 } from '../../components/MyComponents/table/index'
 
 const AllVendor = () => {
-    const { vendorData } = useSelector((state) => state.vendorList)
+    const { vendorData = [] } = useSelector((state) => state.vendorList)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const AllVendor = () => {
     // if (vendorData.length === 0) {
     //     return <h2>No Stocks to display...</h2>
     // }
-    var vendorDatass = vendorData || []
+    // var vendorDatass = vendorData || []
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -73,7 +73,7 @@ const AllVendor = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {vendorDatass
+                            {vendorData
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -138,7 +138,7 @@ const AllVendor = () => {
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={vendorDatass.length}
+                        count={vendorData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{

@@ -61,12 +61,12 @@ export const navigations = [
         icon: 'business',
         children: [
             {
-                name: 'Werehouse Stock In ',
+                name: 'Werehouse Stock ',
                 iconText: 'SI',
                 path: '/addStockInWereHouse',
             },
             {
-                name: 'Werehouse Stock List',
+                name: 'Werehouse Stock In report',
                 iconText: 'SI',
                 path: '/wereHouseStock',
             },

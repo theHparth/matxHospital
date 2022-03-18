@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 // import vendorDetail from "../controllers/vendoresController.js";
 
-const WereHouseSchema = new mongoose.Schema(
+const newStockSchema = new mongoose.Schema(
   {
     hospital_name: {
       type: String,

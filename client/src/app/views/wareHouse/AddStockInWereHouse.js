@@ -10,7 +10,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { edit, add } from 'app/redux/actions/StockActions'
 
 import { getAllVendor } from 'app/redux/actions/VendorActions'
-import { getAllData as stockDataList } from 'app/redux/actions/StockActions'
+import { getAllData } from 'app/redux/actions/StockActions'
 import { Container, TextField } from '../../components/MyComponents/form/index'
 
 const AddStockInWereHouse = () => {
@@ -20,7 +20,7 @@ const AddStockInWereHouse = () => {
         alertText,
         isLoading,
         description,
-        vendor_name,
+        fname,
         vendor_id,
         price,
         qty,
@@ -32,7 +32,7 @@ const AddStockInWereHouse = () => {
     const [state, setState] = useState({
         id: _id,
         description: description || '',
-        vendor_name: vendor_name || 'Please Select a vendor name',
+        fname: fname || 'Please Select a vendor name',
         vendor_id: vendor_id || '',
         price: price || '',
         qty: qty || '',
@@ -43,7 +43,7 @@ const AddStockInWereHouse = () => {
         setState({
             id: '',
             description: '',
-            vendor_name: 'Please Select a vendor name',
+            fname: 'Please Select a vendor name',
             price: 1,
             qty: 1,
             box: 1,
@@ -63,26 +63,33 @@ const AddStockInWereHouse = () => {
         }
     }
     // for getting vendor data
-    const { wereHouseStockData } = useSelector(
+    const { wereHouseStockData = {} } = useSelector(
         (states) => states.wareHouseStockList
     )
-    const { stockData } = useSelector((states) => states.stockList)
-    const { vendorData } = useSelector((states) => states.vendorList)
+    const { stockData = [] } = useSelector((states) => states.stockList)
+    const { vendorData = [] } = useSelector((states) => states.vendorList)
 
     // useEffect(() => {
     // }, [dispatch])
 
     useEffect(() => {
-        dispatch(stockDataList())
-        dispatch(getAllVendor())
-    }, [dispatch])
+        // const getVender = () => {
 
-    console.log('1')
-    console.log(wereHouseStockData)
-    console.log('2')
-    console.log(stockData)
-    console.log('3')
-    console.log(vendorData)
+        // }
+        // getVender()
+        dispatch(getAllVendor())
+        dispatch(getAllData())
+    }, [])
+    // useEffect(() => {
+    //     // dispatch(stockDataList())
+    //     dispatch(getAllVendor())
+    // }, [])
+
+    console.log('werehouse', wereHouseStockData)
+
+    console.log('stock', stockData)
+
+    console.log('vendorv', vendorData)
 
     const handleInput = (e) => {
         const name = e.target.name
@@ -162,32 +169,35 @@ const AddStockInWereHouse = () => {
                                             {alertText}
                                         </div>
                                     )}
-                                    Select Vendor
+                                    {/* Select Vendor */}
                                     {/* <TextField> */}
                                     <select onChange={handleInputOption}>
-                                        <option value={state.fname} selected>
+                                        <option
+                                            value={state.fname}
+                                            defaultValue
+                                        >
                                             {state.fname}
                                         </option>
-                                        {Object.values(wereHouseStockData).map(
+                                        {Object.values(vendorData).map(
                                             (data, key) => (
                                                 <option
                                                     key={key}
-                                                    name="vendor_id"
+                                                    name="vendor_name"
                                                     value={
-                                                        state.vendor_id ||
-                                                        data._id
+                                                        state.fname ||
+                                                        data.fname
                                                     }
                                                 >
-                                                    {state.vendor_name ||
-                                                        data.fname}
+                                                    {state.fname || data.fname}
                                                 </option>
                                             )
                                         )}
                                     </select>
+                                    {/* select stocks */}
                                     <select onChange={handleInputOption}>
                                         <option
-                                            value="state.stock_name"
-                                            selected
+                                            value={state.stock_name}
+                                            defaultValue
                                         >
                                             {state.stock_name}
                                         </option>
