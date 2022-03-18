@@ -6,7 +6,8 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStockinWereHouse = async (req, res) => {
-  const { vendor_name, price, qty, box, stock_name } = req.body;
+  const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
+    req.body;
 
   if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
@@ -67,7 +68,8 @@ const getAllStockfromWereHouse = async (req, res) => {
 const updateStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { vendor_name, price, qty, box, stock_name } = req.body;
+  const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
+    req.body;
 
   if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");

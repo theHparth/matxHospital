@@ -8,6 +8,10 @@ const WereHouseSchema = new mongoose.Schema(
       required: [true, "Please provide stock name"],
       maxlength: 100,
     },
+    stockTotoalPrice: {
+      type: Number,
+      maxlength: 100,
+    },
     vendor_name: {
       type: String,
       required: [true, "Please select vendor"],

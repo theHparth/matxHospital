@@ -26,12 +26,12 @@ export default function SimpleRadio() {
 
     return (
         <RadioRoot>
-            <FormControl component="fieldset" className='formControl'>
+            <FormControl component="fieldset" className="formControl">
                 <FormLabel component="legend">Gender</FormLabel>
                 <RadioGroup
                     aria-label="Gender"
                     name="gender1"
-                    className='group'
+                    className="group"
                     value={value}
                     onChange={handleChange}
                 >
@@ -58,12 +58,12 @@ export default function SimpleRadio() {
                     />
                 </RadioGroup>
             </FormControl>
-            <FormControl component="fieldset" className='formControl'>
+            <FormControl component="fieldset" className="formControl">
                 <FormLabel component="legend">Gender</FormLabel>
                 <RadioGroup
                     aria-label="gender"
                     name="gender2"
-                    className='group'
+                    className="group"
                     value={value}
                     onChange={handleChange}
                 >

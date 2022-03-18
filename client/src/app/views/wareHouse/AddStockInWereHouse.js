@@ -11,7 +11,17 @@ import { edit, add } from 'app/redux/actions/WareHouseAction'
 
 import { getAllVendor } from 'app/redux/actions/VendorActions'
 import { getAllData } from 'app/redux/actions/StockActions'
-import { Container, TextField } from '../../components/MyComponents/form/index'
+import {
+    Container,
+    TextField,
+    RadioRoot,
+} from '../../components/MyComponents/form/index'
+
+import FormLabel from '@mui/material/FormLabel'
+import Radio from '@mui/material/Radio'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+
 import { Directionss } from '../../components/MyComponents/Directionss'
 const AddStockInWereHouse = () => {
     const {
@@ -25,13 +35,14 @@ const AddStockInWereHouse = () => {
         box,
         _id,
         stock_name,
+        stockTotoalPrice,
     } = useSelector((x) => x.wareHouseStockList)
 
     const [state, setState] = useState({
         id: _id,
 
         vendor_name: vendor_name || '',
-
+        stockTotoalPrice: stockTotoalPrice || '',
         price: price || '',
         qty: qty || '',
         box: box || '',
@@ -42,9 +53,10 @@ const AddStockInWereHouse = () => {
             id: '',
 
             vendor_name: '',
-            price: 1,
             qty: 1,
             box: 1,
+            price: 1,
+            stockTotoalPrice: 1,
             stock_name: '',
         })
     }
@@ -61,9 +73,7 @@ const AddStockInWereHouse = () => {
         }
     }
     // for getting vendor data
-    const { wereHouseStockData = {} } = useSelector(
-        (states) => states.wareHouseStockList
-    )
+
     const { stockData = [] } = useSelector((states) => states.stockList)
     const { vendorData = [] } = useSelector((states) => states.vendorList)
 
@@ -95,6 +105,11 @@ const AddStockInWereHouse = () => {
             ...state,
             ['stock_name']: value,
         })
+    }
+
+    const [value, setValue] = React.useState({})
+    function handleChange(event) {
+        setValue(event.target.value)
     }
     return (
         <Container>
@@ -181,19 +196,6 @@ const AddStockInWereHouse = () => {
                                             )
                                         )}
                                     </select>
-
-                                    <TextField
-                                        type="number"
-                                        name="price"
-                                        id="standard-basic"
-                                        onChange={handleInput}
-                                        value={state.price}
-                                        validators={['required']}
-                                        label="Price"
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
                                     <TextField
                                         label="Total Box."
                                         onChange={handleInput}
@@ -211,6 +213,44 @@ const AddStockInWereHouse = () => {
                                         type="number"
                                         name="qty"
                                         value={state.qty}
+                                        validators={['required', 'minNumber:1']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
+                                    <h1>
+                                        arranging and change state is not
+                                        completed call me for this
+                                    </h1>
+                                    <RadioRoot>
+                                        <FormControl
+                                            component="fieldset"
+                                            className="formControl"
+                                        >
+                                            <FormLabel component="legend">
+                                                Selece Price Type
+                                            </FormLabel>
+                                            <FormControlLabel
+                                                name="price"
+                                                control={<Radio />}
+                                                label="Price of indivisulal Item"
+                                            />
+                                            <FormControlLabel
+                                                name="stockTotoalPrice"
+                                                control={<Radio />}
+                                                label="Total price"
+                                            />
+                                        </FormControl>
+                                    </RadioRoot>
+                                    <TextField
+                                        label="Add price here"
+                                        onChange={handleInput}
+                                        type="number"
+                                        name="box"
+                                        value={
+                                            state.price ||
+                                            state.stockTotoalPrice
+                                        }
                                         validators={['required', 'minNumber:1']}
                                         errorMessages={[
                                             'this field is required',

@@ -27,6 +27,7 @@ const initialState = {
     qty: 1,
     box: 1,
     stock_name: '',
+    stockTotoalPrice: 1,
 }
 
 const WareHouseReducer = function (state = initialState, action) {
