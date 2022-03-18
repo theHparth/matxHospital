@@ -26,7 +26,11 @@ const authFetch = axios.create({
 
 const add = (state) => async (dispatch) => {
     try {
-        const { description, stock_name } = state
+        var { description, stock_name } = state
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1)
+        }
+        stock_name = capitalizeFirstLetter(stock_name)
         await authFetch.post('/stocks', {
             description,
             stock_name,

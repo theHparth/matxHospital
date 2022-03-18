@@ -1,9 +1,8 @@
 import WereHouseStocks from "../models/Warehouse.js";
 import { StatusCodes } from "http-status-codes";
-
 import { BadRequestError, NotFoundError } from "../errors/index.js";
-
 import checkPermissions from "../utils/checkPermissions.js";
+import { updateStockQty } from "./stockController.js";
 
 const addStockinWereHouse = async (req, res) => {
   const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
@@ -12,12 +11,23 @@ const addStockinWereHouse = async (req, res) => {
   if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
-  console.log("1");
-  req.body.createdBy = req.user.userId;
-  console.log("2");
 
+  req.body.createdBy = req.user.userId;
+
+  // updateStockQty(stock_name, box, qty, price, stockTotoalPrice);
+  // var a = await WereHouseStocks.aggregate({
+  //   $group: {
+  //     stock_name: stock_name,
+  //     totalQty: { $sum: "$qty" },
+  //     totalPrice: { $sum: "$price" },
+  //     totalBox: { $sum: "$box" },
+  //   },
+  // });
+  var aa = WereHouseStocks.aggregate([
+    { $group: { stock_name: "$stock_name", TotalQty: { $sum: "$qty" } } },
+  ]);
+  console.log({ aa });
   const stock = await WereHouseStocks.create(req.body);
-  console.log("3");
 
   res.status(StatusCodes.CREATED).json({ stock });
 };

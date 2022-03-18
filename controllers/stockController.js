@@ -5,14 +5,27 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
 
-const addStock = async (req, res) => {
-  const { description, stock_name } = req.body;
+const updateStockQty =
+  (stock_name, box, qty, price, stockTotoalPrice) => async (req, res) => {
+    // result.stock_name = { $regex: stock_name, $options: "i" };
+    // const stockAlreadyExists = await stocks.findOneAndUpdate({
+    //   stock_name: stock_name,
+    // });
+  };
+
+const addStock = () => async (req, res) => {
+  var { description, stock_name } = req.body;
   // here you can remove vendor_id
   if (!description || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
-
-  const stockAlreadyExists = await stocks.findOne({ stock_name });
+  // function capitalizeFirstLetter(string) {
+  //   return string.charAt(0).toUpperCase() + string.slice(1);
+  // }
+  // stock_names = capitalizeFirstLetter(stock_name);
+  var result = {};
+  result.stock_name = { $regex: stock_name, $options: "i" };
+  const stockAlreadyExists = await stocks.findOne(result);
   // console.log(stockAlreadyExists);
   if (stockAlreadyExists) {
     throw new BadRequestError("Stock already in Database");
@@ -115,4 +128,4 @@ const deleteStock = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Stock removed" });
 };
 
-export { addStock, deleteStock, getAllStock, updateStock };
+export { addStock, deleteStock, getAllStock, updateStock, updateStockQty };

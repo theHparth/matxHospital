@@ -33,6 +33,18 @@ const WereHouseSchema = new mongoose.Schema(
       required: [true, "Please proide total Box."],
       maxlength: 100,
     },
+    TotalQty: {
+      type: Number,
+      maxlength: 10000000,
+    },
+    totalPrice: {
+      type: Number,
+      maxlength: 10000000,
+    },
+    totalBox: {
+      type: Number,
+      maxlength: 10000000,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
