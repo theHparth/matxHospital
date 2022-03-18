@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 const VendorSchema = new mongoose.Schema(
   {
-    fname: {
+    vendor_name: {
       type: String,
       required: [true, "Please provide Name"],
       maxlength: 150,

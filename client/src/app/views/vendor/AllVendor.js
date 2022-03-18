@@ -81,7 +81,7 @@ const AllVendor = () => {
                                 .map((subscriber, index) => (
                                     <TableRow key={index}>
                                         <TableCell>
-                                            {subscriber.fname}
+                                            {subscriber.vendor_name}
                                         </TableCell>
                                         <TableCell>
                                             {subscriber.contect}

@@ -7,12 +7,12 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addVendor = async (req, res) => {
-  const { fname, address, pincode, contect, email } = req.body;
+  const { vendor_name, address, pincode, contect, email } = req.body;
 
-  if (!fname || !address || !pincode || !contect || !email) {
+  if (!vendor_name || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
-  const userAlreadyExists = await vendors.findOne({ fname });
+  const userAlreadyExists = await vendors.findOne({ vendor_name });
   if (userAlreadyExists) {
     throw new BadRequestError("Vendor name should be unique");
   }
@@ -28,7 +28,7 @@ const onlyVendorsName = async (req, res) => {
     var userMap = {};
 
     vendor.forEach(function (v) {
-      userMap[v._id] = v.fname;
+      userMap[v._id] = v.vendor_name;
     });
     if (!userMap) {
       console.log("No Vendor in Database");
@@ -87,12 +87,12 @@ const getAllVendor = async (req, res) => {
 const updateVendor = async (req, res) => {
   const { id: VendorId } = req.params;
 
-  const { fname, address, pincode, contect, email } = req.body;
+  const { vendor_name, address, pincode, contect, email } = req.body;
 
-  if (!fname || !address || !pincode || !contect || !email) {
+  if (!vendor_name || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
-  const userAlreadyExists = await vendors.findOne({ fname });
+  const userAlreadyExists = await vendors.findOne({ vendor_name });
   if (userAlreadyExists) {
     throw new BadRequestError("Vendor name should be unique");
   }

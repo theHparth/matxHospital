@@ -13,11 +13,7 @@ const WereHouseSchema = new mongoose.Schema(
       required: [true, "Please select vendor"],
       maxlength: 100,
     },
-    description: {
-      type: String,
-      required: [true, "Please select vendor"],
-      maxlength: 500,
-    },
+
     price: {
       type: Number,
       required: [true, "Please add price"],

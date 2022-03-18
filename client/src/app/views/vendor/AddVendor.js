@@ -20,7 +20,7 @@ const AddVendor = () => {
         contect,
         email,
         pincode,
-        fname,
+        vendor_name,
         _id,
     } = useSelector((x) => x.vendorList)
 
@@ -30,12 +30,12 @@ const AddVendor = () => {
         contect: contect,
         pincode: pincode,
         address: address,
-        fname: fname,
+        vendor_name: vendor_name,
         email: email,
     })
     const clear = () => {
         setState({
-            fname: '',
+            vendor_name: '',
             contect: '',
             pincode: '',
             address: '',
@@ -88,10 +88,10 @@ const AddVendor = () => {
                             )}
                             <TextField
                                 type="text"
-                                name="fname"
+                                name="vendor_name"
                                 id="standard-basic"
                                 onChange={handleInput}
-                                value={state.fname}
+                                value={state.vendor_name}
                                 validators={['required']}
                                 label="Vendor Name"
                                 errorMessages={['this field is required']}

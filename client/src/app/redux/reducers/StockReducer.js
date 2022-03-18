@@ -131,7 +131,7 @@ const StockReducer = function (state = initialState, action) {
         }
         // case CLEAR_VALUES: {
         //     const initialState = {
-        //         fname: '',
+        //         vendor_name: '',
         //         address: '',
         //         contect: '',
         //         password: '',

@@ -69,7 +69,7 @@ const WereHouseStock = () => {
                             <TableRow>
                                 <TableCell>Stock Name</TableCell>
                                 <TableCell>Vendor Name</TableCell>
-                                <TableCell>box / Qty</TableCell>
+                                <TableCell>box / Qty </TableCell>
                                 <TableCell>price</TableCell>
                                 <TableCell>Date</TableCell>
 

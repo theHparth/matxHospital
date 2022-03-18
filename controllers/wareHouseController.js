@@ -1,4 +1,4 @@
-import stocks from "../models/Warehouse.js";
+import WereHouseStocks from "../models/Warehouse.js";
 import { StatusCodes } from "http-status-codes";
 
 import { BadRequestError, NotFoundError } from "../errors/index.js";
@@ -6,14 +6,18 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStockinWereHouse = async (req, res) => {
-  const { description, vendor_name, price, qty, box, stock_name } = req.body;
-  // here you can remove vendor_id
-  if (!description || !vendor_name || !price || !qty || !box || !stock_name) {
+  const { vendor_name, price, qty, box, stock_name } = req.body;
+
+  if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
+  console.log("1");
   req.body.createdBy = req.user.userId;
+  console.log("2");
 
-  const stock = await stocks.create(req.body);
+  const stock = await WereHouseStocks.create(req.body);
+  console.log("3");
+
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
@@ -27,11 +31,8 @@ const getAllStockfromWereHouse = async (req, res) => {
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
-  // NO AWAIT
 
-  let result = stocks.find(queryObject);
-  // console.log(result + "===========");
-  // chain sort conditions
+  let result = WereHouseStocks.find(queryObject);
 
   if (sort === "latest") {
     result = result.sort("-createdAt");
@@ -66,13 +67,13 @@ const getAllStockfromWereHouse = async (req, res) => {
 const updateStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { description, vendor_name, price, qty, box, stock_name } = req.body;
+  const { vendor_name, price, qty, box, stock_name } = req.body;
 
-  if (!description || !vendor_name || !price || !qty || !box || !stock_name) {
+  if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
 
-  const stock = await stocks.findOne({ _id: stockId });
+  const stock = await WereHouseStocks.findOne({ _id: stockId });
 
   if (!stock) {
     throw new NotFoundError(`No job with id :${stockId}`);
@@ -81,7 +82,7 @@ const updateStockfromWereHouse = async (req, res) => {
 
   checkPermissions(req.user, stock.createdBy);
 
-  const updatedStock = await stocks.findOneAndUpdate(
+  const updatedStock = await WereHouseStocks.findOneAndUpdate(
     { _id: stockId },
     req.body,
     {
@@ -96,7 +97,7 @@ const updateStockfromWereHouse = async (req, res) => {
 const deleteStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const stock = await stocks.findOne({ _id: stockId });
+  const stock = await WereHouseStocks.findOne({ _id: stockId });
 
   if (!stock) {
     throw new NotFoundError(`No job with id :${stockId}`);

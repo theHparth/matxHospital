@@ -7,47 +7,45 @@ import React, { useState, useEffect } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
-import { edit, add } from 'app/redux/actions/StockActions'
+import { edit, add } from 'app/redux/actions/WareHouseAction'
 
 import { getAllVendor } from 'app/redux/actions/VendorActions'
 import { getAllData } from 'app/redux/actions/StockActions'
 import { Container, TextField } from '../../components/MyComponents/form/index'
-
+import { Directionss } from '../../components/MyComponents/Directionss'
 const AddStockInWereHouse = () => {
     const {
         showAlert,
         alertType,
         alertText,
         isLoading,
-        description,
-        fname,
-        vendor_id,
+        vendor_name,
         price,
         qty,
         box,
         _id,
         stock_name,
-    } = useSelector((x) => x.stockList)
+    } = useSelector((x) => x.wareHouseStockList)
 
     const [state, setState] = useState({
         id: _id,
-        description: description || '',
-        fname: fname || 'Please Select a vendor name',
-        vendor_id: vendor_id || '',
+
+        vendor_name: vendor_name || '',
+
         price: price || '',
         qty: qty || '',
         box: box || '',
-        stock_name: stock_name || 'Please Select a stock name',
+        stock_name: stock_name || '',
     })
     const clear = () => {
         setState({
             id: '',
-            description: '',
-            fname: 'Please Select a vendor name',
+
+            vendor_name: '',
             price: 1,
             qty: 1,
             box: 1,
-            stock_name: 'Please Select a stock',
+            stock_name: '',
         })
     }
     const dispatch = useDispatch()
@@ -69,27 +67,10 @@ const AddStockInWereHouse = () => {
     const { stockData = [] } = useSelector((states) => states.stockList)
     const { vendorData = [] } = useSelector((states) => states.vendorList)
 
-    // useEffect(() => {
-    // }, [dispatch])
-
     useEffect(() => {
-        // const getVender = () => {
-
-        // }
-        // getVender()
         dispatch(getAllVendor())
         dispatch(getAllData())
     }, [])
-    // useEffect(() => {
-    //     // dispatch(stockDataList())
-    //     dispatch(getAllVendor())
-    // }, [])
-
-    console.log('werehouse', wereHouseStockData)
-
-    console.log('stock', stockData)
-
-    console.log('vendorv', vendorData)
 
     const handleInput = (e) => {
         const name = e.target.name
@@ -101,52 +82,40 @@ const AddStockInWereHouse = () => {
         })
     }
 
-    const handleInputOption = (e) => {
-        const ffname = []
-        Object.values(wereHouseStockData).filter(function (item) {
-            if (item._id == e.target.value) {
-                // ffname.push(item.fname)
-                setState({
-                    ...state,
-                    vendor_id: e.target.value,
-                    vendor_name: item.fname,
-                })
-            }
+    const handleInputOptionVendor = (e) => {
+        var value = e.target.value
+        setState({
+            ...state,
+            ['vendor_name']: value,
         })
-
-        // setState({
-        //     ...state,
-        //     vendor_id: e.target.value,
-        //     vendor_name: ffname[0],
-        // })
+    }
+    const handleInputOptionStock = (e) => {
+        var value = e.target.value
+        setState({
+            ...state,
+            ['stock_name']: value,
+        })
     }
     return (
         <Container>
+            {/* <Directionss
+                description={'Werehouse Stock Details'}
+                pathName={'/wereHouseStock'}
+                type={'Table'}
+            /> */}
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
                         {
-                            name: 'Add Stock in WereHouse',
-                            path: '/addStockInWereHouse',
+                            name: 'Werehouse Stock Details',
+                            path: '/wereHouseStock',
                         },
-                        { name: 'Form' },
+                        { name: 'Table' },
                     ]}
                 />
             </div>
-
             <SimpleCard title="Stocks List">
                 <Container>
-                    <div className="breadcrumb">
-                        <Breadcrumb
-                            routeSegments={[
-                                {
-                                    name: 'Werehouse Stock Details',
-                                    path: '/wereHouseStock',
-                                },
-                                { name: 'Table' },
-                            ]}
-                        />
-                    </div>
                     <SimpleCard>
                         <ValidatorForm
                             onSubmit={handleSubmit}
@@ -171,32 +140,31 @@ const AddStockInWereHouse = () => {
                                     )}
                                     {/* Select Vendor */}
                                     {/* <TextField> */}
-                                    <select onChange={handleInputOption}>
+                                    <select onClick={handleInputOptionVendor}>
                                         <option
-                                            value={state.fname}
+                                            name="vendor_name"
+                                            value={state.vendor_name}
                                             defaultValue
                                         >
-                                            {state.fname}
+                                            {state.vendor_name}
                                         </option>
                                         {Object.values(vendorData).map(
                                             (data, key) => (
                                                 <option
                                                     key={key}
                                                     name="vendor_name"
-                                                    value={
-                                                        state.fname ||
-                                                        data.fname
-                                                    }
+                                                    value={data.vendor_name}
                                                 >
-                                                    {state.fname || data.fname}
+                                                    {data.vendor_name}
                                                 </option>
                                             )
                                         )}
                                     </select>
                                     {/* select stocks */}
-                                    <select onChange={handleInputOption}>
+                                    <select onClick={handleInputOptionStock}>
                                         <option
                                             value={state.stock_name}
+                                            name="stock_name"
                                             defaultValue
                                         >
                                             {state.stock_name}
@@ -213,41 +181,7 @@ const AddStockInWereHouse = () => {
                                             )
                                         )}
                                     </select>
-                                    {/* </TextField> */}
-                                    {/* <TextField
-                            type="text"
-                            name="vendor_name"
-                            id="standard-basic"
-                            onChange={handleInput}
-                            value={state.vendor_name}
-                            validators={['required']}
-                            label="Vendor Name"
-                            errorMessages={['this field is required']}
-                        /> */}
-                                    <TextField
-                                        type="text"
-                                        name="stock_name"
-                                        id="standard-basic"
-                                        onChange={handleInput}
-                                        value={state.stock_name}
-                                        validators={['required']}
-                                        label="Stock Name"
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
-                                    <TextField
-                                        type="text"
-                                        name="description"
-                                        id="standard-basic"
-                                        onChange={handleInput}
-                                        value={state.description}
-                                        validators={['required']}
-                                        label="Description"
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
+
                                     <TextField
                                         type="number"
                                         name="price"

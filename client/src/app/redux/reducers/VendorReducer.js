@@ -22,7 +22,7 @@ const initialState = {
     alertType: '',
     alertText: '',
     isEditing: false,
-    fname: '',
+    vendor_name: '',
     address: '',
     contect: '',
     email: '',
@@ -100,8 +100,15 @@ const VendorReducer = function (state = initialState, action) {
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const { _id, address, pincode, contect, email, fname, password } =
-                subscriber
+            const {
+                _id,
+                address,
+                pincode,
+                contect,
+                email,
+                vendor_name,
+                password,
+            } = subscriber
             return {
                 ...state,
                 isEditing: true,
@@ -110,7 +117,7 @@ const VendorReducer = function (state = initialState, action) {
                 pincode,
                 contect,
                 email,
-                fname,
+                vendor_name,
                 password,
             }
         }
@@ -127,7 +134,7 @@ const VendorReducer = function (state = initialState, action) {
         }
         case CLEAR_VALUES: {
             const initialState = {
-                fname: '',
+                vendor_name: '',
                 address: '',
                 contect: '',
                 password: '',

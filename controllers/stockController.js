@@ -13,7 +13,7 @@ const addStock = async (req, res) => {
   }
 
   const stockAlreadyExists = await stocks.findOne({ stock_name });
-  console.log(stockAlreadyExists);
+  // console.log(stockAlreadyExists);
   if (stockAlreadyExists) {
     throw new BadRequestError("Stock already in Database");
   }

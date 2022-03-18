@@ -22,12 +22,10 @@ const initialState = {
     alertType: '',
     alertText: '',
     isEditing: false,
-    description: '',
     vendor_name: '',
-    vendor_id: '',
-    price: 0,
-    qty: 0,
-    box: 0,
+    price: 1,
+    qty: 1,
+    box: 1,
     stock_name: '',
 }
 
@@ -102,24 +100,13 @@ const WareHouseReducer = function (state = initialState, action) {
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const {
-                _id,
-                description,
-                vendor_name,
-                vendor_id,
-                price,
-                qty,
-                box,
-                stock_name,
-            } = subscriber
+            const { _id, vendor_name, price, qty, box, stock_name } = subscriber
 
             return {
                 ...state,
                 isEditing: true,
                 _id,
-                description,
                 vendor_name,
-                vendor_id,
                 price,
                 qty,
                 box,
@@ -139,7 +126,7 @@ const WareHouseReducer = function (state = initialState, action) {
         }
         // case CLEAR_VALUES: {
         //     const initialState = {
-        //         fname: '',
+        //         vendor_name: '',
         //         address: '',
         //         contect: '',
         //         password: '',

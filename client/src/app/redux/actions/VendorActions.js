@@ -66,13 +66,13 @@ const getAllVendor = (state) => async (dispatch) => {
 
 const add = (state) => async (dispatch) => {
     try {
-        const { address, pincode, contect, email, fname } = state
+        const { address, pincode, contect, email, vendor_name } = state
         await authFetch.post('/vendors', {
             address,
             pincode,
             contect,
             email,
-            fname,
+            vendor_name,
         })
         dispatch({ type: CREATE_SUCCESS })
         dispatch(clearValues())
@@ -98,13 +98,13 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const { address, pincode, contect, email, fname, id } = state
+        const { address, pincode, contect, email, vendor_name, id } = state
         await authFetch.patch(`/vendors/${id}`, {
             address,
             pincode,
             contect,
             email,
-            fname,
+            vendor_name,
         })
         dispatch({ type: EDIT_SUCCESS })
         dispatch(clearValues())
