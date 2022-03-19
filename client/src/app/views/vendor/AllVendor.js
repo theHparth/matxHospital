@@ -9,7 +9,7 @@ import {
     Icon,
     TablePagination,
 } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -23,9 +23,14 @@ import {
     Container,
     StyledTable,
 } from '../../components/MyComponents/table/index'
+import Modal from 'app/components/Modal/Modal'
+import Invoice from 'app/components/Invoice/Invoice'
+import VendorInfo from 'app/components/Invoice/VendorInfo'
+
 
 const AllVendor = () => {
-    const { vendorData = [] } = useSelector((state) => state.vendorList)
+    const [search, setSearch] = useState("")
+    const  vendorData = useSelector((state) => state.vendorList).vendorData.filter((vendor) => vendor.vendor_name.toLowerCase().includes(search.toLowerCase()) || vendor.email.toLowerCase().includes(search.toLowerCase()))
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -38,6 +43,7 @@ const AllVendor = () => {
     // var vendorDatass = vendorData || []
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
+    const [showModal, setShowModal] = useState(false)
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -46,6 +52,19 @@ const AllVendor = () => {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value)
         setPage(0)
+    }
+
+    const changeModal = (subscriber) => {
+        setShowModal(!showModal);
+        return (
+            showModal ? 
+                <Modal>
+                    <div>
+                    <VendorInfo changeModal={changeModal} data={subscriber} />
+                    </div>
+                
+            </Modal> : null
+        )
     }
     return (
         <Container>
@@ -59,17 +78,20 @@ const AllVendor = () => {
             </div>
 
             <SimpleCard title="Vendor List">
+                <input type="text" placeholder='Vendor Name' value={search} onChange={(e) => setSearch(e.target.value)} />
                 <Box width="100%" overflow="auto">
                     <StyledTable>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
-                                <TableCell>Contect</TableCell>
+                                {/* <TableCell>Contect</TableCell> */}
                                 <TableCell>Email</TableCell>
-                                <TableCell>Address</TableCell>
-                                <TableCell align="center">Pincode</TableCell>
+                                {/* <TableCell>Address</TableCell> */}
+                                {/* <TableCell align="center">Pincode</TableCell> */}
                                 <TableCell align="center">Edit</TableCell>
                                 <TableCell>Delete</TableCell>
+                                <TableCell>Print</TableCell>
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -83,18 +105,18 @@ const AllVendor = () => {
                                         <TableCell>
                                             {subscriber.vendor_name}
                                         </TableCell>
-                                        <TableCell>
+                                        {/* <TableCell>
                                             {subscriber.contect}
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell>
                                             {subscriber.email}
                                         </TableCell>
-                                        <TableCell>
+                                        {/* <TableCell>
                                             {subscriber.address}
-                                        </TableCell>
-                                        <TableCell align="center">
+                                        </TableCell> */}
+                                        {/* <TableCell align="center">
                                             {subscriber.pincode}
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align="center">
                                             <Link
                                                 to={`/addVendor`}
@@ -129,9 +151,18 @@ const AllVendor = () => {
                                                 <Icon color="error">close</Icon>
                                             </IconButton>
                                         </TableCell>
+                                        <TableCell>
+                                            <IconButton onClick={() => {changeModal(subscriber)}}> 
+                                            <Icon color="primary">print</Icon>
+                                            </IconButton>
+                                        </TableCell>
+
+                                       
+
                                     </TableRow>
                                 ))}
                         </TableBody>
+                       
                     </StyledTable>
 
                     <TablePagination
@@ -151,7 +182,10 @@ const AllVendor = () => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Box>
+                
+                
             </SimpleCard>
+           
         </Container>
     )
 }

@@ -10,7 +10,7 @@ authFetch.interceptors.request.use(
             localStorage.getItem('token')
         )}`
         var aaa = localStorage.getItem('token')
-        log(aaa)
+        console.log(aaa);
         return config
     },
     (error) => {

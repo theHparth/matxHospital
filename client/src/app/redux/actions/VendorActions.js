@@ -49,6 +49,7 @@ const getAllVendor = (state) => async (dispatch) => {
     // dispatch({ type: GET_BEGIN })
     // const { logout } = useAuth()
     try {
+        // console.log("state", state);
         const { data } = await authFetch.get('/vendors')
         const { vendorList } = data
         console.log('vendor list', vendorList)
