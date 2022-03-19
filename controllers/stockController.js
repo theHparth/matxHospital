@@ -5,15 +5,31 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
 
-const updateStockQty =
-  (stock_name, box, qty, price, stockTotoalPrice) => async (req, res) => {
-    // result.stock_name = { $regex: stock_name, $options: "i" };
-    // const stockAlreadyExists = await stocks.findOneAndUpdate({
-    //   stock_name: stock_name,
-    // });
-  };
-
-const addStock = () => async (req, res) => {
+const updateStockQty = async (
+  stock_name,
+  box,
+  qty,
+  price,
+  stockTotoalPrice
+) => {
+  await stocks.findOneAndUpdate(
+    { stock_name: stock_name },
+    { totalIndovisualPrice: price }
+  );
+};
+const removeStockQty = async (
+  stock_name,
+  box,
+  qty,
+  price,
+  stockTotoalPrice
+) => {
+  await stocks.findOneAndUpdate(
+    { stock_name: stock_name },
+    { totalIndovisualPrice: price }
+  );
+};
+const addStock = async (req, res) => {
   var { description, stock_name } = req.body;
   // here you can remove vendor_id
   if (!description || !stock_name) {
@@ -127,5 +143,11 @@ const deleteStock = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ msg: "Success! Stock removed" });
 };
-
-export { addStock, deleteStock, getAllStock, updateStock, updateStockQty };
+export {
+  addStock,
+  deleteStock,
+  getAllStock,
+  updateStock,
+  updateStockQty,
+  removeStockQty,
+};

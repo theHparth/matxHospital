@@ -21,6 +21,7 @@ import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
+import { Link } from 'react-router-dom'
 
 import { Directionss } from '../../components/MyComponents/Directionss'
 const AddStockInWereHouse = () => {
@@ -195,6 +196,9 @@ const AddStockInWereHouse = () => {
                                                 </option>
                                             )
                                         )}
+                                        {/* <option onClick={push('/search')}>
+                                            aaa
+                                        </option> */}
                                     </select>
                                     <TextField
                                         label="Total Box."

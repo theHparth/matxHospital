@@ -19,12 +19,14 @@ import connectDB from "./db/connect.js";
 
 // routers
 import authRouter from "./routes/authRoutes.js";
+import authRouterHospital from "./routes/user/authRoutesHospital.js";
 import jobsRouter from "./routes/jobsRoutes.js";
 import hospitalRouter from "./routes/hospitalRoutes.js";
+// import hospitalRouterUser from "./routes/hospitalRoutesUser.js";
 import vendorRouter from "./routes/vendorRoutes.js";
 import stockRouter from "./routes/stockRoutes.js";
 import wereHouseRouter from "./routes/wereHouseRouter.js";
-import stockQtyRouter from "./routes/stockQty.js";
+import stockOut from "./routes/user/userStock.js";
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -49,12 +51,14 @@ app.use(mongoSanitize());
 app.use(cors());
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/authHospital", authRouterHospital);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
+// app.use("/api/v1/hospitals/user", authenticateUser, hospitalRouterUser);
 app.use("/api/v1/hospitals", authenticateUser, hospitalRouter);
 app.use("/api/v1/vendors", authenticateUser, vendorRouter);
 app.use("/api/v1/stocks", authenticateUser, stockRouter);
 app.use("/api/v1/wereHouse", authenticateUser, wereHouseRouter);
-app.use("/api/v1/stockQty", authenticateUser, stockQtyRouter);
+app.use("/api/v1/stockOut", authenticateUser, stockOut);
 
 // only when ready to deploy
 // app.get('*', (req, res) => {

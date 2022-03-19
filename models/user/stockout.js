@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 // import vendorDetail from "../controllers/vendoresController.js";
 
-const newStockSchema = new mongoose.Schema(
+const stockOutSchema = new mongoose.Schema(
   {
     hospital_name: {
       type: String,
@@ -12,11 +12,6 @@ const newStockSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide stock name"],
       maxlength: 100,
-    },
-    description: {
-      type: String,
-      required: [true, "Please select vendor"],
-      maxlength: 500,
     },
     price: {
       type: Number,
@@ -41,8 +36,13 @@ const newStockSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    createdFor: {
+      type: mongoose.Types.ObjectId,
+      ref: "HospitaL",
+      required: [true, "Please provide user"],
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("WereHouseStocks", WereHouseSchema);
+export default mongoose.model("UserStock", stockOutSchema);

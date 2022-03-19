@@ -7,6 +7,7 @@ import { updateStockQty } from "./stockController.js";
 const addStockinWereHouse = async (req, res) => {
   const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
     req.body;
+  req.body;
 
   if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
@@ -14,7 +15,7 @@ const addStockinWereHouse = async (req, res) => {
 
   req.body.createdBy = req.user.userId;
 
-  // updateStockQty(stock_name, box, qty, price, stockTotoalPrice);
+  updateStockQty(stock_name, box, qty, price, stockTotoalPrice);
   // var a = await WereHouseStocks.aggregate({
   //   $group: {
   //     stock_name: stock_name,
@@ -23,10 +24,10 @@ const addStockinWereHouse = async (req, res) => {
   //     totalBox: { $sum: "$box" },
   //   },
   // });
-  var aa = WereHouseStocks.aggregate([
-    { $group: { stock_name: "$stock_name", TotalQty: { $sum: "$qty" } } },
-  ]);
-  console.log({ aa });
+  // var aa = WereHouseStocks.aggregate([
+  //   { $group: { stock_name: "$stock_name", TotalQty: { $sum: "$qty" } } },
+  // ]);
+  // console.log({ aa });
   const stock = await WereHouseStocks.create(req.body);
 
   res.status(StatusCodes.CREATED).json({ stock });

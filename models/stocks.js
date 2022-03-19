@@ -18,6 +18,22 @@ const StockSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    totalPrice: {
+      type: Number,
+      maxlength: 10000000,
+    },
+    totalIndovisualPrice: {
+      type: Number,
+      maxlength: 10000000,
+    },
+    TotalQtyInOneBox: {
+      type: Number,
+      maxlength: 10000000,
+    },
+    totalBox: {
+      type: Number,
+      maxlength: 10000000,
+    },
   },
   { timestamps: true }
 );
