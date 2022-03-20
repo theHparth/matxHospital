@@ -6,16 +6,19 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStockQty = async (stock_name, box, qty, price, stockTotoalPrice) => {
-  // await stocks.findOneAndUpdate(
-  //   { stock_name: stock_name },
-  //   { totalIndovisualPrice: price }
-  // );
-  await stocks.update(
+  await stocks.updateOne(
     { stock_name },
-    { $inc: { totalBox: box } },
-    { $inc: { totalIndovisualPrice: price } }
+    {
+      $inc: {
+        totalBox: box,
+        TotalQtyInOneBox: qty,
+        totalIndovisualPrice: price,
+        totalPrice: stockTotoalPrice,
+      },
+    }
   );
 };
+
 const removeStockQty = async (
   stock_name,
   box,
@@ -23,9 +26,12 @@ const removeStockQty = async (
   price,
   stockTotoalPrice
 ) => {
-  await stocks.findOneAndUpdate(
-    { stock_name: stock_name },
-    { totalIndovisualPrice: price }
+  await stocks.update(
+    { stock_name },
+    { $inc: { totalBox: -box } },
+    { $inc: { TotalQtyInOneBox: -qty } },
+    { $inc: { totalIndovisualPrice: -price } },
+    { $inc: { totalPrice: -stockTotoalPrice } }
   );
 };
 

@@ -4,6 +4,23 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty } from "./stockController.js";
 
+// const addStockinWereHouse = async (req, res) => {
+//   const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
+//     req.body;
+
+//   if (!vendor_name || !price || !qty || !box || !stock_name) {
+//     throw new BadRequestError("Please provide all values");
+//   }
+
+// addStockQty(stock_name, box, qty, price, stockTotoalPrice);
+//   console.log(req.body);
+
+//   req.body.createdBy = req.user.userId;
+//   const stock = await WereHouseStocks.create(req.body);
+//   // req.body.createdBy = req.user.userId;
+//   // req.body.createdFor = req.user.userId;
+//   res.status(StatusCodes.CREATED).json({ stock });
+// };
 const addStockinWereHouse = async (req, res) => {
   const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
     req.body;
@@ -11,10 +28,11 @@ const addStockinWereHouse = async (req, res) => {
   if (!vendor_name || !price || !qty || !box || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
+  addStockQty(stock_name, box, qty, price, stockTotoalPrice);
 
   req.body.createdBy = req.user.userId;
 
-  addStockQty(stock_name, box, qty, price, stockTotoalPrice);
+  // updateStockQty(stock_name, box, qty, price, stockTotoalPrice);
   // var a = await WereHouseStocks.aggregate({
   //   $group: {
   //     stock_name: stock_name,
@@ -23,7 +41,10 @@ const addStockinWereHouse = async (req, res) => {
   //     totalBox: { $sum: "$box" },
   //   },
   // });
-
+  var aa = WereHouseStocks.aggregate([
+    { $group: { stock_name: "$stock_name", TotalQty: { $sum: "$qty" } } },
+  ]);
+  console.log({ aa });
   const stock = await WereHouseStocks.create(req.body);
 
   res.status(StatusCodes.CREATED).json({ stock });

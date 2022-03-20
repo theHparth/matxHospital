@@ -36,11 +36,11 @@ const HospitalSchema = new mongoose.Schema(
       required: [true, "Please provide pincode"],
       maxlength: 5,
     },
-    // createdBy: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: "User",
-    //   required: [true, "Please provide user"],
-    // },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: [true, "Please provide user"],
+    },
   },
   { timestamps: true }
 );

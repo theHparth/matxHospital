@@ -23,13 +23,16 @@ const registerHospital = async (req, res) => {
     throw new BadRequestError("Please provide all values");
   }
 
-  const userAlreadyExists = await Hospital.findOne({ email, hospitalName });
+  const userAlreadyExists = await Hospital.findOne({
+    $or: [{ hospitalName }, { email }],
+  });
+  // const userAlreadyExists = await Hospital.findOne({ email, hospitalName });
   if (userAlreadyExists) {
     throw new BadRequestError("Email or Hospital name already exists");
   }
 
   req.body.createdBy = req.user.userId;
-
+  console.log(req.body);
   const hospital = await Hospital.create(req.body);
   res.status(StatusCodes.CREATED).json({ hospital });
 };
@@ -84,14 +87,14 @@ const updateHospital = async (req, res) => {
   if (!hospital) {
     throw new NotFoundError(`No job with id :${hospitalId}`);
   }
-  const userAlreadyExists = await Hospital.findOne({ email });
-  if (userAlreadyExists) {
-    throw new BadRequestError("Email is used");
-  }
-  const userAlreadyExistsUsername = await Hospital.findOne({ hospitalName });
-  if (userAlreadyExistsUsername) {
-    throw new BadRequestError("Username is already taken");
-  }
+  // const userAlreadyExists = await Hospital.findOne({ email });
+  // if (Object.keys(userAlreadyExists).length > 1) {
+  //   throw new BadRequestError("Email is used");
+  // }
+  // const userAlreadyExistsUsername = await Hospital.findOne({ hospitalName });
+  // if (userAlreadyExistsUsername) {
+  //   throw new BadRequestError("Username is already taken");
+  // }
   // check permissions
 
   checkPermissions(req.user, hospital.createdBy);
@@ -112,7 +115,7 @@ const deleteHospital = async (req, res) => {
   const { id: hospitalId } = req.params;
 
   const hospital = await Hospital.findOne({ _id: hospitalId });
-
+  console.log(hospital);
   if (!hospital) {
     throw new NotFoundError(`No job with id :${hospitalId}`);
   }
