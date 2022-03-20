@@ -7,7 +7,7 @@ import {
   deleteSendStockAdmin,
   updateSendStockAdmin,
   updateSendStockUser,
-} from "../../controllers/stockOutcontroller.js";
+} from "../controllers/stockOutcontroller.js";
 
 router.route("/").post(sendStockUser).get(getAllSendStockUser);
 router.route("/:id").delete(deleteSendStockAdmin).patch(updateSendStockAdmin);

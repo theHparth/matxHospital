@@ -53,9 +53,13 @@ HospitalSchema.pre("save", async function () {
 });
 
 HospitalSchema.methods.createJWT = function () {
-  return jwt.sign({ hospitalId: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_LIFETIME,
-  });
+  return jwt.sign(
+    { hospitalId: this._id, hospitalName: this.hospitalName },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_LIFETIME,
+    }
+  );
 };
 
 HospitalSchema.methods.comparePassword = async function (candidatePassword) {

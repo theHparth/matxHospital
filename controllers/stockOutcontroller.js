@@ -72,7 +72,7 @@ const updateSendStockAdmin = async (req, res) => {
   // console.log(req.user);
   // console.log();
   checkPermissions(req.user, stockOutData.createdBy);
-  // console.log(stockOutData);
+  req.body.createdFor = hospitalName;
   const updatedStockSend = await UserStock.findOneAndUpdate(
     { _id: stockOutId },
     req.body,
