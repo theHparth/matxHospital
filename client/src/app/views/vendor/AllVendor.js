@@ -27,10 +27,15 @@ import Modal from 'app/components/Modal/Modal'
 import Invoice from 'app/components/Invoice/Invoice'
 import VendorInfo from 'app/components/Invoice/VendorInfo'
 
-
 const AllVendor = () => {
-    const [search, setSearch] = useState("")
-    const  vendorData = useSelector((state) => state.vendorList).vendorData.filter((vendor) => vendor.vendor_name.toLowerCase().includes(search.toLowerCase()) || vendor.email.toLowerCase().includes(search.toLowerCase()))
+    const [search, setSearch] = useState('')
+    const vendorData = useSelector(
+        (state) => state.vendorList
+    ).vendorData.filter(
+        (vendor) =>
+            vendor.vendor_name.toLowerCase().includes(search.toLowerCase()) ||
+            vendor.email.toLowerCase().includes(search.toLowerCase())
+    )
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -44,6 +49,7 @@ const AllVendor = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
     const [showModal, setShowModal] = useState(false)
+    const [currentVendor, setCurrentVendor] = useState({})
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -55,16 +61,8 @@ const AllVendor = () => {
     }
 
     const changeModal = (subscriber) => {
-        setShowModal(!showModal);
-        return (
-            showModal ? 
-                <Modal>
-                    <div>
-                    <VendorInfo changeModal={changeModal} data={subscriber} />
-                    </div>
-                
-            </Modal> : null
-        )
+        setShowModal(!showModal)
+        setCurrentVendor(subscriber)
     }
     return (
         <Container>
@@ -78,7 +76,12 @@ const AllVendor = () => {
             </div>
 
             <SimpleCard title="Vendor List">
-                <input type="text" placeholder='Vendor Name' value={search} onChange={(e) => setSearch(e.target.value)} />
+                <input
+                    type="text"
+                    placeholder="Vendor Name"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
                 <Box width="100%" overflow="auto">
                     <StyledTable>
                         <TableHead>
@@ -91,7 +94,6 @@ const AllVendor = () => {
                                 <TableCell align="center">Edit</TableCell>
                                 <TableCell>Delete</TableCell>
                                 <TableCell>Print</TableCell>
-
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -152,17 +154,19 @@ const AllVendor = () => {
                                             </IconButton>
                                         </TableCell>
                                         <TableCell>
-                                            <IconButton onClick={() => {changeModal(subscriber)}}> 
-                                            <Icon color="primary">print</Icon>
+                                            <IconButton
+                                                onClick={() => {
+                                                    changeModal(subscriber)
+                                                }}
+                                            >
+                                                <Icon color="primary">
+                                                    print
+                                                </Icon>
                                             </IconButton>
                                         </TableCell>
-
-                                       
-
                                     </TableRow>
                                 ))}
                         </TableBody>
-                       
                     </StyledTable>
 
                     <TablePagination
@@ -182,10 +186,31 @@ const AllVendor = () => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Box>
-                
-                
+
+                {showModal ? (
+                    <Modal>
+                        {console.log('model open')}
+                        <div>
+                            <h1>Model Open</h1>
+                            <VendorInfo
+                                changeModal={changeModal}
+                                currentVendor={currentVendor}
+                            />
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    width: '200px',
+                                    justifyContent: 'space-between',
+                                    margin: 'auto',
+                                }}
+                            >
+                                <button onClick={changeModal}>Close</button>
+                                <button>Print</button>
+                            </div>
+                        </div>
+                    </Modal>
+                ) : null}
             </SimpleCard>
-           
         </Container>
     )
 }

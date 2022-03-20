@@ -54,7 +54,7 @@ const AddHospital = () => {
             clear()
         } else {
             dispatch(addHospital(state))
-            clear()
+            //clear()
         }
     }
 

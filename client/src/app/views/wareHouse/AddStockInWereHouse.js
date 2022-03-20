@@ -21,6 +21,12 @@ import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
+import RadioGroup from '@mui/material/RadioGroup'
+
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+// import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select'
 
 import { Directionss } from '../../components/MyComponents/Directionss'
 const AddStockInWereHouse = () => {
@@ -40,7 +46,7 @@ const AddStockInWereHouse = () => {
 
     const [state, setState] = useState({
         id: _id,
-
+        priceType: 'individualPrice',
         vendor_name: vendor_name || '',
         stockTotoalPrice: stockTotoalPrice || '',
         price: price || '',
@@ -48,6 +54,7 @@ const AddStockInWereHouse = () => {
         box: box || '',
         stock_name: stock_name || '',
     })
+    console.log(state)
     const clear = () => {
         setState({
             id: '',
@@ -82,22 +89,36 @@ const AddStockInWereHouse = () => {
         dispatch(getAllData())
     }, [])
 
-    const handleInput = (e) => {
+    // const handleInput = (e) => {
+    //     const name = e.target.name
+    //     const value = e.target.value
+
+    //     setState({
+    //         ...state,
+    //         [name]: value,
+    //     })
+    // }
+
+    // const handleInputOptionVendor = (e) => {
+    //     var value = e.target.value
+    //     setState({
+    //         ...state,
+    //         ['vendor_name']: value,
+    //     })
+    // }
+
+    const handleChange = (e) => {
         const name = e.target.name
         const value = e.target.value
-
         setState({
             ...state,
             [name]: value,
+            price: name === "price" ? value : "",
+            stockTotoalPrice: name === "stockTotoalPrice" ? value : ""
+            
         })
-    }
 
-    const handleInputOptionVendor = (e) => {
-        var value = e.target.value
-        setState({
-            ...state,
-            ['vendor_name']: value,
-        })
+        console.log(state)
     }
     const handleInputOptionStock = (e) => {
         var value = e.target.value
@@ -108,9 +129,9 @@ const AddStockInWereHouse = () => {
     }
 
     const [value, setValue] = React.useState({})
-    function handleChange(event) {
-        setValue(event.target.value)
-    }
+    // function handleChange(event) {
+    //     setValue(event.target.value)
+    // }
     return (
         <Container>
             {/* <Directionss
@@ -118,7 +139,7 @@ const AddStockInWereHouse = () => {
                 pathName={'/wereHouseStock'}
                 type={'Table'}
             /> */}
-            <div className="breadcrumb">
+            <div>
                 <Breadcrumb
                     routeSegments={[
                         {
@@ -143,7 +164,7 @@ const AddStockInWereHouse = () => {
                                     md={6}
                                     sm={12}
                                     xs={12}
-                                    sx={{ mt: 2 }}
+                                    sx={{ mt: 0 }}
                                 >
                                     <h3>{_id ? 'Edit Stock' : 'Add Stock'}</h3>
                                     {showAlert && (
@@ -155,7 +176,7 @@ const AddStockInWereHouse = () => {
                                     )}
                                     {/* Select Vendor */}
                                     {/* <TextField> */}
-                                    <select onClick={handleInputOptionVendor}>
+                                    {/* <select onClick={handleInputOptionVendor}>
                                         <option
                                             name="vendor_name"
                                             value={state.vendor_name}
@@ -174,9 +195,83 @@ const AddStockInWereHouse = () => {
                                                 </option>
                                             )
                                         )}
-                                    </select>
+                                    </select> */}
+
+                                    <FormControl
+                                        variant="standard"
+                                        sx={{
+                                            mx: 3,
+                                            my: 2,
+                                            minWidth: 120,
+                                            width: 200,
+                                            height: 50,
+                                        }}
+                                    >
+                                        <InputLabel id="demo-simple-select-standard-label">
+                                            Vendor Name
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={state.vendor_name}
+                                            onChange={handleChange}
+                                            label="Age"
+                                            name="vendor_name"
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            {Object.values(vendorData).map(
+                                                (vender) => (
+                                                    <MenuItem
+                                                        value={
+                                                            vender.vendor_name
+                                                        }
+                                                    >
+                                                        {vender.vendor_name}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </Select>
+                                    </FormControl>
+
+                                    <FormControl
+                                        variant="standard"
+                                        sx={{
+                                            mx: 3,
+                                            my: 2,
+                                            minWidth: 120,
+                                            width: 200,
+                                            height: 50,
+                                        }}
+                                    >
+                                        <InputLabel id="demo-simple-select-standard-label">
+                                            Stock Name
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={state.stock_name}
+                                            onChange={handleChange}
+                                            label="Age"
+                                            name="stock_name"
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            {Object.values(stockData).map(
+                                                (stock) => (
+                                                    <MenuItem
+                                                        value={stock.stock_name}
+                                                    >
+                                                        {stock.stock_name}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </Select>
+                                    </FormControl>
                                     {/* select stocks */}
-                                    <select onClick={handleInputOptionStock}>
+                                    {/* <select onClick={handleInputOptionStock}>
                                         <option
                                             value={state.stock_name}
                                             name="stock_name"
@@ -195,10 +290,10 @@ const AddStockInWereHouse = () => {
                                                 </option>
                                             )
                                         )}
-                                    </select>
+                                    </select> */}
                                     <TextField
                                         label="Total Box."
-                                        onChange={handleInput}
+                                        onChange={handleChange}
                                         type="number"
                                         name="box"
                                         value={state.box}
@@ -209,7 +304,7 @@ const AddStockInWereHouse = () => {
                                     />
                                     <TextField
                                         label="Qty in one Box"
-                                        onChange={handleInput}
+                                        onChange={handleChange}
                                         type="number"
                                         name="qty"
                                         value={state.qty}
@@ -218,17 +313,17 @@ const AddStockInWereHouse = () => {
                                             'this field is required',
                                         ]}
                                     />
-                                    <h1>
+                                    {/* <h1>
                                         arranging and change state is not
                                         completed call me for this
-                                    </h1>
-                                    <RadioRoot>
+                                    </h1> */}
+                                    {/* <RadioRoot>
                                         <FormControl
                                             component="fieldset"
                                             className="formControl"
                                         >
                                             <FormLabel component="legend">
-                                                Selece Price Type
+                                                Select Price Type
                                             </FormLabel>
                                             <FormControlLabel
                                                 name="price"
@@ -236,26 +331,66 @@ const AddStockInWereHouse = () => {
                                                 label="Price of indivisulal Item"
                                             />
                                             <FormControlLabel
-                                                name="stockTotoalPrice"
+                                                name="price"
                                                 control={<Radio />}
                                                 label="Total price"
                                             />
                                         </FormControl>
-                                    </RadioRoot>
-                                    <TextField
-                                        label="Add price here"
-                                        onChange={handleInput}
-                                        type="number"
-                                        name="box"
-                                        value={
-                                            state.price ||
-                                            state.stockTotoalPrice
-                                        }
-                                        validators={['required', 'minNumber:1']}
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
+                                    </RadioRoot> */}
+
+                                    <FormControl>
+                                        <FormLabel id="demo-radio-buttons-group-label">
+                                            Select Price Type
+                                        </FormLabel>
+                                        <RadioGroup
+                                            aria-labelledby="demo-radio-buttons-group-label"
+                                            defaultValue={'individualPrice'}
+                                            name="priceType"
+                                            onChange={handleChange}
+                                        >
+                                            <FormControlLabel
+                                                value="individualPrice"
+                                                control={<Radio />}
+                                                label="Individual Price"
+                                            />
+                                            <FormControlLabel
+                                                value="totalPrice"
+                                                control={<Radio />}
+                                                label="Total Price"
+                                            />
+                                        </RadioGroup>
+                                    </FormControl>
+                                    {state.priceType === 'individualPrice' ? (
+                                        <TextField
+                                            label="Add price here"
+                                            onChange={handleChange}
+                                            type="number"
+                                            name="price"
+                                            value={state.price}
+                                            validators={[
+                                                'required',
+                                                'minNumber:1',
+                                            ]}
+                                            errorMessages={[
+                                                'this field is required',
+                                            ]}
+                                        />
+                                    ) : (
+                                        <TextField
+                                            label="Add price here"
+                                            onChange={handleChange}
+                                            type="number"
+                                            name='stockTotoalPrice'
+                                            value={state.stockTotoalPrice}
+                                            validators={[
+                                                'required',
+                                                'minNumber:1',
+                                            ]}
+                                            errorMessages={[
+                                                'this field is required',
+                                            ]}
+                                        />
+                                    )}
                                 </Grid>
                             </Grid>
                             <Button
