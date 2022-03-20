@@ -2,25 +2,8 @@ import WereHouseStocks from "../models/Warehouse.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-import { addStockQty } from "./stockController.js";
+import { addStockQty, removeStockQty } from "../controllers/stockController.js";
 
-// const addStockinWereHouse = async (req, res) => {
-//   const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
-//     req.body;
-
-//   if (!vendor_name || !price || !qty || !box || !stock_name) {
-//     throw new BadRequestError("Please provide all values");
-//   }
-
-// addStockQty(stock_name, box, qty, price, stockTotoalPrice);
-//   console.log(req.body);
-
-//   req.body.createdBy = req.user.userId;
-//   const stock = await WereHouseStocks.create(req.body);
-//   // req.body.createdBy = req.user.userId;
-//   // req.body.createdFor = req.user.userId;
-//   res.status(StatusCodes.CREATED).json({ stock });
-// };
 const addStockinWereHouse = async (req, res) => {
   const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
     req.body;
@@ -32,19 +15,6 @@ const addStockinWereHouse = async (req, res) => {
 
   req.body.createdBy = req.user.userId;
 
-  // updateStockQty(stock_name, box, qty, price, stockTotoalPrice);
-  // var a = await WereHouseStocks.aggregate({
-  //   $group: {
-  //     stock_name: stock_name,
-  //     totalQty: { $sum: "$qty" },
-  //     totalPrice: { $sum: "$price" },
-  //     totalBox: { $sum: "$box" },
-  //   },
-  // });
-  var aa = WereHouseStocks.aggregate([
-    { $group: { stock_name: "$stock_name", TotalQty: { $sum: "$qty" } } },
-  ]);
-  console.log({ aa });
   const stock = await WereHouseStocks.create(req.body);
 
   res.status(StatusCodes.CREATED).json({ stock });
@@ -106,7 +76,7 @@ const updateStockfromWereHouse = async (req, res) => {
   const stock = await WereHouseStocks.findOne({ _id: stockId });
 
   if (!stock) {
-    throw new NotFoundError(`No job with id :${stockId}`);
+    throw new NotFoundError(`No stock data in werehouse with id :${stockId}`);
   }
   // check permissions
 
@@ -126,18 +96,27 @@ const updateStockfromWereHouse = async (req, res) => {
 
 const deleteStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
-
   const stock = await WereHouseStocks.findOne({ _id: stockId });
+  // console.log(stock);
 
   if (!stock) {
-    throw new NotFoundError(`No job with id :${stockId}`);
+    throw new NotFoundError(`No stock data in werehouse with id :${stockId}`);
   }
 
   checkPermissions(req.user, stock.createdBy);
+  removeStockQty(
+    stock.stock_name,
+    stock.box,
+    stock.qty,
+    stock.price,
+    stock.stockTotoalPrice
+  );
 
   await stock.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Stock removed" });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Success! Stock data from werehouse is removed" });
 };
 
 export {

@@ -18,7 +18,6 @@ const addStockQty = async (stock_name, box, qty, price, stockTotoalPrice) => {
     }
   );
 };
-
 const removeStockQty = async (
   stock_name,
   box,
@@ -26,29 +25,33 @@ const removeStockQty = async (
   price,
   stockTotoalPrice
 ) => {
-  await stocks.update(
+  await stocks.updateOne(
     { stock_name },
-    { $inc: { totalBox: -box } },
-    { $inc: { TotalQtyInOneBox: -qty } },
-    { $inc: { totalIndovisualPrice: -price } },
-    { $inc: { totalPrice: -stockTotoalPrice } }
+    {
+      $inc: {
+        totalBox: -box,
+        TotalQtyInOneBox: -qty,
+        totalIndovisualPrice: -price,
+        totalPrice: -stockTotoalPrice,
+      },
+    }
   );
 };
 
 const addStock = async (req, res) => {
-  var { description, stock_name } = req.body;
+  var { description, stock_name, minimumLimit } = req.body;
   // here you can remove vendor_id
-  if (!description || !stock_name) {
+  if (!description || !stock_name || !minimumLimit) {
     throw new BadRequestError("Please provide all values");
   }
-  // function capitalizeFirstLetter(string) {
-  //   return string.charAt(0).toUpperCase() + string.slice(1);
-  // }
-  // stock_names = capitalizeFirstLetter(stock_name);
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  stock_name = capitalizeFirstLetter(stock_name);
   var result = {};
   result.stock_name = { $regex: stock_name, $options: "i" };
   const stockAlreadyExists = await stocks.findOne(result);
-  // console.log(stockAlreadyExists);
+
   if (stockAlreadyExists) {
     throw new BadRequestError("Stock already in Database");
   }
@@ -107,16 +110,16 @@ const getAllStock = async (req, res) => {
 const updateStock = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { description, stock_name } = req.body;
+  const { description, stock_name, minimumLimit } = req.body;
 
-  if (!description || !stock_name) {
+  if (!description || !stock_name || !minimumLimit) {
     throw new BadRequestError("Please provide all values");
   }
 
   const stock = await stocks.findOne({ _id: stockId });
 
   if (!stock) {
-    throw new NotFoundError(`No job with id :${stockId}`);
+    throw new NotFoundError(`No stock data with id :${stockId}`);
   }
   // check permissions
 
@@ -147,7 +150,7 @@ const deleteStock = async (req, res) => {
 
   await stock.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Stock removed" });
+  res.status(StatusCodes.OK).json({ msg: "Success! stock data removed" });
 };
 
 export {

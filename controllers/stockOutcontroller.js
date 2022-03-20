@@ -1,7 +1,7 @@
-import UserStock from "../../models/User/stockOut.js";
+import UserStock from "../models/User/stockOut.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../../errors/index.js";
-import checkPermissions from "../../utils/checkPermissions.js";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
+import checkPermissions from "../utils/checkPermissions.js";
 
 const sendStockUser = async (req, res) => {
   var { hospitalName, stock_name, qty, box, status } = req.body;

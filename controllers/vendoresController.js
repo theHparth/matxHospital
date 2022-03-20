@@ -92,14 +92,14 @@ const updateVendor = async (req, res) => {
   if (!vendor_name || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
-  const userAlreadyExists = await vendors.findOne({ vendor_name });
-  if (userAlreadyExists) {
-    throw new BadRequestError("Vendor name should be unique");
-  }
+  // const userAlreadyExists = await vendors.findOne({ vendor_name });
+  // if (userAlreadyExists) {
+  //   throw new BadRequestError("Vendor name should be unique");
+  // }
   const vendor = await vendors.findOne({ _id: VendorId });
 
   if (!vendor) {
-    throw new NotFoundError(`No job with id :${VendorId}`);
+    throw new NotFoundError(`No vendor data with id :${VendorId}`);
   }
   // check permissions
 
@@ -123,14 +123,14 @@ const deleteVendor = async (req, res) => {
   const vendor = await vendors.findOne({ _id: vendorId });
 
   if (!vendor) {
-    throw new NotFoundError(`No job with id :${vendorId}`);
+    throw new NotFoundError(`No vendor data with id :${vendorId}`);
   }
 
   checkPermissions(req.user, vendor.createdBy);
 
   await vendor.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
+  res.status(StatusCodes.OK).json({ msg: "Success! vendor data removed" });
 };
 
 export { addVendor, deleteVendor, getAllVendor, updateVendor, onlyVendorsName };

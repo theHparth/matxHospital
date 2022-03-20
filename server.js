@@ -25,7 +25,7 @@ import hospitalRouter from "./routes/hospitalRoutes.js";
 import vendorRouter from "./routes/vendorRoutes.js";
 import stockRouter from "./routes/stockRoutes.js";
 import wereHouseRouter from "./routes/wereHouseRouter.js";
-import stockOut from "./routes/user/userStock.js";
+import stockOutRouter from "./routes/user/userStockRouter.js";
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -56,7 +56,7 @@ app.use("/api/v1/hospitals", authenticateUser, hospitalRouter);
 app.use("/api/v1/vendors", authenticateUser, vendorRouter);
 app.use("/api/v1/stocks", authenticateUser, stockRouter);
 app.use("/api/v1/wereHouse", authenticateUser, wereHouseRouter);
-app.use("/api/v1/stockOut", authenticateUser, stockOut);
+app.use("/api/v1/stockOut", authenticateUser, stockOutRouter);
 
 // only when ready to deploy
 // app.get('*', (req, res) => {

@@ -85,7 +85,7 @@ const updateHospital = async (req, res) => {
   const hospital = await Hospital.findOne({ _id: hospitalId });
 
   if (!hospital) {
-    throw new NotFoundError(`No job with id :${hospitalId}`);
+    throw new NotFoundError(`No Hospital with id :${hospitalId}`);
   }
   // const userAlreadyExists = await Hospital.findOne({ email });
   // if (Object.keys(userAlreadyExists).length > 1) {
@@ -124,7 +124,7 @@ const deleteHospital = async (req, res) => {
 
   await hospital.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
+  res.status(StatusCodes.OK).json({ msg: "Success! Hospital data removed" });
 };
 
 export { registerHospital, deleteHospital, getAllHospital, updateHospital };

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const stockOutSchema = new mongoose.Schema(
   {
-    hospital_name: {
+    hospitalName: {
       type: String,
       required: [true, "Please provide stock name"],
       maxlength: 100,
@@ -30,6 +30,7 @@ const stockOutSchema = new mongoose.Schema(
     status: {
       type: Boolean,
       default: false,
+      required: [true, "please add status its for programmer error"],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -37,7 +38,7 @@ const stockOutSchema = new mongoose.Schema(
       required: [true, "Please provide user"],
     },
     createdFor: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       ref: "HospitaL",
       required: [true, "Please provide user"],
     },

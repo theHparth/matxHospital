@@ -13,6 +13,10 @@ const StockSchema = new mongoose.Schema(
       required: [true, "Please provide Description"],
       maxlength: 100,
     },
+    minimumLimit: {
+      type: Number,
+      required: [true, "Please provide minimum limit"],
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
