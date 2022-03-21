@@ -36,4 +36,4 @@ const StockHospitalSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("StocksHosital", StockHospitalSchema);
+export default mongoose.model("StocksHospital", StockHospitalSchema);

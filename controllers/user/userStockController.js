@@ -7,15 +7,15 @@ import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.
 const addStockQty = async (
   hospitalName,
   stock_name,
-  price,
   totalQtyInOneBox,
-  totalBox
+  totalBox,
+  price
 ) => {
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
     {
       $inc: {
-        price: -price,
+        // price: -price,
         totalQtyInOneBox: -totalQtyInOneBox,
         totalBox: -totalBox,
       },
@@ -25,15 +25,15 @@ const addStockQty = async (
 const removeStockQty = async (
   hospitalName,
   stock_name,
-  price,
   totalQtyInOneBox,
-  totalBox
+  totalBox,
+  price
 ) => {
   await stocks.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
     {
       $inc: {
-        price: -price,
+        // price: -price,
         totalQtyInOneBox: -totalQtyInOneBox,
         totalBox: -totalBox,
       },
@@ -41,12 +41,12 @@ const removeStockQty = async (
   );
 };
 
-const statucController = async (req, res) => {
+const statusController = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const { status } = req.body;
   const stockOutData = await UserStock.findOne({ _id: stockOutId });
-  console.log(stockOutData);
+
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
@@ -70,12 +70,35 @@ const statucController = async (req, res) => {
   addStockQty(
     stockOutData.hospitalName,
     stockOutData.stock_name,
-    stockOutData.price,
     stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox
+    stockOutData.totalBox,
+    stockOutData.price
   );
 
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
+};
+
+const statusFalse = async (req, res) => {
+  const queryObject = {
+    createdFor: req.hospital.hospitalName,
+    status: false,
+  };
+  let result = UserStock.find(queryObject);
+  const hospitalStock = await result;
+  const totalStock = await UserStock.countDocuments(queryObject);
+
+  res.status(StatusCodes.OK).json({ hospitalStock, totalStock });
+};
+const statusTrue = async (req, res) => {
+  const queryObject = {
+    createdFor: req.hospital.hospitalName,
+    status: True,
+  };
+  let result = UserStock.find(queryObject);
+  const hospitalStock = await result;
+  const totalStock = await UserStock.countDocuments(queryObject);
+
+  res.status(StatusCodes.OK).json({ hospitalStock, totalStock });
 };
 
 const sendStockUser = async (req, res) => {
@@ -94,102 +117,10 @@ const sendStockUser = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
-const getAllSendStockUser = async (req, res) => {
-  const { status, sort, search } = req.query;
-  const queryObject = {
-    createdBy: req.user.userId,
-  };
-
-  if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
-  }
-  // NO AWAIT
-
-  let result = UserStock.find(queryObject);
-
-  // chain sort conditions
-
-  if (sort === "latest") {
-    result = result.sort("-createdAt");
-  }
-  if (sort === "oldest") {
-    result = result.sort("createdAt");
-  }
-  if (sort === "a-z") {
-    result = result.sort("position");
-  }
-  if (sort === "z-a") {
-    result = result.sort("-position");
-  }
-
-  const hospitals = await result;
-
-  const totalHospitals = await UserStock.countDocuments(queryObject);
-  // const numOfPages = Math.ceil(totalHospitals / limit);
-  // numOfPages;
-  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
+export {
+  statusController,
+  addStockQty,
+  removeStockQty,
+  statusFalse,
+  statusTrue,
 };
-
-const updateSendStockAdmin = async (req, res) => {
-  const { id: stockOutId } = req.params;
-
-  const { hospitalName, stock_name, qty, box, status } = req.body;
-
-  if (!hospitalName || !stock_name || !qty || !box) {
-    throw new BadRequestError("Please provide all values");
-  }
-
-  const stockOutData = await UserStock.findOne({ _id: stockOutId });
-
-  if (!stockOutData) {
-    throw new NotFoundError(`No stock data with id :${stockOutId}`);
-  }
-  // console.log(req.user);
-  // console.log();
-  checkPermissions(req.user, stockOutData.createdBy);
-  // console.log(stockOutData);
-  const updatedStockSend = await UserStock.findOneAndUpdate(
-    { _id: stockOutId },
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-
-  res.status(StatusCodes.OK).json({ updatedStockSend });
-};
-
-const deleteSendStockAdmin = async (req, res) => {
-  const { id: stockOutId } = req.params;
-
-  const stockout = await UserStock.findOne({ _id: stockOutId });
-
-  if (!stockout) {
-    throw new NotFoundError(`No job with id :${stockOutId}`);
-  }
-  console.log(req.user);
-  checkPermissions(req.user, stockout.createdBy);
-
-  await stockout.remove();
-
-  res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
-};
-
-const updateSendStockUser = async (req, res) => {
-  const { id: stockOutId } = req.params;
-
-  const stockout = await UserStock.findOne({ _id: stockOutId });
-
-  if (!stockout) {
-    throw new NotFoundError(`No job with id :${stockOutId}`);
-  }
-
-  checkPermissions(req.hospital, stockout.createdFor);
-
-  await stockout.remove();
-
-  res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
-};
-
-export { statucController };

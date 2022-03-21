@@ -117,11 +117,11 @@ const deleteSendStockAdmin = async (req, res) => {
   checkPermissions(req.user, stockout.createdBy);
 
   await stockout.remove();
-  removeStockQty(
-    stock.stock_name,
-    stock.price,
-    stock.totalQtyInOneBox,
-    stock.totalBox
+  addStockQty(
+    stockout.stock_name,
+    stockout.price,
+    stockout.totalQtyInOneBox,
+    stockout.totalBox
   );
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };

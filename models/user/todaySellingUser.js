@@ -1,30 +1,12 @@
 import mongoose from "mongoose";
 // import vendorDetail from "../controllers/vendoresController.js";
 
-const StockOutSchema = new mongoose.Schema(
+const todaySellingHospitalSchema = new mongoose.Schema(
   {
-    hospitalName: {
-      type: String,
-      required: [true, "Please provide Hoapital Name"],
-      maxlength: 150,
-    },
     stock_name: {
       type: String,
       required: [true, "Please provide stock name"],
       maxlength: 100,
-    },
-    price: {
-      type: Number,
-      maxlength: 10000000,
-    },
-    showPrice: {
-      type: Boolean,
-      required: true,
-    },
-    status: {
-      type: Boolean,
-      default: false,
-      required: true,
     },
     totalQtyInOneBox: {
       type: Number,
@@ -34,8 +16,19 @@ const StockOutSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please provide number of total box"],
     },
+    sellingPriceTotal: {
+      type: Number,
+    },
+    createdFor: {
+      type: String,
+      ref: "Hospital",
+      required: [true, "Please provide user"],
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("StockOut", StockOutSchema);
+export default mongoose.model(
+  "TodaySellingHospital",
+  todaySellingHospitalSchema
+);
