@@ -5,34 +5,31 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
 
-const addStockQty = async (stock_name, box, qty, price, stockTotoalPrice) => {
+const addStockQty = async (stock_name, price, totalQtyInOneBox, totalBox) => {
   await stocks.updateOne(
     { stock_name },
     {
       $inc: {
-        totalBox: box,
-        TotalQtyInOneBox: qty,
-        totalIndovisualPrice: price,
-        totalPrice: stockTotoalPrice,
+        totalQtyInOneBox,
+        totalBox,
+        price,
       },
     }
   );
 };
 const removeStockQty = async (
   stock_name,
-  box,
-  qty,
   price,
-  stockTotoalPrice
+  totalQtyInOneBox,
+  totalBox
 ) => {
   await stocks.updateOne(
     { stock_name },
     {
       $inc: {
-        totalBox: -box,
-        TotalQtyInOneBox: -qty,
-        totalIndovisualPrice: -price,
-        totalPrice: -stockTotoalPrice,
+        totalQtyInOneBox: -totalQtyInOneBox,
+        totalBox: -totalBox,
+        price: -price,
       },
     }
   );

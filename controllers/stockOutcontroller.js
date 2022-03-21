@@ -2,13 +2,14 @@ import UserStock from "../models/User/stockOut.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
+import { addStockQty, removeStockQty } from "../controllers/stockController.js";
 
 const sendStockUser = async (req, res) => {
-  var { hospitalName, stock_name, qty, box, status } = req.body;
   // here you can remove vendor_id
-  console.log(hospitalName, stock_name, qty, box, status);
+  const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
+    req.body;
 
-  if (!hospitalName || !stock_name || !qty || !box) {
+  if (!hospitalName || !totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -16,6 +17,8 @@ const sendStockUser = async (req, res) => {
   req.body.createdFor = hospitalName;
 
   const stock = await UserStock.create(req.body);
+
+  removeStockQty(stock_name, price, totalQtyInOneBox, totalBox);
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
@@ -58,9 +61,9 @@ const getAllSendStockUser = async (req, res) => {
 const updateSendStockAdmin = async (req, res) => {
   const { id: stockOutId } = req.params;
 
-  const { hospitalName, stock_name, qty, box, status } = req.body;
+  const { hospitalName, stock_name, totalQtyInOneBox, totalBox } = req.body;
 
-  if (!hospitalName || !stock_name || !qty || !box) {
+  if (!hospitalName || !totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -69,8 +72,11 @@ const updateSendStockAdmin = async (req, res) => {
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
-  // console.log(req.user);
-  // console.log();
+  if (stockOutData.status === true) {
+    res.status(StatusCodes.OK).json({ msg: "Now you can not change data" });
+    return;
+  }
+
   checkPermissions(req.user, stockOutData.createdBy);
   req.body.createdFor = hospitalName;
   const updatedStockSend = await UserStock.findOneAndUpdate(
@@ -82,6 +88,18 @@ const updateSendStockAdmin = async (req, res) => {
     }
   );
 
+  removeStockQty(
+    stockOutData.stock_name,
+    stockOutData.price,
+    stockOutData.totalQtyInOneBox,
+    stockOutData.totalBox
+  );
+  addStockQty(
+    stockOutData.stock_name,
+    stockOutData.price,
+    stockOutData.totalQtyInOneBox,
+    stockOutData.totalBox
+  );
   res.status(StatusCodes.OK).json({ updatedStockSend });
 };
 
@@ -90,31 +108,36 @@ const deleteSendStockAdmin = async (req, res) => {
 
   const stockout = await UserStock.findOne({ _id: stockOutId });
 
+  if (stockout.status === true) {
+    res.status(StatusCodes.OK).json({ msg: "Now you can not delete data" });
+    return;
+  }
+
   if (!stockout) {
     throw new NotFoundError(`No job with id :${stockOutId}`);
   }
-  console.log(req.user);
+
   checkPermissions(req.user, stockout.createdBy);
 
   await stockout.remove();
-
+  removeStockQty(
+    stock.stock_name,
+    stock.price,
+    stock.totalQtyInOneBox,
+    stock.totalBox
+  );
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };
 
 const updateSendStockUser = async (req, res) => {
-  const { id: stockOutId } = req.params;
-
-  const stockout = await UserStock.findOne({ _id: stockOutId });
-
-  if (!stockout) {
-    throw new NotFoundError(`No job with id :${stockOutId}`);
-  }
-
-  checkPermissions(req.hospital, stockout.createdFor);
-
-  await stockout.remove();
-
-  res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
+  // const { id: stockOutId } = req.params;
+  // const stockout = await UserStock.findOne({ _id: stockOutId });
+  // if (!stockout) {
+  //   throw new NotFoundError(`No job with id :${stockOutId}`);
+  // }
+  // checkPermissions(req.hospital, stockout.createdFor);
+  // await stockout.remove();
+  // res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };
 
 export {

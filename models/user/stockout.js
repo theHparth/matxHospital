@@ -15,17 +15,14 @@ const stockOutSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      maxlength: 100,
     },
-    qty: {
+    totalQtyInOneBox: {
       type: Number,
-      required: [true, "Please add Qty."],
-      maxlength: 100,
+      required: [true, "Please provide number of qty in one box"],
     },
-    box: {
+    totalBox: {
       type: Number,
-      required: [true, "Please proide total Box."],
-      maxlength: 100,
+      required: [true, "Please provide number of total box"],
     },
     status: {
       type: Boolean,
@@ -39,7 +36,7 @@ const stockOutSchema = new mongoose.Schema(
     },
     createdFor: {
       type: String,
-      ref: "HospitaL",
+      ref: "Hospital",
       required: [true, "Please provide user"],
     },
   },

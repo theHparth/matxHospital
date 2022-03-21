@@ -17,7 +17,7 @@ const authHospital = async (req, res, next) => {
 
     next();
   } catch (error) {
-    throw new UnAuthenticatedError("Authentication Invalid");
+    throw new UnAuthenticatedError("Authentication Invalidd");
   }
 };
 

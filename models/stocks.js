@@ -6,37 +6,29 @@ const StockSchema = new mongoose.Schema(
     stock_name: {
       type: String,
       required: [true, "Please provide stock name"],
-      maxlength: 100,
     },
     description: {
       type: String,
       required: [true, "Please provide Description"],
-      maxlength: 100,
     },
     minimumLimit: {
       type: Number,
-      required: [true, "Please provide minimum limit"],
+      // required: [true, "Please provide minimum limit"],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide user"],
     },
-    totalPrice: {
+    price: {
       type: Number,
-      maxlength: 10000000,
     },
-    totalIndovisualPrice: {
+
+    totalQtyInOneBox: {
       type: Number,
-      maxlength: 10000000,
-    },
-    TotalQtyInOneBox: {
-      type: Number,
-      maxlength: 10000000,
     },
     totalBox: {
       type: Number,
-      maxlength: 10000000,
     },
   },
   { timestamps: true }

@@ -8,10 +8,6 @@ const WereHouseSchema = new mongoose.Schema(
       required: [true, "Please provide stock name"],
       maxlength: 100,
     },
-    stockTotoalPrice: {
-      type: Number,
-      maxlength: 100,
-    },
     vendor_name: {
       type: String,
       required: [true, "Please select vendor"],
@@ -21,17 +17,15 @@ const WereHouseSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: [true, "Please add price"],
-      maxlength: 100,
     },
-    qty: {
+
+    totalQtyInOneBox: {
       type: Number,
-      required: [true, "Please add Qty."],
-      maxlength: 100,
+      required: [true, "Please provide number of qty in one box"],
     },
-    box: {
+    totalBox: {
       type: Number,
-      required: [true, "Please proide total Box."],
-      maxlength: 100,
+      required: [true, "Please provide number of total box"],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,

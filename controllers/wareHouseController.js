@@ -5,17 +5,18 @@ import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "../controllers/stockController.js";
 
 const addStockinWereHouse = async (req, res) => {
-  const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
+  const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
     req.body;
 
-  if (!vendor_name || !price || !qty || !box || !stock_name) {
+  if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
-  addStockQty(stock_name, box, qty, price, stockTotoalPrice);
 
   req.body.createdBy = req.user.userId;
 
   const stock = await WereHouseStocks.create(req.body);
+
+  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.CREATED).json({ stock });
 };
@@ -66,10 +67,10 @@ const getAllStockfromWereHouse = async (req, res) => {
 const updateStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { vendor_name, price, qty, box, stock_name, stockTotoalPrice } =
+  const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
     req.body;
 
-  if (!vendor_name || !price || !qty || !box || !stock_name) {
+  if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -104,15 +105,15 @@ const deleteStockfromWereHouse = async (req, res) => {
   }
 
   checkPermissions(req.user, stock.createdBy);
-  removeStockQty(
-    stock.stock_name,
-    stock.box,
-    stock.qty,
-    stock.price,
-    stock.stockTotoalPrice
-  );
 
   await stock.remove();
+  removeStockQty(
+    stock.stock_name,
+    stock.price,
+    stock.totalQtyInOneBox,
+    stock.totalBox
+  );
+  // await WereHouseStocks.remove();
 
   res
     .status(StatusCodes.OK)

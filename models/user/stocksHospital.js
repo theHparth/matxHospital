@@ -1,26 +1,28 @@
 import mongoose from "mongoose";
 // import vendorDetail from "../controllers/vendoresController.js";
 
-const StockOutSchema = new mongoose.Schema(
+const StockHospitalSchema = new mongoose.Schema(
   {
     hospitalName: {
       type: String,
-      required: [true, "Please provide Hoapital Name"],
-      maxlength: 150,
+      required: [true, "Please provide hospital name"],
     },
     stock_name: {
       type: String,
       required: [true, "Please provide stock name"],
       maxlength: 100,
     },
+    minimumLimit: {
+      type: Number,
+      // required: [true, "Please provide minimum limit"],
+    },
+    createdFor: {
+      type: String,
+      ref: "Hospital",
+      required: [true, "Please provide user"],
+    },
     price: {
       type: Number,
-      maxlength: 10000000,
-    },
-    status: {
-      type: Boolean,
-      default: false,
-      required: true,
     },
     totalQtyInOneBox: {
       type: Number,
@@ -34,4 +36,4 @@ const StockOutSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("StockOut", StockOutSchema);
+export default mongoose.model("StocksHosital", StockHospitalSchema);

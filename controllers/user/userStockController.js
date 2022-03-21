@@ -1,24 +1,64 @@
 import UserStock from "../../models/User/stockOut.js";
+import StocksHosital from "../../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
+
+const addStockQty = async (
+  hospitalName,
+  stock_name,
+  price,
+  totalQtyInOneBox,
+  totalBox
+) => {
+  await StocksHosital.updateOne(
+    { $and: [{ stock_name }, { hospitalName }] },
+    {
+      $inc: {
+        price: -price,
+        totalQtyInOneBox: -totalQtyInOneBox,
+        totalBox: -totalBox,
+      },
+    }
+  );
+};
+const removeStockQty = async (
+  hospitalName,
+  stock_name,
+  price,
+  totalQtyInOneBox,
+  totalBox
+) => {
+  await stocks.updateOne(
+    { $and: [{ stock_name }, { hospitalName }] },
+    {
+      $inc: {
+        price: -price,
+        totalQtyInOneBox: -totalQtyInOneBox,
+        totalBox: -totalBox,
+      },
+    }
+  );
+};
 
 const statucController = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const { status } = req.body;
   const stockOutData = await UserStock.findOne({ _id: stockOutId });
-
+  console.log(stockOutData);
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
 
-  console.log(stockOutData.createdFor);
-  console.log(req.hospital.hospitalName);
-
   checkPermissionsHospital(req.hospital, stockOutData.createdFor);
 
-  //   if (stockOutData.status === false) {
+  // if (stockOutData.status === true) {
+  //   res
+  //     .status(StatusCodes.OK)
+  //     .json({ msg: "Now, you can't change delivery status" });
+  //   return;
+  // }
   await UserStock.findOneAndUpdate(
     { _id: stockOutId },
     { status: status },
@@ -27,13 +67,15 @@ const statucController = async (req, res) => {
       runValidators: true,
     }
   );
+  addStockQty(
+    stockOutData.hospitalName,
+    stockOutData.stock_name,
+    stockOutData.price,
+    stockOutData.totalQtyInOneBox,
+    stockOutData.totalBox
+  );
 
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
-  //   } else {
-  //     res
-  //       .status(StatusCodes.OK)
-  //       .json({ msg: "Now, you can't change delivery status" });
-  //   }
 };
 
 const sendStockUser = async (req, res) => {
