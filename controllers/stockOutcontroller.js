@@ -35,26 +35,51 @@ const getAllSendStockUser = async (req, res) => {
 
   let result = UserStock.find(queryObject);
 
-  // chain sort conditions
+  const hospitals = await result;
 
-  if (sort === "latest") {
-    result = result.sort("-createdAt");
+  const totalHospitals = await UserStock.countDocuments(queryObject);
+
+  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
+};
+
+const falseStatusProduct = async (req, res) => {
+  const { status, sort, search } = req.query;
+  const queryObject = {
+    createdBy: req.user.userId,
+    status: false,
+  };
+
+  if (search) {
+    queryObject.position = { $regex: search, $options: "i" };
   }
-  if (sort === "oldest") {
-    result = result.sort("createdAt");
-  }
-  if (sort === "a-z") {
-    result = result.sort("position");
-  }
-  if (sort === "z-a") {
-    result = result.sort("-position");
-  }
+  // NO AWAIT
+
+  let result = UserStock.find(queryObject);
 
   const hospitals = await result;
 
   const totalHospitals = await UserStock.countDocuments(queryObject);
-  // const numOfPages = Math.ceil(totalHospitals / limit);
-  // numOfPages;
+
+  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
+};
+const trueStatusProduct = async (req, res) => {
+  const { status, sort, search } = req.query;
+  const queryObject = {
+    createdBy: req.user.userId,
+    status: false,
+  };
+
+  if (search) {
+    queryObject.position = { $regex: search, $options: "i" };
+  }
+  // NO AWAIT
+
+  let result = UserStock.find(queryObject);
+
+  const hospitals = await result;
+
+  const totalHospitals = await UserStock.countDocuments(queryObject);
+
   res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
 };
 
@@ -143,4 +168,6 @@ export {
   deleteSendStockAdmin,
   updateSendStockAdmin,
   updateSendStockUser,
+  falseStatusProduct,
+  trueStatusProduct,
 };

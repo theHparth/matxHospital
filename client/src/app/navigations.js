@@ -77,6 +77,27 @@ export const navigations = [
             },
         ],
     },
+    {
+        name: 'Stock-Out',
+        icon: 'business',
+        children: [
+            {
+                name: 'Form',
+                iconText: 'SI',
+                path: '/stockOutForm',
+            },
+            {
+                name: 'Stock out data',
+                iconText: 'SI',
+                path: '/listStockOut',
+            },
+            {
+                name: 'Pending List',
+                iconText: 'SI',
+                path: '/pendingStockOut',
+            },
+        ],
+    },
 
     // {
     //     name: 'Session/Auth',

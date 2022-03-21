@@ -68,6 +68,13 @@ const getAllVendor = (state) => async (dispatch) => {
 const add = (state) => async (dispatch) => {
     try {
         const { address, pincode, contect, email, vendor_name } = state
+
+        // vendor_name = (vendor_name) =>
+        //     (vendor_name &&
+        //         vendor_name[0].toUpperCase() + vendor_name.slice(1)) ||
+        //     ''
+
+        // console.log(vendor_name)
         await authFetch.post('/vendors', {
             address,
             pincode,

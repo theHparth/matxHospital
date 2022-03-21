@@ -29,6 +29,7 @@ const initialState = {
     qty: 0,
     box: 0,
     stock_name: '',
+    minimumLimit: '',
 }
 
 const StockReducer = function (state = initialState, action) {
@@ -102,19 +103,14 @@ const StockReducer = function (state = initialState, action) {
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const {
-                _id,
-                description,
-
-                stock_name,
-            } = subscriber
+            const { _id, description, minimumLimit, stock_name } = subscriber
 
             return {
                 ...state,
                 isEditing: true,
                 _id,
                 description,
-
+                minimumLimit,
                 stock_name,
             }
         }

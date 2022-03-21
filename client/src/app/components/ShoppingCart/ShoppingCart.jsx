@@ -90,15 +90,20 @@ function ShoppingCart({ container }) {
     const [panelOpen, setPanelOpen] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { user } = useAuth()
+    const { user, hospital } = useAuth()
     const { cartList } = useSelector((state) => state.ecommerce)
     const { settings } = useSettings()
     const theme = useTheme()
     const secondary = theme.palette.text.secondary
 
     if (!cartListLoaded) {
-        dispatch(getCartList(user.id))
-        cartListLoaded = true
+        if (user) {
+            dispatch(getCartList(user.id))
+            cartListLoaded = true
+        } else {
+            dispatch(getCartList(hospital.id))
+            cartListLoaded = true
+        }
     }
 
     const handleDrawerToggle = () => {
@@ -186,7 +191,12 @@ function ShoppingCart({ container }) {
                                                 )
                                             }
                                         >
-                                            <Icon id={!(product.amount - 1) && 'disable'}>
+                                            <Icon
+                                                id={
+                                                    !(product.amount - 1) &&
+                                                    'disable'
+                                                }
+                                            >
                                                 keyboard_arrow_down
                                             </Icon>
                                         </StyledIconButton>

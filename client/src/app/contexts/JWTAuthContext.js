@@ -7,28 +7,33 @@ const initialState = {
     isInitialised: false,
     user: null,
     token: null,
+    hospital: null,
+    tokenHospital: null,
 }
 
 const reducer = (state, action) => {
     switch (action.type) {
         case 'INIT': {
-            const { isAuthenticated, user } = action.payload
+            const { isAuthenticated, user, hospital } = action.payload
 
             return {
                 ...state,
                 isAuthenticated,
                 isInitialised: true,
                 user,
+                hospital,
             }
         }
         case 'LOGIN': {
-            const { user, token } = action.payload
+            const { user, token, hospital, tokenHospital } = action.payload
 
             return {
                 ...state,
                 isAuthenticated: true,
                 user,
                 token,
+                hospital,
+                tokenHospital,
             }
         }
         case 'LOGIN_ERROR': {
@@ -46,6 +51,8 @@ const reducer = (state, action) => {
                 isAuthenticated: false,
                 user: null,
                 token: null,
+                hospital: null,
+                tokenHospital: null,
             }
         }
         // case 'REGISTER': {
@@ -67,8 +74,10 @@ const reducer = (state, action) => {
 const AuthContext = createContext({
     ...initialState,
     method: 'JWT',
-    taoken: '',
+    // taoken: '',
+
     login: () => Promise.resolve(),
+    loginUser: () => Promise.resolve(),
     logout: () => {},
     register: () => Promise.resolve(),
 })
@@ -80,10 +89,16 @@ export const AuthProvider = ({ children }) => {
         baseURL: '/api/v1',
     })
     // request
-    console.log(state.token);
+
     authFetch.interceptors.request.use(
         (config) => {
-            config.headers.common['Authorization'] = `Bearer ${state.token}`
+            if (state.token) {
+                config.headers.common['Authorization'] = `Bearer ${state.token}`
+            } else {
+                config.headers.common[
+                    'Authorization'
+                ] = `Bearer ${state.tokenHospital}`
+            }
             return config
         },
         (error) => {
@@ -104,14 +119,27 @@ export const AuthProvider = ({ children }) => {
         }
     )
 
-    const addUserToLocalStorage = ({ user, token }) => {
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
+    const addUserToLocalStorage = ({
+        user,
+        token,
+        hospital,
+        tokenHospital,
+    }) => {
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('token', token)
+        } else {
+            localStorage.setItem('hospital', JSON.stringify(hospital))
+            localStorage.setItem('tokenHospital', tokenHospital)
+        }
     }
 
     const removeUserFromLocalStorage = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+
+        localStorage.removeItem('tokenHospital')
+        localStorage.removeItem('hospital')
     }
 
     const login = async (email, password) => {
@@ -120,6 +148,7 @@ export const AuthProvider = ({ children }) => {
                 email,
                 password,
             })
+
             const { token, user } = response.data
 
             addUserToLocalStorage({ user, token })
@@ -137,26 +166,49 @@ export const AuthProvider = ({ children }) => {
                 payload: { msg: error.response.data.msg },
             })
         }
+    }
+
+    const loginUser = async (email, password) => {
+        try {
+            const response = await authFetch.post('/authHospital/login', {
+                email,
+                password,
+            })
+
+            const { tokenHospital, hospital } = response.data
+
+            addUserToLocalStorage({ hospital, tokenHospital })
+
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    hospital,
+                    tokenHospital,
+                },
+            })
+        } catch (error) {
+            dispatch({
+                type: 'LOGIN_ERROR',
+                payload: { msg: error.response.data.msg },
+            })
+        }
         // clearAlert()
     }
 
     const register = async (email, name, password) => {
-        const response = await authFetch.post('/auth/register', {
-            email,
-            name,
-            password,
-        })
-
-        const { token, user } = response.data
-
-        addUserToLocalStorage({ user, token })
-
-        dispatch({
-            type: 'REGISTER',
-            payload: {
-                user,
-            },
-        })
+        // const response = await authFetch.post('/auth/register', {
+        //     email,
+        //     name,
+        //     password,
+        // })
+        // const { token, user } = response.data
+        // addUserToLocalStorage({ user, token })
+        // dispatch({
+        //     type: 'REGISTER',
+        //     payload: {
+        //         user,
+        //     },
+        // })
     }
 
     const logout = () => {
@@ -164,29 +216,30 @@ export const AuthProvider = ({ children }) => {
         dispatch({ type: 'LOGOUT' })
     }
 
-    // const getAllHospital = async () => {
-    //     const { response } = await authFetch('/hospitals')
-    //     const { hospitals } = response.data
-    //     return response.data
-    // }
-    //
-
     // ----------------------------------------------------------------
     useEffect(() => {
         ;(async () => {
             try {
                 const token = window.localStorage.getItem('token')
                 const user = window.localStorage.getItem('user')
+                const tokenHospital =
+                    window.localStorage.getItem('tokenHospital')
+                const hospital = window.localStorage.getItem('hospital')
 
                 if (token && user) {
-                    //addUserToLocalStorage({ user, token })
-                    // const response = await authFetch.get('/auth/hospitals')
-                    // const { user } = response.data
                     dispatch({
                         type: 'INIT',
                         payload: {
                             isAuthenticated: true,
                             user,
+                        },
+                    })
+                } else if (tokenHospital && hospital) {
+                    dispatch({
+                        type: 'INIT',
+                        payload: {
+                            isAuthenticated: true,
+                            hospital,
                         },
                     })
                 } else {
@@ -195,6 +248,7 @@ export const AuthProvider = ({ children }) => {
                         payload: {
                             isAuthenticated: false,
                             user: null,
+                            hospital: null,
                         },
                     })
                 }
@@ -205,6 +259,7 @@ export const AuthProvider = ({ children }) => {
                     payload: {
                         isAuthenticated: false,
                         user: null,
+                        hospital: null,
                     },
                 })
             }
@@ -223,6 +278,7 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 register,
+                loginUser,
             }}
         >
             {children}

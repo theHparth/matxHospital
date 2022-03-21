@@ -19,28 +19,22 @@ const AddStock = () => {
         alertText,
         isLoading,
         description,
-
+        minimumLimit,
         _id,
         stock_name,
     } = useSelector((x) => x.stockList)
-    console.log(
-        description,
-
-        stock_name,
-        _id
-    )
 
     const [state, setState] = useState({
         id: _id,
         description: description,
-
+        minimumLimit: minimumLimit,
         stock_name: stock_name,
     })
     const clear = () => {
         setState({
             id: '',
             description: '',
-
+            minimumLimit: '',
             stock_name: '',
         })
     }
@@ -111,6 +105,16 @@ const AddStock = () => {
                                 value={state.description}
                                 validators={['required']}
                                 label="Description"
+                                errorMessages={['this field is required']}
+                            />
+                            <TextField
+                                type="text"
+                                name="minimumLimit"
+                                id="standard-basic"
+                                onChange={handleInput}
+                                value={state.minimumLimit}
+                                validators={['required']}
+                                label="Minimum limit to show warning"
                                 errorMessages={['this field is required']}
                             />
                         </Grid>

@@ -1,0 +1,30 @@
+/api/v1/wereHouse :
+ get => / => give you list of all stock you added into werehouse  ==>  all data list
+ post => / => you can add item into werehouse  ==> ( vendor_name, stock_name, price, totalQtyInOneBox, totalBox )
+ delete => /:id => can delete any stok added in werehouse ==> ( id  of stock)
+ patch => /:id => update product added into werehouse ==> (id of stock,  vendor_name, stock_name, price, totalQtyInOneBox, totalBox  )
+
+
+/api/v1/stockOut :
+ get => / => send stock to user   ==>  ( hospitalName, stock_name, totalQtyInOneBox, totalBox, price )
+ post => / => you can add item into werehouse ==> (hospitalName, stock_name, totalQtyInOneBox, totalBox, price (send to backend not matter with showprice is false) , showPrice = true/false )
+ delete => /:id => can delete any stok added in werehouse ==> ( id  of stock)
+ patch => /:id => update product added into werehouse ==> ( id = of stock,  hospitalName, stock_name, totalQtyInOneBox, totalBox, price , showPrice = true/false ) 
+ get => /falseAdmin => show only data whose stock status is false. So, now you not need to add filter  (there you will add "update", "delete" button to changeany data )
+ get => /trueAdmin => show only data whose stock status is true. ( here you can only see all product you send to specific shop and he already received "
+
+/api/v1/stocksUser:
+ get => /falseUser => show only data whose stock status is false. So, now you not need to add filter  (there you will add "received" button to change status from false true )
+ get => /trueUser => show only data whose stock status is true. ( here you can only see all product you received in past
+ patch => /status/:id => only change status after receive product like received => ( id => of stock, status==false)
+ post => /todaySellingHospital =>  add product details which you sold today ==> ( stock_name, totalQtyInOneBox, totalBox )
+ get => /todaySellingHospital =>  see data which you added where you can update or delete API in below ==> ( stock_name, totalQtyInOneBox, totalBox )
+ patch => /todaySellingHospital/:id =>  update ==> (id, stock_name, totalQtyInOneBox, totalBox )
+ delete => /todaySellingHospital/:id  => for deleteing ==> ( id )
+
+
+NOTE:
+	first letter of hospitalName, vendor_name, stockName send capital in database  ==> previously already did for hospitalName
+	
+
+ 

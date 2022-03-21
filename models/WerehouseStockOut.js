@@ -17,10 +17,7 @@ const StockOutSchema = new mongoose.Schema(
       type: Number,
       maxlength: 10000000,
     },
-    showPrice: {
-      type: Boolean,
-      required: true,
-    },
+
     status: {
       type: Boolean,
       default: false,

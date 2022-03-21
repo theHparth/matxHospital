@@ -10,6 +10,7 @@ import { Navigate } from 'react-router-dom'
 import vendorRoutes from 'app/views/vendor/VendorRoutes'
 import stockRoutes from 'app/views/stock/StockRoutes'
 import wereHouseRoutes from 'app/views/wareHouse/WereHouseRoutes'
+import stockOutRoutes from 'app/views/stockOut/StockOutRoutes'
 
 export const AllPages = () => {
     const all_routes = [
@@ -25,6 +26,7 @@ export const AllPages = () => {
                 ...vendorRoutes,
                 ...stockRoutes,
                 ...wereHouseRoutes,
+                ...stockOutRoutes,
                 ...chartsRoute,
                 ...materialRoutes,
             ],

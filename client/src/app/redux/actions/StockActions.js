@@ -26,7 +26,7 @@ const authFetch = axios.create({
 
 const add = (state) => async (dispatch) => {
     try {
-        var { description, stock_name } = state
+        var { description, stock_name, minimumLimit } = state
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1)
         }
@@ -34,6 +34,7 @@ const add = (state) => async (dispatch) => {
         await authFetch.post('/stocks', {
             description,
             stock_name,
+            minimumLimit,
         })
         dispatch({ type: CREATE_SUCCESS })
         dispatch(clearValues())
@@ -69,10 +70,10 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const { description, id, stock_name } = state
+        const { description, id, stock_name, minimumLimit } = state
         await authFetch.patch(`/stocks/${id}`, {
             description,
-
+            minimumLimit,
             stock_name,
         })
         dispatch({ type: EDIT_SUCCESS })
