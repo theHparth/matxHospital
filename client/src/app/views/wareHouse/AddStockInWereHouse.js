@@ -48,7 +48,7 @@ const AddStockInWereHouse = () => {
         id: _id,
         priceType: 'individualPrice',
         vendor_name: vendor_name || '',
-        stockTotoalPrice: stockTotoalPrice || '',
+        // stockTotoalPrice: stockTotoalPrice || '',
         price: price || '',
         qty: qty || '',
         box: box || '',
@@ -89,23 +89,6 @@ const AddStockInWereHouse = () => {
         dispatch(getAllData())
     }, [])
 
-    // const handleInput = (e) => {
-    //     const name = e.target.name
-    //     const value = e.target.value
-
-    //     setState({
-    //         ...state,
-    //         [name]: value,
-    //     })
-    // }
-
-    // const handleInputOptionVendor = (e) => {
-    //     var value = e.target.value
-    //     setState({
-    //         ...state,
-    //         ['vendor_name']: value,
-    //     })
-    // }
 
     const handleChange = (e) => {
         const name = e.target.name
@@ -113,22 +96,22 @@ const AddStockInWereHouse = () => {
         setState({
             ...state,
             [name]: value,
-            price: name === "price" ? value : "",
-            stockTotoalPrice: name === "stockTotoalPrice" ? value : ""
+            // price: state.priceType === "individualPrice" ? value*state.box : value ,
+            // stockTotoalPrice: name === "stockTotoalPrice" ? value : ""
             
         })
 
         console.log(state)
     }
-    const handleInputOptionStock = (e) => {
-        var value = e.target.value
-        setState({
-            ...state,
-            ['stock_name']: value,
-        })
-    }
+    // const handleInputOptionStock = (e) => {
+    //     var value = e.target.value
+    //     setState({
+    //         ...state,
+    //         ['stock_name']: value,
+    //     })
+    // }
 
-    const [value, setValue] = React.useState({})
+    // const [value, setValue] = React.useState({})
     // function handleChange(event) {
     //     setValue(event.target.value)
     // }
@@ -174,28 +157,7 @@ const AddStockInWereHouse = () => {
                                             {alertText}
                                         </div>
                                     )}
-                                    {/* Select Vendor */}
-                                    {/* <TextField> */}
-                                    {/* <select onClick={handleInputOptionVendor}>
-                                        <option
-                                            name="vendor_name"
-                                            value={state.vendor_name}
-                                            defaultValue
-                                        >
-                                            {state.vendor_name}
-                                        </option>
-                                        {Object.values(vendorData).map(
-                                            (data, key) => (
-                                                <option
-                                                    key={key}
-                                                    name="vendor_name"
-                                                    value={data.vendor_name}
-                                                >
-                                                    {data.vendor_name}
-                                                </option>
-                                            )
-                                        )}
-                                    </select> */}
+                                   
 
                                     <FormControl
                                         variant="standard"
@@ -270,27 +232,7 @@ const AddStockInWereHouse = () => {
                                             )}
                                         </Select>
                                     </FormControl>
-                                    {/* select stocks */}
-                                    {/* <select onClick={handleInputOptionStock}>
-                                        <option
-                                            value={state.stock_name}
-                                            name="stock_name"
-                                            defaultValue
-                                        >
-                                            {state.stock_name}
-                                        </option>
-                                        {Object.values(stockData).map(
-                                            (data, key) => (
-                                                <option
-                                                    key={key}
-                                                    name="stock_name"
-                                                    value={data.stock_name}
-                                                >
-                                                    {data.stock_name}
-                                                </option>
-                                            )
-                                        )}
-                                    </select> */}
+                                
                                     <TextField
                                         label="Total Box."
                                         onChange={handleChange}
@@ -313,30 +255,7 @@ const AddStockInWereHouse = () => {
                                             'this field is required',
                                         ]}
                                     />
-                                    {/* <h1>
-                                        arranging and change state is not
-                                        completed call me for this
-                                    </h1> */}
-                                    {/* <RadioRoot>
-                                        <FormControl
-                                            component="fieldset"
-                                            className="formControl"
-                                        >
-                                            <FormLabel component="legend">
-                                                Select Price Type
-                                            </FormLabel>
-                                            <FormControlLabel
-                                                name="price"
-                                                control={<Radio />}
-                                                label="Price of indivisulal Item"
-                                            />
-                                            <FormControlLabel
-                                                name="price"
-                                                control={<Radio />}
-                                                label="Total price"
-                                            />
-                                        </FormControl>
-                                    </RadioRoot> */}
+                                  
 
                                     <FormControl>
                                         <FormLabel id="demo-radio-buttons-group-label">
@@ -360,7 +279,7 @@ const AddStockInWereHouse = () => {
                                             />
                                         </RadioGroup>
                                     </FormControl>
-                                    {state.priceType === 'individualPrice' ? (
+                                    {/* {state.priceType === 'individualPrice' ? ( */}
                                         <TextField
                                             label="Add price here"
                                             onChange={handleChange}
@@ -375,8 +294,8 @@ const AddStockInWereHouse = () => {
                                                 'this field is required',
                                             ]}
                                         />
-                                    ) : (
-                                        <TextField
+                                    {/* ) : ( */}
+                                        {/* <TextField
                                             label="Add price here"
                                             onChange={handleChange}
                                             type="number"
@@ -389,8 +308,8 @@ const AddStockInWereHouse = () => {
                                             errorMessages={[
                                                 'this field is required',
                                             ]}
-                                        />
-                                    )}
+                                        /> */}
+                                    {/* )} */}
                                 </Grid>
                             </Grid>
                             <Button

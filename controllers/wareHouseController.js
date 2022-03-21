@@ -69,7 +69,7 @@ const updateStockfromWereHouse = async (req, res) => {
 
   const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
     req.body;
-
+  console.log(vendor_name, stock_name, price, totalQtyInOneBox, totalBox);
   if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
@@ -91,6 +91,13 @@ const updateStockfromWereHouse = async (req, res) => {
       runValidators: true,
     }
   );
+  removeStockQty(
+    stock.stock_name,
+    stock.price,
+    stock.totalQtyInOneBox,
+    stock.totalBox
+  );
+  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };

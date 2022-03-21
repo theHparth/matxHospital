@@ -6,16 +6,23 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStockQty = async (stock_name, price, totalQtyInOneBox, totalBox) => {
-  await stocks.updateOne(
-    { stock_name },
-    {
-      $inc: {
-        totalQtyInOneBox,
-        totalBox,
-        price,
-      },
-    }
-  );
+  try {
+    await stocks.updateOne(
+      { stock_name },
+      {
+        $inc: {
+          totalQtyInOneBox,
+          totalBox,
+          price,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    throw new NotFoundError(
+      `Something is wrong while adding value in database`
+    );
+  }
 };
 const removeStockQty = async (
   stock_name,
@@ -23,16 +30,23 @@ const removeStockQty = async (
   totalQtyInOneBox,
   totalBox
 ) => {
-  await stocks.updateOne(
-    { stock_name },
-    {
-      $inc: {
-        totalQtyInOneBox: -totalQtyInOneBox,
-        totalBox: -totalBox,
-        price: -price,
-      },
-    }
-  );
+  try {
+    await stocks.updateOne(
+      { stock_name },
+      {
+        $inc: {
+          totalQtyInOneBox: -totalQtyInOneBox,
+          totalBox: -totalBox,
+          price: -price,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    throw new NotFoundError(
+      `Something is wrong while removing value in database`
+    );
+  }
 };
 
 const addStock = async (req, res) => {

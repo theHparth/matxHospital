@@ -61,7 +61,8 @@ const getAllSendStockUser = async (req, res) => {
 const updateSendStockAdmin = async (req, res) => {
   const { id: stockOutId } = req.params;
 
-  const { hospitalName, stock_name, totalQtyInOneBox, totalBox } = req.body;
+  const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
+    req.body;
 
   if (!hospitalName || !totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
@@ -94,12 +95,8 @@ const updateSendStockAdmin = async (req, res) => {
     stockOutData.totalQtyInOneBox,
     stockOutData.totalBox
   );
-  addStockQty(
-    stockOutData.stock_name,
-    stockOutData.price,
-    stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox
-  );
+  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+
   res.status(StatusCodes.OK).json({ updatedStockSend });
 };
 

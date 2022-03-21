@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
         baseURL: '/api/v1',
     })
     // request
-
+    console.log(state.token);
     authFetch.interceptors.request.use(
         (config) => {
             config.headers.common['Authorization'] = `Bearer ${state.token}`
