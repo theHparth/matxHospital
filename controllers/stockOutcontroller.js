@@ -2,7 +2,7 @@ import UserStock from "../models/User/stockOut.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-import { addStockQty, removeStockQty } from "../controllers/stockController.js";
+import { addStockQty, removeStockQty } from "./stockController.js";
 
 const sendStockUser = async (req, res) => {
   // here you can remove vendor_id
@@ -19,6 +19,7 @@ const sendStockUser = async (req, res) => {
   const stock = await UserStock.create(req.body);
 
   removeStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+
   res.status(StatusCodes.CREATED).json({ stock });
 };
 

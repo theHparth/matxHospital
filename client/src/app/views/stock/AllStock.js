@@ -65,7 +65,7 @@ const AllStock = () => {
                                 </TableCell>
                                 <TableCell>total value</TableCell>
                                 <TableCell>Individual Price</TableCell>
-                                <TableCell> Qty / Box </TableCell>
+
                                 <TableCell> Total Qty </TableCell>
                                 <TableCell>Date</TableCell>
 
@@ -98,26 +98,17 @@ const AllStock = () => {
                                         <TableCell>
                                             ${' '}
                                             {subscriber.price /
-                                            (subscriber.totalQtyInOneBox *
-                                                subscriber.totalBox)
+                                            subscriber.totalQty
                                                 ? subscriber.price /
-                                                  (subscriber.totalQtyInOneBox *
-                                                      subscriber.totalBox)
+                                                  subscriber.totalQty
                                                 : 0}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.totalQtyInOneBox
-                                                ? subscriber.totalQtyInOneBox
-                                                : 0}
-                                            /
-                                            {subscriber.totalBox
-                                                ? subscriber.totalBox
+                                            {subscriber.totalQty
+                                                ? subscriber.totalQty
                                                 : 0}
                                         </TableCell>
-                                        <TableCell>
-                                            {subscriber.totalQtyInOneBox *
-                                                subscriber.totalBox}
-                                        </TableCell>
+
                                         <TableCell>
                                             {subscriber.createdAt}
                                         </TableCell>

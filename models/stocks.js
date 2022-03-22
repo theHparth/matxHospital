@@ -23,11 +23,7 @@ const StockSchema = new mongoose.Schema(
     price: {
       type: Number,
     },
-
-    totalQtyInOneBox: {
-      type: Number,
-    },
-    totalBox: {
+    totalQty: {
       type: Number,
     },
   },

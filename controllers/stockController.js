@@ -11,8 +11,7 @@ const addStockQty = async (stock_name, price, totalQtyInOneBox, totalBox) => {
       { stock_name },
       {
         $inc: {
-          totalQtyInOneBox,
-          totalBox,
+          totalQty: totalBox * totalQtyInOneBox,
           price,
         },
       }
@@ -35,8 +34,7 @@ const removeStockQty = async (
       { stock_name },
       {
         $inc: {
-          totalQtyInOneBox: -totalQtyInOneBox,
-          totalBox: -totalBox,
+          totalQty: -(totalBox * totalQtyInOneBox),
           price: -price,
         },
       }
