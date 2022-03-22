@@ -8,7 +8,44 @@ export const navigationsUser = [
         label: 'PAGES',
         type: 'label',
     },
-
+    {
+        name: 'New Arriving',
+        icon: 'business',
+        children: [
+            {
+                name: 'List',
+                iconText: 'SI',
+                path: '/pendingStockInUser',
+            },
+        ],
+    },
+    {
+        name: 'Stock-Out',
+        icon: 'business',
+        children: [
+            {
+                name: 'New entry',
+                iconText: 'SI',
+                path: '/newEntryForm',
+            },
+            {
+                name: 'Entry manage',
+                iconText: 'SI',
+                path: '/listStockOut',
+            },
+        ],
+    },
+    {
+        name: 'Total Received',
+        icon: 'business',
+        children: [
+            {
+                name: 'List',
+                iconText: 'SI',
+                path: '/allReceivedSrtock',
+            },
+        ],
+    },
     {
         name: 'Components',
         icon: 'favorite',

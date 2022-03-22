@@ -15,9 +15,7 @@ const addStockQty = async (
     { $and: [{ stock_name }, { hospitalName }] },
     {
       $inc: {
-        // price: -price,
-        totalQtyInOneBox: -totalQtyInOneBox,
-        totalBox: -totalBox,
+        totalQtyUser: totalQtyInOneBox * totalBox,
       },
     }
   );
@@ -32,8 +30,7 @@ const removeStockQty = async (
     { $and: [{ stock_name }, { hospitalName }] },
     {
       $inc: {
-        totalQtyInOneBox: -totalQtyInOneBox,
-        totalBox: -totalBox,
+        totalQtyUser: -(totalQtyInOneBox * totalBox),
       },
     }
   );
@@ -57,6 +54,7 @@ const statusController = async (req, res) => {
   //     .json({ msg: "Now, you can't change delivery status" });
   //   return;
   // }
+
   await UserStock.findOneAndUpdate(
     { _id: stockOutId },
     { status: status },
@@ -82,21 +80,21 @@ const statusFalse = async (req, res) => {
     status: false,
   };
   let result = UserStock.find(queryObject);
-  const hospitalStock = await result;
+  const stockInDataFalseStatus = await result;
   const totalStock = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ hospitalStock, totalStock });
+  res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
 };
 const statusTrue = async (req, res) => {
   const queryObject = {
     createdFor: req.hospital.hospitalName,
-    status: True,
+    status: true,
   };
   let result = UserStock.find(queryObject);
-  const hospitalStock = await result;
+  const stockInDataTrueStatus = await result;
   const totalStock = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ hospitalStock, totalStock });
+  res.status(StatusCodes.OK).json({ stockInDataTrueStatus, totalStock });
 };
 
 const sendStockUser = async (req, res) => {

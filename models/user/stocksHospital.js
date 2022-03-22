@@ -24,13 +24,8 @@ const StockHospitalSchema = new mongoose.Schema(
     price: {
       type: Number,
     },
-    totalQtyInOneBox: {
+    totalQtyUser: {
       type: Number,
-      required: [true, "Please provide number of qty in one box"],
-    },
-    totalBox: {
-      type: Number,
-      required: [true, "Please provide number of total box"],
     },
   },
   { timestamps: true }

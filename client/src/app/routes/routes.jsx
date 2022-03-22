@@ -11,6 +11,7 @@ import vendorRoutes from 'app/views/vendor/VendorRoutes'
 import stockRoutes from 'app/views/stock/StockRoutes'
 import wereHouseRoutes from 'app/views/wareHouse/WereHouseRoutes'
 import stockOutRoutes from 'app/views/stockOut/StockOutRoutes'
+import StockInUserRoutes from 'app/views/userStockIn/StockInUserRoutes'
 
 export const AllPages = () => {
     const user = localStorage.getItem('user')
@@ -34,7 +35,7 @@ export const AllPages = () => {
                       ...chartsRoute,
                       ...materialRoutes,
                   ]
-                : [...dashboardRoutes, ...materialRoutes],
+                : [...dashboardRoutes, ...materialRoutes, ...StockInUserRoutes],
         },
         ...sessionRoutes,
         {

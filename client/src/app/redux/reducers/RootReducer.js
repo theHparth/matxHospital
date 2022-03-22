@@ -8,6 +8,7 @@ import VendorReducer from './VendorReducer'
 import StockReducer from './StockReducer'
 import WareHouseReducer from './WareHouseReducer'
 import StockOutReducer from './StockOutReducer'
+import StockInUserReducer from './user/StockInUserReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -19,6 +20,7 @@ const RootReducer = combineReducers({
     stockList: StockReducer,
     wareHouseStockList: WareHouseReducer,
     stockOutList: StockOutReducer,
+    stockInUserList: StockInUserReducer,
 })
 
 export default RootReducer
