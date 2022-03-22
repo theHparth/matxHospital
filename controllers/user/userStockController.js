@@ -26,14 +26,12 @@ const removeStockQty = async (
   hospitalName,
   stock_name,
   totalQtyInOneBox,
-  totalBox,
-  price
+  totalBox
 ) => {
   await stocks.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
     {
       $inc: {
-        // price: -price,
         totalQtyInOneBox: -totalQtyInOneBox,
         totalBox: -totalBox,
       },

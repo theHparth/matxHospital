@@ -23,19 +23,29 @@ const addStockQty = async (stock_name, price, totalQtyInOneBox, totalBox) => {
     );
   }
 };
-const removeStockQty = async (
-  stock_name,
-  price,
-  totalQtyInOneBox,
-  totalBox
-) => {
+const removeStockQty = async (stock_name, totalQtyInOneBox, totalBox) => {
   try {
+    const stock = await stocks.findOne({ stock_name });
+    // if(totalBox * totalQtyInOneBox)
+    // var pp =
+    //   stock.price -
+    //   (stock.price / stock.totalQty) * totalBox * totalQtyInOneBox;
+    // if (pp < 0) {
+    //   throw new NotFoundError("value is already minimum level");
+    // }
+    // console.log(stock.price / stock.totalQty);
+    // console.log(totalBox * totalQtyInOneBox);
+    // console.log(totalBox * totalQtyInOneBox);
     await stocks.updateOne(
       { stock_name },
       {
         $inc: {
           totalQty: -(totalBox * totalQtyInOneBox),
-          price: -price,
+          price: -(
+            (stock.price / stock.totalQty) *
+            totalBox *
+            totalQtyInOneBox
+          ),
         },
       }
     );

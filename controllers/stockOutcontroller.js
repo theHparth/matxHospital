@@ -18,7 +18,7 @@ const sendStockUser = async (req, res) => {
 
   const stock = await UserStock.create(req.body);
 
-  removeStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+  removeStockQty(stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.CREATED).json({ stock });
 };
@@ -57,17 +57,17 @@ const falseStatusProduct = async (req, res) => {
 
   let result = UserStock.find(queryObject);
 
-  const hospitals = await result;
+  const stockOutDataFalseStatus = await result;
 
   const totalHospitals = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
+  res.status(StatusCodes.OK).json({ stockOutDataFalseStatus, totalHospitals });
 };
 const trueStatusProduct = async (req, res) => {
   const { status, sort, search } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
-    status: false,
+    status: true,
   };
 
   if (search) {
@@ -77,11 +77,13 @@ const trueStatusProduct = async (req, res) => {
 
   let result = UserStock.find(queryObject);
 
-  const hospitals = await result;
+  const stockOutDataTrueStatus = await result;
 
-  const totalHospitals = await UserStock.countDocuments(queryObject);
+  const totalStockOutData = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
+  res
+    .status(StatusCodes.OK)
+    .json({ stockOutDataTrueStatus, totalStockOutData });
 };
 
 const updateSendStockAdmin = async (req, res) => {
@@ -117,7 +119,6 @@ const updateSendStockAdmin = async (req, res) => {
 
   removeStockQty(
     stockOutData.stock_name,
-    stockOutData.price,
     stockOutData.totalQtyInOneBox,
     stockOutData.totalBox
   );

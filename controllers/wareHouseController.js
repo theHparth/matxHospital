@@ -93,7 +93,7 @@ const updateStockfromWereHouse = async (req, res) => {
   );
   removeStockQty(
     stock.stock_name,
-    stock.price,
+
     stock.totalQtyInOneBox,
     stock.totalBox
   );
@@ -114,12 +114,7 @@ const deleteStockfromWereHouse = async (req, res) => {
   checkPermissions(req.user, stock.createdBy);
 
   await stock.remove();
-  removeStockQty(
-    stock.stock_name,
-    stock.price,
-    stock.totalQtyInOneBox,
-    stock.totalBox
-  );
+  removeStockQty(stock.stock_name, stock.totalQtyInOneBox, stock.totalBox);
   // await WereHouseStocks.remove();
 
   res
