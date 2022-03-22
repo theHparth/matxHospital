@@ -69,8 +69,10 @@ const WereHouseStock = () => {
                             <TableRow>
                                 <TableCell>Stock Name</TableCell>
                                 <TableCell>Vendor Name</TableCell>
-                                <TableCell>box / Qty </TableCell>
-                                <TableCell>price</TableCell>
+                                <TableCell>total value</TableCell>
+                                <TableCell>Individual Price</TableCell>
+                                <TableCell> Qty / Box </TableCell>
+                                <TableCell> Total Qty </TableCell>
                                 <TableCell>Date</TableCell>
 
                                 {/* <TableCell>Address</TableCell>
@@ -94,10 +96,27 @@ const WereHouseStock = () => {
                                             {subscriber.vendor_name}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.box}/{subscriber.qty}
+                                            {subscriber.price
+                                                ? subscriber.price
+                                                : 0}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.price}
+                                            {subscriber.price /
+                                                (subscriber.totalQtyInOneBox *
+                                                    subscriber.totalBox)}
+                                        </TableCell>
+                                        <TableCell>
+                                            {subscriber.totalQtyInOneBox
+                                                ? subscriber.totalQtyInOneBox
+                                                : 0}
+                                            /
+                                            {subscriber.totalBox
+                                                ? subscriber.totalBox
+                                                : 0}
+                                        </TableCell>
+                                        <TableCell>
+                                            {subscriber.totalQtyInOneBox *
+                                                subscriber.totalBox}
                                         </TableCell>
                                         <TableCell>
                                             {subscriber.createdAt}

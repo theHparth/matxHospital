@@ -89,16 +89,18 @@ const AddStockInWereHouse = () => {
         dispatch(getAllData())
     }, [])
 
-
     const handleChange = (e) => {
         const name = e.target.name
         const value = e.target.value
         setState({
             ...state,
             [name]: value,
+            // price:
+            //     state.priceType === 'individualPrice'
+            //         ? value * state.box * state.qty
+            //         : value,
             // price: state.priceType === "individualPrice" ? value*state.box : value ,
             // stockTotoalPrice: name === "stockTotoalPrice" ? value : ""
-            
         })
 
         console.log(state)
@@ -157,7 +159,6 @@ const AddStockInWereHouse = () => {
                                             {alertText}
                                         </div>
                                     )}
-                                   
 
                                     <FormControl
                                         variant="standard"
@@ -232,7 +233,7 @@ const AddStockInWereHouse = () => {
                                             )}
                                         </Select>
                                     </FormControl>
-                                
+
                                     <TextField
                                         label="Total Box."
                                         onChange={handleChange}
@@ -255,7 +256,6 @@ const AddStockInWereHouse = () => {
                                             'this field is required',
                                         ]}
                                     />
-                                  
 
                                     <FormControl>
                                         <FormLabel id="demo-radio-buttons-group-label">
@@ -280,22 +280,19 @@ const AddStockInWereHouse = () => {
                                         </RadioGroup>
                                     </FormControl>
                                     {/* {state.priceType === 'individualPrice' ? ( */}
-                                        <TextField
-                                            label="Add price here"
-                                            onChange={handleChange}
-                                            type="number"
-                                            name="price"
-                                            value={state.price}
-                                            validators={[
-                                                'required',
-                                                'minNumber:1',
-                                            ]}
-                                            errorMessages={[
-                                                'this field is required',
-                                            ]}
-                                        />
+                                    <TextField
+                                        label="Add price here"
+                                        onChange={handleChange}
+                                        type="number"
+                                        name="price"
+                                        value={state.price}
+                                        validators={['required', 'minNumber:1']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
                                     {/* ) : ( */}
-                                        {/* <TextField
+                                    {/* <TextField
                                             label="Add price here"
                                             onChange={handleChange}
                                             type="number"

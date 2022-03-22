@@ -5,7 +5,6 @@ const AddStockInWereHouse = Loadable(
     lazy(() => import('./AddStockInWereHouse'))
 )
 const WereHouseStock = Loadable(lazy(() => import('./WereHouseStock')))
-const TotalStock = Loadable(lazy(() => import('./TotalStock')))
 
 const wereHouseRoutes = [
     {
@@ -15,10 +14,6 @@ const wereHouseRoutes = [
     {
         path: '/wereHouseStock',
         element: <WereHouseStock />,
-    },
-    {
-        path: '/totoalStock',
-        element: <TotalStock />,
     },
 ]
 

@@ -35,14 +35,13 @@ const add = (state) => async (dispatch) => {
             stock_name,
             stockTotoalPrice,
         } = state
-        price = priceType === 'individualPrice' ? price * box : price
+        price = priceType === 'individualPrice' ? price * box * qty : price
         await authFetch.post('/wereHouse', {
             vendor_name,
             price,
             totalQtyInOneBox: qty,
             totalBox: box,
             stock_name,
-            stockTotoalPrice,
         })
         dispatch({ type: CREATE_SUCCESS })
         dispatch(clearValues())

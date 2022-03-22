@@ -70,11 +70,6 @@ export const navigations = [
                 iconText: 'SI',
                 path: '/wereHouseStock',
             },
-            {
-                name: 'Stock Summery',
-                iconText: 'SI',
-                path: '/totoalStock',
-            },
         ],
     },
     {

@@ -59,8 +59,12 @@ const AllStock = () => {
                     <StyledTable>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Stock Name</TableCell>
-                                <TableCell>Description</TableCell>
+                                <TableCell align="center">Stock Name</TableCell>
+                                <TableCell align="center">
+                                    Description
+                                </TableCell>
+                                <TableCell align="center">value</TableCell>
+                                <TableCell align="center">Qty / Box</TableCell>
 
                                 {/* <TableCell>Address</TableCell>
                         <TableCell align="center">Pincode</TableCell> */}
@@ -76,11 +80,25 @@ const AllStock = () => {
                                 )
                                 .map((subscriber, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {subscriber.stock_name}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {subscriber.description}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {subscriber.price
+                                                ? subscriber.price
+                                                : 0}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {subscriber.totalQtyInOneBox
+                                                ? subscriber.totalQtyInOneBox
+                                                : 0}
+                                            /
+                                            {subscriber.totalBox
+                                                ? subscriber.totalBox
+                                                : 0}
                                         </TableCell>
 
                                         <TableCell align="center">
