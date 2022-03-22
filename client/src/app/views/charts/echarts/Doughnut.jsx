@@ -53,14 +53,13 @@ const DoughnutChart = ({ height, color = [] }) => {
                 hoverOffset: 5,
                 stillShowZeroSum: false,
                 label: {
-                    normal: {
-                        show: false,
-                        position: 'center', // shows the description data to center, turn off to show in right side
-                        textStyle: {
-                            color: theme.palette.text.secondary,
-                            fontSize: 13,
-                            fontFamily: 'roboto',
-                        },
+                    show: false,
+                    position: 'center', // shows the description data to center, turn off to show in right side
+                    textStyle: {
+                        color: theme.palette.text.secondary,
+                        fontSize: 13,
+                        fontFamily: 'roboto',
+
                         formatter: '{a}',
                     },
                     emphasis: {
@@ -74,9 +73,7 @@ const DoughnutChart = ({ height, color = [] }) => {
                     },
                 },
                 labelLine: {
-                    normal: {
-                        show: false,
-                    },
+                    show: false,
                 },
                 data: [
                     {
@@ -89,8 +86,8 @@ const DoughnutChart = ({ height, color = [] }) => {
                     },
                     { value: 15, name: 'Others' },
                 ],
-                itemStyle: {
-                    emphasis: {
+                emphasis: {
+                    itemStyle: {
                         shadowBlur: 10,
                         shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)',

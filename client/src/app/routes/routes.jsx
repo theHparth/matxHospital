@@ -13,6 +13,9 @@ import wereHouseRoutes from 'app/views/wareHouse/WereHouseRoutes'
 import stockOutRoutes from 'app/views/stockOut/StockOutRoutes'
 
 export const AllPages = () => {
+    const user = localStorage.getItem('user')
+
+    // const hospital = localttorage.getItem('hospital')
     const all_routes = [
         {
             element: (
@@ -20,16 +23,18 @@ export const AllPages = () => {
                     <MatxLayout />
                 </AuthGuard>
             ),
-            children: [
-                ...dashboardRoutes,
-                ...hospitalRoutes,
-                ...vendorRoutes,
-                ...stockRoutes,
-                ...wereHouseRoutes,
-                ...stockOutRoutes,
-                ...chartsRoute,
-                ...materialRoutes,
-            ],
+            children: user
+                ? [
+                      ...dashboardRoutes,
+                      ...hospitalRoutes,
+                      ...vendorRoutes,
+                      ...stockRoutes,
+                      ...wereHouseRoutes,
+                      ...stockOutRoutes,
+                      ...chartsRoute,
+                      ...materialRoutes,
+                  ]
+                : [...dashboardRoutes, ...materialRoutes],
         },
         ...sessionRoutes,
         {

@@ -4,15 +4,9 @@ import React, { useState, useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
 import { AllPages } from '../routes/routes'
-import { AllUserPages } from '../routes/routesUser'
+// import { AllUserPages } from '../routes/routesUser'
 
-const getUserRoleAuthStatus = (
-    pathname,
-    user,
-    routes,
-    hospital,
-    routesHospital
-) => {
+const getUserRoleAuthStatus = (pathname, user, routes, hospital) => {
     if (!user && !hospital) {
         return false
     }
@@ -25,7 +19,7 @@ const getUserRoleAuthStatus = (
         console.log(matched, user)
         return authenticated
     } else {
-        const matched = routesHospital.find((r) => r.path === pathname)
+        const matched = routes.find((r) => r.path === pathname)
         const authenticated =
             matched && matched.auth && matched.auth.length
                 ? matched.auth.includes(hospital)
@@ -43,7 +37,7 @@ const AuthGuard = ({ children }) => {
     const [previouseRoute, setPreviousRoute] = useState(null)
     const { pathname } = useLocation()
     const routes = flat(AllPages())
-    const routesHospital = flat(AllUserPages())
+    // const routesHospital = flat(AllPages())
     var isUserRoleAuthenticated
     if (user) {
         isUserRoleAuthenticated = getUserRoleAuthStatus(pathname, user, routes)
@@ -51,7 +45,7 @@ const AuthGuard = ({ children }) => {
         isUserRoleAuthenticated = getUserRoleAuthStatus(
             pathname,
             hospital,
-            routesHospital
+            routes
         )
     }
     let authenticated = isAuthenticated && isUserRoleAuthenticated
