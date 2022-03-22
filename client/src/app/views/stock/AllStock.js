@@ -63,8 +63,11 @@ const AllStock = () => {
                                 <TableCell align="center">
                                     Description
                                 </TableCell>
-                                <TableCell align="center">value</TableCell>
-                                <TableCell align="center">Qty / Box</TableCell>
+                                <TableCell>total value</TableCell>
+                                <TableCell>Individual Price</TableCell>
+                                <TableCell> Qty / Box </TableCell>
+                                <TableCell> Total Qty </TableCell>
+                                <TableCell>Date</TableCell>
 
                                 {/* <TableCell>Address</TableCell>
                         <TableCell align="center">Pincode</TableCell> */}
@@ -86,12 +89,23 @@ const AllStock = () => {
                                         <TableCell align="center">
                                             {subscriber.description}
                                         </TableCell>
-                                        <TableCell align="center">
+                                        <TableCell>
+                                            ${' '}
                                             {subscriber.price
                                                 ? subscriber.price
                                                 : 0}
                                         </TableCell>
-                                        <TableCell align="center">
+                                        <TableCell>
+                                            ${' '}
+                                            {subscriber.price /
+                                            (subscriber.totalQtyInOneBox *
+                                                subscriber.totalBox)
+                                                ? subscriber.price /
+                                                  (subscriber.totalQtyInOneBox *
+                                                      subscriber.totalBox)
+                                                : 0}
+                                        </TableCell>
+                                        <TableCell>
                                             {subscriber.totalQtyInOneBox
                                                 ? subscriber.totalQtyInOneBox
                                                 : 0}
@@ -99,6 +113,13 @@ const AllStock = () => {
                                             {subscriber.totalBox
                                                 ? subscriber.totalBox
                                                 : 0}
+                                        </TableCell>
+                                        <TableCell>
+                                            {subscriber.totalQtyInOneBox *
+                                                subscriber.totalBox}
+                                        </TableCell>
+                                        <TableCell>
+                                            {subscriber.createdAt}
                                         </TableCell>
 
                                         <TableCell align="center">
