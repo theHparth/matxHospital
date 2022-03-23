@@ -54,77 +54,73 @@ const StockOutReducer = function (state = initialState, action) {
                 stockOutDataFalse: action.payload.stockOutDataFalseStatus,
             }
         }
-        // case CREATE_BEGIN: {
-        //     return { ...state, isLoading: true }
-        // }
+        case CREATE_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Setock send success',
+            }
+        }
+        case CREATE_ERROR: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'warning',
+                alertText: action.payload.msg,
+            }
+        }
+        // edit VENDOR
+        case EDIT_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Data updated successfully',
+            }
+        }
+        case EDIT_ERROR: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertText: action.payload.msg,
+                alertType: 'danger',
+            }
+        }
+        case SET_EDIT: {
+            const subscriber = action.payload.subscriber
+            const {
+                _id,
+                hospitalName,
+                stock_name,
+                totalQtyInOneBox,
+                totalBox,
+                status,
+                price,
+                priceForUser,
+            } = subscriber
 
-        // case CREATE_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertType: 'success',
-        //         alertText: 'New Stock data Added!',
-        //     }
-        // }
-        // case CREATE_ERROR: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertType: 'warning',
-        //         alertText: action.payload.msg,
-        //     }
-        // }
-        // case HANDLE_CHANGE: {
-        //     return {
-        //         ...state,
-        //         page: 1,
-        //         [action.payload.name]: action.payload.value,
-        //     }
-        // }
-        // case EDIT_BEGIN: {
-        //     return {
-        //         ...state,
-        //         isLoading: true,
-        //     }
-        // }
-        // // edit VENDOR
-        // case EDIT_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertType: 'success',
-        //         alertText: 'Stock data updated successfully',
-        //     }
-        // }
-        // case EDIT_ERROR: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertText: action.payload.msg,
-        //         alertType: 'danger',
-        //     }
-        // }
-        //delete state
+            return {
+                ...state,
+                isEditing: true,
+                _id,
+                hospitalName,
+                stock_name,
+                totalQtyInOneBox,
+                totalBox,
+                status,
+                price,
+                priceForUser,
+            }
+        }
+
         case DELETE_BEGIN: {
             return { ...state, isLoading: true }
         }
-        // case SET_EDIT: {
-        //     const subscriber = action.payload.subscriber
-        //     const { _id, description, minimumLimit, stock_name } = subscriber
-
-        //     return {
-        //         ...state,
-        //         isEditing: true,
-        //         _id,
-        //         description,
-        //         minimumLimit,
-        //         stock_name,
-        //     }
-        // }
 
         /////////////////////////////////////////////////////////
 

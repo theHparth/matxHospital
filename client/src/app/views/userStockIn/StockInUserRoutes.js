@@ -6,6 +6,7 @@ const TodaySellingAddForm = Loadable(
 )
 const AllStockInDetails = Loadable(lazy(() => import('./AllStockInDetails')))
 const PendingStockIn = Loadable(lazy(() => import('./PendingStockIn')))
+const InstockListUser = Loadable(lazy(() => import('./InstockListUser')))
 const PreviousSellingEntryManage = Loadable(
     lazy(() => import('./PreviousSellingEntryManage'))
 )
@@ -14,6 +15,10 @@ const StockInUserRoutes = [
     {
         path: '/pendingStockInUser',
         element: <PendingStockIn />,
+    },
+    {
+        path: '/inStockUser',
+        element: <InstockListUser />,
     },
     {
         path: '/newEntryForm',

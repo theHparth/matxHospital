@@ -122,11 +122,11 @@ const totoalStocksInUser = async (req, res) => {
   };
   // console.log(req.hospital.hospitalName);
   let result = StocksHosital.find(queryObject);
-  const stockInDataTrueStatus = await result;
-  console.log(stockInDataTrueStatus);
+  const presentStockUser = await result;
+  // console.log(stockInDataTrueStatus);
   // const totalStock = await StocksHosital.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ stockInDataTrueStatus });
+  res.status(StatusCodes.OK).json({ presentStockUser });
 };
 
 const minimumRequiremantUserChange = async (req, res) => {

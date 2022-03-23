@@ -15,11 +15,14 @@ import {
     STATUS_EDIT_SUCCESS,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
+    SET_EDIT_MINIMUM_LIMIT,
+    GET_SUCCESS_PRESENT_STOCK,
 } from '../../actions/user/StockInUserAction'
 
 const initialState = {
     stockInDataTrue: [],
     stockInDataFalse: [],
+    presentStockUserData: [],
     isLoading: false,
     showAlert: true,
     alertType: '',
@@ -35,6 +38,7 @@ const initialState = {
     price: 1,
     status: false,
     showPrice: false,
+    minimumLimit: 1,
 }
 
 const StockInUserReducer = function (state = initialState, action) {
@@ -54,6 +58,24 @@ const StockInUserReducer = function (state = initialState, action) {
                 stockInDataFalse: action.payload.stockInDataFalseStatus,
             }
         }
+        case GET_SUCCESS_PRESENT_STOCK: {
+            return {
+                ...state,
+                presentStockUserData: action.payload.presentStockUser,
+            }
+        }
+        case SET_EDIT_MINIMUM_LIMIT: {
+            const subscriber = action.payload.subscriber
+            const { _id, minimumLimit, stock_name } = subscriber
+
+            return {
+                ...state,
+                isEditing: true,
+                _id,
+                minimumLimit,
+                stock_name,
+            }
+        }
         case STATUS_EDIT_SUCCESS: {
             return {
                 ...state,
@@ -61,7 +83,16 @@ const StockInUserReducer = function (state = initialState, action) {
                 showAlert: true,
                 status: true,
                 alertType: 'success',
-                alertText: 'Stock data updated successfully',
+                alertText: 'Minimum limit updated successfully',
+            }
+        }
+        case EDIT_ERROR: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertText: action.payload.msg,
+                alertType: 'danger',
             }
         }
         // case CREATE_BEGIN: {

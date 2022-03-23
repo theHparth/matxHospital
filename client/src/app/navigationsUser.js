@@ -11,13 +11,12 @@ export const navigationsUser = [
     {
         name: 'New Arriving',
         icon: 'business',
-        children: [
-            {
-                name: 'List',
-                iconText: 'SI',
-                path: '/pendingStockInUser',
-            },
-        ],
+        path: '/pendingStockInUser',
+    },
+    {
+        name: 'In stock item',
+        icon: 'business',
+        path: '/inStockUser',
     },
     {
         name: 'Stock-Out',

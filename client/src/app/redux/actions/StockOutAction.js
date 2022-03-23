@@ -27,6 +27,77 @@ const authFetch = axios.create({
     },
 })
 
+const sendToUser = (state) => async (dispatch) => {
+    try {
+        let {
+            hospitalName,
+            stock_name,
+            totalQtyInOneBox,
+            totalBox,
+            status,
+            price,
+            priceForUser,
+        } = state
+        await authFetch.post('/', {
+            hospitalName,
+            stock_name,
+            totalQtyInOneBox,
+            totalBox,
+            status,
+            price,
+            priceForUser,
+        })
+        dispatch({ type: CREATE_SUCCESS })
+        dispatch(clearValues())
+    } catch (error) {
+        if (error.response.status === 401) return
+        dispatch({
+            type: CREATE_ERROR,
+            payload: { msg: error.response.data.msg },
+        })
+    }
+    dispatch(clearAlert())
+}
+
+const setEditData = (subscriber) => (dispatch) => {
+    // console.log(subscriber, 'new Data')
+    dispatch({ type: SET_EDIT, payload: { subscriber } })
+}
+
+const edit = (state) => async (dispatch) => {
+    try {
+        const {
+            id,
+            hospitalName,
+            stock_name,
+            totalQtyInOneBox,
+            totalBox,
+            status,
+            price,
+            priceForUser,
+        } = state
+        await authFetch.patch(`/wereHouse/${id}`, {
+            id,
+            hospitalName,
+            stock_name,
+            totalQtyInOneBox,
+            totalBox,
+            status,
+            price,
+            priceForUser,
+        })
+        dispatch({ type: EDIT_SUCCESS })
+        dispatch(clearValues())
+    } catch (error) {
+        if (error.response.status === 401) return
+        dispatch({
+            type: EDIT_ERROR,
+            payload: { msg: error.response.data.msg },
+        })
+    }
+    dispatch(clearAlert())
+}
+
 const getAllDataStatusTrue = (state) => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/trueAdmin')
@@ -86,8 +157,11 @@ const displayAlert = () => (dispatch) => {
 ////////////////////////////////////////////////////////////////////////
 
 export {
+    sendToUser,
     getAllDataStatusTrue,
     getAllDataStatusFalse,
+    edit,
+    setEditData,
     deleteData,
     clearValues,
     clearAlert,

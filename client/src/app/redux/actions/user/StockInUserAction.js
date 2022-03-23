@@ -9,6 +9,8 @@ export const GET_SUCCESS_STOCKOUT_STATUS_TRUE =
 export const GET_SUCCESS_STOCKOUT_STATUS_FALSE =
     'GET_SUCCESS_STOCKOUT_STATUS_FALSE'
 export const SET_EDIT = 'SET_EDIT'
+export const SET_EDIT_MINIMUM_LIMIT = 'SET_EDIT_MINIMUM_LIMIT'
+export const GET_SUCCESS_PRESENT_STOCK = 'GET_SUCCESS_PRESENT_STOCK'
 export const STATUS_EDIT_SUCCESS = 'STATUS_EDIT_SUCCESS'
 export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
@@ -47,7 +49,7 @@ const getAllDataStatusFalse = (state) => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/falseUser')
         const { stockInDataFalseStatus } = data
-        console.log('userData', stockInDataFalseStatus)
+        // console.log('userData', stockInDataFalseStatus)
         dispatch({
             type: GET_SUCCESS_STOCKOUT_STATUS_FALSE,
             payload: { stockInDataFalseStatus },
@@ -58,7 +60,44 @@ const getAllDataStatusFalse = (state) => async (dispatch) => {
     }
     dispatch(clearAlert())
 }
+const inStockUser = (state) => async (dispatch) => {
+    try {
+        const { data } = await authFetch.get('/totalStocks')
+        const { presentStockUser } = data
+        console.log('presentstockdata', presentStockUser)
+        dispatch({
+            type: GET_SUCCESS_PRESENT_STOCK,
+            payload: { presentStockUser },
+        })
+    } catch (error) {
+        console.log(error)
+        // logout()
+    }
+    dispatch(clearAlert())
+}
 
+const setEditMinimumLimit = (subscriber) => (dispatch) => {
+    dispatch({ type: SET_EDIT_MINIMUM_LIMIT, payload: { subscriber } })
+}
+
+const inStockMinimumChange = (state) => async (dispatch) => {
+    try {
+        const { minimumLimit, id } = state
+        await authFetch.patch(`/totalStocks/${id}`, {
+            id,
+            minimumLimit,
+        })
+        dispatch({ type: STATUS_EDIT_SUCCESS })
+        dispatch(getAllDataStatusFalse())
+    } catch (error) {
+        if (error.response.status === 401) return
+        dispatch({
+            type: EDIT_ERROR,
+            payload: { msg: error.response.data.msg },
+        })
+    }
+    dispatch(clearAlert())
+}
 const statusChange = (id) => async (dispatch) => {
     try {
         // const { id } = state
@@ -95,6 +134,9 @@ const displayAlert = () => (dispatch) => {
 export {
     getAllDataStatusTrue,
     getAllDataStatusFalse,
+    inStockUser,
+    inStockMinimumChange,
+    setEditMinimumLimit,
     statusChange,
     clearValues,
     clearAlert,
