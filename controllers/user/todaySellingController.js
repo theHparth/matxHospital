@@ -13,16 +13,17 @@ const AddtodaySellingHospital = async (req, res) => {
     throw new BadRequestError("Please provide all values");
   }
   var hospitalName = req.hospital.hospitalName;
+  console.log(hospitalName);
 
   req.body.createdFor = req.hospital.hospitalName;
   //remove below line after connecting frontend
-  req.body.createdFor = "User";
+  // req.body.createdFor = "User";
   var yourHospital = await UserStock.find({ yourHospital, stock_name });
   req.body.createdBy = yourHospital[0].createdBy;
 
   const todaySelling = await TodaySellingHospital.create(req.body);
 
-  // removeStockQty(hospitalName, stock_name, totalQtyInOneBox, totalBox);
+  removeStockQty(hospitalName, stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.CREATED).json({ todaySelling });
 };
@@ -51,7 +52,7 @@ const updateTodaySelling = async (req, res) => {
   const todaySellingData = await TodaySellingHospital.findOne({
     _id: stockOutId,
   });
-
+  // console.log(todaySellingData);
   if (!todaySellingData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
@@ -65,14 +66,20 @@ const updateTodaySelling = async (req, res) => {
       runValidators: true,
     }
   );
-
-  // removeStockQty(
+  var hospitalName = req.hospital.hospitalName;
+  // console.log(
   //   todaySellingData.stock_name,
   //   todaySellingData.totalQtyInOneBox,
-  //   todaySellingData.totalBox,
-  //   todaySellingData.price
+  //   todaySellingData.totalBox
   // );
-  // addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+  // console.log(hospitalName, stock_name, totalQtyInOneBox, totalBox);
+  addStockQty(
+    hospitalName,
+    todaySellingData.stock_name,
+    todaySellingData.totalQtyInOneBox,
+    todaySellingData.totalBox
+  );
+  removeStockQty(hospitalName, stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };
@@ -88,15 +95,15 @@ const deleteTodaySelling = async (req, res) => {
     throw new NotFoundError(`No job with id :${stockOutId}`);
   }
   //change after connecting frontend ==> remove comment
-  // checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
-
+  checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
+  var hospitalName = req.hospital.hospitalName;
   await todaySellingData.remove();
-  // removeStockQty(
-  //   todaySellingData.stock_name,
-  //   todaySellingData.totalQtyInOneBox,
-  //   todaySellingData.totalBox,
-  //   todaySellingData.price
-  // );
+  addStockQty(
+    hospitalName,
+    todaySellingData.stock_name,
+    todaySellingData.totalQtyInOneBox,
+    todaySellingData.totalBox
+  );
 
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };

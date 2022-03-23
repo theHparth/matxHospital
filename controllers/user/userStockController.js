@@ -8,9 +8,10 @@ const addStockQty = async (
   hospitalName,
   stock_name,
   totalQtyInOneBox,
-  totalBox,
-  priceForUser
+  totalBox
 ) => {
+  console.log(totalQtyInOneBox * totalBox);
+
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
     {
@@ -26,6 +27,7 @@ const removeStockQty = async (
   totalQtyInOneBox,
   totalBox
 ) => {
+  console.log(totalQtyInOneBox * totalBox);
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
     {
@@ -48,17 +50,15 @@ const statusController = async (req, res) => {
 
   checkPermissionsHospital(req.hospital, stockOutData.createdFor);
   var createdfor = stockOutData.createdFor;
-  console.log(stockOutData);
+
   var createdBy = stockOutData.createdBy;
   var stockname = stockOutData.stock_name;
 
   let result = await StocksHosital.findOne({
     stock_name: stockname,
   });
-  console.log(result);
+
   if (!result) {
-    // var createdfor = stockOutData.createdFor;
-    // var createdby = stockOutData.createdBy;
     var stock_name = stockOutData.stock_name;
     var hospitalName = stockOutData.hospitalName;
     await StocksHosital.create({
