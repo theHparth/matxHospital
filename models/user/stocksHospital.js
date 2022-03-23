@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 
 const StockHospitalSchema = new mongoose.Schema(
   {
-    hospitalName: {
-      type: String,
-      required: [true, "Please provide hospital name"],
-    },
     stock_name: {
       type: String,
       required: [true, "Please provide stock name"],
@@ -17,9 +13,9 @@ const StockHospitalSchema = new mongoose.Schema(
       // required: [true, "Please provide minimum limit"],
     },
     createdFor: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       ref: "Hospital",
-      required: [true, "Please provide hospital name"],
+      required: [true, "Please provide created for"],
     },
 
     totalQtyUser: {

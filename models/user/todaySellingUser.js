@@ -20,9 +20,9 @@ const todaySellingHospitalSchema = new mongoose.Schema(
       type: Number,
     },
     createdFor: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       ref: "Hospital",
-      required: [true, "Please provide hospital name"],
+      required: [true, "Please provide created for"],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,

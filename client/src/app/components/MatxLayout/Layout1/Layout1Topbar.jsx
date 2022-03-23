@@ -87,7 +87,13 @@ const IconBox = styled('div')(({ theme }) => ({
 const Layout1Topbar = () => {
     const theme = useTheme()
     const { settings, updateSettings } = useSettings()
-    const { logout, user, hospital } = useAuth()
+    const { logout } = useAuth()
+    const user = localStorage.getItem('user')
+    console.log(
+        'user.................Layout1Topbar......needtofix............',
+        user
+    )
+    const hospital = localStorage.getItem('hospital')
     const isMdScreen = useMediaQuery(theme.breakpoints.down('md'))
 
     const updateSidebarMode = (sidebarSettings) => {
@@ -123,7 +129,7 @@ const Layout1Topbar = () => {
                         <Icon>menu</Icon>
                     </StyledIconButton>
 
-                    <IconBox>
+                    {/* <IconBox>
                         <StyledIconButton>
                             <Icon>mail_outline</Icon>
                         </StyledIconButton>
@@ -135,13 +141,13 @@ const Layout1Topbar = () => {
                         <StyledIconButton>
                             <Icon>star_outline</Icon>
                         </StyledIconButton>
-                    </IconBox>
+                    </IconBox> */}
                 </Box>
                 <Box display="flex" alignItems="center">
                     <MatxSearchBox />
-                    <NotificationProvider>
+                    {/* <NotificationProvider>
                         <NotificationBar />
-                    </NotificationProvider>
+                    </NotificationProvider> */}
 
                     <ShoppingCart />
 
@@ -152,9 +158,9 @@ const Layout1Topbar = () => {
                                     <Span>
                                         Hi
                                         <strong>
-                                            {/* {user.name
+                                            {user
                                                 ? user.name
-                                                : hospital.hospitalName} */}
+                                                : hospital.hospitalName}
                                         </strong>
                                     </Span>
                                 </Hidden>

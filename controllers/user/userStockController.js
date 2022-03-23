@@ -3,17 +3,24 @@ import StocksHosital from "../../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
+import mongoose from "mongoose";
 
 const addStockQty = async (
-  hospitalName,
+  createdFor,
   stock_name,
   totalQtyInOneBox,
   totalBox
 ) => {
-  console.log(totalQtyInOneBox * totalBox);
-
+  // console.log(createdFor);
+  // console.log(totalQtyInOneBox * totalBox);
+  var obId = createdFor.toString();
+  // var aaa = await StocksHosital.find({
+  //   $and: [{ stock_name }, { createdFor: obId }],
+  // });
+  // var aaa = await StocksHosital.find({ createdFor: obId });
+  // console.log("stocks2", aaa);
   await StocksHosital.updateOne(
-    { $and: [{ stock_name }, { hospitalName }] },
+    { $and: [{ stock_name }, { createdFor: obId }] },
     {
       $inc: {
         totalQtyUser: totalQtyInOneBox * totalBox,
@@ -22,14 +29,16 @@ const addStockQty = async (
   );
 };
 const removeStockQty = async (
-  hospitalName,
+  createdFor,
   stock_name,
   totalQtyInOneBox,
   totalBox
 ) => {
-  console.log(totalQtyInOneBox * totalBox);
+  var obId = createdFor.toString();
+
+  // console.log(totalQtyInOneBox * totalBox);
   await StocksHosital.updateOne(
-    { $and: [{ stock_name }, { hospitalName }] },
+    { $and: [{ stock_name }, { createdFor: obId }] },
     {
       $inc: {
         totalQtyUser: -(totalQtyInOneBox * totalBox),
@@ -47,9 +56,9 @@ const statusController = async (req, res) => {
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
-
+  // console.log(req.hospital.hospitalId, stockOutData.createdFor);
   checkPermissionsHospital(req.hospital, stockOutData.createdFor);
-  var createdfor = stockOutData.createdFor;
+  var createdFor = stockOutData.createdFor;
 
   var createdBy = stockOutData.createdBy;
   var stockname = stockOutData.stock_name;
@@ -60,11 +69,10 @@ const statusController = async (req, res) => {
 
   if (!result) {
     var stock_name = stockOutData.stock_name;
-    var hospitalName = stockOutData.hospitalName;
+    // var hospitalName = stockOutData.hospitalName;
     await StocksHosital.create({
       stock_name,
-      hospitalName,
-      createdFor: createdfor,
+      createdFor,
       createdBy: createdBy,
     });
   }
@@ -84,7 +92,7 @@ const statusController = async (req, res) => {
     }
   );
   addStockQty(
-    stockOutData.hospitalName,
+    createdFor,
     stockOutData.stock_name,
     stockOutData.totalQtyInOneBox,
     stockOutData.totalBox
@@ -95,7 +103,7 @@ const statusController = async (req, res) => {
 
 const statusFalse = async (req, res) => {
   const queryObject = {
-    createdFor: req.hospital.hospitalName,
+    createdFor: req.hospital.hospitalId,
     status: false,
   };
   let result = UserStock.find(queryObject);
@@ -106,7 +114,7 @@ const statusFalse = async (req, res) => {
 };
 const statusTrue = async (req, res) => {
   const queryObject = {
-    createdFor: req.hospital.hospitalName,
+    createdFor: req.hospital.hospitalId,
     status: true,
   };
   let result = UserStock.find(queryObject);
@@ -118,7 +126,7 @@ const statusTrue = async (req, res) => {
 
 const totoalStocksInUser = async (req, res) => {
   const queryObject = {
-    createdFor: req.hospital.hospitalName,
+    createdFor: req.hospital.hospitalId,
   };
   // console.log(req.hospital.hospitalName);
   let result = StocksHosital.find(queryObject);

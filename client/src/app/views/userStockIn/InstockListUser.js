@@ -95,8 +95,8 @@ const InstockListUser = () => {
                                         </TableCell>
 
                                         <TableCell align="center">
-                                            {subscriber.totalQty
-                                                ? subscriber.totalQty
+                                            {subscriber.totalQtyUser
+                                                ? subscriber.totalQtyUser
                                                 : 0}
                                         </TableCell>
 

@@ -131,7 +131,7 @@ function ShoppingCart({ container }) {
 
     return (
         <Fragment>
-            <IconButton onClick={handleDrawerToggle}>
+            {/* <IconButton onClick={handleDrawerToggle}>
                 <Badge color="secondary" badgeContent={cartList.length}>
                     <Icon sx={{ color: textColor }}>shopping_cart</Icon>
                 </Badge>
@@ -240,7 +240,7 @@ function ShoppingCart({ container }) {
                         </Button>
                     </MiniCart>
                 </Drawer>
-            </ThemeProvider>
+            </ThemeProvider> */}
         </Fragment>
     )
 }

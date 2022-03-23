@@ -12,25 +12,28 @@ const AddtodaySellingHospital = async (req, res) => {
   if (!totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
-  var hospitalName = req.hospital.hospitalName;
+  // var hospitalid = req.hospital.hospitalId;
   console.log(hospitalName);
 
-  req.body.createdFor = req.hospital.hospitalName;
+  req.body.createdFor = req.hospital._id;
+  var createdFor = req.hospital._id;
   //remove below line after connecting frontend
-  // req.body.createdFor = "User";
-  var yourHospital = await UserStock.find({ yourHospital, stock_name });
+  // req.body.createdFor = "User";  { $and: [{ stock_name }, { hospitalName }] },
+  var yourHospital = await UserStock.find({
+    $and: [{ stock_name }, { hospitalid }],
+  });
   req.body.createdBy = yourHospital[0].createdBy;
 
   const todaySelling = await TodaySellingHospital.create(req.body);
 
-  removeStockQty(hospitalName, stock_name, totalQtyInOneBox, totalBox);
+  removeStockQty(createdFor, stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.CREATED).json({ todaySelling });
 };
 
 const allTodaySelling = async (req, res) => {
   const queryObject = {
-    createdFor: req.hospital.hospitalName,
+    createdFor: req.hospital.hospitalId,
   };
 
   let result = TodaySellingHospital.find(queryObject);
@@ -73,13 +76,14 @@ const updateTodaySelling = async (req, res) => {
   //   todaySellingData.totalBox
   // );
   // console.log(hospitalName, stock_name, totalQtyInOneBox, totalBox);
+  var createdFor = req.hospital._id;
   addStockQty(
-    hospitalName,
+    createdFor,
     todaySellingData.stock_name,
     todaySellingData.totalQtyInOneBox,
     todaySellingData.totalBox
   );
-  removeStockQty(hospitalName, stock_name, totalQtyInOneBox, totalBox);
+  removeStockQty(createdFor, stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };
@@ -98,8 +102,10 @@ const deleteTodaySelling = async (req, res) => {
   checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
   var hospitalName = req.hospital.hospitalName;
   await todaySellingData.remove();
+  var createdFor = req.hospital._id;
+
   addStockQty(
-    hospitalName,
+    createdFor,
     todaySellingData.stock_name,
     todaySellingData.totalQtyInOneBox,
     todaySellingData.totalBox
