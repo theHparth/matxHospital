@@ -8,16 +8,20 @@ import { useRoutes } from 'react-router-dom'
 import { AuthProvider } from 'app/contexts/JWTAuthContext'
 import { SettingsProvider } from 'app/contexts/SettingsContext'
 
+// import 'normalize.css'
+
+import './index.css'
+
 const App = () => {
     const all_pages = useRoutes(AllPages())
 
     return (
         <Provider store={Store}>
-            {/* <SettingsProvider> */}
-            <MatxTheme>
-                <AuthProvider>{all_pages}</AuthProvider>
-            </MatxTheme>
-            {/* </SettingsProvider> */}
+            <SettingsProvider>
+                <MatxTheme>
+                    <AuthProvider>{all_pages}</AuthProvider>
+                </MatxTheme>
+            </SettingsProvider>
         </Provider>
     )
 }

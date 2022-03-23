@@ -62,7 +62,7 @@ export default function DetailedExpansionPanel() {
                 <AccordionDetails className="details">
                     <div className="column" />
                     <div className="column">
-                        <Chip label="Barbados" onDelete={() => { }} />
+                        <Chip label="Barbados" onDelete={() => {}} />
                     </div>
                     <div className="column helper">
                         <Typography variant="caption">

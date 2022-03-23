@@ -10,47 +10,116 @@ export const navigations = [
     },
     {
         name: 'Hospitals',
-        icon: 'hospital',
+        icon: 'library_add',
         children: [
             {
                 name: 'Add Hospital',
                 iconText: 'SI',
-                path: '/api/v1/hospitals/addHospital',
+                path: '/addHospital',
             },
             {
                 name: 'Hospital List',
                 iconText: 'SI',
-                path: '/api/v1/hospitals/allHospitals',
+                path: '/allHospitals',
+            },
+        ],
+    },
+    {
+        name: 'Vendor',
+        icon: 'person_add',
+        children: [
+            {
+                name: 'Add Vendor',
+                iconText: 'SI',
+                path: '/addVendor',
+            },
+            {
+                name: 'Vendor List',
+                iconText: 'SI',
+                path: '/allVendor',
+            },
+        ],
+    },
+    {
+        name: 'Stocks',
+        icon: 'business',
+        children: [
+            {
+                name: 'Add Stock',
+                iconText: 'SI',
+                path: '/addStock',
+            },
+            {
+                name: 'Stock List',
+                iconText: 'SI',
+                path: '/allStock',
+            },
+        ],
+    },
+    {
+        name: 'Werehouse',
+        icon: 'business',
+        children: [
+            {
+                name: 'Stock Add',
+                iconText: 'SI',
+                path: '/addStockInWereHouse',
+            },
+            {
+                name: 'Stock In report',
+                iconText: 'SI',
+                path: '/wereHouseStock',
+            },
+        ],
+    },
+    {
+        name: 'Stock-Out',
+        icon: 'business',
+        children: [
+            {
+                name: 'Form',
+                iconText: 'SI',
+                path: '/stockOutForm',
+            },
+            {
+                name: 'Stock out data',
+                iconText: 'SI',
+                path: '/listStockOut',
+            },
+            {
+                name: 'Pending List',
+                iconText: 'SI',
+                path: '/pendingStockOut',
             },
         ],
     },
 
-    {
-        name: 'Session/Auth',
-        icon: 'security',
-        children: [
-            {
-                name: 'Sign in',
-                iconText: 'SI',
-                path: '/session/signin',
-            },
-            {
-                name: 'Sign up',
-                iconText: 'SU',
-                path: '/session/signup',
-            },
-            {
-                name: 'Forgot Password',
-                iconText: 'FP',
-                path: '/session/forgot-password',
-            },
-            {
-                name: 'Error',
-                iconText: '404',
-                path: '/session/404',
-            },
-        ],
-    },
+    // {
+    //     name: 'Session/Auth',
+    //     icon: 'security',
+    //     children: [
+    //         {
+    //             name: 'Sign in',
+    //             iconText: 'SI',
+    //             path: '/session/signin',
+    //         },
+    //         {
+    //             name: 'Sign up',
+    //             iconText: 'SU',
+    //             path: '/session/signup',
+    //         },
+    //         {
+    //             name: 'Forgot Password',
+    //             iconText: 'FP',
+    //             path: '/session/forgot-password',
+    //         },
+    //         {
+    //             name: 'Error',
+    //             iconText: '404',
+    //             path: '/session/404',
+    //         },
+    //     ],
+    // },
     // {
     //     label: 'Components',
     //     type: 'label',

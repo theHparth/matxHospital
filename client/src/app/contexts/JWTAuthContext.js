@@ -1,71 +1,70 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import jwtDecode from 'jwt-decode'
-import axios from 'axios.js'
+import axios from 'axios'
 import { MatxLoading } from 'app/components'
 
 const initialState = {
     isAuthenticated: false,
     isInitialised: false,
     user: null,
-}
-
-const isValidToken = (accessToken) => {
-    if (!accessToken) {
-        return false
-    }
-
-    const decodedToken = jwtDecode(accessToken)
-    const currentTime = Date.now() / 1000
-    return decodedToken.exp > currentTime
-}
-
-const setSession = (accessToken) => {
-    if (accessToken) {
-        localStorage.setItem('accessToken', accessToken)
-        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-    } else {
-        localStorage.removeItem('accessToken')
-        delete axios.defaults.headers.common.Authorization
-    }
+    token: null,
+    hospital: null,
+    tokenHospital: null,
 }
 
 const reducer = (state, action) => {
     switch (action.type) {
         case 'INIT': {
-            const { isAuthenticated, user } = action.payload
+            const { isAuthenticated, user, hospital } = action.payload
 
             return {
                 ...state,
                 isAuthenticated,
                 isInitialised: true,
                 user,
+                hospital,
             }
         }
         case 'LOGIN': {
-            const { user } = action.payload
+            const { user, token, hospital, tokenHospital } = action.payload
 
             return {
                 ...state,
                 isAuthenticated: true,
                 user,
+                token,
+                hospital,
+                tokenHospital,
             }
         }
+        case 'LOGIN_ERROR': {
+            const { msg } = action.payload
+
+            return {
+                ...state,
+                msg,
+            }
+        }
+
         case 'LOGOUT': {
             return {
                 ...state,
                 isAuthenticated: false,
                 user: null,
+                token: null,
+                hospital: null,
+                tokenHospital: null,
             }
         }
-        case 'REGISTER': {
-            const { user } = action.payload
+        // case 'REGISTER': {
+        //     const { user, token } = action.payload
 
-            return {
-                ...state,
-                isAuthenticated: true,
-                user,
-            }
-        }
+        //     return {
+        //         ...state,
+        //         isAuthenticated: true,
+        //         user,
+        //         token,
+        //     }
+        // }
         default: {
             return { ...state }
         }
@@ -75,7 +74,10 @@ const reducer = (state, action) => {
 const AuthContext = createContext({
     ...initialState,
     method: 'JWT',
+    // taoken: '',
+
     login: () => Promise.resolve(),
+    loginUser: () => Promise.resolve(),
     logout: () => {},
     register: () => Promise.resolve(),
 })
@@ -83,71 +85,161 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const login = async (email, password) => {
-        // const response = await axios.post('/api/auth/login', {
-        //     email,
-        //     password,
-        // })
-        // const { accessToken, user } = response.data
+    const authFetch = axios.create({
+        baseURL: '/api/v1',
+    })
+    // request
 
-        // setSession(accessToken)
+    authFetch.interceptors.request.use(
+        (config) => {
+            if (state.token) {
+                config.headers.common['Authorization'] = `Bearer ${state.token}`
+            } else {
+                config.headers.common[
+                    'Authorization'
+                ] = `Bearer ${state.tokenHospital}`
+            }
+            return config
+        },
+        (error) => {
+            return Promise.reject(error)
+        }
+    )
+    // response
 
-        const response = await axios.post('/api/v1/auth/login', {
-            email,
-            password,
-        })
-        const { token, user } = response.data
-        var accessToken = token
-        console.log(user)
-        setSession(accessToken)
+    authFetch.interceptors.response.use(
+        (response) => {
+            return response
+        },
+        (error) => {
+            if (error.response.status === 401) {
+                logout()
+            }
+            return Promise.reject(error)
+        }
+    )
 
-        dispatch({
-            type: 'LOGIN',
-            payload: {
-                user,
-            },
-        })
+    const addUserToLocalStorage = ({
+        user,
+        token,
+        hospital,
+        tokenHospital,
+    }) => {
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('token', token)
+        } else {
+            localStorage.setItem('hospital', JSON.stringify(hospital))
+            localStorage.setItem('tokenHospital', tokenHospital)
+        }
     }
 
-    const register = async (email, username, password) => {
-        const response = await axios.post('/api/auth/register', {
-            email,
-            username,
-            password,
-        })
+    const removeUserFromLocalStorage = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
 
-        const { accessToken, user } = response.data
+        localStorage.removeItem('tokenHospital')
+        localStorage.removeItem('hospital')
+    }
 
-        setSession(accessToken)
+    const login = async (email, password) => {
+        try {
+            const response = await authFetch.post('/auth/login', {
+                email,
+                password,
+            })
 
-        dispatch({
-            type: 'REGISTER',
-            payload: {
-                user,
-            },
-        })
+            const { token, user } = response.data
+
+            addUserToLocalStorage({ user, token })
+
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user,
+                    token,
+                },
+            })
+        } catch (error) {
+            dispatch({
+                type: 'LOGIN_ERROR',
+                payload: { msg: error.response.data.msg },
+            })
+        }
+    }
+
+    const loginUser = async (email, password) => {
+        try {
+            const response = await authFetch.post('/authHospital/login', {
+                email,
+                password,
+            })
+
+            const { tokenHospital, hospital } = response.data
+
+            addUserToLocalStorage({ hospital, tokenHospital })
+
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    hospital,
+                    tokenHospital,
+                },
+            })
+        } catch (error) {
+            dispatch({
+                type: 'LOGIN_ERROR',
+                payload: { msg: error.response.data.msg },
+            })
+        }
+        // clearAlert()
+    }
+
+    const register = async (email, name, password) => {
+        // const response = await authFetch.post('/auth/register', {
+        //     email,
+        //     name,
+        //     password,
+        // })
+        // const { token, user } = response.data
+        // addUserToLocalStorage({ user, token })
+        // dispatch({
+        //     type: 'REGISTER',
+        //     payload: {
+        //         user,
+        //     },
+        // })
     }
 
     const logout = () => {
-        setSession(null)
+        removeUserFromLocalStorage()
         dispatch({ type: 'LOGOUT' })
     }
 
+    // ----------------------------------------------------------------
     useEffect(() => {
         ;(async () => {
             try {
-                const accessToken = window.localStorage.getItem('accessToken')
+                const token = window.localStorage.getItem('token')
+                const user = window.localStorage.getItem('user')
+                const tokenHospital =
+                    window.localStorage.getItem('tokenHospital')
+                const hospital = window.localStorage.getItem('hospital')
 
-                if (accessToken && isValidToken(accessToken)) {
-                    setSession(accessToken)
-                    const response = await axios.get('/api/auth/profile')
-                    const { user } = response.data
-
+                if (token && user) {
                     dispatch({
                         type: 'INIT',
                         payload: {
                             isAuthenticated: true,
                             user,
+                        },
+                    })
+                } else if (tokenHospital && hospital) {
+                    dispatch({
+                        type: 'INIT',
+                        payload: {
+                            isAuthenticated: true,
+                            hospital,
                         },
                     })
                 } else {
@@ -156,6 +248,7 @@ export const AuthProvider = ({ children }) => {
                         payload: {
                             isAuthenticated: false,
                             user: null,
+                            hospital: null,
                         },
                     })
                 }
@@ -166,6 +259,7 @@ export const AuthProvider = ({ children }) => {
                     payload: {
                         isAuthenticated: false,
                         user: null,
+                        hospital: null,
                     },
                 })
             }
@@ -184,6 +278,7 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 register,
+                loginUser,
             }}
         >
             {children}

@@ -19,14 +19,22 @@ import connectDB from "./db/connect.js";
 
 // routers
 import authRouter from "./routes/authRoutes.js";
+import authRouterHospital from "./routes/user/authRoutesHospital.js";
 import jobsRouter from "./routes/jobsRoutes.js";
 import hospitalRouter from "./routes/hospitalRoutes.js";
 import vendorRouter from "./routes/vendorRoutes.js";
+import stockRouter from "./routes/stockRoutes.js";
+import wereHouseRouter from "./routes/wereHouseRouter.js";
+import stockOutRouter from "./routes/stockOutRouter.js";
+import stockInUserRouter from "./routes/user/stockInUserRouter.js";
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import authenticateUser from "./middleware/auth.js";
+import authenticateHospital from "./middleware/user/authHospital.js";
+
+import cors from "cors";
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
@@ -41,11 +49,20 @@ app.use(express.json());
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
+app.use(cors());
 
+// for admin management
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/authHospital", authRouterHospital);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 app.use("/api/v1/hospitals", authenticateUser, hospitalRouter);
 app.use("/api/v1/vendors", authenticateUser, vendorRouter);
+app.use("/api/v1/stocks", authenticateUser, stockRouter);
+app.use("/api/v1/wereHouse", authenticateUser, wereHouseRouter);
+app.use("/api/v1/stockOut", authenticateUser, stockOutRouter);
+
+// for hospital management
+app.use("/api/v1/stocksUser", authenticateHospital, stockInUserRouter);
 
 // only when ready to deploy
 // app.get('*', (req, res) => {

@@ -2,13 +2,13 @@ import express from "express";
 const router = express.Router();
 
 import {
-  addHospital,
+  registerHospital,
   deleteHospital,
   getAllHospital,
   updateHospital,
 } from "../controllers/hospitalsController.js";
 
-router.route("/").post(addHospital).get(getAllHospital);
+router.route("/").post(registerHospital).get(getAllHospital);
 // remember about :id
 // router.route("/stats").get(showStats);
 router.route("/:id").delete(deleteHospital).patch(updateHospital);

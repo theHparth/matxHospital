@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Box, styled } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
 import { Span } from 'app/components/Typography'
-import { Card, Checkbox, FormControlLabel, Grid, Button } from '@mui/material'
+import { Card, Grid, Button } from '@mui/material'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 const FlexBox = styled(Box)(() => ({
@@ -35,28 +35,36 @@ const JWTRegister = styled(JustifyBox)(() => ({
     },
 }))
 
+const initialState = {
+    name: '',
+    email: '@gmail.com',
+    password: '',
+}
+
 const JwtRegister = () => {
     const navigate = useNavigate()
-    const [state, setState] = useState({})
+    const [state, setState] = useState(initialState)
     const { register } = useAuth()
 
-    const handleChange = ({ target: { name, value } }) => {
-        setState({
-            ...state,
-            [name]: value,
-        })
+    // const handleChange = ({ target: { name, value } }) => {
+    //     setState({
+    //         ...state,
+    //         [name]: value,
+    //     })
+    // }
+    const handleChange = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value })
     }
-
     const handleFormSubmit = (event) => {
         try {
-            register(state.email, state.username, state.password)
+            register(state.email, state.name, state.password)
             navigate('/')
         } catch (e) {
             console.log(e)
         }
     }
 
-    let { username, email, password, agreement } = state
+    let { name, email, password } = state
 
     return (
         <JWTRegister>
@@ -80,8 +88,8 @@ const JwtRegister = () => {
                                     label="Username"
                                     onChange={handleChange}
                                     type="text"
-                                    name="username"
-                                    value={username || ''}
+                                    name="name"
+                                    value={name || ''}
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />
@@ -112,7 +120,7 @@ const JwtRegister = () => {
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />
-                                <FormControlLabel
+                                {/* <FormControlLabel
                                     sx={{ mb: '16px' }}
                                     name="agreement"
                                     onChange={(e) =>
@@ -130,7 +138,7 @@ const JwtRegister = () => {
                                         />
                                     }
                                     label="I have read and agree to the terms of service."
-                                />
+                                /> */}
                                 <FlexBox>
                                     <Button
                                         type="submit"
@@ -143,7 +151,9 @@ const JwtRegister = () => {
                                     <Span sx={{ mr: 1, ml: '20px' }}>or</Span>
                                     <Button
                                         sx={{ textTransform: 'capitalize' }}
-                                        onClick={() => navigate("/session/signin")}
+                                        onClick={() =>
+                                            navigate('/session/signin')
+                                        }
                                     >
                                         Sign in
                                     </Button>

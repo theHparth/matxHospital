@@ -1,40 +1,53 @@
 import useAuth from 'app/hooks/useAuth'
 import { flat } from 'app/utils/utils'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import AppContext from '../contexts/AppContext'
-import { AllPages } from '../routes/routes'
 
-const getUserRoleAuthStatus = (pathname, user, routes) => {
-    if (!user) {
+import { AllPages } from '../routes/routes'
+// import { AllUserPages } from '../routes/routesUser'
+
+const getUserRoleAuthStatus = (pathname, user, routes, hospital) => {
+    if (!user && !hospital) {
         return false
     }
-    const matched = routes.find((r) => r.path === pathname)
-
-    const authenticated =
-        matched && matched.auth && matched.auth.length
-            ? matched.auth.includes(user.role)
-            : true
-    console.log(matched, user)
-    return authenticated
+    if (user) {
+        const matched = routes.find((r) => r.path === pathname)
+        const authenticated =
+            matched && matched.auth && matched.auth.length
+                ? matched.auth.includes(user)
+                : true
+        console.log(matched, user)
+        return authenticated
+    } else {
+        const matched = routes.find((r) => r.path === pathname)
+        const authenticated =
+            matched && matched.auth && matched.auth.length
+                ? matched.auth.includes(hospital)
+                : true
+        console.log(matched, user)
+        return authenticated
+    }
 }
 
 const AuthGuard = ({ children }) => {
-    const { isAuthenticated, user } = useAuth()
+    const { isAuthenticated, user, hospital } = useAuth()
 
     // return <>{isAuthenticated ? children : <Navigate to="/session/signin" />}</>
 
     const [previouseRoute, setPreviousRoute] = useState(null)
     const { pathname } = useLocation()
     const routes = flat(AllPages())
-
-    console.log(user)
-
-    const isUserRoleAuthenticated = getUserRoleAuthStatus(
-        pathname,
-        user,
-        routes
-    )
+    // const routesHospital = flat(AllPages())
+    var isUserRoleAuthenticated
+    if (user) {
+        isUserRoleAuthenticated = getUserRoleAuthStatus(pathname, user, routes)
+    } else {
+        isUserRoleAuthenticated = getUserRoleAuthStatus(
+            pathname,
+            hospital,
+            routes
+        )
+    }
     let authenticated = isAuthenticated && isUserRoleAuthenticated
 
     // IF YOU NEED ROLE BASED AUTHENTICATION,

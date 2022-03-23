@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 import Scrollbar from 'react-perfect-scrollbar'
 import { navigations } from 'app/navigations'
+import { navigationsUser } from 'app/navigationsUser'
 import { MatxVerticalNav } from 'app/components'
 import useSettings from 'app/hooks/useSettings'
 import { styled } from '@mui/system'
-
+import useAuth from 'app/hooks/useAuth'
 const StyledScrollBar = styled(Scrollbar)(() => ({
     paddingLeft: '1rem',
     paddingRight: '1rem',
@@ -27,6 +28,7 @@ const SideNavMobile = styled('div')(({ theme }) => ({
 
 const Sidenav = ({ children }) => {
     const { settings, updateSettings } = useSettings()
+    const { isAuthenticated, user, hospital } = useAuth()
 
     const updateSidebarMode = (sidebarSettings) => {
         let activeLayoutSettingsName = settings.activeLayout + 'Settings'
@@ -48,7 +50,12 @@ const Sidenav = ({ children }) => {
         <Fragment>
             <StyledScrollBar options={{ suppressScrollX: true }}>
                 {children}
-                <MatxVerticalNav items={navigations} />
+
+                {user ? (
+                    <MatxVerticalNav items={navigations} />
+                ) : (
+                    <MatxVerticalNav items={navigationsUser} />
+                )}
             </StyledScrollBar>
 
             <SideNavMobile

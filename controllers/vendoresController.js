@@ -1,20 +1,41 @@
 import vendors from "../models/Vendor.js";
 import { StatusCodes } from "http-status-codes";
+import mongoose from "mongoose";
 
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addVendor = async (req, res) => {
-  const { fname, address, pincode, contect, email } = req.body;
+  const { vendor_name, address, pincode, contect, email } = req.body;
 
-  if (!fname || !address || !pincode || !contect || !email) {
+  if (!vendor_name || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
+  const userAlreadyExists = await vendors.findOne({ vendor_name });
+  if (userAlreadyExists) {
+    throw new BadRequestError("Vendor name should be unique");
+  }
+
   req.body.createdBy = req.user.userId;
 
   const vendor = await vendors.create(req.body);
   res.status(StatusCodes.CREATED).json({ vendor });
+};
+
+const onlyVendorsName = async (req, res) => {
+  vendors.find({}, function (err, vendor) {
+    var userMap = {};
+
+    vendor.forEach(function (v) {
+      userMap[v._id] = v.vendor_name;
+    });
+    if (!userMap) {
+      console.log("No Vendor in Database");
+      return [];
+    }
+    return userMap;
+  });
 };
 
 const getAllVendor = async (req, res) => {
@@ -23,7 +44,7 @@ const getAllVendor = async (req, res) => {
   const queryObject = {
     createdBy: req.user.userId,
   };
-
+  // console.log(queryObject);
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
@@ -49,33 +70,36 @@ const getAllVendor = async (req, res) => {
   //
 
   // setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
+  // const page = Number(req.query.page) || 1;
+  // const limit = Number(req.query.limit) || 10;
+  // const skip = (page - 1) * limit;
 
-  result = result.skip(skip).limit(limit);
+  // result = result.skip(skip).limit(limit);
 
-  const vendorData = await result;
+  const vendorList = await result;
   // console.log(vendorData);
-  const totalVendors = await vendors.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalVendors / limit);
-  console.log(totalVendors);
-  res.status(StatusCodes.OK).json({ vendorData, totalVendors, numOfPages });
+  // const totalVendors = await vendors.countDocuments(queryObject);
+  // const numOfPages = Math.ceil(totalVendors / limit);
+  // console.log(totalVendors);
+  res.status(StatusCodes.OK).json({ vendorList });
 };
 
 const updateVendor = async (req, res) => {
   const { id: VendorId } = req.params;
 
-  const { fname, address, pincode, contect, email } = req.body;
+  const { vendor_name, address, pincode, contect, email } = req.body;
 
-  if (!fname || !address || !pincode || !contect || !email) {
+  if (!vendor_name || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
-
+  // const userAlreadyExists = await vendors.findOne({ vendor_name });
+  // if (userAlreadyExists) {
+  //   throw new BadRequestError("Vendor name should be unique");
+  // }
   const vendor = await vendors.findOne({ _id: VendorId });
 
   if (!vendor) {
-    throw new NotFoundError(`No job with id :${VendorId}`);
+    throw new NotFoundError(`No vendor data with id :${VendorId}`);
   }
   // check permissions
 
@@ -99,14 +123,14 @@ const deleteVendor = async (req, res) => {
   const vendor = await vendors.findOne({ _id: vendorId });
 
   if (!vendor) {
-    throw new NotFoundError(`No job with id :${vendorId}`);
+    throw new NotFoundError(`No vendor data with id :${vendorId}`);
   }
 
   checkPermissions(req.user, vendor.createdBy);
 
   await vendor.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Success! Job removed" });
+  res.status(StatusCodes.OK).json({ msg: "Success! vendor data removed" });
 };
 
-export { addVendor, deleteVendor, getAllVendor, updateVendor };
+export { addVendor, deleteVendor, getAllVendor, updateVendor, onlyVendorsName };

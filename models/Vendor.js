@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
+// import onlyVendorsName from "../controllers/jobsController.js";
+
+// onlyVendorsName
 
 const VendorSchema = new mongoose.Schema(
   {
-    fname: {
+    vendor_name: {
       type: String,
       required: [true, "Please provide Name"],
       maxlength: 150,
