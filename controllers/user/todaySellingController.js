@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
+import UserStock from "../../models/User/stockOut.js";
 
 const AddtodaySellingHospital = async (req, res) => {
   // here you can remove vendor_id
@@ -11,13 +12,17 @@ const AddtodaySellingHospital = async (req, res) => {
   if (!totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
-  var hospitalname = req.hospital.hospitalName;
+  var hospitalName = req.hospital.hospitalName;
 
   req.body.createdFor = req.hospital.hospitalName;
+  //remove below line after connecting frontend
+  req.body.createdFor = "User";
+  var yourHospital = await UserStock.find({ yourHospital, stock_name });
+  req.body.createdBy = yourHospital[0].createdBy;
 
   const todaySelling = await TodaySellingHospital.create(req.body);
 
-  removeStockQty(hospitalname, stock_name, totalQtyInOneBox, totalBox);
+  // removeStockQty(hospitalName, stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.CREATED).json({ todaySelling });
 };
@@ -29,9 +34,9 @@ const allTodaySelling = async (req, res) => {
 
   let result = TodaySellingHospital.find(queryObject);
 
-  const stockList = await result;
+  const stockListTodaySelling = await result;
 
-  res.status(StatusCodes.OK).json({ stockList });
+  res.status(StatusCodes.OK).json({ stockListTodaySelling });
 };
 
 const updateTodaySelling = async (req, res) => {
@@ -51,8 +56,7 @@ const updateTodaySelling = async (req, res) => {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
 
-  checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
-  //   req.body.createdFor = hospitalName;
+  // checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
   const updatedStock = await TodaySellingHospital.findOneAndUpdate(
     { _id: stockOutId },
     req.body,
@@ -62,13 +66,13 @@ const updateTodaySelling = async (req, res) => {
     }
   );
 
-  removeStockQty(
-    todaySellingData.stock_name,
-    todaySellingData.totalQtyInOneBox,
-    todaySellingData.totalBox,
-    todaySellingData.price
-  );
-  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+  // removeStockQty(
+  //   todaySellingData.stock_name,
+  //   todaySellingData.totalQtyInOneBox,
+  //   todaySellingData.totalBox,
+  //   todaySellingData.price
+  // );
+  // addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };
@@ -83,16 +87,16 @@ const deleteTodaySelling = async (req, res) => {
   if (!todaySellingData) {
     throw new NotFoundError(`No job with id :${stockOutId}`);
   }
+  //change after connecting frontend ==> remove comment
+  // checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
 
-  checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
-
-  await TodaySellingHospital.remove();
-  removeStockQty(
-    todaySellingData.stock_name,
-    todaySellingData.totalQtyInOneBox,
-    todaySellingData.totalBox,
-    todaySellingData.price
-  );
+  await todaySellingData.remove();
+  // removeStockQty(
+  //   todaySellingData.stock_name,
+  //   todaySellingData.totalQtyInOneBox,
+  //   todaySellingData.totalBox,
+  //   todaySellingData.price
+  // );
 
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };

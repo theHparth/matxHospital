@@ -9,6 +9,7 @@ import StockReducer from './StockReducer'
 import WareHouseReducer from './WareHouseReducer'
 import StockOutReducer from './StockOutReducer'
 import StockInUserReducer from './user/StockInUserReducer'
+import TodaySellingUserReducer from './user/TodaySellingUserReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -21,6 +22,7 @@ const RootReducer = combineReducers({
     wareHouseStockList: WareHouseReducer,
     stockOutList: StockOutReducer,
     stockInUserList: StockInUserReducer,
+    todaySellingUserList: TodaySellingUserReducer,
 })
 
 export default RootReducer

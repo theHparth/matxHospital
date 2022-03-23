@@ -1,12 +1,14 @@
 import React, { lazy } from 'react'
 import Loadable from 'app/components/Loadable/Loadable'
 
-const TodaySellingTodayForm = Loadable(
-    lazy(() => import('./TodaySellingToday'))
+const TodaySellingAddForm = Loadable(
+    lazy(() => import('./TodaySellingAddForm'))
 )
 const AllStockInDetails = Loadable(lazy(() => import('./AllStockInDetails')))
 const PendingStockIn = Loadable(lazy(() => import('./PendingStockIn')))
-const EntryMange = Loadable(lazy(() => import('./EntryManage')))
+const PreviousSellingEntryManage = Loadable(
+    lazy(() => import('./PreviousSellingEntryManage'))
+)
 
 const StockInUserRoutes = [
     {
@@ -15,11 +17,11 @@ const StockInUserRoutes = [
     },
     {
         path: '/newEntryForm',
-        element: <TodaySellingTodayForm />,
+        element: <TodaySellingAddForm />,
     },
     {
         path: '/listStockOut',
-        element: <EntryMange />,
+        element: <PreviousSellingEntryManage />,
     },
     {
         path: '/allReceivedSrtock',

@@ -26,7 +26,7 @@ const removeStockQty = async (
   totalQtyInOneBox,
   totalBox
 ) => {
-  await stocks.updateOne(
+  await StocksHosital.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
     {
       $inc: {
@@ -45,7 +45,7 @@ const statusController = async (req, res) => {
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
-
+  console.log(req.hospital);
   checkPermissionsHospital(req.hospital, stockOutData.createdFor);
 
   // if (stockOutData.status === true) {

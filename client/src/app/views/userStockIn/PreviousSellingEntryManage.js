@@ -1,3 +1,7 @@
+// export default PreviousSellingEntryManage
+
+// export default PendingStockIn
+
 import {
     IconButton,
     Table,
@@ -12,10 +16,10 @@ import React, { useEffect } from 'react'
 import { Box, styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    getAllData,
+    getAllDataTodaySelling,
     setEditData,
     deleteData,
-} from 'app/redux/actions/WareHouseAction'
+} from 'app/redux/actions/user/TodaySellingUserAction'
 import { Link } from 'react-router-dom'
 import { Breadcrumb, SimpleCard } from 'app/components'
 import {
@@ -24,22 +28,23 @@ import {
 } from '../../components/MyComponents/table/index'
 import moment from 'moment'
 
-const WereHouseStock = () => {
-    let { wereHouseStockData } = useSelector(
-        (state) => state.wareHouseStockList
+const PreviousSellingEntryManage = () => {
+    let { todaySellingData } = useSelector(
+        (state) => state.todaySellingUserList
     )
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllData())
+        dispatch(getAllDataTodaySelling())
     }, [dispatch])
 
     // if (wereHouseStockData.length === 0) {
     //     return <h2>No Stocks to display...</h2>
     // }
-
-    var wereHouseStockDatass = wereHouseStockData || []
+    // console.log(stockOutDataFalse)
+    var todaySellingDatas = todaySellingData || []
+    // console.log(stockOutDatas)
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -68,21 +73,14 @@ const WereHouseStock = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Stock Name</TableCell>
-                                <TableCell>Vendor Name</TableCell>
-                                <TableCell>total value</TableCell>
-                                <TableCell>Individual Price</TableCell>
-                                <TableCell> Qty / Box </TableCell>
-                                <TableCell> Total Qty </TableCell>
-                                <TableCell>Date</TableCell>
+                                <TableCell>Total Qty</TableCell>
 
-                                {/* <TableCell>Address</TableCell>
-                        <TableCell align="center">Pincode</TableCell> */}
-                                {/* <TableCell align="center">Edit</TableCell> */}
+                                <TableCell>Date</TableCell>
                                 <TableCell align="center">Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {wereHouseStockDatass
+                            {todaySellingDatas
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -93,46 +91,18 @@ const WereHouseStock = () => {
                                             {subscriber.stock_name}
                                         </TableCell>
                                         <TableCell>
-                                            {subscriber.vendor_name}
+                                            {subscriber.totalBox *
+                                                subscriber.totalQtyInOneBox}
                                         </TableCell>
-                                        <TableCell>
-                                            ${' '}
-                                            {subscriber.price
-                                                ? subscriber.price
-                                                : 0}
-                                        </TableCell>
-                                        <TableCell>
-                                            ${' '}
-                                            {subscriber.price /
-                                            (subscriber.totalQtyInOneBox *
-                                                subscriber.totalBox)
-                                                ? subscriber.price /
-                                                  (subscriber.totalQtyInOneBox *
-                                                      subscriber.totalBox)
-                                                : 0}
-                                        </TableCell>
-                                        <TableCell>
-                                            {subscriber.totalQtyInOneBox
-                                                ? subscriber.totalQtyInOneBox
-                                                : 0}
-                                            /
-                                            {subscriber.totalBox
-                                                ? subscriber.totalBox
-                                                : 0}
-                                        </TableCell>
-                                        <TableCell>
-                                            {subscriber.totalQtyInOneBox *
-                                                subscriber.totalBox}
-                                        </TableCell>
+
                                         <TableCell>
                                             {subscriber.createdAt}
                                         </TableCell>
-
                                         <TableCell align="center">
                                             <IconButton>
                                                 <Icon color="error">
                                                     <Link
-                                                        to={`/addStockInWereHouse`}
+                                                        to={`/newEntryForm`}
                                                         onClick={() =>
                                                             dispatch(
                                                                 setEditData(
@@ -171,7 +141,7 @@ const WereHouseStock = () => {
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={wereHouseStockDatass.length}
+                        count={todaySellingDatas.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{
@@ -189,4 +159,4 @@ const WereHouseStock = () => {
     )
 }
 
-export default WereHouseStock
+export default PreviousSellingEntryManage
