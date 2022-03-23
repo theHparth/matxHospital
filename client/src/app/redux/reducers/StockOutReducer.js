@@ -32,6 +32,7 @@ const initialState = {
     totalQtyInOneBox: 1,
     totalBox: 1,
     price: 1,
+    priceForUser: 1,
     status: false,
     showPrice: false,
 }

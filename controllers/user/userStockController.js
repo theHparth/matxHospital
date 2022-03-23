@@ -9,7 +9,7 @@ const addStockQty = async (
   stock_name,
   totalQtyInOneBox,
   totalBox,
-  price
+  priceForUser
 ) => {
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { hospitalName }] },
@@ -45,15 +45,35 @@ const statusController = async (req, res) => {
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
-  console.log(req.hospital);
-  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
 
-  // if (stockOutData.status === true) {
-  //   res
-  //     .status(StatusCodes.OK)
-  //     .json({ msg: "Now, you can't change delivery status" });
-  //   return;
-  // }
+  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
+  var createdfor = stockOutData.createdFor;
+  console.log(stockOutData);
+  var createdBy = stockOutData.createdBy;
+  var stockname = stockOutData.stock_name;
+
+  let result = await StocksHosital.findOne({
+    stock_name: stockname,
+  });
+  console.log(result);
+  if (!result) {
+    // var createdfor = stockOutData.createdFor;
+    // var createdby = stockOutData.createdBy;
+    var stock_name = stockOutData.stock_name;
+    var hospitalName = stockOutData.hospitalName;
+    await StocksHosital.create({
+      stock_name,
+      hospitalName,
+      createdFor: createdfor,
+      createdBy: createdBy,
+    });
+  }
+  if (stockOutData.status === true) {
+    res
+      .status(StatusCodes.OK)
+      .json({ msg: "Now, you can't change delivery status" });
+    return;
+  }
 
   await UserStock.findOneAndUpdate(
     { _id: stockOutId },
@@ -67,8 +87,7 @@ const statusController = async (req, res) => {
     stockOutData.hospitalName,
     stockOutData.stock_name,
     stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox,
-    stockOutData.price
+    stockOutData.totalBox
   );
 
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
@@ -97,21 +116,68 @@ const statusTrue = async (req, res) => {
   res.status(StatusCodes.OK).json({ stockInDataTrueStatus, totalStock });
 };
 
-const sendStockUser = async (req, res) => {
-  var { hospitalName, stock_name, qty, box, status } = req.body;
-  // here you can remove vendor_id
-  console.log(hospitalName, stock_name, qty, box, status);
+const totoalStocksInUser = async (req, res) => {
+  const queryObject = {
+    createdFor: req.hospital.hospitalName,
+  };
+  // console.log(req.hospital.hospitalName);
+  let result = StocksHosital.find(queryObject);
+  const stockInDataTrueStatus = await result;
+  console.log(stockInDataTrueStatus);
+  // const totalStock = await StocksHosital.countDocuments(queryObject);
 
-  if (!hospitalName || !stock_name || !qty || !box) {
-    throw new BadRequestError("Please provide all values");
+  res.status(StatusCodes.OK).json({ stockInDataTrueStatus });
+};
+
+const minimumRequiremantUserChange = async (req, res) => {
+  const { id: stockId } = req.params;
+
+  const { minimumLimit } = req.body;
+  const stockOutData = await StocksHosital.findOne({ _id: stockId });
+
+  if (!stockOutData) {
+    throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
 
-  req.body.createdBy = req.user.userId;
-  req.body.createdFor = hospitalName;
+  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
+  var hospitalName = stockOutData.hospitalName;
+  var stock_name = stockOutData.stock_name;
+  var createdFor = stockOutData.createdFor;
+  var totalQtyUser = stockOutData.totalQtyUser;
+  var createdBy = stockOutData.createdBy;
+  await StocksHosital.findOneAndUpdate(
+    { _id: stockId },
+    {
+      minimumLimit,
+      hospitalName,
+      stock_name,
+      createdFor,
+      totalQtyUser,
+      createdBy,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-  const stock = await UserStock.create(req.body);
-  res.status(StatusCodes.CREATED).json({ stock });
+  res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
 };
+// const sendStockUser = async (req, res) => {
+//   var { hospitalName, stock_name, qty, box, status } = req.body;
+//   // here you can remove vendor_id
+//   console.log(hospitalName, stock_name, qty, box, status);
+
+//   if (!hospitalName || !stock_name || !qty || !box) {
+//     throw new BadRequestError("Please provide all values");
+//   }
+
+//   req.body.createdBy = req.user.userId;
+//   req.body.createdFor = hospitalName;
+
+//   const stock = await UserStock.create(req.body);
+//   res.status(StatusCodes.CREATED).json({ stock });
+// };
 
 export {
   statusController,
@@ -119,4 +185,6 @@ export {
   removeStockQty,
   statusFalse,
   statusTrue,
+  totoalStocksInUser,
+  minimumRequiremantUserChange,
 };

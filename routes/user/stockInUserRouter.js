@@ -5,6 +5,8 @@ import {
   statusController,
   statusFalse,
   statusTrue,
+  totoalStocksInUser,
+  minimumRequiremantUserChange,
 } from "../../controllers/user/userStockController.js";
 
 import {
@@ -17,6 +19,9 @@ import {
 router.route("/status/:id").patch(statusController);
 router.route("/falseUser").get(statusFalse);
 router.route("/trueUser").get(statusTrue);
+router.route("/totalStocks").get(totoalStocksInUser);
+router.route("/totalStocks/:id").patch(minimumRequiremantUserChange);
+
 router
   .route("/todaySellingHospital")
   .post(AddtodaySellingHospital)

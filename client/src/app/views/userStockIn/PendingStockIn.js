@@ -100,8 +100,8 @@ const PendingStockIn = () => {
                                         </TableCell>
                                         <TableCell>
                                             ${' '}
-                                            {subscriber.price
-                                                ? subscriber.price
+                                            {subscriber.priceForUser
+                                                ? subscriber.priceForUser
                                                 : 0}
                                         </TableCell>
 

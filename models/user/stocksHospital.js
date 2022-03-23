@@ -21,9 +21,7 @@ const StockHospitalSchema = new mongoose.Schema(
       ref: "Hospital",
       required: [true, "Please provide hospital name"],
     },
-    price: {
-      type: Number,
-    },
+
     totalQtyUser: {
       type: Number,
     },

@@ -9,7 +9,13 @@ const sendStockUser = async (req, res) => {
   const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
     req.body;
 
-  if (!hospitalName || !totalQtyInOneBox || !totalBox || !stock_name) {
+  if (
+    !hospitalName ||
+    !totalQtyInOneBox ||
+    !totalBox ||
+    !stock_name ||
+    !price
+  ) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -18,7 +24,7 @@ const sendStockUser = async (req, res) => {
 
   const stock = await UserStock.create(req.body);
 
-  removeStockQty(stock_name, totalQtyInOneBox, totalBox);
+  removeStockQty(stock_name, totalQtyInOneBox, totalBox, price);
 
   res.status(StatusCodes.CREATED).json({ stock });
 };
@@ -63,6 +69,7 @@ const falseStatusProduct = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ stockOutDataFalseStatus, totalHospitals });
 };
+
 const trueStatusProduct = async (req, res) => {
   const { status, sort, search } = req.query;
   const queryObject = {
@@ -92,7 +99,13 @@ const updateSendStockAdmin = async (req, res) => {
   const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
     req.body;
 
-  if (!hospitalName || !totalQtyInOneBox || !totalBox || !stock_name) {
+  if (
+    !hospitalName ||
+    !totalQtyInOneBox ||
+    !totalBox ||
+    !stock_name ||
+    !price
+  ) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -120,7 +133,8 @@ const updateSendStockAdmin = async (req, res) => {
   removeStockQty(
     stockOutData.stock_name,
     stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox
+    stockOutData.totalBox,
+    stockOutData.price
   );
   addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
 
@@ -146,7 +160,6 @@ const deleteSendStockAdmin = async (req, res) => {
   await stockout.remove();
   addStockQty(
     stockout.stock_name,
-    stockout.price,
     stockout.totalQtyInOneBox,
     stockout.totalBox
   );

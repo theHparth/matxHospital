@@ -24,9 +24,8 @@ const stockOutSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please provide number of total box"],
     },
-    showPrice: {
-      type: Boolean,
-      required: true,
+    priceForUser: {
+      type: Number,
     },
     status: {
       type: Boolean,
