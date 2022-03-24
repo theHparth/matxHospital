@@ -109,7 +109,7 @@ const MatxCustomizer = () => {
         <Fragment>
             <Tooltip title="Theme Settings" placement="left">
                 <Label className="open" onClick={tooglePanel}>
-                    DEMOS
+                    THEMES
                 </Label>
             </Tooltip>
 

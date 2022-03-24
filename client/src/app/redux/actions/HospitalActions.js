@@ -86,7 +86,8 @@ const addHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: CREATE_HOSPITAL_SUCCESS })
-        dispatch(clearValues())
+        // dispatch(clearValues())
+        dispatch({ type: CLEAR_VALUES_HOSPITAL })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -108,6 +109,7 @@ const setEditHospital = (subscriber) => (dispatch) => {
 }
 
 const editHospital = (state) => async (dispatch) => {
+    dispatch({ type: EDIT_HOSPITAL_BEGIN })
     try {
         const {
             address,
@@ -119,7 +121,7 @@ const editHospital = (state) => async (dispatch) => {
             id,
             hospitalName,
         } = state
-        console.log(address, pincode, contect, email, id)
+        // console.log(address, pincode, contect, email, id)
         await authFetch.patch(`/hospitals/${id}`, {
             address,
             pincode,
@@ -130,7 +132,8 @@ const editHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
-        dispatch(clearValues())
+        dispatch({ type: CLEAR_VALUES_HOSPITAL })
+        // dispatch(clearValues())
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({

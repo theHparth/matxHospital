@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "./stockController.js";
+import Hospital from "../models/Hospital.js";
 
 const sendStockUser = async (req, res) => {
   // here you can remove vendor_id
@@ -19,8 +20,11 @@ const sendStockUser = async (req, res) => {
     throw new BadRequestError("Please provide all values");
   }
 
+  const hospitalData = await Hospital.findOne({ hospitalName });
+  console.log(hospitalData._id);
+
   req.body.createdBy = req.user.userId;
-  req.body.createdFor = hospitalName;
+  req.body.createdFor = hospitalData._id;
 
   const stock = await UserStock.create(req.body);
 
@@ -120,7 +124,9 @@ const updateSendStockAdmin = async (req, res) => {
   }
 
   checkPermissions(req.user, stockOutData.createdBy);
-  req.body.createdFor = hospitalName;
+  const hospitalData = await Hospital.findOne({ hospitalName });
+
+  req.body.createdFor = hospitalData._id;
   const updatedStockSend = await UserStock.findOneAndUpdate(
     { _id: stockOutId },
     req.body,

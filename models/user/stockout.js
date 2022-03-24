@@ -38,10 +38,15 @@ const stockOutSchema = new mongoose.Schema(
       required: [true, "Please provide user"],
     },
     createdFor: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       ref: "Hospital",
-      required: [true, "Please provide user"],
+      required: [true, "Please provide created for"],
     },
+    // createdFor: {
+    //   type: String,
+    //   ref: "Hospital",
+    //   required: [true, "Please provide user"],
+    // },
   },
   { timestamps: true }
 );

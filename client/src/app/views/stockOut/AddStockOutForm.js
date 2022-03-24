@@ -1,12 +1,12 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
-import { SimpleCard } from 'app/components'
+import { SimpleCard, Breadcrumb } from 'app/components'
 import React, { useEffect } from 'react'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
-
+import { Container } from '../../components/MyComponents/form/index'
 function AddStockOutForm() {
     const [stockOutData, setStockOutData] = React.useState([
         {
@@ -36,7 +36,18 @@ function AddStockOutForm() {
 
     console.log(stockOutData)
     return (
-        <div>
+        <Container>
+            <div>
+                <Breadcrumb
+                    routeSegments={[
+                        {
+                            name: 'Werehouse Stock Details',
+                            path: '/wereHouseStock',
+                        },
+                        { name: 'Table' },
+                    ]}
+                />
+            </div>
             <Card
                 sx={{
                     minWidth: 275,
@@ -64,7 +75,7 @@ function AddStockOutForm() {
                     Add More
                 </Button>
             </Card>
-        </div>
+        </Container>
     )
 }
 

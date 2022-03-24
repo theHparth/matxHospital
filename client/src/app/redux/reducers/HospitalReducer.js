@@ -12,6 +12,7 @@ import {
     HANDLE_CHANGE,
     CLEAR_ALERT,
     DISPLAY_ALERT,
+    CLEAR_VALUES_HOSPITAL,
 } from '../actions/HospitalActions'
 
 const initialState = {
@@ -22,7 +23,6 @@ const initialState = {
     alertText: '',
     isEditing: false,
     hospitalName: '',
-    username: '',
     address: '',
     contect: '',
     password: '',
@@ -130,16 +130,14 @@ const HospitalReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        case CLEAR_VALUES: {
+        case CLEAR_VALUES_HOSPITAL: {
             const initialState = {
-                username: '',
+                hospitalName: '',
                 address: '',
                 contect: '',
                 password: '',
-                // confirmPassword: '',
                 email: '',
                 pincode: '',
-                hospitalName: '',
             }
             return {
                 ...state,

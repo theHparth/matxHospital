@@ -9,7 +9,7 @@ import {
     TablePagination,
 } from '@mui/material'
 import React, { useEffect } from 'react'
-import { Box, styled } from '@mui/system'
+import { Box, styled, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     getAllData,
@@ -21,9 +21,15 @@ import { Breadcrumb, SimpleCard } from 'app/components'
 import {
     Container,
     StyledTable,
+    StockAlert,
 } from '../../components/MyComponents/table/index'
 
 const AllStock = () => {
+    const { palette } = useTheme()
+    const bgError = palette.error.main
+    const bgPrimary = palette.primary.main
+    const bgSecondary = palette.secondary.main
+
     let { stockData } = useSelector((state) => state.stockList)
     const dispatch = useDispatch()
 
@@ -67,7 +73,6 @@ const AllStock = () => {
                                 <TableCell>Individual Price</TableCell>
 
                                 <TableCell> Total Qty </TableCell>
-                                <TableCell>Date</TableCell>
 
                                 {/* <TableCell>Address</TableCell>
                         <TableCell align="center">Pincode</TableCell> */}
@@ -103,14 +108,34 @@ const AllStock = () => {
                                                   subscriber.totalQty
                                                 : 0}
                                         </TableCell>
-                                        <TableCell>
-                                            {subscriber.totalQty
-                                                ? subscriber.totalQty
-                                                : 0}
-                                        </TableCell>
 
-                                        <TableCell>
-                                            {subscriber.createdAt}
+                                        <TableCell
+                                            sx={{ px: 0 }}
+                                            align="left"
+                                            // colSpan={2}
+                                        >
+                                            {subscriber.totalQty ? (
+                                                subscriber.totalQty <
+                                                subscriber.minimumLimit ? (
+                                                    <StockAlert
+                                                        bgcolor={bgSecondary}
+                                                    >
+                                                        {subscriber.totalQty}{' '}
+                                                        available
+                                                    </StockAlert>
+                                                ) : (
+                                                    <StockAlert
+                                                        bgcolor={bgPrimary}
+                                                    >
+                                                        {subscriber.totalQty}{' '}
+                                                        available
+                                                    </StockAlert>
+                                                )
+                                            ) : (
+                                                <StockAlert bgcolor={bgError}>
+                                                    out of stock
+                                                </StockAlert>
+                                            )}
                                         </TableCell>
 
                                         <TableCell align="center">

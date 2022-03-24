@@ -146,15 +146,21 @@ const AddHospital = () => {
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />
-                                <TextField
-                                    label="Password"
-                                    onChange={handleHospitalInput}
-                                    name="password"
-                                    type="password"
-                                    value={state.password}
-                                    validators={['required']}
-                                    errorMessages={['this field is required']}
-                                />
+                                {_id ? (
+                                    ''
+                                ) : (
+                                    <TextField
+                                        label="Password"
+                                        onChange={handleHospitalInput}
+                                        name="password"
+                                        type="password"
+                                        value={state.password}
+                                        validators={['required']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
+                                )}
                                 {/* <TextField
                             label="Confirm Password"
                             onChange={handleHospitalInput}
