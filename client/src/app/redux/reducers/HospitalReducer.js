@@ -13,10 +13,12 @@ import {
     CLEAR_ALERT,
     DISPLAY_ALERT,
     CLEAR_VALUES_HOSPITAL,
+    GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
 } from '../actions/HospitalActions'
 
 const initialState = {
     hospitalsData: [],
+    hospitalIndividualStockData: [],
     isLoading: false,
     showAlert: true,
     alertType: '',
@@ -35,6 +37,13 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 hospitalsData: action.payload.hospitals,
+            }
+        }
+        case GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS: {
+            return {
+                ...state,
+                hospitalIndividualStockData:
+                    action.payload.hospitalPresentStock,
             }
         }
         case CREATE_HOSPITAL_BEGIN: {

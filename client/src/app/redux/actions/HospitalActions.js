@@ -15,6 +15,8 @@ export const EDIT_HOSPITAL_BEGIN = 'EDIT_HOSPITAL_BEGIN'
 export const EDIT_HOSPITAL_SUCCESS = 'EDIT_HOSPITAL_SUCCESS'
 export const EDIT_HOSPITAL_ERROR = 'EDIT_HOSPITAL_ERROR'
 export const SHOW_STATS_BEGIN = 'SHOW_STATS_BEGIN'
+export const GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS =
+    'GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
@@ -64,6 +66,31 @@ const getHospitalsData = () => async (dispatch) => {
     }
     dispatch(clearAlert())
 }
+const hospitalStockInformation = (id) => async (dispatch) => {
+    // const { subscriber, id, search } = state
+    // console.log(
+    //     'id of hospital-------------------------------------------',
+    //     subscriber
+    // )
+    let url = `/hospitalDataAdmin?id=${id}`
+    // if (search) {
+    //     url = url + `&search=${search}`
+    // }
+    // console.log(url)
+    dispatch({ type: GET_HOSPITAL_BEGIN })
+    try {
+        const { data } = await authFetch.get(url)
+        const { hospitalPresentStock } = data
+        console.log(hospitalPresentStock, 'rrrrr==========')
+        dispatch({
+            type: GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
+            payload: { hospitalPresentStock },
+        })
+    } catch (error) {
+        console.log(error)
+    }
+    dispatch(clearAlert())
+}
 
 const addHospital = (state) => async (dispatch) => {
     try {
@@ -105,6 +132,10 @@ const handleHospitalChange =
     }
 
 const setEditHospital = (subscriber) => (dispatch) => {
+    // console.log(
+    //     subscriber,
+    //     'new Data=============================================='
+    // )
     dispatch({ type: SET_EDIT_HOSPITAL, payload: { subscriber } })
 }
 
@@ -167,4 +198,5 @@ export {
     setEditHospital,
     editHospital,
     deleteHospital,
+    hospitalStockInformation,
 }

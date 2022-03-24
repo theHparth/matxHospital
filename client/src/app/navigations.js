@@ -22,6 +22,11 @@ export const navigations = [
                 iconText: 'SI',
                 path: '/allHospitals',
             },
+            {
+                name: 'Hospital Data',
+                iconText: 'SI',
+                path: '/hospitalData/:id',
+            },
         ],
     },
     {

@@ -26,7 +26,9 @@ import {
 import moment from 'moment'
 
 const PendingStockIn = () => {
-    let { stockInDataFalse } = useSelector((state) => state.stockInUserList)
+    let { stockInDataFalse = [] } = useSelector(
+        (state) => state.stockInUserList
+    )
 
     const dispatch = useDispatch()
 
@@ -38,8 +40,8 @@ const PendingStockIn = () => {
     //     return <h2>No Stocks to display...</h2>
     // }
     // console.log(stockOutDataFalse)
-    var stockOutDatas = stockInDataFalse || []
-    console.log(stockOutDatas)
+    // var stockOutDatas = stockInDataFalse || []
+    // console.log(stockOutDatas)
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -81,7 +83,7 @@ const PendingStockIn = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {stockOutDatas
+                            {stockInDataFalse
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -152,7 +154,7 @@ const PendingStockIn = () => {
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={stockOutDatas.length}
+                        count={stockInDataFalse.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{

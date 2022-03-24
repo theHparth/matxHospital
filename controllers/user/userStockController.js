@@ -37,8 +37,8 @@ const removeStockQty = async (
   var aaa = await StocksHosital.find({
     $and: [{ stock_name }, { createdFor: obId }],
   });
-  console.log("stocks2", aaa);
-  console.log(totalQtyInOneBox * totalBox);
+  // console.log("stocks2", aaa);
+  // console.log(totalQtyInOneBox * totalBox);
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { createdFor: obId }] },
     {
@@ -63,15 +63,15 @@ const statusController = async (req, res) => {
   var createdFor = stockOutData.createdFor;
 
   var createdBy = stockOutData.createdBy;
-  var stockname = stockOutData.stock_name;
+  var stock_name = stockOutData.stock_name;
+  var hospitalName = req.hospital.hospitalName;
 
   let result = await StocksHosital.findOne({
-    stock_name: stockname,
+    $and: [{ stock_name }, { hospitalName }],
   });
 
   if (!result) {
-    var stock_name = stockOutData.stock_name;
-    var hospitalName = req.hospital.hospitalName;
+    // var stock_name = stockOutData.stock_name;
     await StocksHosital.create({
       hospitalName,
       stock_name,

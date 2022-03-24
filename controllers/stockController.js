@@ -20,7 +20,7 @@ const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
     );
   } catch (err) {
     console.log(err);
-    throw new NotFoundError(
+    throw new BadRequestError(
       `Something is wrong while adding value in database`
     );
   }
@@ -33,17 +33,18 @@ const removeStockQty = async (
 ) => {
   try {
     const stock = await stocks.findOne({ stock_name });
-
+    console.log(stock_name, totalBox, totalQtyInOneBox);
+    console.log(stock);
     await stocks.updateOne(
       { stock_name },
       {
         $inc: {
           totalQty: -(totalBox * totalQtyInOneBox),
-          price: -(
-            (stock.price / stock.totalQty) *
-            totalBox *
-            totalQtyInOneBox
-          ),
+          // price: -(
+          //   (stock.price / stock.totalQty) *
+          //   totalBox *
+          //   totalQtyInOneBox
+          // ),
         },
       }
     );

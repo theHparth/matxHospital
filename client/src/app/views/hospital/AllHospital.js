@@ -16,6 +16,7 @@ import {
     getHospitalsData,
     setEditHospital,
     deleteHospital,
+    hospitalStockInformation,
 } from 'app/redux/actions/HospitalActions'
 import { Link } from 'react-router-dom'
 
@@ -77,7 +78,18 @@ const AllHospital = () => {
                                 .map((subscriber, index) => (
                                     <TableRow key={index}>
                                         <TableCell align="left">
-                                            {subscriber.hospitalName}
+                                            <Link
+                                                to={`/hospitalData/${subscriber._id}`}
+                                                onClick={() =>
+                                                    dispatch(
+                                                        hospitalStockInformation(
+                                                            subscriber._id
+                                                        )
+                                                    )
+                                                }
+                                            >
+                                                {subscriber.hospitalName}
+                                            </Link>
                                         </TableCell>
                                         <TableCell>
                                             {subscriber.address}
