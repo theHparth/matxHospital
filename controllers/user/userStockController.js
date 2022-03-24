@@ -147,7 +147,7 @@ const minimumRequiremantUserChange = async (req, res) => {
   const stockOutData = await StocksHosital.findOne({ _id: stockId });
 
   if (!stockOutData) {
-    throw new NotFoundError(`No stock data with id :${stockOutId}`);
+    throw new NotFoundError(`No stock data with id :${stockId}`);
   }
 
   checkPermissionsHospital(req.hospital, stockOutData.createdFor);
