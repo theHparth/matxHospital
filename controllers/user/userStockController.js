@@ -35,7 +35,10 @@ const removeStockQty = async (
   totalBox
 ) => {
   var obId = createdFor.toString();
-
+  // var aaa = await StocksHosital.find({
+  //   $and: [{ stock_name }, { createdFor: obId }],
+  // });
+  // console.log("stocks2", aaa, stock_name);
   // console.log(totalQtyInOneBox * totalBox);
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { createdFor: obId }] },

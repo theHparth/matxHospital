@@ -4,6 +4,7 @@ import { BadRequestError, NotFoundError } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
 import UserStock from "../../models/User/stockOut.js";
+import mongoose from "mongoose";
 
 const AddtodaySellingHospital = async (req, res) => {
   // here you can remove vendor_id
@@ -12,21 +13,23 @@ const AddtodaySellingHospital = async (req, res) => {
   if (!totalQtyInOneBox || !totalBox || !stock_name) {
     throw new BadRequestError("Please provide all values");
   }
-  // var hospitalid = req.hospital.hospitalId;
-  console.log(hospitalName);
+  // var hospitalId = req.hospital.hospitalId;
+  // // console.log(hospitalName);
 
-  req.body.createdFor = req.hospital._id;
-  var createdFor = req.hospital._id;
-  //remove below line after connecting frontend
-  // req.body.createdFor = "User";  { $and: [{ stock_name }, { hospitalName }] },
-  var yourHospital = await UserStock.find({
-    $and: [{ stock_name }, { hospitalid }],
-  });
-  req.body.createdBy = yourHospital[0].createdBy;
-
+  req.body.createdFor = req.hospital.hospitalId;
+  var createdFor = req.hospital.hospitalId;
   const todaySelling = await TodaySellingHospital.create(req.body);
-
   removeStockQty(createdFor, stock_name, totalQtyInOneBox, totalBox);
+  // console.log(createdFor);
+  // // console.log(totalQtyInOneBox * totalBox);
+  // var obId = mongoose.Types.ObjectId(createdFor);
+  // //remove below line after connecting frontend
+  // // req.body.createdFor = "User";  { $and: [{ stock_name }, { hospitalName }] },
+  // var yourHospital = await UserStock.find({
+  //   $and: [{ stock_name }, { createdFor: obId }],
+  // });
+  // console.log(yourHospital);
+  // req.body.createdBy = yourHospital[0].createdBy;
 
   res.status(StatusCodes.CREATED).json({ todaySelling });
 };
@@ -60,7 +63,7 @@ const updateTodaySelling = async (req, res) => {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
 
-  // checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
+  checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
   const updatedStock = await TodaySellingHospital.findOneAndUpdate(
     { _id: stockOutId },
     req.body,
@@ -69,14 +72,8 @@ const updateTodaySelling = async (req, res) => {
       runValidators: true,
     }
   );
-  var hospitalName = req.hospital.hospitalName;
-  // console.log(
-  //   todaySellingData.stock_name,
-  //   todaySellingData.totalQtyInOneBox,
-  //   todaySellingData.totalBox
-  // );
-  // console.log(hospitalName, stock_name, totalQtyInOneBox, totalBox);
-  var createdFor = req.hospital._id;
+
+  var createdFor = req.hospital.hospitalId;
   addStockQty(
     createdFor,
     todaySellingData.stock_name,
@@ -100,9 +97,9 @@ const deleteTodaySelling = async (req, res) => {
   }
   //change after connecting frontend ==> remove comment
   checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
-  var hospitalName = req.hospital.hospitalName;
+  // var hospitalId = req.hospital.hospitalId;
   await todaySellingData.remove();
-  var createdFor = req.hospital._id;
+  var createdFor = req.hospital.hospitalId;
 
   addStockQty(
     createdFor,
