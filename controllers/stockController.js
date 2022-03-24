@@ -5,14 +5,16 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
 
-const addStockQty = async (stock_name, price, totalQtyInOneBox, totalBox) => {
+const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
+  console.log(stock_name, totalQtyInOneBox, totalBox);
+  const stock = await stocks.findOne({ stock_name });
+  console.log(stock);
   try {
     await stocks.updateOne(
       { stock_name },
       {
         $inc: {
           totalQty: totalBox * totalQtyInOneBox,
-          price,
         },
       }
     );
@@ -23,19 +25,15 @@ const addStockQty = async (stock_name, price, totalQtyInOneBox, totalBox) => {
     );
   }
 };
-const removeStockQty = async (stock_name, totalQtyInOneBox, totalBox) => {
+const removeStockQty = async (
+  stock_name,
+  totalQtyInOneBox,
+  totalBox,
+  price
+) => {
   try {
     const stock = await stocks.findOne({ stock_name });
-    // if(totalBox * totalQtyInOneBox)
-    // var pp =
-    //   stock.price -
-    //   (stock.price / stock.totalQty) * totalBox * totalQtyInOneBox;
-    // if (pp < 0) {
-    //   throw new NotFoundError("value is already minimum level");
-    // }
-    // console.log(stock.price / stock.totalQty);
-    // console.log(totalBox * totalQtyInOneBox);
-    // console.log(totalBox * totalQtyInOneBox);
+
     await stocks.updateOne(
       { stock_name },
       {

@@ -3,6 +3,11 @@ import mongoose from "mongoose";
 
 const StockHospitalSchema = new mongoose.Schema(
   {
+    hospitalName: {
+      type: String,
+      required: [true, "Please provide stock name"],
+      maxlength: 100,
+    },
     stock_name: {
       type: String,
       required: [true, "Please provide stock name"],

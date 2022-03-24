@@ -3,7 +3,6 @@ import StocksHosital from "../../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
-import mongoose from "mongoose";
 
 const addStockQty = async (
   createdFor,
@@ -35,11 +34,11 @@ const removeStockQty = async (
   totalBox
 ) => {
   var obId = createdFor.toString();
-  // var aaa = await StocksHosital.find({
-  //   $and: [{ stock_name }, { createdFor: obId }],
-  // });
-  // console.log("stocks2", aaa, stock_name);
-  // console.log(totalQtyInOneBox * totalBox);
+  var aaa = await StocksHosital.find({
+    $and: [{ stock_name }, { createdFor: obId }],
+  });
+  console.log("stocks2", aaa);
+  console.log(totalQtyInOneBox * totalBox);
   await StocksHosital.updateOne(
     { $and: [{ stock_name }, { createdFor: obId }] },
     {
@@ -72,8 +71,9 @@ const statusController = async (req, res) => {
 
   if (!result) {
     var stock_name = stockOutData.stock_name;
-    // var hospitalName = stockOutData.hospitalName;
+    var hospitalName = req.hospital.hospitalName;
     await StocksHosital.create({
+      hospitalName,
       stock_name,
       createdFor,
       createdBy: createdBy,

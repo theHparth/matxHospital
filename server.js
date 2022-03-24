@@ -27,6 +27,7 @@ import stockRouter from "./routes/stockRoutes.js";
 import wereHouseRouter from "./routes/wereHouseRouter.js";
 import stockOutRouter from "./routes/stockOutRouter.js";
 import stockInUserRouter from "./routes/user/stockInUserRouter.js";
+import hospitalStockViewAdmin from "./routes/hospitalStockViewAdmin.js";
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -60,6 +61,7 @@ app.use("/api/v1/vendors", authenticateUser, vendorRouter);
 app.use("/api/v1/stocks", authenticateUser, stockRouter);
 app.use("/api/v1/wereHouse", authenticateUser, wereHouseRouter);
 app.use("/api/v1/stockOut", authenticateUser, stockOutRouter);
+app.use("/api/v1/hospitalDataAdmin", authenticateUser, hospitalStockViewAdmin);
 
 // for hospital management
 app.use("/api/v1/stocksUser", authenticateHospital, stockInUserRouter);

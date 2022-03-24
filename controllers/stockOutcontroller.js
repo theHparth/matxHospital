@@ -142,7 +142,7 @@ const updateSendStockAdmin = async (req, res) => {
     stockOutData.totalBox,
     stockOutData.price
   );
-  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+  addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
 
   res.status(StatusCodes.OK).json({ updatedStockSend });
 };
@@ -151,7 +151,7 @@ const deleteSendStockAdmin = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const stockout = await UserStock.findOne({ _id: stockOutId });
-
+  console.log(stockout);
   if (stockout.status === true) {
     res.status(StatusCodes.OK).json({ msg: "Now you can not delete data" });
     return;
@@ -163,12 +163,12 @@ const deleteSendStockAdmin = async (req, res) => {
 
   checkPermissions(req.user, stockout.createdBy);
 
-  await stockout.remove();
   addStockQty(
     stockout.stock_name,
     stockout.totalQtyInOneBox,
     stockout.totalBox
   );
+  await stockout.remove();
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };
 
