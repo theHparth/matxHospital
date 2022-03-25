@@ -20,7 +20,7 @@ const initialState = {
     hospitalsData: [],
     hospitalIndividualStockData: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
     alertType: '',
     alertText: '',
     isEditing: false,
@@ -30,6 +30,7 @@ const initialState = {
     password: '',
     email: '',
     pincode: '',
+    _id: '',
 }
 const HospitalReducer = function (state = initialState, action) {
     switch (action.type) {
@@ -89,6 +90,7 @@ const HospitalReducer = function (state = initialState, action) {
                 showAlert: true,
                 alertType: 'success',
                 alertText: 'Hospital Updated!',
+                _id: '',
             }
         }
         case EDIT_HOSPITAL_ERROR: {

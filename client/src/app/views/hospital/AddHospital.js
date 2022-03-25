@@ -1,13 +1,13 @@
-import { Breadcrumb, SimpleCard } from 'app/components'
+import { Breadcrumb, MatxSnackbar, SimpleCard } from 'app/components'
 import { Box, styled } from '@mui/system'
-import { Button, Icon, Grid } from '@mui/material'
+import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { Span } from 'app/components/Typography'
 import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { editHospital, addHospital } from 'app/redux/actions/HospitalActions'
-import Alert from '../../components/Alert'
+// import Alert from '../../components/Alert'
 
 import { Container, TextField } from '../../components/MyComponents/form/index'
 
@@ -22,6 +22,8 @@ const AddHospital = () => {
         password,
         hospitalName,
         _id,
+        alertType,
+        alertText,
     } = useSelector((x) => x.hospitalList)
     const [state, setState] = useState({
         id: _id,
@@ -51,10 +53,20 @@ const AddHospital = () => {
 
         if (_id) {
             dispatch(editHospital(state))
-            clear()
+            if (
+                alertText == 'New Hoapital Added!' ||
+                alertText == 'Hospital Updated!'
+            ) {
+                clear()
+            }
         } else {
             dispatch(addHospital(state))
-            //clear()
+            if (
+                alertText == 'New Hoapital Added!' ||
+                alertText == 'Hospital Updated!'
+            ) {
+                clear()
+            }
         }
     }
 
@@ -92,7 +104,7 @@ const AddHospital = () => {
                                 <h3>
                                     {_id ? 'Edit Hospital' : 'Add Hospital'}
                                 </h3>
-                                {showAlert && <Alert />}
+                                {/* {showAlert && <Alert />} */}
                                 <TextField
                                     type="text"
                                     name="hospitalName"
@@ -146,7 +158,18 @@ const AddHospital = () => {
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />
-                                {_id ? (
+
+                                <TextField
+                                    label="Password"
+                                    onChange={handleHospitalInput}
+                                    name="password"
+                                    type="password"
+                                    value={state.password}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                />
+
+                                {/* {_id ? (
                                     ''
                                 ) : (
                                     <TextField
@@ -160,7 +183,7 @@ const AddHospital = () => {
                                             'this field is required',
                                         ]}
                                     />
-                                )}
+                                )} */}
                                 {/* <TextField
                             label="Confirm Password"
                             onChange={handleHospitalInput}
@@ -203,8 +226,24 @@ const AddHospital = () => {
                             </Span>
                         </Button>
                     </ValidatorForm>
+                    {showAlert ? (
+                        <Snackbar open={showAlert} autoHideDuration={19000}>
+                            <Alert
+                                severity={
+                                    alertText === 'New Hoapital Added!' ||
+                                    alertText === 'Hospital Updated!'
+                                        ? 'success'
+                                        : 'error'
+                                }
+                                sx={{ width: '100%' }}
+                            >
+                                {alertText}
+                            </Alert>
+                        </Snackbar>
+                    ) : null}
                 </div>
             </SimpleCard>
+
             <Box py="12px" />
         </Container>
     )

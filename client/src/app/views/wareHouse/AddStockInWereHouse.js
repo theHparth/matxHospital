@@ -1,5 +1,6 @@
 import { Box, styled } from '@mui/system'
 import { Breadcrumb, SimpleCard } from 'app/components'
+import { useNavigate } from 'react-router-dom'
 
 import { Button, Icon, Grid } from '@mui/material'
 import { Span } from 'app/components/Typography'
@@ -54,6 +55,7 @@ const AddStockInWereHouse = () => {
         box: box || '',
         stock_name: stock_name || '',
     })
+    const navigate = useNavigate()
     console.log(state)
     const clear = () => {
         setState({
@@ -195,6 +197,13 @@ const AddStockInWereHouse = () => {
                                                     </MenuItem>
                                                 )
                                             )}
+                                            <MenuItem
+                                                onClick={() =>
+                                                    navigate('/addVendor')
+                                                }
+                                            >
+                                                Add new vendor
+                                            </MenuItem>
                                         </Select>
                                     </FormControl>
 
@@ -231,6 +240,13 @@ const AddStockInWereHouse = () => {
                                                     </MenuItem>
                                                 )
                                             )}
+                                            <MenuItem
+                                                onClick={() =>
+                                                    navigate('/addStock')
+                                                }
+                                            >
+                                                Add new stock
+                                            </MenuItem>
                                         </Select>
                                     </FormControl>
 

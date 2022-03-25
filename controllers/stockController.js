@@ -16,7 +16,7 @@ const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
         $inc: {
           totalQty: totalBox * totalQtyInOneBox,
         },
-        // price: (stock.price + price) / 2,
+        price,
       }
     );
   } catch (err) {

@@ -1,13 +1,37 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
 import { SimpleCard, Breadcrumb } from 'app/components'
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
 import { Container } from '../../components/MyComponents/form/index'
+import {
+    getAllData,
+    setEditData,
+    deleteData,
+} from 'app/redux/actions/StockActions'
+import {
+    getHospitalsData,
+    setEditHospital,
+    deleteHospital,
+} from 'app/redux/actions/HospitalActions'
 function AddStockOutForm() {
+    let { stockData } = useSelector((state) => state.stockList)
+
+    const dispatch = useDispatch()
+
+    const { hospitalsData } = useSelector((state) => state.hospitalList)
+
+    useEffect(() => {
+        dispatch(getHospitalsData())
+    }, [dispatch])
+
+    console.log('stock out', stockData)
+    console.log("hospitalsData", hospitalsData);
     const [stockOutData, setStockOutData] = React.useState([
         {
             hospitalName: '',
@@ -27,12 +51,9 @@ function AddStockOutForm() {
         isPriceIncluded: false,
     }
 
-    useEffect(async () => {
-        const res = await fetch('/api/v1/stockOut/')
-        console.log(res)
-        const json = await res.json()
-        console.log(json)
-    }, [])
+    useEffect(() => {
+        dispatch(getAllData())
+    }, [dispatch])
 
     console.log(stockOutData)
     return (
@@ -56,12 +77,14 @@ function AddStockOutForm() {
                     padding: '30px',
                 }}
             >
-                {stockOutData.map((stockData, index) => (
+                {stockOutData.map((stockOut, index) => (
                     <AddStockCard
-                        stockData={stockData}
+                        stockOut={stockOut}
                         stockOutData={stockOutData}
                         setStockOutData={setStockOutData}
                         index={index}
+                        stockData={stockData}
+                        hospitalsData={hospitalsData}
                     />
                 ))}
                 <Button

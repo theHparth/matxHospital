@@ -55,7 +55,7 @@ const IndividualHospitalStock = () => {
                 />
             </div>
 
-            <SimpleCard title="Hospital List">
+            <SimpleCard title={'Hospital Data List'}>
                 <Box width="100%" overflow="auto">
                     <StyledTable>
                         <TableHead>
