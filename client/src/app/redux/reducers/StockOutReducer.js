@@ -60,7 +60,7 @@ const StockOutReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'Setock send success',
+                alertText: 'Stock send successfully',
             }
         }
         case CREATE_ERROR: {

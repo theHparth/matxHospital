@@ -3,7 +3,7 @@ import { Box, styled } from '@mui/system'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 // import { getAllVendor } from 'app/redux/actions/VendorActions'
 
-import { Button, Icon, Grid } from '@mui/material'
+import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { Span } from 'app/components/Typography'
 import React, { useState, useEffect } from 'react'
 
@@ -44,10 +44,14 @@ const AddStock = () => {
 
         if (_id) {
             dispatch(edit(state))
-            clear()
+            if (alertText == 'New stock data added!') {
+                clear()
+            }
         } else {
             dispatch(add(state))
-            clear()
+            if (alertText == 'Stock data updated successfully') {
+                clear()
+            }
         }
     }
     // // for getting vendor data
@@ -148,7 +152,21 @@ const AddStock = () => {
                     </Button>
                 </ValidatorForm>
             </SimpleCard>
-            {/* <Box py="12px" /> */}
+            {showAlert ? (
+                <Snackbar open={showAlert} autoHideDuration={19000}>
+                    <Alert
+                        severity={
+                            alertText === 'New stock data added!' ||
+                            alertText === 'Stock data updated successfully'
+                                ? 'success'
+                                : 'error'
+                        }
+                        sx={{ width: '100%' }}
+                    >
+                        {alertText}
+                    </Alert>
+                </Snackbar>
+            ) : null}
         </Container>
     )
 }

@@ -55,7 +55,7 @@ const StockReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'New Stock data Added!',
+                alertText: 'New stock data added!',
             }
         }
         case CREATE_ERROR: {

@@ -1,6 +1,4 @@
 import {
-    IconButton,
-    Table,
     TableHead,
     TableBody,
     TableRow,
@@ -9,13 +7,12 @@ import {
     TablePagination,
 } from '@mui/material'
 import React, { useEffect } from 'react'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     getAllDataStatusTrue,
     deleteData,
 } from 'app/redux/actions/StockOutAction'
-import { Link } from 'react-router-dom'
 import { Breadcrumb, SimpleCard } from 'app/components'
 import {
     Container,
@@ -24,7 +21,7 @@ import {
 import moment from 'moment'
 
 const WereHouseStock = () => {
-    let { stockOutDataTrue } = useSelector((state) => state.stockOutList)
+    let { stockOutDataTrue = [] } = useSelector((state) => state.stockOutList)
 
     const dispatch = useDispatch()
 
@@ -32,12 +29,7 @@ const WereHouseStock = () => {
         dispatch(getAllDataStatusTrue())
     }, [dispatch])
 
-    // if (wereHouseStockData.length === 0) {
-    //     return <h2>No Stocks to display...</h2>
-    // }
-
-    var stockOutDatas = stockOutDataTrue || []
-    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
 
     const handleChangePage = (event, newPage) => {
@@ -58,111 +50,72 @@ const WereHouseStock = () => {
                     ]}
                 />
             </div>
+            {stockOutDataTrue.length == 0 || stockOutDataTrue == undefined ? (
+                <h1> No stock out details</h1>
+            ) : (
+                <SimpleCard title="Stocks List">
+                    <Box width="100%" overflow="auto">
+                        <StyledTable>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Hospital Name</TableCell>
+                                    <TableCell>Stock Name</TableCell>
+                                    <TableCell>Total Qty</TableCell>
+                                    <TableCell>Price</TableCell>
+                                    <TableCell>Date</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {stockOutDataTrue
+                                    .slice(
+                                        page * rowsPerPage,
+                                        page * rowsPerPage + rowsPerPage
+                                    )
+                                    .map((subscriber, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                {subscriber.hospitalName}
+                                            </TableCell>
+                                            <TableCell>
+                                                {subscriber.stock_name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {subscriber.totalBox *
+                                                    subscriber.totalQtyInOneBox}
+                                            </TableCell>
+                                            <TableCell>
+                                                ${' '}
+                                                {subscriber.price
+                                                    ? subscriber.price
+                                                    : 0}
+                                            </TableCell>
 
-            <SimpleCard title="Stocks List">
-                <Box width="100%" overflow="auto">
-                    <StyledTable>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Hospital Name</TableCell>
-                                <TableCell>Stock Name</TableCell>
-                                <TableCell>Total Qty</TableCell>
-                                <TableCell>Price</TableCell>
-
-                                <TableCell>Date</TableCell>
-
-                                {/* <TableCell>Address</TableCell>
-                        <TableCell align="center">Pincode</TableCell> */}
-                                {/* <TableCell align="center">Edit</TableCell> */}
-                                {/* <TableCell align="center">Action</TableCell> */}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {stockOutDatas
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
-                                .map((subscriber, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            {subscriber.hospitalName}
-                                        </TableCell>
-                                        <TableCell>
-                                            {subscriber.stock_name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {subscriber.totalBox *
-                                                subscriber.totalQtyInOneBox}
-                                        </TableCell>
-                                        <TableCell>
-                                            ${' '}
-                                            {subscriber.price
-                                                ? subscriber.price
-                                                : 0}
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {subscriber.createdAt}
-                                        </TableCell>
-
-                                        {/* <TableCell align="center">
-                                            <IconButton>
-                                                <Link
-                                                // to={`/addStockInWereHouse`}
-                                                // onClick={() =>
-                                                //     dispatch(
-                                                //         setEditData(
-                                                //             subscriber
-                                                //         )
-                                                //     )
-                                                // }
-                                                >
-                                                    <Icon color="error">
-                                                        edit
-                                                    </Icon>
-                                                </Link>
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => {
-                                                    {
-                                                        alert(
-                                                            'Are you sure you want to delete?'
-                                                        )
-                                                        dispatch(
-                                                            deleteData(
-                                                                subscriber._id
-                                                            )
-                                                        )
-                                                    }
-                                                }}
-                                            >
-                                                <Icon color="error">close</Icon>
-                                            </IconButton>
-                                        </TableCell> */}
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </StyledTable>
-
-                    <TablePagination
-                        sx={{ px: 2 }}
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={stockOutDatas.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Box>
-            </SimpleCard>
+                                            <TableCell>
+                                                {subscriber.createdAt}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </StyledTable>
+                        <TablePagination
+                            sx={{ px: 2 }}
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={stockOutDataTrue.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            backIconButtonProps={{
+                                'aria-label': 'Previous Page',
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'Next Page',
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Box>
+                </SimpleCard>
+            )}
         </Container>
     )
 }

@@ -1,35 +1,23 @@
-import { Box, styled } from '@mui/system'
 import { Breadcrumb, SimpleCard } from 'app/components'
 import { useNavigate } from 'react-router-dom'
-
-import { Button, Icon, Grid } from '@mui/material'
+import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { Span } from 'app/components/Typography'
 import React, { useState, useEffect } from 'react'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-
-import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+import { ValidatorForm } from 'react-material-ui-form-validator'
+import { useDispatch, useSelector } from 'react-redux'
 import { edit, add } from 'app/redux/actions/WareHouseAction'
-
 import { getAllVendor } from 'app/redux/actions/VendorActions'
 import { getAllData } from 'app/redux/actions/StockActions'
-import {
-    Container,
-    TextField,
-    RadioRoot,
-} from '../../components/MyComponents/form/index'
-
+import { Container, TextField } from '../../components/MyComponents/form/index'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import RadioGroup from '@mui/material/RadioGroup'
-
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-// import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select'
 
-import { Directionss } from '../../components/MyComponents/Directionss'
 const AddStockInWereHouse = () => {
     const {
         showAlert,
@@ -75,13 +63,16 @@ const AddStockInWereHouse = () => {
 
         if (_id) {
             dispatch(edit(state))
-            clear()
+            if (alertText == 'Stock data updated successfully') {
+                clear()
+            }
         } else {
             dispatch(add(state))
-            clear()
+            if (alertText == 'New Stock data Added!') {
+                clear()
+            }
         }
     }
-    // for getting vendor data
 
     const { stockData = [] } = useSelector((states) => states.stockList)
     const { vendorData = [] } = useSelector((states) => states.vendorList)
@@ -97,35 +88,13 @@ const AddStockInWereHouse = () => {
         setState({
             ...state,
             [name]: value,
-            // price:
-            //     state.priceType === 'individualPrice'
-            //         ? value * state.box * state.qty
-            //         : value,
-            // price: state.priceType === "individualPrice" ? value*state.box : value ,
-            // stockTotoalPrice: name === "stockTotoalPrice" ? value : ""
         })
 
         console.log(state)
     }
-    // const handleInputOptionStock = (e) => {
-    //     var value = e.target.value
-    //     setState({
-    //         ...state,
-    //         ['stock_name']: value,
-    //     })
-    // }
 
-    // const [value, setValue] = React.useState({})
-    // function handleChange(event) {
-    //     setValue(event.target.value)
-    // }
     return (
         <Container>
-            {/* <Directionss
-                description={'Werehouse Stock Details'}
-                pathName={'/wereHouseStock'}
-                type={'Table'}
-            /> */}
             <div>
                 <Breadcrumb
                     routeSegments={[
@@ -153,7 +122,11 @@ const AddStockInWereHouse = () => {
                                     xs={12}
                                     sx={{ mt: 0 }}
                                 >
-                                    <h3>{_id ? 'Edit Stock' : 'Add Stock'}</h3>
+                                    <h3>
+                                        {_id
+                                            ? 'Edit Stock'
+                                            : 'Add new stock in werehouse'}
+                                    </h3>
                                     {showAlert && (
                                         <div
                                             className={`alert alert-${alertType}`}
@@ -307,22 +280,6 @@ const AddStockInWereHouse = () => {
                                             'this field is required',
                                         ]}
                                     />
-                                    {/* ) : ( */}
-                                    {/* <TextField
-                                            label="Add price here"
-                                            onChange={handleChange}
-                                            type="number"
-                                            name='stockTotoalPrice'
-                                            value={state.stockTotoalPrice}
-                                            validators={[
-                                                'required',
-                                                'minNumber:1',
-                                            ]}
-                                            errorMessages={[
-                                                'this field is required',
-                                            ]}
-                                        /> */}
-                                    {/* )} */}
                                 </Grid>
                             </Grid>
                             <Button
@@ -360,6 +317,22 @@ const AddStockInWereHouse = () => {
                     </SimpleCard>
                     {/* <Box py="12px" /> */}
                 </Container>
+                {showAlert ? (
+                    <Snackbar open={showAlert} autoHideDuration={19000}>
+                        <Alert
+                            severity={
+                                alertText ===
+                                    'Stock data updated successfully' ||
+                                alertText === 'New Stock data Added!'
+                                    ? 'success'
+                                    : 'error'
+                            }
+                            sx={{ width: '100%' }}
+                        >
+                            {alertText}
+                        </Alert>
+                    </Snackbar>
+                ) : null}
             </SimpleCard>
         </Container>
     )

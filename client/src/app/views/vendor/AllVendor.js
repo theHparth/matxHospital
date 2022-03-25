@@ -42,11 +42,7 @@ const AllVendor = () => {
         dispatch(getAllVendor())
     }, [dispatch])
 
-    // if (vendorData.length === 0) {
-    //     return <h2>No Stocks to display...</h2>
-    // }
-    // var vendorDatass = vendorData || []
-    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
     const [showModal, setShowModal] = useState(false)
     const [currentVendor, setCurrentVendor] = useState({})
@@ -74,143 +70,150 @@ const AllVendor = () => {
                     ]}
                 />
             </div>
-
-            <SimpleCard title="Vendor List">
-                <input
-                    type="text"
-                    placeholder="Vendor Name"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                <Box width="100%" overflow="auto">
-                    <StyledTable>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                {/* <TableCell>Contect</TableCell> */}
-                                <TableCell>Email</TableCell>
-                                {/* <TableCell>Address</TableCell> */}
-                                {/* <TableCell align="center">Pincode</TableCell> */}
-                                <TableCell align="center">Edit</TableCell>
-                                <TableCell>Delete</TableCell>
-                                <TableCell>Print</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {vendorData
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
-                                .map((subscriber, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            {subscriber.vendor_name}
-                                        </TableCell>
-                                        {/* <TableCell>
+            {vendorData.length == 0 || vendorData == undefined ? (
+                <h1> No vendor data in database</h1>
+            ) : (
+                <SimpleCard title="Vendor List">
+                    <input
+                        type="text"
+                        placeholder="Vendor Name"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <Box width="100%" overflow="auto">
+                        <StyledTable>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    {/* <TableCell>Contect</TableCell> */}
+                                    <TableCell>Email</TableCell>
+                                    {/* <TableCell>Address</TableCell> */}
+                                    {/* <TableCell align="center">Pincode</TableCell> */}
+                                    <TableCell align="center">Edit</TableCell>
+                                    <TableCell>Delete</TableCell>
+                                    <TableCell>Print</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {vendorData
+                                    .slice(
+                                        page * rowsPerPage,
+                                        page * rowsPerPage + rowsPerPage
+                                    )
+                                    .map((subscriber, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                {subscriber.vendor_name}
+                                            </TableCell>
+                                            {/* <TableCell>
                                             {subscriber.contect}
                                         </TableCell> */}
-                                        <TableCell>
-                                            {subscriber.email}
-                                        </TableCell>
-                                        {/* <TableCell>
+                                            <TableCell>
+                                                {subscriber.email}
+                                            </TableCell>
+                                            {/* <TableCell>
                                             {subscriber.address}
                                         </TableCell> */}
-                                        {/* <TableCell align="center">
+                                            {/* <TableCell align="center">
                                             {subscriber.pincode}
                                         </TableCell> */}
-                                        <TableCell align="center">
-                                            <Link
-                                                to={`/addVendor`}
-                                                onClick={() =>
-                                                    dispatch(
-                                                        setEditData(subscriber)
-                                                    )
-                                                }
+                                            <TableCell align="center">
+                                                <Link
+                                                    to={`/addVendor`}
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            setEditData(
+                                                                subscriber
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    <IconButton>
+                                                        <Icon color="error">
+                                                            edit
+                                                        </Icon>
+                                                    </IconButton>
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell
+                                                onClick={() => {
+                                                    {
+                                                        alert(
+                                                            'Are you sure you want to delete?'
+                                                        )
+                                                        dispatch(
+                                                            deleteData(
+                                                                subscriber._id
+                                                            )
+                                                        )
+                                                    }
+                                                }}
                                             >
                                                 <IconButton>
                                                     <Icon color="error">
-                                                        edit
+                                                        close
                                                     </Icon>
                                                 </IconButton>
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell
-                                            onClick={() => {
-                                                {
-                                                    alert(
-                                                        'Are you sure you want to delete?'
-                                                    )
-                                                    dispatch(
-                                                        deleteData(
-                                                            subscriber._id
-                                                        )
-                                                    )
-                                                }
-                                            }}
-                                        >
-                                            <IconButton>
-                                                <Icon color="error">close</Icon>
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                onClick={() => {
-                                                    changeModal(subscriber)
-                                                }}
-                                            >
-                                                <Icon color="primary">
-                                                    print
-                                                </Icon>
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </StyledTable>
+                                            </TableCell>
+                                            <TableCell>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        changeModal(subscriber)
+                                                    }}
+                                                >
+                                                    <Icon color="primary">
+                                                        print
+                                                    </Icon>
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </StyledTable>
 
-                    <TablePagination
-                        sx={{ px: 2 }}
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={vendorData.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Box>
+                        <TablePagination
+                            sx={{ px: 2 }}
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={vendorData.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            backIconButtonProps={{
+                                'aria-label': 'Previous Page',
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'Next Page',
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Box>
 
-                {showModal ? (
-                    <Modal>
-                        {console.log('model open')}
-                        <div>
-                            <h1>Model Open</h1>
-                            <VendorInfo
-                                changeModal={changeModal}
-                                currentVendor={currentVendor}
-                            />
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    width: '200px',
-                                    justifyContent: 'space-between',
-                                    margin: 'auto',
-                                }}
-                            >
-                                <button onClick={changeModal}>Close</button>
-                                <button>Print</button>
+                    {showModal ? (
+                        <Modal>
+                            {console.log('model open')}
+                            <div>
+                                <h1>Model Open</h1>
+                                <VendorInfo
+                                    changeModal={changeModal}
+                                    currentVendor={currentVendor}
+                                />
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        width: '200px',
+                                        justifyContent: 'space-between',
+                                        margin: 'auto',
+                                    }}
+                                >
+                                    <button onClick={changeModal}>Close</button>
+                                    <button>Print</button>
+                                </div>
                             </div>
-                        </div>
-                    </Modal>
-                ) : null}
-            </SimpleCard>
+                        </Modal>
+                    ) : null}
+                </SimpleCard>
+            )}
         </Container>
     )
 }

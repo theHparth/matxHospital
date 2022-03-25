@@ -50,7 +50,7 @@ const VendorReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'New Vendor Added!',
+                alertText: 'New Vendor data Added!',
             }
         }
         case CREATE_ERROR: {
@@ -82,7 +82,7 @@ const VendorReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'Vendor Updated!',
+                alertText: 'Vendor data Updated!',
             }
         }
         case EDIT_ERROR: {
