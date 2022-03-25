@@ -38,26 +38,7 @@ const Footer = () => {
 
     const footerTheme = settings.themes[settings.footer.theme] || theme
 
-    return (
-        <ThemeProvider theme={footerTheme}>
-            <AppBar color="primary" position="static" sx={{ zIndex: 96 }}>
-                <AppFooter>
-                    <FooterContent>
-                        {/* <a href="https://ui-lib.com/downloads/matx-pro-react-admin/">
-                            <Button variant="contained" color="secondary">
-                                Get MatX Pro
-                            </Button>
-                        </a> */}
-                        <Span sx={{ m: 0 }}></Span>
-                        <Paragraph sx={{ m: 0 }}>
-                            {/* Design and Developed by{' '}
-                            <a href="http://ui-lib.com">UI Lib</a> */}
-                        </Paragraph>
-                    </FooterContent>
-                </AppFooter>
-            </AppBar>
-        </ThemeProvider>
-    )
+    return <ThemeProvider theme={footerTheme}></ThemeProvider>
 }
 
 export default Footer
