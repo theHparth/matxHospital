@@ -100,18 +100,17 @@ const WereHouseStock = () => {
                                         </TableCell>
                                         <TableCell>
                                             ${' '}
-                                            {subscriber.price
-                                                ? subscriber.price
+                                            {subscriber.price &&
+                                            subscriber.totalQtyInOneBox
+                                                ? subscriber.price *
+                                                  subscriber.totalQtyInOneBox *
+                                                  subscriber.totalBox
                                                 : 0}
                                         </TableCell>
                                         <TableCell>
                                             ${' '}
-                                            {subscriber.price /
-                                            (subscriber.totalQtyInOneBox *
-                                                subscriber.totalBox)
-                                                ? subscriber.price /
-                                                  (subscriber.totalQtyInOneBox *
-                                                      subscriber.totalBox)
+                                            {subscriber.price
+                                                ? subscriber.price
                                                 : 0}
                                         </TableCell>
                                         <TableCell>

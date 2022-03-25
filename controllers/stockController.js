@@ -6,7 +6,7 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 
 const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
-  console.log(stock_name, totalQtyInOneBox, totalBox);
+  // console.log(stock_name, totalQtyInOneBox, totalBox);
   const stock = await stocks.findOne({ stock_name });
   console.log(stock);
   try {
@@ -16,6 +16,7 @@ const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
         $inc: {
           totalQty: totalBox * totalQtyInOneBox,
         },
+        // price: (stock.price + price) / 2,
       }
     );
   } catch (err) {
@@ -33,8 +34,7 @@ const removeStockQty = async (
 ) => {
   try {
     const stock = await stocks.findOne({ stock_name });
-    console.log(stock_name, totalBox, totalQtyInOneBox);
-    console.log(stock);
+
     await stocks.updateOne(
       { stock_name },
       {
@@ -46,6 +46,7 @@ const removeStockQty = async (
           //   totalQtyInOneBox
           // ),
         },
+        // price: (stock.price + price) / 2,
       }
     );
   } catch (err) {

@@ -35,7 +35,7 @@ const add = (state) => async (dispatch) => {
             stock_name,
             stockTotoalPrice,
         } = state
-        price = priceType === 'individualPrice' ? price * box * qty : price
+        price = priceType === 'individualPrice' ? price : (box * qty) / price
         await authFetch.post('/wereHouse', {
             vendor_name,
             price,
@@ -79,21 +79,29 @@ const setEditData = (subscriber) => (dispatch) => {
 const edit = (state) => async (dispatch) => {
     try {
         const {
+            // vendor_name,
+            // price,
+            // qty,
+            // box,
+            // stock_name,
+            // id,
+            // stockTotoalPrice,
+            id,
             vendor_name,
+            priceType,
             price,
             qty,
             box,
             stock_name,
-            id,
-            stockTotoalPrice,
         } = state
+        price = priceType === 'individualPrice' ? price : (box * qty) / price
+
         await authFetch.patch(`/wereHouse/${id}`, {
             vendor_name,
             price,
-            qty,
-            box,
+            totalQtyInOneBox: qty,
+            totalBox: box,
             stock_name,
-            stockTotoalPrice,
         })
         dispatch({ type: EDIT_SUCCESS })
         dispatch(clearValues())

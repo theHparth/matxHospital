@@ -7,14 +7,14 @@ const hospitalStockViewAdmin = async (req, res) => {
   const { search, id } = req.query;
   // console.log("backend......", id);
   const queryObject = {
-    createdBy: req.user.userId,
+    createdFor: id,
   };
-  if (search) {
-    queryObject.hospitalName = { $regex: search, $options: "i" };
-  }
-  if (id) {
-    queryObject.hospitalPresentStock = id;
-  }
+  // if (search) {
+  //   queryObject.hospitalName = { $regex: search, $options: "i" };
+  // }
+  // if (id) {
+  //   queryObject.hospitalPresentStock = id;
+  // }
 
   let result = StocksHosital.find(queryObject);
   const hospitalPresentStock = await result;

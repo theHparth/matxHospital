@@ -206,22 +206,4 @@ export const navigations = [
             },
         ],
     },
-    {
-        name: 'Charts',
-        icon: 'trending_up',
-
-        children: [
-            {
-                name: 'Echarts',
-                path: '/charts/echarts',
-                iconText: 'E',
-            },
-        ],
-    },
-    {
-        name: 'Documentation',
-        icon: 'launch',
-        type: 'extLink',
-        path: 'http://demos.ui-lib.com/matx-react-doc/',
-    },
 ]

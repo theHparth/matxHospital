@@ -97,15 +97,14 @@ const AllStock = () => {
                                         <TableCell>
                                             ${' '}
                                             {subscriber.price
-                                                ? subscriber.price
+                                                ? subscriber.price *
+                                                  subscriber.totalQty
                                                 : 0}
                                         </TableCell>
                                         <TableCell>
                                             ${' '}
-                                            {subscriber.price /
-                                            subscriber.totalQty
-                                                ? subscriber.price /
-                                                  subscriber.totalQty
+                                            {subscriber.price
+                                                ? subscriber.price
                                                 : 0}
                                         </TableCell>
 

@@ -49,8 +49,8 @@ const IndividualHospitalStock = () => {
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Add Hospital', path: '/addHospital' },
-                        { name: 'form' },
+                        { name: 'All Hospital', path: '/allHospitals' },
+                        { name: 'Table' },
                     ]}
                 />
             </div>

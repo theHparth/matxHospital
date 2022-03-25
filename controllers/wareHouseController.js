@@ -16,7 +16,7 @@ const addStockinWereHouse = async (req, res) => {
 
   const stock = await WereHouseStocks.create(req.body);
 
-  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+  addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
 
   res.status(StatusCodes.CREATED).json({ stock });
 };
@@ -93,11 +93,11 @@ const updateStockfromWereHouse = async (req, res) => {
   );
   removeStockQty(
     stock.stock_name,
-
     stock.totalQtyInOneBox,
-    stock.totalBox
+    stock.totalBox,
+    stock.price
   );
-  addStockQty(stock_name, price, totalQtyInOneBox, totalBox);
+  addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };
@@ -114,7 +114,12 @@ const deleteStockfromWereHouse = async (req, res) => {
   checkPermissions(req.user, stock.createdBy);
 
   await stock.remove();
-  removeStockQty(stock.stock_name, stock.totalQtyInOneBox, stock.totalBox);
+  removeStockQty(
+    stock.stock_name,
+    stock.totalQtyInOneBox,
+    stock.totalBox,
+    stock.price
+  );
   // await WereHouseStocks.remove();
 
   res

@@ -126,6 +126,12 @@ const updateSendStockAdmin = async (req, res) => {
   checkPermissions(req.user, stockOutData.createdBy);
   const hospitalData = await Hospital.findOne({ hospitalName });
 
+  addStockQty(
+    stockOutData.stock_name,
+    stockOutData.totalQtyInOneBox,
+    stockOutData.totalBox,
+    stockOutData.price
+  );
   req.body.createdFor = hospitalData._id;
   const updatedStockSend = await UserStock.findOneAndUpdate(
     { _id: stockOutId },
@@ -136,13 +142,7 @@ const updateSendStockAdmin = async (req, res) => {
     }
   );
 
-  removeStockQty(
-    stockOutData.stock_name,
-    stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox,
-    stockOutData.price
-  );
-  addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
+  removeStockQty(stock_name, totalQtyInOneBox, totalBox, price);
 
   res.status(StatusCodes.OK).json({ updatedStockSend });
 };
@@ -166,7 +166,8 @@ const deleteSendStockAdmin = async (req, res) => {
   addStockQty(
     stockout.stock_name,
     stockout.totalQtyInOneBox,
-    stockout.totalBox
+    stockout.totalBox,
+    stockout.price
   );
   await stockout.remove();
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
