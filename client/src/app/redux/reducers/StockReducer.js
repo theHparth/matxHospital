@@ -18,7 +18,7 @@ import {
 const initialState = {
     stockData: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
     alertType: '',
     alertText: '',
     isEditing: false,

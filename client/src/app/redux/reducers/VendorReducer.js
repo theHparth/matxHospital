@@ -18,7 +18,7 @@ import {
 const initialState = {
     vendorData: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
     alertType: '',
     alertText: '',
     isEditing: false,

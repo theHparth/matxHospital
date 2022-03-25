@@ -18,7 +18,7 @@ import {
 const initialState = {
     wereHouseStockData: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
     alertType: '',
     alertText: '',
     isEditing: false,

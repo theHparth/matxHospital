@@ -84,11 +84,7 @@ const AddVendor = () => {
                     <Grid container spacing={6}>
                         <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                             <h3>{_id ? 'Edit Vendor' : 'Add Vendor'}</h3>
-                            {showAlert && (
-                                <div className={`alert alert-${alertType}`}>
-                                    {alertText}
-                                </div>
-                            )}
+
                             <TextField
                                 type="text"
                                 name="vendor_name"

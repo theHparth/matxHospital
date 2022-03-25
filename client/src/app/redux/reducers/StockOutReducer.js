@@ -20,13 +20,13 @@ const initialState = {
     stockOutDataTrue: [],
     stockOutDataFalse: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
     alertType: '',
     alertText: '',
     isEditing: false,
     description: '',
     // vendor_name: '',
-    // vendor_id: '',
+    _id: '',
     hospitalName: '',
     stock_name: '',
     totalQtyInOneBox: 1,
@@ -80,6 +80,7 @@ const StockOutReducer = function (state = initialState, action) {
                 showAlert: true,
                 alertType: 'success',
                 alertText: 'Data updated successfully',
+                _id: '',
             }
         }
         case EDIT_ERROR: {

@@ -44,12 +44,18 @@ const AddStock = () => {
 
         if (_id) {
             dispatch(edit(state))
-            if (alertText == 'New stock data added!') {
+            if (
+                alertText == 'New stock data added!' ||
+                alertText == 'Stock data updated successfully'
+            ) {
                 clear()
             }
         } else {
             dispatch(add(state))
-            if (alertText == 'Stock data updated successfully') {
+            if (
+                alertText == 'New stock data added!' ||
+                alertText == 'Stock data updated successfully'
+            ) {
                 clear()
             }
         }
@@ -85,11 +91,6 @@ const AddStock = () => {
                     <Grid container spacing={6}>
                         <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                             <h3>{_id ? 'Edit Stock' : 'Add Stock'}</h3>
-                            {showAlert && (
-                                <div className={`alert alert-${alertType}`}>
-                                    {alertText}
-                                </div>
-                            )}
 
                             <TextField
                                 type="text"
@@ -153,7 +154,11 @@ const AddStock = () => {
                 </ValidatorForm>
             </SimpleCard>
             {showAlert ? (
-                <Snackbar open={showAlert} autoHideDuration={19000}>
+                <Snackbar
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    open={showAlert}
+                    autoHideDuration={19000}
+                >
                     <Alert
                         severity={
                             alertText === 'New stock data added!' ||

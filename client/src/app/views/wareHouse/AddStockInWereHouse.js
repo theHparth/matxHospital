@@ -127,13 +127,6 @@ const AddStockInWereHouse = () => {
                                             ? 'Edit Stock'
                                             : 'Add new stock in werehouse'}
                                     </h3>
-                                    {showAlert && (
-                                        <div
-                                            className={`alert alert-${alertType}`}
-                                        >
-                                            {alertText}
-                                        </div>
-                                    )}
 
                                     <FormControl
                                         variant="standard"
