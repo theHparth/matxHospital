@@ -120,7 +120,7 @@ const StockOutReducer = function (state = initialState, action) {
         }
 
         case DELETE_BEGIN: {
-            return { ...state, isLoading: true }
+            return { ...state, isLoading: false }
         }
 
         /////////////////////////////////////////////////////////

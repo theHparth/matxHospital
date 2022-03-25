@@ -88,7 +88,7 @@ const inStockMinimumChange = (state) => async (dispatch) => {
             minimumLimit,
         })
         dispatch({ type: STATUS_EDIT_SUCCESS })
-        dispatch(getAllDataStatusFalse())
+        // dispatch(getAllDataStatusFalse())
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({

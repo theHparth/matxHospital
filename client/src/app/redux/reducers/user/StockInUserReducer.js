@@ -24,7 +24,7 @@ const initialState = {
     stockInDataFalse: [],
     presentStockUserData: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
     alertType: '',
     alertText: '',
     isEditing: false,
@@ -151,7 +151,7 @@ const StockInUserReducer = function (state = initialState, action) {
         // }
         //delete state
         case DELETE_BEGIN: {
-            return { ...state, isLoading: true }
+            return { ...state, isLoading: false }
         }
         // case SET_EDIT: {
         //     const subscriber = action.payload.subscriber

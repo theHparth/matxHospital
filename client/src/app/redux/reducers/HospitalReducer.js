@@ -104,7 +104,7 @@ const HospitalReducer = function (state = initialState, action) {
         }
         //delete state
         case DELETE_HOSPITAL_BEGIN: {
-            return { ...state, isLoading: true }
+            return { ...state, isLoading: false }
         }
         case SET_EDIT_HOSPITAL: {
             const subscriber = action.payload.subscriber

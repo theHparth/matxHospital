@@ -95,7 +95,7 @@ const WareHouseReducer = function (state = initialState, action) {
         }
         //delete state
         case DELETE_BEGIN: {
-            return { ...state, isLoading: true }
+            return { ...state, isLoading: false }
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
