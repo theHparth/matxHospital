@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/system'
+import { Box, useTheme } from '@mui/system'
 import { Breadcrumb, SimpleCard } from 'app/components'
 import {
     IconButton,
@@ -19,9 +19,15 @@ import { useParams } from 'react-router-dom'
 import {
     Container,
     StyledTable,
+    StockAlert,
 } from '../../components/MyComponents/table/index'
 
 const IndividualHospitalStock = () => {
+    const { palette } = useTheme()
+    const bgError = palette.error.main
+    const bgPrimary = palette.primary.main
+    const bgSecondary = palette.secondary.main
+
     const { id } = useParams()
     // console.log('idd--------------------------------------', id)
     const { hospitalIndividualStockData = [] } = useSelector(
@@ -79,8 +85,40 @@ const IndividualHospitalStock = () => {
                                         <TableCell>
                                             {subscriber.stock_name}
                                         </TableCell>
-                                        <TableCell>
+                                        {/* <TableCell>
                                             {subscriber.totalQtyUser}
+                                        </TableCell> */}
+                                        <TableCell
+                                            sx={{ px: 0 }}
+                                            align="left"
+                                            // colSpan={2}
+                                        >
+                                            {subscriber.totalQtyUser ? (
+                                                subscriber.totalQtyUser <
+                                                subscriber.minimumLimit ? (
+                                                    <StockAlert
+                                                        bgcolor={bgSecondary}
+                                                    >
+                                                        {
+                                                            subscriber.totalQtyUser
+                                                        }{' '}
+                                                        available
+                                                    </StockAlert>
+                                                ) : (
+                                                    <StockAlert
+                                                        bgcolor={bgPrimary}
+                                                    >
+                                                        {
+                                                            subscriber.totalQtyUser
+                                                        }{' '}
+                                                        available
+                                                    </StockAlert>
+                                                )
+                                            ) : (
+                                                <StockAlert bgcolor={bgError}>
+                                                    out of stock
+                                                </StockAlert>
+                                            )}
                                         </TableCell>
                                     </TableRow>
                                 ))}

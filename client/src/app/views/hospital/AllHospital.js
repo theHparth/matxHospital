@@ -9,8 +9,9 @@ import {
     TableCell,
     Icon,
     TablePagination,
+    Button,
 } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     getHospitalsData,
@@ -24,9 +25,12 @@ import {
     Container,
     StyledTable,
 } from '../../components/MyComponents/table/index'
+import Modal from 'app/components/Modal/Modal'
 
 const AllHospital = () => {
     const { hospitalsData = [] } = useSelector((state) => state.hospitalList)
+    const [subscriber_id, setSubscriber_id] = useState('')
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -125,16 +129,19 @@ const AllHospital = () => {
                                             </TableCell>
                                             <TableCell
                                                 onClick={() => {
-                                                    {
-                                                        alert(
-                                                            'Are you sure you want to delete?'
-                                                        )
-                                                        dispatch(
-                                                            deleteHospital(
-                                                                subscriber._id
-                                                            )
-                                                        )
-                                                    }
+                                                    // {
+                                                    //     alert(
+                                                    //         'Are you sure you want to delete?'
+                                                    //     )
+                                                    //     dispatch(
+                                                    //         deleteHospital(
+                                                    //             subscriber._id
+                                                    //         )
+                                                    //     )
+                                                    // }
+                                                    setSubscriber_id(
+                                                        subscriber._id
+                                                    )
                                                 }}
                                             >
                                                 <IconButton>
@@ -147,6 +154,41 @@ const AllHospital = () => {
                                     ))}
                             </TableBody>
                         </StyledTable>
+                        {subscriber_id ? (
+                            <Modal>
+                                <div>
+                                    <h1>Would you like to delete</h1>
+                                    <Box
+                                        display="flex"
+                                        width="200px"
+                                        margin="auto"
+                                        justifyContent="space-between"
+                                    >
+                                        <Button
+                                            variant="outlined"
+                                            color="success"
+                                            onClick={() => setSubscriber_id('')}
+                                        >
+                                            No
+                                        </Button>
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            onClick={() => {
+                                                dispatch(
+                                                    deleteHospital(
+                                                        subscriber_id
+                                                    )
+                                                )
+                                                setSubscriber_id('')
+                                            }}
+                                        >
+                                            Yes
+                                        </Button>
+                                    </Box>
+                                </div>
+                            </Modal>
+                        ) : null}
 
                         <TablePagination
                             sx={{ px: 2 }}

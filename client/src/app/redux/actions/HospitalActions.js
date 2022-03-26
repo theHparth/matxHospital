@@ -36,13 +36,13 @@ const clearValues = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES })
 }
 const clearAlert = () => (dispatch) => {
-    setTimeout(() => {
-        dispatch({ type: CLEAR_ALERT })
-    }, 3000)
+    // setTimeout(() => {
+    //     dispatch({ type: CLEAR_ALERT })
+    // }, 3000)
 }
 const displayAlert = () => (dispatch) => {
     dispatch({ type: DISPLAY_ALERT })
-    dispatch(clearAlert())
+    // dispatch(clearAlert())
 }
 ////////////////////////////////////////////////////////////////////////
 
@@ -64,7 +64,7 @@ const getHospitalsData = () => async (dispatch) => {
     } catch (error) {
         console.log(error)
     }
-    dispatch(clearAlert())
+    // dispatch(clearAlert())
 }
 const hospitalStockInformation = (id) => async (dispatch) => {
     // const { subscriber, id, search } = state
@@ -89,7 +89,7 @@ const hospitalStockInformation = (id) => async (dispatch) => {
     } catch (error) {
         console.log(error)
     }
-    dispatch(clearAlert())
+    // dispatch(clearAlert())
 }
 
 const addHospital = (state) => async (dispatch) => {
@@ -122,7 +122,7 @@ const addHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    dispatch(clearAlert())
+    // dispatch(clearAlert())
 }
 
 const handleHospitalChange =
@@ -163,7 +163,7 @@ const editHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_HOSPITAL })
+        // dispatch({ type: CLEAR_VALUES_HOSPITAL })
         // dispatch(clearValues())
     } catch (error) {
         if (error.response.status === 401) return
@@ -172,7 +172,7 @@ const editHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    dispatch(clearAlert())
+    // dispatch(clearAlert())
 }
 
 // delete the

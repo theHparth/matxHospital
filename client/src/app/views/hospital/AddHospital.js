@@ -22,7 +22,6 @@ const AddHospital = () => {
         password,
         hospitalName,
         _id,
-        alertType,
         alertText,
     } = useSelector((x) => x.hospitalList)
     const [state, setState] = useState({
@@ -50,24 +49,18 @@ const AddHospital = () => {
     // console.log(isEditing)
     const handleSubmit = (e) => {
         e.preventDefault()
-
         if (_id) {
             dispatch(editHospital(state))
-            if (
-                alertText == 'New Hoapital Added!' ||
-                alertText == 'Hospital Updated!'
-            ) {
+            if (showAlert) {
                 clear()
             }
         } else {
             dispatch(addHospital(state))
-            if (
-                alertText == 'New Hoapital Added!' ||
-                alertText == 'Hospital Updated!'
-            ) {
+            if (showAlert) {
                 clear()
             }
         }
+        console.log('show alert', showAlert)
     }
 
     const handleHospitalInput = (e) => {

@@ -21,7 +21,6 @@ const initialState = {
     hospitalIndividualStockData: [],
     isLoading: false,
     showAlert: false,
-    alertType: '',
     alertText: '',
     isEditing: false,
     hospitalName: '',
@@ -56,7 +55,6 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
-                alertType: 'success',
                 alertText: 'New Hoapital Added!',
             }
         }
@@ -65,7 +63,6 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
-                alertType: 'warning',
                 alertText: action.payload.msg,
             }
         }
@@ -88,7 +85,6 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
-                alertType: 'success',
                 alertText: 'Hospital Updated!',
                 _id: '',
             }
@@ -99,7 +95,6 @@ const HospitalReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: action.payload.msg,
-                alertType: 'danger',
             }
         }
         //delete state
@@ -137,7 +132,6 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 showAlert: false,
-                alertType: '',
                 alertText: '',
             }
         }
@@ -159,7 +153,6 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 showAlert: true,
-                alertType: 'danger',
                 alertText: 'Please provide all values!',
             }
         }
