@@ -25,7 +25,7 @@ import { Breadcrumb, SimpleCard } from 'app/components'
 import {
     Container,
     StyledTable,
-} from '../../components/MyComponents/table/index'
+} from '../../../components/MyComponents/table/index'
 import moment from 'moment'
 
 const PreviousSellingEntryManage = () => {

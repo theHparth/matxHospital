@@ -43,7 +43,7 @@ const NewAllStockOut = () => {
         setRowsPerPage(+event.target.value)
         setPage(0)
     }
-    // complete pagination
+    // for panel setup
     const [expanded, setExpanded] = React.useState(false)
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false)

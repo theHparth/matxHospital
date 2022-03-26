@@ -2,13 +2,13 @@ import React, { lazy } from 'react'
 import Loadable from 'app/components/Loadable/Loadable'
 
 const TodaySellingAddForm = Loadable(
-    lazy(() => import('./TodaySellingAddForm'))
+    lazy(() => import('./todayselling/TodaySellingAddForm'))
 )
 const AllStockInDetails = Loadable(lazy(() => import('./AllStockInDetails')))
 const PendingStockIn = Loadable(lazy(() => import('./PendingStockIn')))
 const InstockListUser = Loadable(lazy(() => import('./InstockListUser')))
 const PreviousSellingEntryManage = Loadable(
-    lazy(() => import('./PreviousSellingEntryManage'))
+    lazy(() => import('./todayselling/PreviousSellingEntryManage'))
 )
 
 const StockInUserRoutes = [
