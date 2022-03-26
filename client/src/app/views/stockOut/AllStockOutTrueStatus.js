@@ -30,7 +30,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 
-const NewAllStockOut = () => {
+const AllStockOutTrueStatus = () => {
     // for pagination purposes
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
@@ -103,9 +103,15 @@ const NewAllStockOut = () => {
                                         {subscriber.createdAt}
                                     </ThirdHeading>
                                 </AccordionSummary>
-                                <AccordionDetails>
+                                <AccordionDetails
+                                    style={{ backgroundColor: '#F5F5F5' }}
+                                >
                                     <StyledTable>
-                                        <TableHead>
+                                        <TableHead
+                                            style={{
+                                                backgroundColor: '#EBF5FB',
+                                            }}
+                                        >
                                             <TableRow>
                                                 <TableCell>
                                                     Stock Name
@@ -163,4 +169,4 @@ const NewAllStockOut = () => {
     )
 }
 
-export default NewAllStockOut
+export default AllStockOutTrueStatus

@@ -24,14 +24,14 @@ import {
     Container,
     StyledTable,
 } from '../../components/MyComponents/table/index'
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
 // important
 import {
     getAllDataStatusFalse,
     deleteData,
 } from 'app/redux/actions/StockOutAction'
 import moment from 'moment'
-import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect } from 'react'
 
 const PendingStockOut = () => {
     //for pagination purposes
@@ -112,9 +112,15 @@ const PendingStockOut = () => {
                                             {subscriber.createdAt}
                                         </ThirdHeading>
                                     </AccordionSummary>
-                                    <AccordionDetails>
+                                    <AccordionDetails
+                                        style={{ backgroundColor: '#F5F5F5' }}
+                                    >
                                         <StyledTable>
-                                            <TableHead>
+                                            <TableHead
+                                                style={{
+                                                    backgroundColor: '#EBF5FB',
+                                                }}
+                                            >
                                                 <TableRow>
                                                     <TableCell>
                                                         Stock Name

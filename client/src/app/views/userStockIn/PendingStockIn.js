@@ -125,9 +125,15 @@ const PendingStockIn = () => {
                                         {subscriber.createdAt}
                                     </ThirdHeading>
                                 </AccordionSummary>
-                                <AccordionDetails>
+                                <AccordionDetails
+                                    style={{ backgroundColor: '#F5F5F5' }}
+                                >
                                     <StyledTable>
-                                        <TableHead>
+                                        <TableHead
+                                            style={{
+                                                backgroundColor: '#EBF5FB',
+                                            }}
+                                        >
                                             <TableRow>
                                                 <TableCell>
                                                     Stock Name
@@ -152,7 +158,7 @@ const PendingStockIn = () => {
                                                             }
                                                         }}
                                                     >
-                                                        Change Status
+                                                        Pending
                                                     </StyledButton>
                                                 </TableCell>
                                             </TableRow>
