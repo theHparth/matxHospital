@@ -3,22 +3,11 @@ import mongoose from "mongoose";
 
 const todaySellingHospitalSchema = new mongoose.Schema(
   {
-    stock_name: {
-      type: String,
-      required: [true, "Please provide stock name"],
-      maxlength: 100,
+    todaySellingData: {
+      type: Object,
+      required: [true, "Please provide proper selling data"],
     },
-    totalQtyInOneBox: {
-      type: Number,
-      required: [true, "Please provide number of qty in one box"],
-    },
-    totalBox: {
-      type: Number,
-      required: [true, "Please provide number of total box"],
-    },
-    sellingPriceTotal: {
-      type: Number,
-    },
+
     createdFor: {
       type: mongoose.Types.ObjectId,
       ref: "Hospital",

@@ -53,53 +53,53 @@ const statusController = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const { status } = req.body;
-  // const stockOutData = await UserStock.findOne({ _id: stockOutId });
+  const stockOutData = await UserStock.findOne({ _id: stockOutId });
 
-  // if (!stockOutData) {
-  //   throw new NotFoundError(`No stock data with id :${stockOutId}`);
-  // }
-  // // console.log(req.hospital.hospitalId, stockOutData.createdFor);
-  // checkPermissionsHospital(req.hospital, stockOutData.createdFor);
-  // var createdFor = stockOutData.createdFor;
+  if (!stockOutData) {
+    throw new NotFoundError(`No stock data with id :${stockOutId}`);
+  }
+  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
+  var createdFor = stockOutData.createdFor;
+  var createdBy = stockOutData.createdBy;
+  var hospitalName = req.hospital.hospitalName;
 
-  // var createdBy = stockOutData.createdBy;
-  // var stock_name = stockOutData.stock_name;
-  // var hospitalName = req.hospital.hospitalName;
+  stockOutData.stockOutDetail.map(async (data) => {
+    var stock_name = data.stock_name;
+    let result = await StocksHosital.findOne({
+      $and: [{ stock_name }, { hospitalName }],
+    });
+    if (!result) {
+      await StocksHosital.create({
+        hospitalName,
+        stock_name,
+        createdFor,
+        createdBy,
+      });
+    }
+    addStockQty(
+      createdFor,
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox
+      // data.price
+    );
+  });
 
-  // let result = await StocksHosital.findOne({
-  //   $and: [{ stock_name }, { hospitalName }],
-  // });
-
-  // if (!result) {
-  //   // var stock_name = stockOutData.stock_name;
-  //   await StocksHosital.create({
-  //     hospitalName,
-  //     stock_name,
-  //     createdFor,
-  //     createdBy: createdBy,
-  //   });
-  // }
-  // if (stockOutData.status === true) {
-  //   res
-  //     .status(StatusCodes.OK)
-  //     .json({ msg: "Now, you can't change delivery status" });
-  //   return;
-  // }
+  if (stockOutData.status === true) {
+    res
+      .status(StatusCodes.OK)
+      .json({ msg: "Now, you can't change delivery status" });
+    return;
+  }
 
   await UserStock.findOneAndUpdate(
     { _id: stockOutId },
-    { status: status },
+    { status: true },
     {
       new: true,
       runValidators: true,
     }
   );
-  // addStockQty(
-  //   createdFor,
-  //   stockOutData.stock_name,
-  //   stockOutData.totalQtyInOneBox,
-  //   stockOutData.totalBox
-  // );
 
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
 };
@@ -174,21 +174,6 @@ const minimumRequiremantUserChange = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
 };
-// const sendStockUser = async (req, res) => {
-//   var { hospitalName, stock_name, qty, box, status } = req.body;
-//   // here you can remove vendor_id
-//   console.log(hospitalName, stock_name, qty, box, status);
-
-//   if (!hospitalName || !stock_name || !qty || !box) {
-//     throw new BadRequestError("Please provide all values");
-//   }
-
-//   req.body.createdBy = req.user.userId;
-//   req.body.createdFor = hospitalName;
-
-//   const stock = await UserStock.create(req.body);
-//   res.status(StatusCodes.CREATED).json({ stock });
-// };
 
 export {
   statusController,

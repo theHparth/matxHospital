@@ -7,29 +7,24 @@ import UserStock from "../../models/User/stockOut.js";
 import mongoose from "mongoose";
 
 const AddtodaySellingHospital = async (req, res) => {
-  // here you can remove vendor_id
-  const { stock_name, totalQtyInOneBox, totalBox } = req.body;
-
-  if (!totalQtyInOneBox || !totalBox || !stock_name) {
-    throw new BadRequestError("Please provide all values");
-  }
-  // var hospitalId = req.hospital.hospitalId;
-  // // console.log(hospitalName);
+  const { todaySellingData } = req.body;
 
   req.body.createdFor = req.hospital.hospitalId;
   var createdFor = req.hospital.hospitalId;
+
+  todaySellingData.map((data) => {
+    if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
+      throw new BadRequestError("Please provide all values");
+    }
+    removeStockQty(
+      createdFor,
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox
+    );
+  });
+
   const todaySelling = await TodaySellingHospital.create(req.body);
-  removeStockQty(createdFor, stock_name, totalQtyInOneBox, totalBox);
-  // console.log(createdFor);
-  // // console.log(totalQtyInOneBox * totalBox);
-  // var obId = mongoose.Types.ObjectId(createdFor);
-  // //remove below line after connecting frontend
-  // // req.body.createdFor = "User";  { $and: [{ stock_name }, { hospitalName }] },
-  // var yourHospital = await UserStock.find({
-  //   $and: [{ stock_name }, { createdFor: obId }],
-  // });
-  // console.log(yourHospital);
-  // req.body.createdBy = yourHospital[0].createdBy;
 
   res.status(StatusCodes.CREATED).json({ todaySelling });
 };
@@ -49,21 +44,39 @@ const allTodaySelling = async (req, res) => {
 const updateTodaySelling = async (req, res) => {
   const { id: stockOutId } = req.params;
 
-  const { stock_name, totalQtyInOneBox, totalBox } = req.body;
+  const { todaySellingData } = req.body;
 
-  if (!totalQtyInOneBox || !totalBox || !stock_name) {
-    throw new BadRequestError("Please provide all values");
-  }
-
-  const todaySellingData = await TodaySellingHospital.findOne({
+  const todaySellinginfo = await TodaySellingHospital.findOne({
     _id: stockOutId,
   });
-  // console.log(todaySellingData);
-  if (!todaySellingData) {
+
+  if (!todaySellinginfo) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
 
-  checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
+  checkPermissionsHospital(req.hospital, todaySellinginfo.createdFor);
+  var createdFor = req.hospital.hospitalId;
+
+  todaySellinginfo.todaySellingData.map((data) => {
+    addStockQty(
+      createdFor,
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox
+    );
+  });
+  todaySellingData.map((data) => {
+    if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
+      throw new BadRequestError("Please provide all values");
+    }
+    removeStockQty(
+      createdFor,
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox
+    );
+  });
+  req.body.createdFor = req.hospital.hospitalId;
   const updatedStock = await TodaySellingHospital.findOneAndUpdate(
     { _id: stockOutId },
     req.body,
@@ -72,15 +85,6 @@ const updateTodaySelling = async (req, res) => {
       runValidators: true,
     }
   );
-
-  var createdFor = req.hospital.hospitalId;
-  addStockQty(
-    createdFor,
-    todaySellingData.stock_name,
-    todaySellingData.totalQtyInOneBox,
-    todaySellingData.totalBox
-  );
-  removeStockQty(createdFor, stock_name, totalQtyInOneBox, totalBox);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };
@@ -95,18 +99,18 @@ const deleteTodaySelling = async (req, res) => {
   if (!todaySellingData) {
     throw new NotFoundError(`No job with id :${stockOutId}`);
   }
-  //change after connecting frontend ==> remove comment
   checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
-  // var hospitalId = req.hospital.hospitalId;
   await todaySellingData.remove();
   var createdFor = req.hospital.hospitalId;
 
-  addStockQty(
-    createdFor,
-    todaySellingData.stock_name,
-    todaySellingData.totalQtyInOneBox,
-    todaySellingData.totalBox
-  );
+  todaySellingData.todaySellingData.map((data) => {
+    addStockQty(
+      createdFor,
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox
+    );
+  });
 
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };

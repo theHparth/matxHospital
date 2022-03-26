@@ -6,7 +6,6 @@ import {
   getAllSendStockUser,
   deleteSendStockAdmin,
   updateSendStockAdmin,
-  updateSendStockUser,
   falseStatusProduct,
   trueStatusProduct,
 } from "../controllers/stockOutcontroller.js";
