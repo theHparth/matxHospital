@@ -55,7 +55,9 @@ const AddStockCard = ({
                 availableQuantity: '',
                 quantity: '',
                 quantityPerBox: '',
-                isPriceIncluded: false,
+                // isPriceIncluded: false,
+                price: stockData.price,
+                priceForUser: '',
             },
             ...stockOutData.slice(index + 1, stockOutData.length),
         ])
@@ -131,7 +133,6 @@ const AddStockCard = ({
                             <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
-                                // value={age}
                                 onChange={(e) => {
                                     handleChange(e)
                                 }}
@@ -158,10 +159,11 @@ const AddStockCard = ({
                         {availableQuantity.price ? (
                             <Chip
                                 label={`costPrice - ${availableQuantity.price}`}
-                                color="primary"
+                                color="secondary"
+                                // disabled={true}
                                 sx={{
-                                    // width: '50px',
-                                    // height: '20px',
+                                    width: '200px',
+                                    height: '50px',
                                     marginLeft: '20px',
                                 }}
                             />
@@ -206,11 +208,11 @@ const AddStockCard = ({
 
                         <TextField
                             id="standard-basic"
-                            label="Price Per Box"
+                            label="Price For user"
                             variant="standard"
                             sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="pricePerBox"
-                            value={stockOut.pricePerBox}
+                            name="priceForUser"
+                            value={stockOut.priceForUser}
                             onChange={handleChange}
                         />
 

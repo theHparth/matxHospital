@@ -31,8 +31,8 @@ const initialState = {
     stock_name: '',
     totalQtyInOneBox: 1,
     totalBox: 1,
-    price: 1,
-    priceForUser: 1,
+    price: 0,
+    priceForUser: 0,
     status: false,
     showPrice: false,
 }

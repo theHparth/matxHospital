@@ -31,7 +31,7 @@ function AddStockOutForm() {
     }, [dispatch])
 
     console.log('stock out', stockData)
-    console.log("hospitalsData", hospitalsData);
+    console.log('hospitalsData', hospitalsData)
     const [stockOutData, setStockOutData] = React.useState([
         {
             hospitalName: '',
@@ -40,6 +40,8 @@ function AddStockOutForm() {
             quantity: '',
             quantityPerBox: '',
             pricePerBox: '',
+            priceForUser: 0,
+            price: stockData.price || 0,
         },
     ])
     const emptyField = {
@@ -48,7 +50,9 @@ function AddStockOutForm() {
         availableQuantity: '',
         quantity: '',
         quantityPerBox: '',
-        isPriceIncluded: false,
+        // isPriceIncluded: false,
+        priceForUser: 0,
+        price: 0,
     }
 
     useEffect(() => {
