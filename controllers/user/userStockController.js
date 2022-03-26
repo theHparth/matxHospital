@@ -53,38 +53,38 @@ const statusController = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const { status } = req.body;
-  const stockOutData = await UserStock.findOne({ _id: stockOutId });
+  // const stockOutData = await UserStock.findOne({ _id: stockOutId });
 
-  if (!stockOutData) {
-    throw new NotFoundError(`No stock data with id :${stockOutId}`);
-  }
-  // console.log(req.hospital.hospitalId, stockOutData.createdFor);
-  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
-  var createdFor = stockOutData.createdFor;
+  // if (!stockOutData) {
+  //   throw new NotFoundError(`No stock data with id :${stockOutId}`);
+  // }
+  // // console.log(req.hospital.hospitalId, stockOutData.createdFor);
+  // checkPermissionsHospital(req.hospital, stockOutData.createdFor);
+  // var createdFor = stockOutData.createdFor;
 
-  var createdBy = stockOutData.createdBy;
-  var stock_name = stockOutData.stock_name;
-  var hospitalName = req.hospital.hospitalName;
+  // var createdBy = stockOutData.createdBy;
+  // var stock_name = stockOutData.stock_name;
+  // var hospitalName = req.hospital.hospitalName;
 
-  let result = await StocksHosital.findOne({
-    $and: [{ stock_name }, { hospitalName }],
-  });
+  // let result = await StocksHosital.findOne({
+  //   $and: [{ stock_name }, { hospitalName }],
+  // });
 
-  if (!result) {
-    // var stock_name = stockOutData.stock_name;
-    await StocksHosital.create({
-      hospitalName,
-      stock_name,
-      createdFor,
-      createdBy: createdBy,
-    });
-  }
-  if (stockOutData.status === true) {
-    res
-      .status(StatusCodes.OK)
-      .json({ msg: "Now, you can't change delivery status" });
-    return;
-  }
+  // if (!result) {
+  //   // var stock_name = stockOutData.stock_name;
+  //   await StocksHosital.create({
+  //     hospitalName,
+  //     stock_name,
+  //     createdFor,
+  //     createdBy: createdBy,
+  //   });
+  // }
+  // if (stockOutData.status === true) {
+  //   res
+  //     .status(StatusCodes.OK)
+  //     .json({ msg: "Now, you can't change delivery status" });
+  //   return;
+  // }
 
   await UserStock.findOneAndUpdate(
     { _id: stockOutId },
@@ -94,12 +94,12 @@ const statusController = async (req, res) => {
       runValidators: true,
     }
   );
-  addStockQty(
-    createdFor,
-    stockOutData.stock_name,
-    stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox
-  );
+  // addStockQty(
+  //   createdFor,
+  //   stockOutData.stock_name,
+  //   stockOutData.totalQtyInOneBox,
+  //   stockOutData.totalBox
+  // );
 
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
 };

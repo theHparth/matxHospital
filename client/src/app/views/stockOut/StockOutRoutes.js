@@ -4,6 +4,7 @@ import Loadable from 'app/components/Loadable/Loadable'
 const AddStockOutForm = Loadable(lazy(() => import('./AddStockOutForm')))
 const AllStockOutDetails = Loadable(lazy(() => import('./AllStockOutDetails')))
 const PendingStockOut = Loadable(lazy(() => import('./PendingStockOut')))
+const NewAllStockOut = Loadable(lazy(() => import('./NewAllStockOut')))
 
 const wereHouseRoutes = [
     {
@@ -12,7 +13,7 @@ const wereHouseRoutes = [
     },
     {
         path: '/listStockOut',
-        element: <AllStockOutDetails />,
+        element: <NewAllStockOut />,
     },
     {
         path: '/pendingStockOut',

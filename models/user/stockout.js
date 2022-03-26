@@ -3,34 +3,18 @@ import mongoose from "mongoose";
 
 const stockOutSchema = new mongoose.Schema(
   {
+    invoiceNum: {
+      type: Number,
+      required: [true, "Please provide Invoice number"],
+    },
     hospitalName: {
       type: String,
-      required: [true, "Please provide stock name"],
+      required: [true, "Please provide hospital name"],
       maxlength: 100,
-    },
-    stock_name: {
-      type: String,
-      required: [true, "Please provide stock name"],
-      maxlength: 100,
-    },
-    price: {
-      type: Number,
-    },
-    totalQtyInOneBox: {
-      type: Number,
-      required: [true, "Please provide number of qty in one box"],
-    },
-    totalBox: {
-      type: Number,
-      required: [true, "Please provide number of total box"],
-    },
-    priceForUser: {
-      type: Number,
     },
     status: {
       type: Boolean,
       default: false,
-      required: [true, "please add status its for programmer error"],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -42,10 +26,28 @@ const stockOutSchema = new mongoose.Schema(
       ref: "Hospital",
       required: [true, "Please provide created for"],
     },
-    // createdFor: {
+    stockOutDetail: {
+      type: Object,
+      required: [true, "Please provide stock detal"],
+    },
+    // stock_name: {
     //   type: String,
-    //   ref: "Hospital",
-    //   required: [true, "Please provide user"],
+    //   required: [true, "Please provide stock name"],
+    //   maxlength: 100,
+    // },
+    // totalQtyInOneBox: {
+    //   type: Number,
+    //   required: [true, "Please provide number of qty in one box"],
+    // },
+    // totalBox: {
+    //   type: Number,
+    //   required: [true, "Please provide number of total box"],
+    // },
+    // priceForUser: {
+    //   type: Number,
+    // },
+    // price: {
+    //   type: Number,
     // },
   },
   { timestamps: true }

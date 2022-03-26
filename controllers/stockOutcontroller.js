@@ -6,39 +6,85 @@ import { addStockQty, removeStockQty } from "./stockController.js";
 import Hospital from "../models/Hospital.js";
 
 const sendStockUser = async (req, res) => {
-  // here you can remove vendor_id
-  const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
-    req.body;
+  const { hospitalName, stockOutDetail } = req.body;
+  const getRandomId = (min = 0, max = 500000) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num.toString().padStart(6, "0");
+  };
 
-  if (
-    !hospitalName ||
-    !totalQtyInOneBox ||
-    !totalBox ||
-    !stock_name ||
-    !price
-  ) {
-    throw new BadRequestError("Please provide all values");
+  var invoiceNum = getRandomId();
+  const invoice = await UserStock.findOne({ invoiceNum });
+  if (invoice) {
+    getRandomId();
+  }
+  const hospitalData = await Hospital.findOne({ hospitalName });
+  if (!hospitalData) {
+    throw new BadRequestError("Hospital data not found");
   }
 
-  const hospitalData = await Hospital.findOne({ hospitalName });
-  console.log(hospitalData._id);
-
+  stockOutDetail.map((data) => {
+    if (
+      !data.totalQtyInOneBox ||
+      !data.totalBox ||
+      !data.stock_name ||
+      !data.price
+    ) {
+      throw new BadRequestError("Please provide all values");
+    }
+    removeStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
+  req.body.invoiceNum = invoiceNum;
   req.body.createdBy = req.user.userId;
   req.body.createdFor = hospitalData._id;
 
   const stock = await UserStock.create(req.body);
-
-  removeStockQty(stock_name, totalQtyInOneBox, totalBox, price);
-
   res.status(StatusCodes.CREATED).json({ stock });
+
+  ///////////////////////////////////////////////////////////////////////////////////////////
+
+  // here you can remove vendor_id
+  // const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
+  //   req.body;
+
+  // if (
+  //   !hospitalName ||
+  //   !totalQtyInOneBox ||
+  //   !totalBox ||
+  //   !stock_name ||
+  //   !price
+  // ) {
+  //   throw new BadRequestError("Please provide all values");
+  // }
+
+  // const hospitalData = await Hospital.findOne({ hospitalName });
+  // console.log(hospitalData._id);
+
+  // req.body.createdBy = req.user.userId;
+  // req.body.createdFor = hospitalData._id;
+
+  // const stock = await UserStock.create(req.body);
+
+  // removeStockQty(stock_name, totalQtyInOneBox, totalBox, price);
+
+  // res.status(StatusCodes.CREATED).json({ stock });
 };
 
 const getAllSendStockUser = async (req, res) => {
-  const { status, sort, search } = req.query;
+  const { status, sort, search, invoiceNum } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
   };
 
+  if (invoiceNum) {
+    queryObject.invoiceNum = invoiceNum;
+  }
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
@@ -46,11 +92,11 @@ const getAllSendStockUser = async (req, res) => {
 
   let result = UserStock.find(queryObject);
 
-  const hospitals = await result;
+  const sendedStock = await result;
 
   const totalHospitals = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ hospitals, totalHospitals });
+  res.status(StatusCodes.OK).json({ sendedStock, totalHospitals });
 };
 
 const falseStatusProduct = async (req, res) => {
@@ -100,20 +146,17 @@ const trueStatusProduct = async (req, res) => {
 const updateSendStockAdmin = async (req, res) => {
   const { id: stockOutId } = req.params;
 
-  const { hospitalName, stock_name, totalQtyInOneBox, totalBox, price } =
-    req.body;
+  const { hospitalName, stockOutDetail } = req.body;
 
-  if (
-    !hospitalName ||
-    !totalQtyInOneBox ||
-    !totalBox ||
-    !stock_name ||
-    !price
-  ) {
-    throw new BadRequestError("Please provide all values");
+  const hospitalData = await Hospital.findOne({ hospitalName });
+  if (!hospitalData) {
+    throw new BadRequestError("Hospital data not found");
   }
+  req.body.createdFor = hospitalData._id;
 
   const stockOutData = await UserStock.findOne({ _id: stockOutId });
+
+  checkPermissions(req.user, stockOutData.createdBy);
 
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
@@ -123,16 +166,32 @@ const updateSendStockAdmin = async (req, res) => {
     return;
   }
 
-  checkPermissions(req.user, stockOutData.createdBy);
-  const hospitalData = await Hospital.findOne({ hospitalName });
+  stockOutDetail.map((data) => {
+    if (
+      !data.totalQtyInOneBox ||
+      !data.totalBox ||
+      !data.stock_name ||
+      !data.price
+    ) {
+      throw new BadRequestError("Please provide all values");
+    }
+    removeStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
 
-  addStockQty(
-    stockOutData.stock_name,
-    stockOutData.totalQtyInOneBox,
-    stockOutData.totalBox,
-    stockOutData.price
-  );
-  req.body.createdFor = hospitalData._id;
+  stockOutData.stockOutDetail.map((data) => {
+    addStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
+
   const updatedStockSend = await UserStock.findOneAndUpdate(
     { _id: stockOutId },
     req.body,
@@ -142,33 +201,65 @@ const updateSendStockAdmin = async (req, res) => {
     }
   );
 
-  removeStockQty(stock_name, totalQtyInOneBox, totalBox, price);
-
   res.status(StatusCodes.OK).json({ updatedStockSend });
+
+  // if (
+  //   !hospitalName ||
+  //   !totalQtyInOneBox ||
+  //   !totalBox ||
+  //   !stock_name ||
+  //   !price
+  // ) {
+  //   throw new BadRequestError("Please provide all values");
+  // }
+
+  // checkPermissions(req.user, stockOutData.createdBy);
+  // const hospitalData = await Hospital.findOne({ hospitalName });
+
+  // addStockQty(
+  //   stockOutData.stock_name,
+  //   stockOutData.totalQtyInOneBox,
+  //   stockOutData.totalBox,
+  //   stockOutData.price
+  // );
+  // req.body.createdFor = hospitalData._id;
+  // const updatedStockSend = await UserStock.findOneAndUpdate(
+  //   { _id: stockOutId },
+  //   req.body,
+  //   {
+  //     new: true,
+  //     runValidators: true,
+  //   }
+  // );
+
+  // removeStockQty(stock_name, totalQtyInOneBox, totalBox, price);
+
+  // res.status(StatusCodes.OK).json({ updatedStockSend });
 };
 
 const deleteSendStockAdmin = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const stockout = await UserStock.findOne({ _id: stockOutId });
-  console.log(stockout);
+
+  if (!stockout) {
+    throw new NotFoundError(`No job with id :${stockOutId}`);
+  }
   if (stockout.status === true) {
     res.status(StatusCodes.OK).json({ msg: "Now you can not delete data" });
     return;
   }
 
-  if (!stockout) {
-    throw new NotFoundError(`No job with id :${stockOutId}`);
-  }
-
   checkPermissions(req.user, stockout.createdBy);
 
-  addStockQty(
-    stockout.stock_name,
-    stockout.totalQtyInOneBox,
-    stockout.totalBox,
-    stockout.price
-  );
+  stockout.stockOutDetail.map((data) => {
+    addStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
   await stockout.remove();
   res.status(StatusCodes.OK).json({ msg: "Success! stock out data removed" });
 };
