@@ -21,6 +21,7 @@ const initialState = {
     hospitalIndividualStockData: [],
     isLoading: false,
     showAlert: false,
+    isEdit: false,
     alertText: '',
     isEditing: false,
     hospitalName: '',
@@ -30,6 +31,7 @@ const initialState = {
     email: '',
     pincode: '',
     _id: '',
+    clearValues: false,
 }
 const HospitalReducer = function (state = initialState, action) {
     switch (action.type) {
@@ -56,6 +58,7 @@ const HospitalReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: 'New Hoapital Added!',
+                clearValues: true,
             }
         }
         case CREATE_HOSPITAL_ERROR: {
@@ -77,6 +80,7 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 isLoading: true,
+                isEditing: true,
             }
         }
         // edit hospital
@@ -85,7 +89,9 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
+                isEditing: false,
                 alertText: 'Hospital Updated!',
+                clearValues: true,
                 _id: '',
             }
         }

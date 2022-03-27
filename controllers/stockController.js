@@ -32,9 +32,15 @@ const removeStockQty = async (
   totalBox,
   price
 ) => {
+  const stock = stocks.findOne({ stock_name });
+  console.log(stock.totalQty - totalBox * totalQtyInOneBox);
+  if (stock.totalQty - totalBox * totalQtyInOneBox < 0) {
+    console.log("limit exceed");
+    throw new BadRequestError("Please provide all values");
+    // return;
+    // res.status(StatusCodes.OK).json({ msg: "stock limit exceed" });
+  }
   try {
-    const stock = await stocks.findOne({ stock_name });
-
     await stocks.updateOne(
       { stock_name },
       {
@@ -51,7 +57,7 @@ const removeStockQty = async (
     );
   } catch (err) {
     console.log(err);
-    throw new NotFoundError(
+    throw new BadRequestError(
       `Something is wrong while removing value in database`
     );
   }

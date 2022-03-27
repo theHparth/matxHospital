@@ -44,6 +44,12 @@ const displayAlert = () => (dispatch) => {
     dispatch({ type: DISPLAY_ALERT })
     // dispatch(clearAlert())
 }
+
+const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+}
+
 ////////////////////////////////////////////////////////////////////////
 
 const getHospitalsData = () => async (dispatch) => {
@@ -81,15 +87,14 @@ const hospitalStockInformation = (id) => async (dispatch) => {
     try {
         const { data } = await authFetch.get(url)
         const { hospitalPresentStock } = data
-        console.log(hospitalPresentStock, 'rrrrr==========')
         dispatch({
             type: GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
             payload: { hospitalPresentStock },
         })
     } catch (error) {
         console.log(error)
+        removeUserFromLocalStorage()
     }
-    // dispatch(clearAlert())
 }
 
 const addHospital = (state) => async (dispatch) => {
@@ -113,7 +118,6 @@ const addHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: CREATE_HOSPITAL_SUCCESS })
-        // dispatch(clearValues())
         dispatch({ type: CLEAR_VALUES_HOSPITAL })
     } catch (error) {
         if (error.response.status === 401) return
@@ -122,7 +126,6 @@ const addHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    // dispatch(clearAlert())
 }
 
 const handleHospitalChange =
@@ -132,39 +135,23 @@ const handleHospitalChange =
     }
 
 const setEditHospital = (subscriber) => (dispatch) => {
-    // console.log(
-    //     subscriber,
-    //     'new Data=============================================='
-    // )
     dispatch({ type: SET_EDIT_HOSPITAL, payload: { subscriber } })
 }
 
 const editHospital = (state) => async (dispatch) => {
     dispatch({ type: EDIT_HOSPITAL_BEGIN })
     try {
-        const {
-            address,
-            pincode,
-            contect,
-            email,
-            username,
-            password,
-            id,
-            hospitalName,
-        } = state
-        // console.log(address, pincode, contect, email, id)
+        const { address, pincode, contect, email, username, id, hospitalName } =
+            state
         await authFetch.patch(`/hospitals/${id}`, {
             address,
             pincode,
             contect,
             email,
             username,
-            password,
             hospitalName,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
-        // dispatch({ type: CLEAR_VALUES_HOSPITAL })
-        // dispatch(clearValues())
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -172,7 +159,6 @@ const editHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    // dispatch(clearAlert())
 }
 
 // delete the
@@ -183,8 +169,8 @@ const deleteHospital = (hospitalId) => async (dispatch) => {
         await authFetch.delete(`/hospitals/${hospitalId}`)
         dispatch(getHospitalsData())
     } catch (error) {
-        // logoutUser()
         console.log(error)
+        removeUserFromLocalStorage()
     }
 }
 

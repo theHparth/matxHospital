@@ -13,7 +13,7 @@ const StockSchema = new mongoose.Schema(
     },
     minimumLimit: {
       type: Number,
-      // required: [true, "Please provide minimum limit"],
+      default: 0,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -25,6 +25,7 @@ const StockSchema = new mongoose.Schema(
     },
     totalQty: {
       type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

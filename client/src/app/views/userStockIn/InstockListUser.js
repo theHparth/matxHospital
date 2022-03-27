@@ -9,7 +9,7 @@ import {
     TablePagination,
 } from '@mui/material'
 import React, { useEffect } from 'react'
-import { Box, styled } from '@mui/system'
+import { Box, styled, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     setEditMinimumLimit,
@@ -21,11 +21,17 @@ import {
     Container,
     StyledTable,
     Theme,
+    StockAlert,
 } from '../../components/MyComponents/table/index'
 import { TextField } from '@mui/material'
 import EditMinimum from './EditMinimum'
 
 const InstockListUser = () => {
+    const { palette } = useTheme()
+    const bgError = palette.error.main
+    const bgPrimary = palette.primary.main
+    const bgSecondary = palette.secondary.main
+
     let { presentStockUserData, isEditing, _id, minimumLimit, stock_name } =
         useSelector((state) => state.stockInUserList)
     const dispatch = useDispatch()
@@ -100,12 +106,42 @@ const InstockListUser = () => {
                                                     ? subscriber.minimumLimit
                                                     : 'Please add minimum limit to show alert'}
                                             </TableCell>
-
-                                            <TableCell align="center">
-                                                {subscriber.totalQtyUser
-                                                    ? subscriber.totalQtyUser
-                                                    : 0}
+                                            <TableCell
+                                                sx={{ px: 0 }}
+                                                align="center"
+                                            >
+                                                {subscriber.totalQtyUser ? (
+                                                    subscriber.totalQtyUser <
+                                                    subscriber.minimumLimit ? (
+                                                        <StockAlert
+                                                            bgcolor={
+                                                                bgSecondary
+                                                            }
+                                                        >
+                                                            {
+                                                                subscriber.totalQtyUser
+                                                            }{' '}
+                                                            available
+                                                        </StockAlert>
+                                                    ) : (
+                                                        <StockAlert
+                                                            bgcolor={bgPrimary}
+                                                        >
+                                                            {
+                                                                subscriber.totalQtyUser
+                                                            }{' '}
+                                                            available
+                                                        </StockAlert>
+                                                    )
+                                                ) : (
+                                                    <StockAlert
+                                                        bgcolor={bgError}
+                                                    >
+                                                        out of stock
+                                                    </StockAlert>
+                                                )}
                                             </TableCell>
+                                            {/*  */}
 
                                             <TableCell
                                                 align="center"

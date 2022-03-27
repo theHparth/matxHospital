@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
-import StatCards from './shared/StatCards'
 import { Grid, Card } from '@mui/material'
 
 import { styled, useTheme } from '@mui/system'
-import TopSellingTable from './shared/AdminStockFilter'
+import TopSellingTable from './shared/TopSellingTable'
 
 const ContentBox = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -38,11 +37,8 @@ const Analytics = () => {
         <Fragment>
             <ContentBox className="analytics">
                 <Grid container spacing={3}>
-                    <Grid item lg={5} md={5} sm={5} xs={10}>
-                        <StatCards />
-                        <TopSellingTable />
-                    </Grid>
-                    <Grid item lg={7} md={5} sm={5} xs={10}>
+                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                        {/* <StatCards /> */}
                         <TopSellingTable />
                     </Grid>
                 </Grid>

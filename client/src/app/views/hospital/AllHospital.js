@@ -20,7 +20,7 @@ import {
     hospitalStockInformation,
 } from 'app/redux/actions/HospitalActions'
 import { Link } from 'react-router-dom'
-
+import Search from '../../components/MyComponents/search/Search'
 import {
     Container,
     StyledTable,

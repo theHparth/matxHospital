@@ -14,7 +14,9 @@ import { Container, TextField } from '../../components/MyComponents/form/index'
 const AddHospital = () => {
     const {
         showAlert,
+        clearValues,
         isLoading,
+        isEditing,
         address,
         contect,
         email,
@@ -46,21 +48,20 @@ const AddHospital = () => {
         })
     }
     const dispatch = useDispatch()
-    // console.log(isEditing)
+    console.log('clearValues', clearValues)
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (_id) {
+        if (isEditing) {
             dispatch(editHospital(state))
-            if (showAlert) {
+            if (!clearValues) {
                 clear()
             }
         } else {
             dispatch(addHospital(state))
-            if (showAlert) {
+            if (!clearValues) {
                 clear()
             }
         }
-        console.log('show alert', showAlert)
     }
 
     const handleHospitalInput = (e) => {
@@ -95,7 +96,9 @@ const AddHospital = () => {
                                 sx={{ mt: 2 }}
                             >
                                 <h3>
-                                    {_id ? 'Edit Hospital' : 'Add Hospital'}
+                                    {isEditing
+                                        ? 'Edit Hospital'
+                                        : 'Add Hospital'}
                                 </h3>
                                 {/* {showAlert && <Alert />} */}
                                 <TextField
@@ -151,18 +154,7 @@ const AddHospital = () => {
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                 />
-
-                                <TextField
-                                    label="Password"
-                                    onChange={handleHospitalInput}
-                                    name="password"
-                                    type="password"
-                                    value={state.password}
-                                    validators={['required']}
-                                    errorMessages={['this field is required']}
-                                />
-
-                                {/* {_id ? (
+                                {isEditing ? (
                                     ''
                                 ) : (
                                     <TextField
@@ -176,7 +168,7 @@ const AddHospital = () => {
                                             'this field is required',
                                         ]}
                                     />
-                                )} */}
+                                )}
                                 {/* <TextField
                             label="Confirm Password"
                             onChange={handleHospitalInput}
@@ -220,7 +212,7 @@ const AddHospital = () => {
                         </Button>
                     </ValidatorForm>
                     {showAlert ? (
-                        <Snackbar open={showAlert} autoHideDuration={19000}>
+                        <Snackbar open={showAlert} autoHideDuration={3000}>
                             <Alert
                                 severity={
                                     alertText === 'New Hoapital Added!' ||

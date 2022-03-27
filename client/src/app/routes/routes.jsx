@@ -1,9 +1,9 @@
 import AuthGuard from 'app/auth/AuthGuard'
 import NotFound from 'app/views/sessions/NotFound'
 import hospitalRoutes from 'app/views/hospital/HospitalRoutes'
-import chartsRoute from 'app/views/charts/ChartsRoute'
 import materialRoutes from 'app/views/material-kit/MaterialRoutes'
 import dashboardRoutes from 'app/views/dashboard/DashboardRoutes'
+import dashboardRoutesUser from 'app/views/userDashboard/DashboardRoutes'
 import sessionRoutes from 'app/views/sessions/SessionRoutes'
 import MatxLayout from '../components/MatxLayout/MatxLayout'
 import { Navigate } from 'react-router-dom'
@@ -32,16 +32,24 @@ export const AllPages = () => {
                       ...stockRoutes,
                       ...wereHouseRoutes,
                       ...stockOutRoutes,
-                      ...chartsRoute,
                       ...materialRoutes,
                   ]
-                : [...dashboardRoutes, ...materialRoutes, ...StockInUserRoutes],
+                : [
+                      ...dashboardRoutesUser,
+                      ...materialRoutes,
+                      ...StockInUserRoutes,
+                  ],
         },
         ...sessionRoutes,
-        {
-            path: '/',
-            element: <Navigate to="dashboard/default" />,
-        },
+        user
+            ? {
+                  path: '/',
+                  element: <Navigate to="dashboard/default" />,
+              }
+            : {
+                  path: '/',
+                  element: <Navigate to="/user/dashboard/default" />,
+              },
         {
             path: '*',
             element: <NotFound />,

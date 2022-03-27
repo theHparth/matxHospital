@@ -1,7 +1,7 @@
 export const navigationsUser = [
     {
         name: 'Dashboard',
-        path: '/dashboard/default',
+        path: '/user/dashboard/default',
         icon: 'dashboard',
     },
     {
@@ -37,13 +37,8 @@ export const navigationsUser = [
     {
         name: 'Total Received',
         icon: 'business',
-        children: [
-            {
-                name: 'List',
-                iconText: 'SI',
-                path: '/allReceivedSrtock',
-            },
-        ],
+
+        path: '/allReceivedSrtock',
     },
     {
         name: 'Components',
