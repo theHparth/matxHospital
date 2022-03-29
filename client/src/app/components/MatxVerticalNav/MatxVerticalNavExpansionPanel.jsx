@@ -113,7 +113,8 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
 
         // OPEN DROPDOWN IF CHILD IS ACTIVE
         for (let child of elementRef.current.children) {
-            if (child.getAttribute('href') === pathname) {
+            const link = child.getElementsByTagName('a')[0];
+            if (link && link.getAttribute('href') === pathname) {
                 setCollapsed(false)
             }
         }

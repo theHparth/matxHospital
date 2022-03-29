@@ -1,12 +1,23 @@
 import React, { Fragment } from 'react'
+import RowCards from './shared/RowCards'
 import StatCards from './shared/StatCards'
+import Campaigns from './shared/Campaigns'
 import { Grid, Card } from '@mui/material'
-
+import StatCards2 from './shared/StatCards2'
+import DoughnutChart from './shared/Doughnut'
+import UpgradeCard from './shared/UpgradeCard'
+import TopSellingTable from './shared/TopSellingTable'
+import ModifiedAreaChart from './shared/ModifiedAreaChart'
 import { styled, useTheme } from '@mui/system'
-import TopSellingTable from './shared/AdminStockFilter'
+
+const AnalyticsRoot = styled('div')(({ theme }) => ({
+    padding: '28px 32px 86px 32px',
+    background: theme.palette.primary.main,
+}))
 
 const ContentBox = styled('div')(({ theme }) => ({
     margin: '30px',
+    marginTop: '-72px',
     [theme.breakpoints.down('sm')]: {
         margin: '16px',
     },
@@ -23,6 +34,11 @@ const SubTitle = styled('span')(({ theme }) => ({
     color: theme.palette.text.secondary,
 }))
 
+const Header = styled(Title)(() => ({
+    marginBottom: 2,
+    color: 'rgba(255, 255, 255, 0.87)',
+}))
+
 const H4 = styled('h4')(({ theme }) => ({
     fontSize: '1rem',
     fontWeight: '500',
@@ -36,14 +52,65 @@ const Analytics = () => {
 
     return (
         <Fragment>
+            <AnalyticsRoot>
+                <Header>Last 12 months sales</Header>
+                <ModifiedAreaChart
+                    height="280px"
+                    option={{
+                        series: [
+                            {
+                                data: [
+                                    34, 45, 31, 45, 31, 43, 26, 43, 31, 45, 33,
+                                    40,
+                                ],
+                                type: 'line',
+                            },
+                        ],
+                        xAxis: {
+                            data: [
+                                'Jan',
+                                'Feb',
+                                'Mar',
+                                'Apr',
+                                'May',
+                                'Jun',
+                                'Jul',
+                                'Aug',
+                                'Sep',
+                                'Oct',
+                                'Nov',
+                                'Dec',
+                            ],
+                        },
+                    }}
+                />
+            </AnalyticsRoot>
+
             <ContentBox className="analytics">
                 <Grid container spacing={3}>
-                    <Grid item lg={5} md={5} sm={5} xs={10}>
+                    <Grid item lg={8} md={8} sm={12} xs={12}>
                         <StatCards />
                         <TopSellingTable />
+                        <StatCards2 />
+                        <H4>Ongoing Projects</H4>
+                        <RowCards />
                     </Grid>
-                    <Grid item lg={7} md={5} sm={5} xs={10}>
-                        <TopSellingTable />
+
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                        <Card sx={{ px: 3, py: 2, mb: 3 }}>
+                            <Title>Traffic Sources</Title>
+                            <SubTitle>Last 30 days</SubTitle>
+                            <DoughnutChart
+                                height="300px"
+                                color={[
+                                    palette.primary.dark,
+                                    palette.primary.main,
+                                    palette.primary.light,
+                                ]}
+                            />
+                        </Card>
+                        <UpgradeCard />
+                        <Campaigns />
                     </Grid>
                 </Grid>
             </ContentBox>

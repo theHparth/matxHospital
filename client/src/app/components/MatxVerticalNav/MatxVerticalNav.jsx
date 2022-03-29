@@ -197,7 +197,7 @@ const MatxVerticalNav = ({ items }) => {
                                     </BadgeValue>
                                 )}
                             </ButtonBase>
-                        </NavLink>
+                        </NavLink >
                     </InternalLink>
                 )
             }

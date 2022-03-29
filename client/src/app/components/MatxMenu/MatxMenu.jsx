@@ -27,11 +27,13 @@ const MatxMenu = (props) => {
 
     return (
         <Fragment>
-            <MenuButton onClick={handleClick}>{props.menuButton}</MenuButton>
+            <MenuButton onClick={handleClick}>
+                {props.menuButton}
+            </MenuButton>
             <ThemeProvider theme={settings.themes[settings.activeTheme]}>
                 <Menu
                     elevation={8}
-                    // getContentAnchorEl={null}
+                    getContentAnchorEl={null}
                     anchorEl={anchorEl}
                     open={!!anchorEl}
                     onClose={handleClose}
@@ -47,7 +49,7 @@ const MatxMenu = (props) => {
                     {children.map((child, index) => (
                         <div
                             onClick={
-                                shouldCloseOnItemClick ? handleClose : () => {}
+                                shouldCloseOnItemClick ? handleClose : () => { }
                             }
                             key={index}
                         >

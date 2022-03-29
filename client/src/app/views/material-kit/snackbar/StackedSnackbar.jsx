@@ -20,10 +20,6 @@ function StackedSnackbar() {
             <Button onClick={handleClickVariant('warning')}>
                 Show warning snackbar
             </Button>
-
-            <Button onClick={handleClickVariant('error')}>
-                Show warning snackbar
-            </Button>
         </React.Fragment>
     )
 }

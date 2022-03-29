@@ -90,20 +90,15 @@ function ShoppingCart({ container }) {
     const [panelOpen, setPanelOpen] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { user, hospital } = useAuth()
+    const { user } = useAuth()
     const { cartList } = useSelector((state) => state.ecommerce)
     const { settings } = useSettings()
     const theme = useTheme()
     const secondary = theme.palette.text.secondary
 
     if (!cartListLoaded) {
-        if (user) {
-            dispatch(getCartList(user.id))
-            cartListLoaded = true
-        } else {
-            dispatch(getCartList(hospital.id))
-            cartListLoaded = true
-        }
+        dispatch(getCartList(user.id))
+        cartListLoaded = true
     }
 
     const handleDrawerToggle = () => {
@@ -131,7 +126,7 @@ function ShoppingCart({ container }) {
 
     return (
         <Fragment>
-            {/* <IconButton onClick={handleDrawerToggle}>
+            <IconButton onClick={handleDrawerToggle}>
                 <Badge color="secondary" badgeContent={cartList.length}>
                     <Icon sx={{ color: textColor }}>shopping_cart</Icon>
                 </Badge>
@@ -191,12 +186,7 @@ function ShoppingCart({ container }) {
                                                 )
                                             }
                                         >
-                                            <Icon
-                                                id={
-                                                    !(product.amount - 1) &&
-                                                    'disable'
-                                                }
-                                            >
+                                            <Icon id={!(product.amount - 1) && 'disable'}>
                                                 keyboard_arrow_down
                                             </Icon>
                                         </StyledIconButton>
@@ -240,7 +230,7 @@ function ShoppingCart({ container }) {
                         </Button>
                     </MiniCart>
                 </Drawer>
-            </ThemeProvider> */}
+            </ThemeProvider>
         </Fragment>
     )
 }

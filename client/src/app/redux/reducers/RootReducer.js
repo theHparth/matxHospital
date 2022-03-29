@@ -3,24 +3,31 @@ import ScrumBoardReducer from './ScrumBoardReducer'
 import NotificationReducer from './NotificationReducer'
 import EcommerceReducer from './EcommerceReducer'
 import NavigationReducer from './NavigationReducer'
-import HospitalReducer from './HospitalReducer'
-import VendorReducer from './VendorReducer'
-import StockReducer from './StockReducer'
-import WareHouseReducer from './WareHouseReducer'
-import StockOutReducer from './StockOutReducer'
-import StockInUserReducer from './user/StockInUserReducer'
-import TodaySellingUserReducer from './user/TodaySellingUserReducer'
+
+//for admin
+import HospitalReducer from './admin/HospitalReducer'
+import VendorReducer from './admin/VendorReducer'
+import StockReducer from './admin/StockReducer'
+import WareHouseReducer from './admin/WareHouseReducer'
+import StockOutReducer from './admin/StockOutReducer'
+
+// for hospitals created by admin
+import StockInUserReducer from './userCreatedByAdmin/StockInUserReducer'
+import TodaySellingUserReducer from './userCreatedByAdmin/TodaySellingUserReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
     navigations: NavigationReducer,
     scrumboard: ScrumBoardReducer,
     ecommerce: EcommerceReducer,
+    // admin: AdminReducer
     hospitalList: HospitalReducer,
     vendorList: VendorReducer,
     stockList: StockReducer,
     wareHouseStockList: WareHouseReducer,
     stockOutList: StockOutReducer,
+
+    //for hospital
     stockInUserList: StockInUserReducer,
     todaySellingUserList: TodaySellingUserReducer,
 })

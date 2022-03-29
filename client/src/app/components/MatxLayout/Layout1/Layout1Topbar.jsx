@@ -4,7 +4,6 @@ import useAuth from 'app/hooks/useAuth'
 import useSettings from 'app/hooks/useSettings'
 import { styled, useTheme, Box } from '@mui/system'
 import { Span } from '../../../components/Typography'
-import { MatxMenu, MatxSearchBox } from 'app/components'
 import ShoppingCart from '../../ShoppingCart/ShoppingCart'
 import NotificationBar from '../../NotificationBar/NotificationBar'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
@@ -18,6 +17,8 @@ import {
     Hidden,
 } from '@mui/material'
 import { topBarHeight } from 'app/utils/constant'
+import MatxMenu from 'app/components/MatxMenu/MatxMenu'
+import MatxSearchBox from 'app/components/MatxSearchBox/MatxSearchBox'
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
     color: theme.palette.text.primary,
@@ -87,13 +88,7 @@ const IconBox = styled('div')(({ theme }) => ({
 const Layout1Topbar = () => {
     const theme = useTheme()
     const { settings, updateSettings } = useSettings()
-    const { logout } = useAuth()
-    const user = localStorage.getItem('user')
-    console.log(
-        'user.................Layout1Topbar......needtofix............',
-        user
-    )
-    const hospital = localStorage.getItem('hospital')
+    const { logout, user } = useAuth()
     const isMdScreen = useMediaQuery(theme.breakpoints.down('md'))
 
     const updateSidebarMode = (sidebarSettings) => {
@@ -129,7 +124,7 @@ const Layout1Topbar = () => {
                         <Icon>menu</Icon>
                     </StyledIconButton>
 
-                    {/* <IconBox>
+                    <IconBox>
                         <StyledIconButton>
                             <Icon>mail_outline</Icon>
                         </StyledIconButton>
@@ -141,13 +136,13 @@ const Layout1Topbar = () => {
                         <StyledIconButton>
                             <Icon>star_outline</Icon>
                         </StyledIconButton>
-                    </IconBox> */}
+                    </IconBox>
                 </Box>
                 <Box display="flex" alignItems="center">
                     <MatxSearchBox />
-                    {/* <NotificationProvider>
+                    <NotificationProvider>
                         <NotificationBar />
-                    </NotificationProvider> */}
+                    </NotificationProvider>
 
                     <ShoppingCart />
 
@@ -156,17 +151,12 @@ const Layout1Topbar = () => {
                             <UserMenu>
                                 <Hidden xsDown>
                                     <Span>
-                                        Hi
-                                        <strong>
-                                            {user
-                                                ? user.name
-                                                : hospital.hospitalName}
-                                        </strong>
+                                        Hi <strong>{user.name}</strong>
                                     </Span>
                                 </Hidden>
                                 <Avatar
-                                // src={user.avatar}
-                                // sx={{ cursor: 'pointer' }}
+                                    src={user.avatar}
+                                    sx={{ cursor: 'pointer' }}
                                 />
                             </UserMenu>
                         }

@@ -57,18 +57,18 @@ const AppProgress = () => {
             <SimpleCard title="Circuar Progress (static)">
                 <CircularProgress
                     value={25}
-                    variant="determinate"
                     className="progress"
+                    variant="determinate"
                 />
                 <CircularProgress
-                    value={50}
                     variant="determinate"
+                    value={50}
                     className="progress"
                     color="secondary"
                 />
                 <CircularProgress
-                    value={75}
                     variant="determinate"
+                    value={75}
                     className="progress"
                     color="secondary"
                 />

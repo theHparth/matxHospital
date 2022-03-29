@@ -10,15 +10,15 @@ export const components = {
     },
     MuiTableCell: {
         styleOverrides: {
-            head: {
-                fontSize: '13px',
-                padding: '12px 0px',
-            },
             root: {
                 fontSize: '14px',
                 whiteSpace: 'pre-wrap',
                 wordBreak: 'break-all',
                 padding: '12px 8px 12px 0px',
+            },
+            head: {
+                fontSize: '13px',
+                padding: '12px 0px',
             },
         },
     },
@@ -68,6 +68,7 @@ export const components = {
             },
             body: {
                 height: '100%',
+                fontFamily: "'Roboto', Helvetica, Arial, sans-serif",
             },
             a: {
                 textDecoration: 'none',

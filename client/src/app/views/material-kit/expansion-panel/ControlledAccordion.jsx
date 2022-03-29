@@ -14,12 +14,7 @@ const Heading = styled(Typography)(({ theme }) => ({
 
 const SecondaryHeading = styled(Typography)(({ theme }) => ({
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    // color: theme.palette.text.secondary,
-}))
-const ThirdHeading = styled(Typography)(({ theme }) => ({
-    fontSize: theme.typography.pxToRem(15),
-    // color: theme.palette.text.thirdaly,
+    color: theme.palette.text.secondary,
 }))
 
 export default function ControlledExpansionPanels() {
@@ -41,7 +36,6 @@ export default function ControlledExpansionPanels() {
                 >
                     <Heading>General settings</Heading>
                     <SecondaryHeading>I am an expansion panel</SecondaryHeading>
-                    <ThirdHeading>third one</ThirdHeading>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
@@ -51,7 +45,6 @@ export default function ControlledExpansionPanels() {
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-            {/* //////////////////////// */}
             <Accordion
                 expanded={expanded === 'panel2'}
                 onChange={handleChange('panel2')}

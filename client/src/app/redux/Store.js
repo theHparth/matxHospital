@@ -1,15 +1,12 @@
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose } from 'redux'
 import RootReducer from './reducers/RootReducer'
-const {default: logger} = require("redux-logger");
-
 
 const initialState = {}
-const middlewares = [thunk, logger]
+const middlewares = [thunk]
 let devtools = (x) => x
 
 if (
-    process &&
     process.env.NODE_ENV !== 'production' &&
     process.browser &&
     window.__REDUX_DEVTOOLS_EXTENSION__

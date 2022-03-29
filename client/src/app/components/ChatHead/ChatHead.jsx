@@ -1,7 +1,7 @@
 import clsx from 'clsx'
+import React from 'react'
 import { cloneElement } from 'react'
 import { styled } from '@mui/system'
-import React, { useState } from 'react'
 import { topBarHeight } from 'app/utils/constant'
 
 const PopupRoot = styled('div')(({ theme }) => ({
@@ -35,18 +35,18 @@ const Popup = styled('div')(({ theme }) => ({
     },
 }))
 
-const ChatHead = ({ icon, children }) => {
-    const [open, setOpen] = useState(false)
+const ChatHead = (props) => {
+    const { icon, children, setOpenChat, openChat } = props
 
     const togglePopup = async () => {
-        setOpen((open) => !open)
+        setOpenChat(true)
     }
 
     return (
         <PopupRoot>
             {cloneElement(icon, { onClick: togglePopup })}
-            <Popup className={clsx({ popupOpen: open })}>
-                {open ? cloneElement(children, { togglePopup }) : null}
+            <Popup className={clsx({ popupOpen: openChat })}>
+                {openChat ? cloneElement(children, { togglePopup }) : null}
             </Popup>
         </PopupRoot>
     )
