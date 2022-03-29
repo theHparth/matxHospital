@@ -90,7 +90,7 @@ function ShoppingCart({ container }) {
     const [panelOpen, setPanelOpen] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { user } = useAuth()
+    const { user = {} } = useAuth()
     const { cartList } = useSelector((state) => state.ecommerce)
     const { settings } = useSettings()
     const theme = useTheme()
@@ -186,7 +186,12 @@ function ShoppingCart({ container }) {
                                                 )
                                             }
                                         >
-                                            <Icon id={!(product.amount - 1) && 'disable'}>
+                                            <Icon
+                                                id={
+                                                    !(product.amount - 1) &&
+                                                    'disable'
+                                                }
+                                            >
                                                 keyboard_arrow_down
                                             </Icon>
                                         </StyledIconButton>

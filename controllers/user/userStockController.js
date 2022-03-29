@@ -116,10 +116,14 @@ const statusFalse = async (req, res) => {
   res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
 };
 const statusTrue = async (req, res) => {
+  // const { hospitalId } = req.query;
   const queryObject = {
     createdFor: req.hospital.hospitalId,
     status: true,
   };
+  if (hospitalId) {
+    queryObject._id = hospitalId;
+  }
   let result = UserStock.find(queryObject);
   const stockInDataTrueStatus = await result;
   const totalStock = await UserStock.countDocuments(queryObject);

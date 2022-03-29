@@ -60,8 +60,8 @@ const getAllSendStockUser = async (req, res) => {
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
-  // NO AWAIT
 
+  // NO AWAIT
   let result = UserStock.find(queryObject);
 
   const sendedStock = await result;
@@ -93,12 +93,15 @@ const falseStatusProduct = async (req, res) => {
 };
 
 const trueStatusProduct = async (req, res) => {
-  const { status, sort, search } = req.query;
+  const { status, sort, search, hospitalId } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
     status: true,
   };
-
+  if (hospitalId) {
+    queryObject.createdFor = hospitalId;
+  }
+  // NO AWAIT
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }

@@ -41,5 +41,7 @@ export { default as GoogleIcon } from './icons/GoogleIcon'
 export {
     FlexBox,
     Container,
+    StyledCell,
+    StyedSmall,
     StyledButton,
 } from './adminStyleSheet/AllHospitalStyle'

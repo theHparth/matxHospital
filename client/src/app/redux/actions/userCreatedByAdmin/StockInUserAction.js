@@ -31,12 +31,8 @@ const authFetch = axios.create({
 })
 
 const getAllDataStatusTrue = (state) => async (dispatch) => {
-    const { hospitalId } = state
-
     let url = '/trueUser'
-    if (hospitalId) {
-        url = url + `?hospitalId=${hospitalId}`
-    }
+
     try {
         const { data } = await authFetch.get(url)
         const { stockInDataTrueStatus } = data

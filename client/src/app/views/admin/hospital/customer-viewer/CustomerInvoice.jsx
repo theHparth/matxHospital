@@ -1,122 +1,170 @@
+import Accordion from '@mui/material/Accordion'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import Typography from '@mui/material/Typography'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Box, styled } from '@mui/system'
+import { Breadcrumb, SimpleCard } from 'app/components'
 import {
-    Card,
-    Fade,
-    Icon,
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
     TableHead,
+    TableBody,
     TableRow,
+    TableCell,
+    Icon,
+    TablePagination,
 } from '@mui/material'
-import { format } from 'date-fns'
-import React from 'react'
-import { styled } from '@mui/system'
-import { H5, Small } from 'app/components/Typography'
 
-const StyledCell = styled(TableCell)(() => ({
-    paddingTop: '4px',
-    paddingBottom: '4px',
-    textTransform: 'capitalize',
-}))
+import {
+    Heading,
+    SecondaryHeading,
+    ThirdHeading,
+} from 'app/components/admin/panel'
+import { Container, StyledTable } from 'app/components/admin/table/index'
+// import
+import {
+    getAllDataStatusTrue,
+    deleteData,
+} from 'app/redux/actions/admin/StockOutAction'
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
 
-const StyedSmall = styled(Small)(({ theme, status }) => ({
-    padding: '2px 8px',
-    color: '#fff',
-    borderRadius: '4px',
-    background:
-        status === 'paid'
-            ? '#08ad6c'
-            : status === 'unpaid' && theme.palette.error.main,
-}))
+const AllStockOutTrueStatus = ({ id }) => {
+    const [rowsPerPage, setRowsPerPage] = React.useState(10)
+    const [page, setPage] = React.useState(0)
 
-const CustomerInvoice = () => {
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+    }
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value)
+        setPage(0)
+    }
+    // for panel setup
+    const [expanded, setExpanded] = React.useState(false)
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false)
+    }
+
+    // important
+    let { stockOutDataTrue = [] } = useSelector((state) => state.stockOutList)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        console.log('invoicein', id)
+        dispatch(getAllDataStatusTrue(id))
+    }, [dispatch])
+
     return (
-        <Fade in timeout={300}>
-            <Card elevation={3} sx={{ width: '100%', overflow: 'auto' }}>
-                <H5 s={{ p: 2, mt: 2, mb: 1 }}>Billing</H5>
-                <Table sx={{ minWidth: 1050 }}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell sx={{ pl: 2 }} colSpan={2}>
-                                No.
-                            </TableCell>
-                            <TableCell colSpan={2}>Date</TableCell>
-                            <TableCell colSpan={3}>Description</TableCell>
-                            <TableCell colSpan={1}>Method</TableCell>
-                            <TableCell colSpan={1}>Total</TableCell>
-                            <TableCell colSpan={1}>Status</TableCell>
-                            <TableCell colSpan={1}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {invoiceList.map((invoice, index) => (
-                            <TableRow key={invoice._id}>
-                                <StyledCell
-                                    align="left"
-                                    colSpan={2}
-                                    sx={{ pl: 2 }}
+        <Container>
+            <div className="breadcrumb">
+                <Breadcrumb
+                    routeSegments={[
+                        { name: 'Stock out form', path: '/stockOutForm' },
+                        { name: 'Form' },
+                    ]}
+                />
+            </div>
+            <SimpleCard title="Stock out data">
+                <Box width="100%">
+                    <AccordionSummary
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                    >
+                        <Heading>Invoice No</Heading>
+                        <SecondaryHeading>Hospital Name</SecondaryHeading>
+                        <ThirdHeading>Date</ThirdHeading>
+                    </AccordionSummary>
+                    {/* data print start from here*/}
+                    {stockOutDataTrue
+                        .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                        )
+                        .map((subscriber, index) => (
+                            <Accordion
+                                expanded={expanded === `panel${index}`}
+                                onChange={handleChange(`panel${index}`)}
+                                key={index}
+                            >
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel2bh-content"
+                                    id="panel2bh-header"
                                 >
-                                    #{invoice._id}
-                                </StyledCell>
-                                <StyledCell align="left" colSpan={2}>
-                                    {format(
-                                        new Date(invoice.date),
-                                        'dd MMM, yyyy | hh:mm aa'
-                                    )}
-                                </StyledCell>
-                                <StyledCell align="left" colSpan={3}>
-                                    {invoice.description}
-                                </StyledCell>
-                                <StyledCell align="left" colSpan={1}>
-                                    {invoice.method}
-                                </StyledCell>
-                                <StyledCell align="left" colSpan={1}>
-                                    ${invoice.total.toFixed(2)}
-                                </StyledCell>
-                                <StyledCell colSpan={1}>
-                                    <StyedSmall status={invoice.status}>
-                                        {invoice.status}
-                                    </StyedSmall>
-                                </StyledCell>
-                                <StyledCell colSpan={1}>
-                                    <IconButton>
-                                        <Icon>arrow_right_alt</Icon>
-                                    </IconButton>
-                                </StyledCell>
-                            </TableRow>
+                                    <Heading>{subscriber.invoiceNum}</Heading>
+                                    <SecondaryHeading>
+                                        {subscriber.hospitalName}
+                                    </SecondaryHeading>
+                                    <ThirdHeading>
+                                        {subscriber.createdAt}
+                                    </ThirdHeading>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                    style={{ backgroundColor: '#F5F5F5' }}
+                                >
+                                    <StyledTable>
+                                        <TableHead
+                                            style={{
+                                                backgroundColor: '#EBF5FB',
+                                            }}
+                                        >
+                                            <TableRow>
+                                                <TableCell>
+                                                    Stock Name
+                                                </TableCell>
+                                                <TableCell>Total Qty</TableCell>
+                                                <TableCell>Price</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {subscriber.stockOutDetail.map(
+                                                (subscriber, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell>
+                                                            {
+                                                                subscriber.stock_name
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {subscriber.totalBox *
+                                                                subscriber.totalQtyInOneBox}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            ${' '}
+                                                            {subscriber.price
+                                                                ? subscriber.price
+                                                                : 0}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            )}
+                                        </TableBody>
+                                    </StyledTable>
+                                </AccordionDetails>
+                            </Accordion>
                         ))}
-                    </TableBody>
-                </Table>
-            </Card>
-        </Fade>
+                    <TablePagination
+                        sx={{ px: 2 }}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={stockOutDataTrue.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        backIconButtonProps={{
+                            'aria-label': 'Previous Page',
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'Next Page',
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Box>
+            </SimpleCard>
+        </Container>
     )
 }
 
-const invoiceList = [
-    {
-        _id: '5ece2cef3e562cbd61996dfds',
-        date: new Date(),
-        description: 'Bit Bass Headphone',
-        method: 'PayPal',
-        total: 15.25,
-        status: 'paid',
-    },
-    {
-        _id: '5ece2cef3efdsfsdfcbd61996',
-        date: new Date(),
-        description: 'Comlion Watch',
-        method: 'Visa Card',
-        total: 75.25,
-        status: 'unpaid',
-    },
-    {
-        _id: '5ece2cef3e56dsfdsfds61996',
-        date: new Date(),
-        description: 'Beats Headphone',
-        method: 'Master Card',
-        total: 45.25,
-        status: 'paid',
-    },
-]
-export default CustomerInvoice
+export default AllStockOutTrueStatus

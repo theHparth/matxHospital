@@ -1,5 +1,19 @@
 import { Box, styled } from '@mui/system'
-import { Button, Card, Divider, Icon } from '@mui/material'
+import {
+    Button,
+    Card,
+    Divider,
+    Icon,
+    Fade,
+    IconButton,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+} from '@mui/material'
+
+import { H5, Small } from 'app/components/Typography'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -29,4 +43,20 @@ const StyledButton = styled(Button)(({ theme }) => ({
     },
 }))
 
-export { FlexBox, Container, StyledButton }
+const StyledCell = styled(TableCell)(() => ({
+    paddingTop: '4px',
+    paddingBottom: '4px',
+    textTransform: 'capitalize',
+}))
+
+const StyedSmall = styled(Small)(({ theme, status }) => ({
+    padding: '2px 8px',
+    color: '#fff',
+    borderRadius: '4px',
+    background:
+        status === 'paid'
+            ? '#08ad6c'
+            : status === 'unpaid' && theme.palette.error.main,
+}))
+
+export { FlexBox, Container, StyledButton, StyledCell, StyedSmall }

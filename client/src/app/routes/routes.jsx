@@ -37,7 +37,7 @@ import userStockInRoutes from 'app/views/adminUserCreatedby/userStockIn/StockInU
 
 export const AllPages = () => {
     const user = localStorage.getItem('user')
-    console.log(user)
+    console.log('route', user)
     const all_routes = [
         {
             element: (
@@ -45,49 +45,53 @@ export const AllPages = () => {
                     <MatxLayout />
                 </AuthGuard>
             ),
-            children:
-                //: user
-                //     ?
-                [
-                    ...dashboardRoutes,
-                    // admin
-                    ...hospitalRoutes,
-                    ...vendorRoutes,
-                    ...stockRoutes,
-                    ...wereHouseRoutes,
-                    ...stockOutRoutes,
-                    // admin completed
-                    ...calendarRoutes,
-                    ...chartsRoute,
-                    ...chatRoutes,
-                    ...crudRoute,
-                    ...dataTableRoutes,
-                    ...dragAndDropRoute,
-                    ...ecommerceRoutes,
-                    ...formsRoutes,
-                    ...invoiceRoutes,
-                    ...ListRoute,
-                    ...mapRoutes,
-                    ...materialRoutes,
-                    ...inboxRoute,
-                    ...pageLayoutRoutes,
-                    ...pagesRoutes,
-                    ...pricingRoutes,
-                    ...scrumBoardRoutes,
-                    ...todoRoutes,
-                ],
-            // : [
-            //       //hospitals
-            //       ...HospitalSellingHandleRoutes,
-            //       ...userDashboardRoutes,
-            //       ...userStockInRoutes,
-            //   ],
+            children: user
+                ? [
+                      ...dashboardRoutes,
+                      // admin
+                      ...hospitalRoutes,
+                      ...vendorRoutes,
+                      ...stockRoutes,
+                      ...wereHouseRoutes,
+                      ...stockOutRoutes,
+                      // admin completed
+                      ...calendarRoutes,
+                      ...chartsRoute,
+                      ...chatRoutes,
+                      ...crudRoute,
+                      ...dataTableRoutes,
+                      ...dragAndDropRoute,
+                      ...ecommerceRoutes,
+                      ...formsRoutes,
+                      ...invoiceRoutes,
+                      ...ListRoute,
+                      ...mapRoutes,
+                      ...materialRoutes,
+                      ...inboxRoute,
+                      ...pageLayoutRoutes,
+                      ...pagesRoutes,
+                      ...pricingRoutes,
+                      ...scrumBoardRoutes,
+                      ...todoRoutes,
+                  ]
+                : [
+                      //hospitals
+                      ...HospitalSellingHandleRoutes,
+                      ...userDashboardRoutes,
+                      ...userStockInRoutes,
+                  ],
         },
         ...sessionRoutes,
-        {
-            path: '/',
-            element: <Navigate to="dashboard/default" />,
-        },
+        user
+            ? {
+                  path: '/',
+                  element: <Navigate to="dashboard/default" />,
+              }
+            : {
+                  path: '/',
+                  element: <Navigate to="/user/dashboard/default" />,
+              },
+        ,
         {
             path: '*',
             element: <NotFound />,

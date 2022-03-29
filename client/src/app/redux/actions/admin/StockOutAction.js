@@ -98,9 +98,15 @@ const edit = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const getAllDataStatusTrue = (state) => async (dispatch) => {
+const getAllDataStatusTrue = (id) => async (dispatch) => {
+    console.log('reducer', id)
+    let url = '/trueAdmin'
+    if (id) {
+        url = url + `?hospitalId=${id}`
+    }
+    console.log(url)
     try {
-        const { data } = await authFetch.get('/trueAdmin')
+        const { data } = await authFetch.get(url)
         const { stockOutDataTrueStatus } = data
         // console.log(stockList)
         dispatch({
