@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box, styled } from '@mui/system'
-import { Breadcrumb, SimpleCard } from 'app/components'
+import { Breadcrumb, SimpleCard, InvoiceAutoGenerate } from 'app/components'
 import {
     TableHead,
     TableBody,
@@ -12,7 +12,9 @@ import {
     TableCell,
     Icon,
     TablePagination,
+    IconButton,
 } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 import {
     Heading,
@@ -24,11 +26,16 @@ import { Container, StyledTable } from 'app/components/admin/table/index'
 import {
     getAllDataStatusTrue,
     deleteData,
+    setEditData,
 } from 'app/redux/actions/admin/StockOutAction'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
+import moment from 'moment'
 
 const AllStockOutTrueStatus = ({ id }) => {
+    //   let date = moment(createdAt)
+    //   date = date.format('MMM Do, YYYY')
+
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
 
@@ -52,21 +59,12 @@ const AllStockOutTrueStatus = ({ id }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log('invoicein', id)
         dispatch(getAllDataStatusTrue(id))
     }, [dispatch])
 
     return (
         <Container>
-            <div className="breadcrumb">
-                <Breadcrumb
-                    routeSegments={[
-                        { name: 'Stock out form', path: '/stockOutForm' },
-                        { name: 'Form' },
-                    ]}
-                />
-            </div>
-            <SimpleCard title="Stock out data">
+            <SimpleCard title="Stock info">
                 <Box width="100%">
                     <AccordionSummary
                         aria-controls="panel1bh-content"
@@ -98,7 +96,10 @@ const AllStockOutTrueStatus = ({ id }) => {
                                         {subscriber.hospitalName}
                                     </SecondaryHeading>
                                     <ThirdHeading>
-                                        {subscriber.createdAt}
+                                        {/* {subscriber.createdAt} */}
+                                        {moment(subscriber.createdAt).format(
+                                            'MMM Do, YYYY'
+                                        )}
                                     </ThirdHeading>
                                 </AccordionSummary>
                                 <AccordionDetails
@@ -116,6 +117,30 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
+                                                <TableCell align="right">
+                                                    {/* <InvoiceAutoGenerate
+                                                        invoiceNum={
+                                                            subscriber.invoiceNum
+                                                        }
+                                                        createdFor={
+                                                            subscriber.createdFor
+                                                        }
+                                                    >
+                                                    </InvoiceAutoGenerate> */}
+                                                    {/* > */}
+                                                    <Link
+                                                        to={`/invoice`}
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                setEditData(
+                                                                    subscriber
+                                                                )
+                                                            )
+                                                        }
+                                                    >
+                                                        <Icon>Print</Icon>
+                                                    </Link>
+                                                </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>

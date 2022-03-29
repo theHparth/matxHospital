@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     editHospital,
     addHospital,
+    clearValue,
 } from 'app/redux/actions/admin/HospitalActions'
 // import Alert from '../../components/Alert'
 
@@ -58,6 +59,7 @@ const AddHospital = () => {
         if (isEditing) {
             dispatch(editHospital(state))
             if (!clearValues) {
+                dispatch(clearValue())
                 clear()
             }
         } else {

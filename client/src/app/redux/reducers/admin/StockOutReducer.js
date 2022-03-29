@@ -14,11 +14,13 @@ import {
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
+    GET_ALL_SUCCESS_STOCKOUT,
 } from '../../actions/admin/StockOutAction'
 
 const initialState = {
     stockOutDataTrue: [],
     stockOutDataFalse: [],
+    allStockOutData: [],
     isLoading: false,
     showAlert: false,
     alertType: '',
@@ -35,6 +37,11 @@ const initialState = {
     priceForUser: 0,
     status: false,
     showPrice: false,
+    invoiceNum: 0,
+    stockOutDetail: [],
+    createdFor: '',
+    createdAt: '',
+    latestStatus: '',
 }
 
 const StockOutReducer = function (state = initialState, action) {
@@ -53,6 +60,9 @@ const StockOutReducer = function (state = initialState, action) {
                 ...state,
                 stockOutDataFalse: action.payload.stockOutDataFalseStatus,
             }
+        }
+        case GET_ALL_SUCCESS_STOCKOUT: {
+            return { ...state, allStockOutData: action.payload.stockdata }
         }
         case CREATE_SUCCESS: {
             return {
@@ -97,12 +107,11 @@ const StockOutReducer = function (state = initialState, action) {
             const {
                 _id,
                 hospitalName,
-                stock_name,
-                totalQtyInOneBox,
-                totalBox,
+                invoiceNum,
+                stockOutDetail,
+                createdFor,
+                createdAt,
                 status,
-                price,
-                priceForUser,
             } = subscriber
 
             return {
@@ -110,12 +119,11 @@ const StockOutReducer = function (state = initialState, action) {
                 isEditing: true,
                 _id,
                 hospitalName,
-                stock_name,
-                totalQtyInOneBox,
-                totalBox,
-                status,
-                price,
-                priceForUser,
+                invoiceNum,
+                stockOutDetail,
+                createdFor,
+                createdAt,
+                latestStatus: status,
             }
         }
 

@@ -9,6 +9,7 @@ export const GET_SUCCESS_STOCKOUT_STATUS_TRUE =
 export const GET_SUCCESS_STOCKOUT_STATUS_FALSE =
     'GET_SUCCESS_STOCKOUT_STATUS_FALSE'
 export const SET_EDIT = 'SET_EDIT'
+export const GET_ALL_SUCCESS_STOCKOUT = 'GET_ALL_SUCCESS_STOCKOUT'
 export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
@@ -66,25 +67,12 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const {
-            id,
-            hospitalName,
-            stock_name,
-            totalQtyInOneBox,
-            totalBox,
-            status,
-            price,
-            priceForUser,
-        } = state
+        const { id, hospitalName, invoiceNum, stockOutDetail } = state
         await authFetch.patch(`/wereHouse/${id}`, {
             id,
             hospitalName,
-            stock_name,
-            totalQtyInOneBox,
-            totalBox,
-            status,
-            price,
-            priceForUser,
+            invoiceNum,
+            stockOutDetail,
         })
         dispatch({ type: EDIT_SUCCESS })
         dispatch(clearValues())
@@ -98,8 +86,27 @@ const edit = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
+const allStockOutDatas = (invoiceNum) => async (dispatch) => {
+    let url = '/'
+    if (invoiceNum) {
+        url = url + `?invoiceNum=${invoiceNum}`
+    }
+    try {
+        const { data } = await authFetch.get(url)
+        const { allStockOutData } = data
+        console.log('reducer list', allStockOutData[0])
+        var stockdata = allStockOutData[0]
+        dispatch({
+            type: GET_ALL_SUCCESS_STOCKOUT,
+            payload: { stockdata },
+        })
+    } catch (error) {
+        console.log(error)
+        // logout()
+    }
+}
+
 const getAllDataStatusTrue = (id) => async (dispatch) => {
-    console.log('reducer', id)
     let url = '/trueAdmin'
     if (id) {
         url = url + `?hospitalId=${id}`
@@ -172,4 +179,5 @@ export {
     clearValues,
     clearAlert,
     displayAlert,
+    allStockOutDatas,
 }

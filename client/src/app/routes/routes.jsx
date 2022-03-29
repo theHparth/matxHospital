@@ -37,7 +37,7 @@ import userStockInRoutes from 'app/views/adminUserCreatedby/userStockIn/StockInU
 
 export const AllPages = () => {
     const user = localStorage.getItem('user')
-    console.log('route', user)
+    // console.log('route', user)
     const all_routes = [
         {
             element: (

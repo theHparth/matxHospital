@@ -32,8 +32,8 @@ const authFetch = axios.create({
 })
 
 ///////////////////////////////////////////////////////////////
-const clearValues = () => (dispatch) => {
-    dispatch({ type: CLEAR_VALUES })
+const clearValue = () => (dispatch) => {
+    dispatch({ type: CLEAR_VALUES_HOSPITAL })
 }
 const clearAlert = () => (dispatch) => {
     // setTimeout(() => {
@@ -52,16 +52,13 @@ const removeUserFromLocalStorage = () => {
 
 ////////////////////////////////////////////////////////////////////////
 
-const getHospitalsData = () => async (dispatch) => {
-    // const { page, search } = state
-
-    // let url = `/hospitals?page=${page}`
-    // if (search) {
-    //     url = url + `&search=${search}`
-    // }
-    // dispatch({ type: GET_HOSPITAL_BEGIN })
+const getHospitalsData = (hospitalId) => async (dispatch) => {
+    let url = '/hospitals'
+    if (hospitalId) {
+        url = url + `?hospitalId=${hospitalId}`
+    }
     try {
-        const { data } = await authFetch.get('/hospitals')
+        const { data } = await authFetch.get(url)
         const { hospitals } = data
         dispatch({
             type: GET_HOSPITAL_SUCCESS,
@@ -73,16 +70,8 @@ const getHospitalsData = () => async (dispatch) => {
     // dispatch(clearAlert())
 }
 const hospitalStockInformation = (id) => async (dispatch) => {
-    // const { subscriber, id, search } = state
-    // console.log(
-    //     'id of hospital-------------------------------------------',
-    //     subscriber
-    // )
     let url = `/hospitalDataAdmin?id=${id}`
-    // if (search) {
-    //     url = url + `&search=${search}`
-    // }
-    // console.log(url)
+
     dispatch({ type: GET_HOSPITAL_BEGIN })
     try {
         const { data } = await authFetch.get(url)
@@ -175,7 +164,7 @@ const deleteHospital = (hospitalId) => async (dispatch) => {
 }
 
 export {
-    clearValues,
+    clearValue,
     clearAlert,
     displayAlert,
     getHospitalsData,

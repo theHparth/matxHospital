@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Divider, Tab, Tabs } from '@mui/material'
 import { Breadcrumb } from 'app/components'
-import CustomerDetails from './CustomerDetails'
-import CustomerInvoice from './CustomerInvoice'
-import CustomerLogs from './CustomerLogs'
+import HospitalSendStockList from './HospitalSendStockList'
+import CustomerLogs from './HospitalLogs'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import HospitalStockInfo from './HospitalStockInfo'
+
 const Container = styled('div')(({ theme }) => ({
     margin: '30px',
     [theme.breakpoints.down('sm')]: {
@@ -32,8 +32,8 @@ const CustomerViewer = () => {
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Pages', path: '/pages' },
-                        { name: 'View Customer' },
+                        { name: 'Hospital List', path: '/allHospitals' },
+                        { name: 'Table' },
                     ]}
                 />
             </div>
@@ -56,7 +56,7 @@ const CustomerViewer = () => {
             <Divider sx={{ mb: '24px' }} />
 
             {tabIndex === 0 && <HospitalStockInfo id={id} />}
-            {tabIndex === 1 && <CustomerInvoice id={id} />}
+            {tabIndex === 1 && <HospitalSendStockList id={id} />}
             {tabIndex === 2 && <CustomerLogs id={id} />}
         </Container>
     )

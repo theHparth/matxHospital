@@ -32,6 +32,11 @@ const initialState = {
     pincode: '',
     _id: '',
     clearValues: false,
+    IhospitalName: '',
+    Iaddress: '',
+    Icontect: '',
+    Iemail: '',
+    Ipincode: '',
 }
 const HospitalReducer = function (state = initialState, action) {
     switch (action.type) {
@@ -39,6 +44,11 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 hospitalsData: action.payload.hospitals,
+                IhospitalName: action.payload.hospitals[0].hospitalName,
+                Iaddress: action.payload.hospitals[0].address,
+                Icontect: action.payload.hospitals[0].contect,
+                Iemail: action.payload.hospitals[0].email,
+                Ipincode: action.payload.hospitals[0].pincode,
             }
         }
         case GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS: {
