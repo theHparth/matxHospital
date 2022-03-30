@@ -12,6 +12,10 @@ import {
     Heading,
     SecondaryHeading,
     ThirdHeading,
+    SearchIcon,
+    SearchBox,
+    SearchInput,
+    SearchContainer,
 } from 'app/components'
 import {
     TableHead,
@@ -32,6 +36,13 @@ import {
 // import ReactSearchBox from 'react-search-box'
 
 const AllStockOutTrueStatus = () => {
+    // search for all
+    const [searchText, setSearchText] = React.useState('parth')
+
+    const handleChangeSearch = (value) => {
+        setSearchText(value)
+    }
+
     // for pagination purposes
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
@@ -56,8 +67,8 @@ const AllStockOutTrueStatus = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllDataStatusTrue())
-    }, [dispatch])
+        dispatch(getAllDataStatusTrue(searchText))
+    }, [dispatch, searchText])
 
     return (
         <ContainerTable>
@@ -68,6 +79,18 @@ const AllStockOutTrueStatus = () => {
                         { name: 'Form' },
                     ]}
                 />
+                <SearchIcon>
+                    {/* <SearchBox /> */}
+                    <SearchContainer>
+                        <SearchInput
+                            type="text"
+                            placeholder="Search here..."
+                            value={searchText}
+                            autoFocus
+                            onChange={(e) => handleChangeSearch(e.target.value)}
+                        />
+                    </SearchContainer>
+                </SearchIcon>
             </div>
             {/* <ReactSearchBox
                 placeholder="Placeholder"

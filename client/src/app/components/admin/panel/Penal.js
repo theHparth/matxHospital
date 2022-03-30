@@ -5,6 +5,7 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box, styled } from '@mui/system'
+import { Icon } from '@mui/material'
 
 const Heading = styled(Typography)(({ theme }) => ({
     fontSize: theme.typography.pxToRem(15),
@@ -22,7 +23,13 @@ const ThirdHeading = styled(Typography)(({ theme }) => ({
     // color: theme.palette.text.thirdaly,
 }))
 
-export { Heading, SecondaryHeading, ThirdHeading }
+const SearchIcon = styled(Icon)(() => ({
+    marginLeft: 500,
+    // marginBottom: '4px',
+    verticalAlign: 'middle',
+}))
+
+export { Heading, SecondaryHeading, ThirdHeading, SearchIcon }
 
 // export default function ControlledExpansionPanels() {
 //     const [expanded, setExpanded] = React.useState(false)

@@ -39,7 +39,12 @@ export { default as GoogleIcon } from './icons/GoogleIcon'
 // my comonent
 // export { searchBar } from './SearchBarNodeModule'
 export { StockAlert, ContainerTable, StyledTable } from './admin/table/index'
-export { Heading, SecondaryHeading, ThirdHeading } from './admin/panel/index'
+export {
+    Heading,
+    SecondaryHeading,
+    ThirdHeading,
+    SearchIcon,
+} from './admin/panel/index'
 export {
     RadioRoot,
     ContainerForm,
@@ -54,3 +59,4 @@ export {
     StyedSmall,
     StyledButton,
 } from './adminStyleSheet/AllHospitalStyle'
+export { SearchBox, SearchInput, SearchContainer } from './admin/search'

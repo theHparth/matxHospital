@@ -106,10 +106,13 @@ const allStockOutDatas = (invoiceNum) => async (dispatch) => {
     }
 }
 
-const getAllDataStatusTrue = (id) => async (dispatch) => {
+const getAllDataStatusTrue = (id, searchText) => async (dispatch) => {
     let url = '/trueAdmin'
     if (id) {
         url = url + `?hospitalId=${id}`
+    }
+    if (searchText) {
+        url = url + `?searchText=${searchText}`
     }
     console.log(url)
     try {

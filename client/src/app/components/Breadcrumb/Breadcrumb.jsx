@@ -2,7 +2,7 @@ import React from 'react'
 import { styled, useTheme } from '@mui/system'
 import { Icon, Breadcrumbs, Hidden } from '@mui/material'
 import { NavLink } from 'react-router-dom'
-
+// import SearchBox from '../admin/search/Search'
 const BreadcrumbRoot = styled('div')(() => ({
     display: 'flex',
     flexWrap: 'wrap',
@@ -26,14 +26,30 @@ const Separator = styled('h4')(({ theme }) => ({
     margin: 0,
     marginLeft: 8,
     paddingBottom: '3px',
-    color: theme.palette.text.hint
+    color: theme.palette.text.hint,
 }))
 
 const StyledIcon = styled(Icon)(() => ({
     marginLeft: 8,
     marginBottom: '4px',
     verticalAlign: 'middle',
+    //         state    height: '100vh',
+    display: 'flex',
+    flexGrow: '1',
+    flexDirection: 'column',
+    // verticalAlign: 'top',
+    // marginLeft: width,
+    position: 'relative',
+    overflow: 'hidden',
+    transition: 'all 0.3s ease',
+    marginRight: 0,
 }))
+
+// const SearchIcon = styled(Icon)(() => ({
+//     marginLeft: 980,
+//     // marginBottom: '4px',
+//     verticalAlign: 'middle',
+// }))
 
 const Breadcrumb = ({ routeSegments }) => {
     const theme = useTheme()
@@ -54,30 +70,27 @@ const Breadcrumb = ({ routeSegments }) => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    position: 'relative'
+                    position: 'relative',
                 }}
             >
                 <NavLink to="/">
-                    <StyledIcon color="primary">
-                        home
-                    </StyledIcon>
+                    <StyledIcon color="primary">home</StyledIcon>
                 </NavLink>
                 {routeSegments
                     ? routeSegments.map((route, index) => {
-                        return index !== routeSegments.length - 1 ? (
-                            <NavLink key={index} to={route.path}>
-                                <SubName>
-                                    {route.name}
-                                </SubName>
-                            </NavLink>
-                        ) : (
-                            <SubName key={index}>
-                                {route.name}
-                            </SubName>
-                        )
-                    })
+                          return index !== routeSegments.length - 1 ? (
+                              <NavLink key={index} to={route.path}>
+                                  <SubName>{route.name}</SubName>
+                              </NavLink>
+                          ) : (
+                              <SubName key={index}>{route.name}</SubName>
+                          )
+                      })
                     : null}
             </Breadcrumbs>
+            {/* <SearchIcon>
+                <SearchBox />
+            </SearchIcon> */}
         </BreadcrumbRoot>
     )
 }
