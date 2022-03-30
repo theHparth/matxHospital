@@ -1,4 +1,10 @@
-import { Breadcrumb, MatxSnackbar, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    MatxSnackbar,
+    SimpleCard,
+    ContainerForm,
+    TextField,
+} from 'app/components'
 import { Box } from '@mui/system'
 import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { Span } from 'app/components/Typography'
@@ -14,7 +20,7 @@ import {
 } from 'app/redux/actions/admin/HospitalActions'
 // import Alert from '../../components/Alert'
 
-import { Container, TextField } from 'app/components/admin/form/index'
+import {} from 'app/components/admin/form/index'
 
 const AddHospital = () => {
     const {
@@ -80,7 +86,7 @@ const AddHospital = () => {
         })
     }
     return (
-        <Container>
+        <ContainerForm>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -236,7 +242,7 @@ const AddHospital = () => {
             </SimpleCard>
 
             <Box py="12px" />
-        </Container>
+        </ContainerForm>
     )
 }
 

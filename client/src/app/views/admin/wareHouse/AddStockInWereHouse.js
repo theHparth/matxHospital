@@ -1,4 +1,9 @@
-import { Breadcrumb, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerForm,
+    TextField,
+} from 'app/components'
 import { useNavigate } from 'react-router-dom'
 import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { Span } from 'app/components/Typography'
@@ -17,7 +22,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { edit, add } from 'app/redux/actions/admin/WareHouseAction'
 import { getAllVendor } from 'app/redux/actions/admin/VendorActions'
 import { getAllData } from 'app/redux/actions/admin/StockActions'
-import { Container, TextField } from 'app/components/admin/form/index'
 
 const AddStockInWereHouse = () => {
     const {
@@ -95,7 +99,7 @@ const AddStockInWereHouse = () => {
     }
 
     return (
-        <Container>
+        <ContainerForm>
             <div>
                 <Breadcrumb
                     routeSegments={[
@@ -108,7 +112,7 @@ const AddStockInWereHouse = () => {
                 />
             </div>
             <SimpleCard title="Stocks List">
-                <Container>
+                <ContainerForm>
                     <SimpleCard>
                         <ValidatorForm
                             onSubmit={handleSubmit}
@@ -310,7 +314,7 @@ const AddStockInWereHouse = () => {
                         </ValidatorForm>
                     </SimpleCard>
                     {/* <Box py="12px" /> */}
-                </Container>
+                </ContainerForm>
                 {showAlert ? (
                     <Snackbar open={showAlert} autoHideDuration={19000}>
                         <Alert
@@ -328,7 +332,7 @@ const AddStockInWereHouse = () => {
                     </Snackbar>
                 ) : null}
             </SimpleCard>
-        </Container>
+        </ContainerForm>
     )
 }
 

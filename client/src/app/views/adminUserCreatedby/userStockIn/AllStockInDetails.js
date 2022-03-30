@@ -4,7 +4,15 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box, styled } from '@mui/system'
-import { Breadcrumb, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    Heading,
+    SecondaryHeading,
+    ThirdHeading,
+    ContainerTable,
+    StyledTable,
+} from 'app/components'
 import {
     FormLabel,
     Button,
@@ -17,12 +25,7 @@ import {
     TablePagination,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
-import {
-    Heading,
-    SecondaryHeading,
-    ThirdHeading,
-} from 'app/components/admin/panel'
-import { Container, StyledTable } from 'app/components/admin/table/index'
+
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 import {
@@ -66,7 +69,7 @@ const PendingStockOut = () => {
     }, [dispatch])
 
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -184,7 +187,7 @@ const PendingStockOut = () => {
                     </Box>
                 </SimpleCard>
             )}
-        </Container>
+        </ContainerTable>
     )
 }
 

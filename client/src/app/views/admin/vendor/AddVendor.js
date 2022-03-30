@@ -7,7 +7,7 @@ import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { edit, add } from 'app/redux/actions/admin/VendorActions'
 
-import { Container, TextField } from 'app/components/admin/form/index'
+import { ContainerForm, TextField } from 'app/components'
 
 const AddVendor = () => {
     const {
@@ -70,7 +70,7 @@ const AddVendor = () => {
         })
     }
     return (
-        <Container>
+        <ContainerForm>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -185,7 +185,7 @@ const AddVendor = () => {
                     </Alert>
                 </Snackbar>
             ) : null}
-        </Container>
+        </ContainerForm>
     )
 }
 

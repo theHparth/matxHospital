@@ -4,7 +4,16 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box, styled } from '@mui/system'
-import { Breadcrumb, SimpleCard, InvoiceAutoGenerate } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    InvoiceAutoGenerate,
+    Heading,
+    SecondaryHeading,
+    ThirdHeading,
+    ContainerTable,
+    StyledTable,
+} from 'app/components'
 import {
     TableHead,
     TableBody,
@@ -16,12 +25,6 @@ import {
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-import {
-    Heading,
-    SecondaryHeading,
-    ThirdHeading,
-} from 'app/components/admin/panel'
-import { Container, StyledTable } from 'app/components/admin/table/index'
 // import
 import {
     getAllDataStatusTrue,
@@ -63,7 +66,7 @@ const AllStockOutTrueStatus = ({ id }) => {
     }, [dispatch])
 
     return (
-        <Container>
+        <ContainerTable>
             <SimpleCard title="Stock info">
                 <Box width="100%">
                     <AccordionSummary
@@ -188,7 +191,7 @@ const AllStockOutTrueStatus = ({ id }) => {
                     />
                 </Box>
             </SimpleCard>
-        </Container>
+        </ContainerTable>
     )
 }
 

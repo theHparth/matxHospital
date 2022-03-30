@@ -21,8 +21,13 @@ import {
     deleteData,
 } from 'app/redux/actions/userCreatedByAdmin/TodaySellingUserAction'
 import { Link } from 'react-router-dom'
-import { Breadcrumb, SimpleCard } from 'app/components'
-import { Container, StyledTable } from 'app/components/admin/table/index'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
+    StyledTable,
+} from 'app/components'
+
 import moment from 'moment'
 
 const PreviousSellingEntryManage = () => {
@@ -54,7 +59,7 @@ const PreviousSellingEntryManage = () => {
         setPage(0)
     }
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -152,7 +157,7 @@ const PreviousSellingEntryManage = () => {
                     />
                 </Box>
             </SimpleCard>
-        </Container>
+        </ContainerTable>
     )
 }
 

@@ -19,8 +19,10 @@ import {
     Heading,
     SecondaryHeading,
     ThirdHeading,
-} from 'app/components/admin/panel'
-import { Container, StyledTable } from 'app/components/admin/table/index'
+    ContainerTable,
+    StyledTable,
+} from 'app/components'
+
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 // important
@@ -60,7 +62,7 @@ const PendingStockOut = () => {
     }, [dispatch])
 
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -204,7 +206,7 @@ const PendingStockOut = () => {
                     </Box>
                 </SimpleCard>
             )}
-        </Container>
+        </ContainerTable>
     )
 }
 

@@ -1,4 +1,9 @@
-import { Breadcrumb, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerForm,
+    TextField,
+} from 'app/components'
 import { Box, styled } from '@mui/system'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 // import { getAllVendor } from 'app/redux/actions/VendorActions'
@@ -9,8 +14,6 @@ import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { edit, add } from 'app/redux/actions/admin/StockActions'
-
-import { Container, TextField } from 'app/components/admin/form/index'
 
 const AddStock = () => {
     const {
@@ -77,7 +80,7 @@ const AddStock = () => {
     }
 
     return (
-        <Container>
+        <ContainerForm>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -172,7 +175,7 @@ const AddStock = () => {
                     </Alert>
                 </Snackbar>
             ) : null}
-        </Container>
+        </ContainerForm>
     )
 }
 

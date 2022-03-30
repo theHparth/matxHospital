@@ -1,5 +1,5 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
-import { SimpleCard, Breadcrumb } from 'app/components'
+import { SimpleCard, Breadcrumb, ContainerForm } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
-import { Container } from 'app/components/admin/form/index'
 
 import { sendToUser } from 'app/redux/actions/admin/StockOutAction'
 import {
@@ -79,7 +78,7 @@ function AddStockOutForm() {
         setStockOutData([emptyField])
     }
     return (
-        <Container>
+        <ContainerForm>
             <div>
                 <Breadcrumb
                     routeSegments={[
@@ -143,7 +142,7 @@ function AddStockOutForm() {
                     </Button>
                 </div>
             </Card>
-        </Container>
+        </ContainerForm>
     )
 }
 

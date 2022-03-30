@@ -16,13 +16,15 @@ import {
     inStockUser,
 } from 'app/redux/actions/userCreatedByAdmin/StockInUserAction'
 import { Link } from 'react-router-dom'
-import { Breadcrumb, SimpleCard } from 'app/components'
 import {
-    Container,
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
     StyledTable,
     Theme,
     StockAlert,
-} from 'app/components/admin/table/index'
+} from 'app/components'
+
 import { TextField } from '@mui/material'
 import EditMinimum from './EditMinimum'
 
@@ -57,7 +59,7 @@ const InstockListUser = () => {
         isEditing = true
     }
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -184,7 +186,7 @@ const InstockListUser = () => {
                     </Box>
                 </SimpleCard>
             )}
-        </Container>
+        </ContainerTable>
     )
 }
 

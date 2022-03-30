@@ -186,6 +186,7 @@ const CustomerList = () => {
                             // print: false, // set print option
                             // pagination: true, //set pagination option
                             // viewColumns: false, // set column option
+
                             elevation: 1,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             customSearchRender: (

@@ -1,5 +1,11 @@
 import { Box, useTheme } from '@mui/system'
-import { Breadcrumb, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
+    StyledTable,
+    StockAlert,
+} from 'app/components'
 import {
     IconButton,
     Table,
@@ -13,11 +19,6 @@ import {
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-    Container,
-    StyledTable,
-    StockAlert,
-} from 'app/components/admin/table/index'
 import { hospitalStockInformation } from 'app/redux/actions/admin/HospitalActions'
 
 const HospitalStockInfo = ({ id }) => {
@@ -48,7 +49,7 @@ const HospitalStockInfo = ({ id }) => {
         setPage(0)
     }
     return (
-        <Container>
+        <ContainerTable>
             <Box width="100%" overflow="auto">
                 <StyledTable>
                     <TableHead>
@@ -123,7 +124,7 @@ const HospitalStockInfo = ({ id }) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Box>
-        </Container>
+        </ContainerTable>
     )
 }
 

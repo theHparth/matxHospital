@@ -4,7 +4,15 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box, styled } from '@mui/system'
-import { Breadcrumb, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
+    StyledTable,
+    Heading,
+    SecondaryHeading,
+    ThirdHeading,
+} from 'app/components'
 import {
     TableHead,
     TableBody,
@@ -13,20 +21,15 @@ import {
     Icon,
     TablePagination,
 } from '@mui/material'
-import { Container, StyledTable } from 'app/components/admin/table/index'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect } from 'react'
-import {
-    Heading,
-    SecondaryHeading,
-    ThirdHeading,
-} from 'app/components/admin/panel'
+import React, { useEffect, Component } from 'react'
 // import SearchBar from "material-ui-search-bar";
 // import
 import {
     getAllDataStatusTrue,
     deleteData,
 } from 'app/redux/actions/admin/StockOutAction'
+// import ReactSearchBox from 'react-search-box'
 
 const AllStockOutTrueStatus = () => {
     // for pagination purposes
@@ -57,7 +60,7 @@ const AllStockOutTrueStatus = () => {
     }, [dispatch])
 
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -66,6 +69,12 @@ const AllStockOutTrueStatus = () => {
                     ]}
                 />
             </div>
+            {/* <ReactSearchBox
+                placeholder="Placeholder"
+                value="Doe"
+                data={stockOutDataTrue.invoiceNum}
+                callback={(record) => console.log(record)}
+            /> */}
             <SimpleCard title="Stock out data">
                 <Box width="100%">
                     <AccordionSummary
@@ -163,7 +172,7 @@ const AllStockOutTrueStatus = () => {
                     />
                 </Box>
             </SimpleCard>
-        </Container>
+        </ContainerTable>
     )
 }
 

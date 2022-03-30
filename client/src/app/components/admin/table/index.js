@@ -1,6 +1,6 @@
 import StyledTable from './StyledTable'
 
-import Container from './Container'
+import ContainerTable from './Container'
 import { StockAlert } from './StockAlert'
 
-export { StockAlert, Container, StyledTable }
+export { ContainerTable, StockAlert, StyledTable }

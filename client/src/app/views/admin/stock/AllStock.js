@@ -11,17 +11,18 @@ import React, { useEffect } from 'react'
 import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Breadcrumb, SimpleCard } from 'app/components'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
+    StyledTable,
+    StockAlert,
+} from 'app/components'
 import {
     getAllData,
     setEditData,
     deleteData,
 } from 'app/redux/actions/admin/StockActions'
-import {
-    Container,
-    StyledTable,
-    StockAlert,
-} from 'app/components/admin/table/index'
 
 const AllStock = () => {
     const { palette } = useTheme()
@@ -48,7 +49,7 @@ const AllStock = () => {
         setPage(0)
     }
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -209,7 +210,7 @@ const AllStock = () => {
                     </Box>
                 </SimpleCard>
             )}
-        </Container>
+        </ContainerTable>
     )
 }
 

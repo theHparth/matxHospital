@@ -17,8 +17,13 @@ import {
     deleteData,
 } from 'app/redux/actions/admin/WareHouseAction'
 import { Link } from 'react-router-dom'
-import { Breadcrumb, SimpleCard } from 'app/components'
-import { Container, StyledTable } from 'app/components/admin/table/index'
+import {
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
+    StyledTable,
+} from 'app/components'
+import {} from 'app/components/admin/table/index'
 import moment from 'moment'
 
 const WereHouseStock = () => {
@@ -44,7 +49,7 @@ const WereHouseStock = () => {
         setPage(0)
     }
     return (
-        <Container>
+        <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
@@ -181,7 +186,7 @@ const WereHouseStock = () => {
                     </Box>
                 </SimpleCard>
             )}
-        </Container>
+        </ContainerTable>
     )
 }
 
