@@ -165,8 +165,8 @@ const AddStockCard = ({
                                 color="secondary"
                                 // disabled={true}
                                 sx={{
-                                    width: '200px',
-                                    height: '50px',
+                                    width: '100px',
+                                    height: '20px',
                                     marginLeft: '20px',
                                 }}
                             />

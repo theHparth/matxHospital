@@ -37,6 +37,8 @@ export { default as FacebookIcon } from './icons/FacebookIcon'
 export { default as GoogleIcon } from './icons/GoogleIcon'
 
 // my comonent
+// export { searchBar } from './SearchBarNodeModule'
+
 export { default as InvoiceAutoGenerate } from './admin/Invoice/AutoGenerateInvoice'
 export {
     FlexBox,

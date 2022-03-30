@@ -101,11 +101,13 @@ const registerHospital = async (req, res) => {
 };
 
 const getAllHospital = async (req, res) => {
-  const { status, sort, search } = req.query;
+  const { status, sort, search, hospitalId } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
   };
-
+  if (hospitalId) {
+    queryObject._id = hospitalId;
+  }
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }

@@ -49,11 +49,24 @@ const sendStockUser = async (req, res) => {
 };
 
 const getAllSendStockUser = async (req, res) => {
-  const { status, sort, search, invoiceNum } = req.query;
+  const {
+    status,
+    sort,
+    search,
+    invoiceNum,
+    productName,
+    hospitalId,
+    stock_name,
+  } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
   };
-
+  if (stock_name) {
+    queryObject.stockOutDetail = { $elemMatch: { stock_name: stock_name } };
+  }
+  if (hospitalId) {
+    queryObject.createdFor = hospitalId;
+  }
   if (invoiceNum) {
     queryObject.invoiceNum = invoiceNum;
   }
@@ -64,11 +77,11 @@ const getAllSendStockUser = async (req, res) => {
   // NO AWAIT
   let result = UserStock.find(queryObject);
 
-  const sendedStock = await result;
+  const allStockOutData = await result;
 
   const totalHospitals = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ sendedStock, totalHospitals });
+  res.status(StatusCodes.OK).json({ allStockOutData, totalHospitals });
 };
 
 const falseStatusProduct = async (req, res) => {
