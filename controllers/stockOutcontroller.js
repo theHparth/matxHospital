@@ -50,6 +50,8 @@ const sendStockUser = async (req, res) => {
 };
 
 const filterResult = async (queryObject, searchText) => {
+  console.log(typeof searchText);
+
   var result;
   if (!searchText) {
     result = await UserStock.find(queryObject);
@@ -64,6 +66,7 @@ const filterResult = async (queryObject, searchText) => {
       ],
     });
   } else if (isNaN(searchText) === false) {
+    console.log("isnumbe");
     searchText = parseInt(searchText);
     result = await UserStock.find({
       $and: [
