@@ -58,6 +58,8 @@ const getAllSendStockUser = async (req, res) => {
     hospitalId,
     stock_name,
     searchText,
+    getQtyByStockName,
+    getStockByHospitalName,
   } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
@@ -75,48 +77,79 @@ const getAllSendStockUser = async (req, res) => {
     queryObject.position = { $regex: search, $options: "i" };
   }
   let result;
-
-  if (!searchText) {
-    result = await UserStock.find(queryObject);
-  } else if (searchText == "true" || searchText == "false") {
-    searchText === "true" ? true : searchText === "false" ? false : searchText;
-    result = await UserStock.find({
-      $and: [
-        queryObject,
-        {
-          $or: [{ status: searchText }],
-        },
-      ],
-    });
-  } else if (isNaN(searchText) === false) {
-    searchText = parseInt(searchText);
-    result = await UserStock.find({
-      $and: [
-        queryObject,
-        {
-          $or: [{ invoiceNum: searchText }],
-        },
-      ],
-    });
-  } else {
-    result = await UserStock.find({
-      $and: [
-        queryObject,
-        {
-          $or: [
-            { hospitalName: { $regex: searchText, $options: "i" } },
-            {
-              stockOutDetail: {
-                $elemMatch: {
-                  stock_name: { $regex: searchText, $options: "i" },
-                },
-              },
+  if (getStockByHospitalName) {
+    result = await UserStock.aggregate([
+      { $match: { hospitalName: getStockByHospitalName } },
+      { $unwind: "$stockOutDetail" },
+      {
+        $group: {
+          _id: "$stockOutDetail.stock_name",
+          "total Qty": {
+            $sum: {
+              $multiply: [
+                "$stockOutDetail.totalQtyInOneBox",
+                "$stockOutDetail.totalBox",
+              ],
             },
-          ],
+          },
         },
-      ],
-    });
+      },
+    ]);
   }
+
+  // if (getQtyByStockName) {
+  //   result = await UserStock.aggregate([
+  //     { $unwind: "$stockOutDetail" },
+  //     {
+  //       $group: {
+  //         _id: "$stockOutDetail.stock_name",
+  //         "Total quantity sum": { $sum: "$stockOutDetail.totalQtyInOneBox" },
+  //       },
+  //     },
+  //   ]);
+  // }
+  // if (!searchText) {
+  //   result = await UserStock.find(queryObject);
+  // }
+  //else if (searchText == "true" || searchText == "false") {
+  //   searchText === "true" ? true : searchText === "false" ? false : searchText;
+  //   result = await UserStock.find({
+  //     $and: [
+  //       queryObject,
+  //       {
+  //         $or: [{ status: searchText }],
+  //       },
+  //     ],
+  //   });
+  // } else if (isNaN(searchText) === false) {
+  //   searchText = parseInt(searchText);
+  //   result = await UserStock.find({
+  //     $and: [
+  //       queryObject,
+  //       {
+  //         $or: [{ invoiceNum: searchText }],
+  //       },
+  //     ],
+  //   });
+  // } else {
+  //   result = await UserStock.find({
+  //     $and: [
+  //       queryObject,
+  //       {
+  //         $or: [
+  //           { hospitalName: { $regex: searchText, $options: "i" } },
+  //           {
+  //             stockOutDetail: {
+  //               $elemMatch: {
+  //                 stock_name: { $regex: searchText, $options: "i" },
+  //               },
+  //             },
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   });
+  // }
 
   const allStockOutData = result;
 
