@@ -30,10 +30,11 @@ import {
     getAllDataStatusTrue,
     deleteData,
     setEditData,
+    allStockOutDatas,
 } from 'app/redux/actions/admin/StockOutAction'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const AllStockOutTrueStatus = ({ id }) => {
     //   let date = moment(createdAt)
@@ -57,14 +58,14 @@ const AllStockOutTrueStatus = ({ id }) => {
     }
 
     // important
-    let { stockOutDataTrue = [] } = useSelector((state) => state.stockOutList)
+    let { allStockOutData = [] } = useSelector((state) => state.stockOutList)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllDataStatusTrue(id))
+        dispatch(allStockOutDatas(id))
     }, [dispatch])
-
+    var stockOutDataTrue = allStockOutData
     return (
         <ContainerTable>
             <SimpleCard title="Stock info">
@@ -99,9 +100,8 @@ const AllStockOutTrueStatus = ({ id }) => {
                                         {subscriber.hospitalName}
                                     </SecondaryHeading>
                                     <ThirdHeading>
-                                        {/* {subscriber.createdAt} */}
-                                        {moment(subscriber.createdAt).format(
-                                            'MMM Do, YYYY'
+                                        {dayjs(subscriber.createdAt).format(
+                                            'DD MMMM YYYY'
                                         )}
                                     </ThirdHeading>
                                 </AccordionSummary>
@@ -120,7 +120,7 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
-                                                <TableCell align="right">
+                                                <TableCell align="center">
                                                     {/* <InvoiceAutoGenerate
                                                         invoiceNum={
                                                             subscriber.invoiceNum
@@ -141,7 +141,7 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                             )
                                                         }
                                                     >
-                                                        <Icon>Print</Icon>
+                                                        <Icon>print</Icon>
                                                     </Link>
                                                 </TableCell>
                                             </TableRow>

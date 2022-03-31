@@ -73,7 +73,10 @@ const registerHospital = async (req, res) => {
   }
 
   const userAlreadyExists = await Hospital.findOne({
-    $or: [{ hospitalName }, { email }],
+    $or: [
+      { hospitalName: { $regex: hospitalName, $options: "i" } },
+      { email: { $regex: email, $options: "i" } },
+    ],
   });
   // const userAlreadyExists = await Hospital.findOne({ email, hospitalName });
   if (userAlreadyExists) {

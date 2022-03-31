@@ -37,6 +37,7 @@ const initialState = {
     Icontect: '',
     Iemail: '',
     Ipincode: '',
+    IhopsitalId: '',
 }
 const HospitalReducer = function (state = initialState, action) {
     switch (action.type) {
@@ -49,6 +50,7 @@ const HospitalReducer = function (state = initialState, action) {
                 Icontect: action.payload.hospitals[0].contect,
                 Iemail: action.payload.hospitals[0].email,
                 Ipincode: action.payload.hospitals[0].pincode,
+                IhopsitalId: action.payload.hospitals[0]._id,
             }
         }
         case GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS: {

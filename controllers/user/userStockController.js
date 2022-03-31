@@ -19,7 +19,12 @@ const addStockQty = async (
   // var aaa = await StocksHosital.find({ createdFor: obId });
   // console.log("stocks2", aaa);
   await StocksHosital.updateOne(
-    { $and: [{ stock_name }, { createdFor: obId }] },
+    {
+      $and: [
+        { stock_name: { $regex: stock_name, $options: "i" } },
+        { createdFor: obId },
+      ],
+    },
     {
       $inc: {
         totalQtyUser: totalQtyInOneBox * totalBox,
@@ -40,7 +45,12 @@ const removeStockQty = async (
   // console.log("stocks2", aaa);
   // console.log(totalQtyInOneBox * totalBox);
   await StocksHosital.updateOne(
-    { $and: [{ stock_name }, { createdFor: obId }] },
+    {
+      $and: [
+        { stock_name: { $regex: stock_name, $options: "i" } },
+        { createdFor: obId },
+      ],
+    },
     {
       $inc: {
         totalQtyUser: -(totalQtyInOneBox * totalBox),
@@ -66,7 +76,10 @@ const statusController = async (req, res) => {
   stockOutData.stockOutDetail.map(async (data) => {
     var stock_name = data.stock_name;
     let result = await StocksHosital.findOne({
-      $and: [{ stock_name }, { hospitalName }],
+      $and: [
+        { stock_name: { $regex: stock_name, $options: "i" } },
+        { hospitalName: { $regex: hospitalName, $options: "i" } },
+      ],
     });
     if (!result) {
       await StocksHosital.create({

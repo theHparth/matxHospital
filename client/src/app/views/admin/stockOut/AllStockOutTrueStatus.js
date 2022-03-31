@@ -37,7 +37,7 @@ import {
 
 const AllStockOutTrueStatus = () => {
     // search for all
-    const [searchText, setSearchText] = React.useState('parth')
+    const [searchText, setSearchText] = React.useState('')
 
     const handleChangeSearch = (value) => {
         setSearchText(value)

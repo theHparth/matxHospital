@@ -42,6 +42,7 @@ const initialState = {
     createdFor: '',
     createdAt: '',
     latestStatus: '',
+    updatedAt: '',
 }
 
 const StockOutReducer = function (state = initialState, action) {
@@ -62,7 +63,7 @@ const StockOutReducer = function (state = initialState, action) {
             }
         }
         case GET_ALL_SUCCESS_STOCKOUT: {
-            return { ...state, allStockOutData: action.payload.stockdata }
+            return { ...state, allStockOutData: action.payload.allStockOutData }
         }
         case CREATE_SUCCESS: {
             return {
@@ -112,6 +113,7 @@ const StockOutReducer = function (state = initialState, action) {
                 createdFor,
                 createdAt,
                 status,
+                updatedAt,
             } = subscriber
 
             return {
@@ -123,6 +125,7 @@ const StockOutReducer = function (state = initialState, action) {
                 stockOutDetail,
                 createdFor,
                 createdAt,
+                updatedAt,
                 latestStatus: status,
             }
         }

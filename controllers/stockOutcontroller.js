@@ -4,6 +4,7 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "./stockController.js";
 import Hospital from "../models/Hospital.js";
+import mongoose from "mongoose";
 
 const sendStockUser = async (req, res) => {
   const { hospitalName, stockOutDetail } = req.body;
@@ -48,6 +49,61 @@ const sendStockUser = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
+const filterResult = async (queryObject, searchText) => {
+  var result;
+  if (!searchText) {
+    result = await UserStock.find(queryObject);
+  } else if (searchText == "true" || searchText == "false") {
+    searchText === "true" ? true : searchText === "false" ? false : searchText;
+    result = await UserStock.find({
+      $and: [
+        queryObject,
+        {
+          $or: [{ status: searchText }],
+        },
+      ],
+    });
+  } else if (isNaN(searchText) === false) {
+    searchText = parseInt(searchText);
+    result = await UserStock.find({
+      $and: [
+        queryObject,
+        {
+          $or: [{ invoiceNum: searchText }],
+        },
+      ],
+    });
+  } else if ((searchText.length == 12, searchText.length == 24)) {
+    result = await UserStock.find({
+      $and: [
+        queryObject,
+        {
+          $or: [{ createdFor: mongoose.Types.ObjectId(searchText) }],
+        },
+      ],
+    });
+  } else {
+    result = await UserStock.find({
+      $and: [
+        queryObject,
+        {
+          $or: [
+            { hospitalName: { $regex: searchText, $options: "i" } },
+            {
+              stockOutDetail: {
+                $elemMatch: {
+                  stock_name: { $regex: searchText, $options: "i" },
+                },
+              },
+            },
+          ],
+        },
+      ],
+    });
+  }
+  return result;
+};
+
 const getAllSendStockUser = async (req, res) => {
   var {
     status,
@@ -64,22 +120,20 @@ const getAllSendStockUser = async (req, res) => {
   const queryObject = {
     createdBy: req.user.userId,
   };
-  if (stock_name) {
-    queryObject.stockOutDetail = { $elemMatch: { stock_name: stock_name } };
-  }
-  if (hospitalId) {
-    queryObject.createdFor = hospitalId;
-  }
-  if (invoiceNum) {
-    queryObject.invoiceNum = invoiceNum;
-  }
-  if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
-  }
+
   let result;
+  result = await filterResult(queryObject, searchText);
+
   if (getStockByHospitalName) {
     result = await UserStock.aggregate([
-      { $match: { hospitalName: getStockByHospitalName } },
+      {
+        $match: {
+          $and: [
+            { hospitalName: { $regex: getStockByHospitalName, $options: "i" } },
+            // { createdBy: req.user.userId },
+          ],
+        },
+      },
       { $unwind: "$stockOutDetail" },
       {
         $group: {
@@ -97,59 +151,24 @@ const getAllSendStockUser = async (req, res) => {
     ]);
   }
 
-  // if (getQtyByStockName) {
-  //   result = await UserStock.aggregate([
-  //     { $unwind: "$stockOutDetail" },
-  //     {
-  //       $group: {
-  //         _id: "$stockOutDetail.stock_name",
-  //         "Total quantity sum": { $sum: "$stockOutDetail.totalQtyInOneBox" },
-  //       },
-  //     },
-  //   ]);
-  // }
-  // if (!searchText) {
-  //   result = await UserStock.find(queryObject);
-  // }
-  //else if (searchText == "true" || searchText == "false") {
-  //   searchText === "true" ? true : searchText === "false" ? false : searchText;
-  //   result = await UserStock.find({
-  //     $and: [
-  //       queryObject,
-  //       {
-  //         $or: [{ status: searchText }],
-  //       },
-  //     ],
-  //   });
-  // } else if (isNaN(searchText) === false) {
-  //   searchText = parseInt(searchText);
-  //   result = await UserStock.find({
-  //     $and: [
-  //       queryObject,
-  //       {
-  //         $or: [{ invoiceNum: searchText }],
-  //       },
-  //     ],
-  //   });
-  // } else {
-  //   result = await UserStock.find({
-  //     $and: [
-  //       queryObject,
-  //       {
-  //         $or: [
-  //           { hospitalName: { $regex: searchText, $options: "i" } },
-  //           {
-  //             stockOutDetail: {
-  //               $elemMatch: {
-  //                 stock_name: { $regex: searchText, $options: "i" },
-  //               },
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   });
-  // }
+  if (getQtyByStockName) {
+    result = await UserStock.aggregate([
+      { $unwind: "$stockOutDetail" },
+      {
+        $group: {
+          _id: "$stockOutDetail.stock_name",
+          "total Qty": {
+            $sum: {
+              $multiply: [
+                "$stockOutDetail.totalQtyInOneBox",
+                "$stockOutDetail.totalBox",
+              ],
+            },
+          },
+        },
+      },
+    ]);
+  }
 
   const allStockOutData = result;
 
@@ -159,18 +178,18 @@ const getAllSendStockUser = async (req, res) => {
 };
 
 const falseStatusProduct = async (req, res) => {
-  const { status, sort, search } = req.query;
+  const { status, sort, searchText } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
     status: false,
   };
 
-  if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
-  }
   // NO AWAIT
 
-  let result = UserStock.find(queryObject);
+  // let result = UserStock.find(queryObject);
+  let result;
+  // let result = UserStock.find(queryObject);
+  result = await filterResult(queryObject, searchText);
 
   const stockOutDataFalseStatus = await result;
 
@@ -180,7 +199,7 @@ const falseStatusProduct = async (req, res) => {
 };
 
 const trueStatusProduct = async (req, res) => {
-  const { status, sort, search, hospitalId, searchText } = req.query;
+  const { hospitalId, searchText } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
     status: true,
@@ -188,36 +207,13 @@ const trueStatusProduct = async (req, res) => {
   if (hospitalId) {
     queryObject.createdFor = hospitalId;
   }
-  // NO AWAIT
-  if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
-  }
-
-  // or
-  // if (searchText) {
-  //   queryObject.position = $or: [{queryObject}, { createdFor: obId }],
-  //     // (queryObject.position = { $regex: searchText, $options: "i" });
-  // }
-  // { $and: [{ stock_name }, { createdFor: obId }] },
-  // NO AWAIT
-
-  let result = UserStock.find(queryObject);
+  let result;
+  // let result = UserStock.find(queryObject);
+  result = await filterResult(queryObject, searchText);
 
   const stockOutDataTrueStatus = await result;
-  var totalStockOutData = "";
-  if (!searchText) {
-    totalStockOutData = await UserStock.countDocuments(queryObject);
-  } else {
-    totalStockOutData = await UserStock.countDocuments({
-      $or: [
-        queryObject,
-        { $or: [{ invoiceNum: searchText }, { hospitalName: searchText }] },
-      ],
-    });
-  }
-  res
-    .status(StatusCodes.OK)
-    .json({ stockOutDataTrueStatus, totalStockOutData });
+
+  res.status(StatusCodes.OK).json({ stockOutDataTrueStatus });
 };
 
 const updateSendStockAdmin = async (req, res) => {

@@ -86,19 +86,18 @@ const edit = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const allStockOutDatas = (invoiceNum) => async (dispatch) => {
+const allStockOutDatas = (searchText) => async (dispatch) => {
     let url = '/'
-    if (invoiceNum) {
-        url = url + `?invoiceNum=${invoiceNum}`
+    if (searchText) {
+        url = url + `?searchText=${searchText}`
     }
     try {
         const { data } = await authFetch.get(url)
         const { allStockOutData } = data
-        console.log('reducer list', allStockOutData[0])
-        var stockdata = allStockOutData[0]
+
         dispatch({
             type: GET_ALL_SUCCESS_STOCKOUT,
-            payload: { stockdata },
+            payload: { allStockOutData },
         })
     } catch (error) {
         console.log(error)
@@ -106,11 +105,11 @@ const allStockOutDatas = (invoiceNum) => async (dispatch) => {
     }
 }
 
-const getAllDataStatusTrue = (id, searchText) => async (dispatch) => {
+const getAllDataStatusTrue = (searchText) => async (dispatch) => {
     let url = '/trueAdmin'
-    if (id) {
-        url = url + `?hospitalId=${id}`
-    }
+    // if (id) {
+    //     url = url + `?hospitalId=${id}`
+    // }
     if (searchText) {
         url = url + `?searchText=${searchText}`
     }

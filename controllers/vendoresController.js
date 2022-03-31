@@ -12,7 +12,9 @@ const addVendor = async (req, res) => {
   if (!vendor_name || !address || !pincode || !contect || !email) {
     throw new BadRequestError("Please provide all values");
   }
-  const userAlreadyExists = await vendors.findOne({ vendor_name });
+  const userAlreadyExists = await vendors.findOne({
+    vendor_name: { $regex: vendor_name, $options: "i" },
+  });
   if (userAlreadyExists) {
     throw new BadRequestError("Vendor name should be unique");
   }

@@ -41,13 +41,17 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         createdAt,
         alertText,
         latestStatus,
+        updatedAt,
     } = useSelector((x) => x.stockOutList)
 
     const user = localStorage.getItem('user')
-    const { Iaddress, Icontect, Iemail, Ipincode } = useSelector(
+    const { Iaddress, Icontect, Iemail, Ipincode, IhopsitalId } = useSelector(
         (stat) => stat.hospitalList
     )
-
+    const dispatch = useDispatch()
+    // useEffect(() => {
+    //     dispatch(getHospitalsData(hospitalName))
+    // }, [dispatch, hospitalName])
     const state = {}
 
     console.log('hospital Data', Iaddress, Icontect, Iemail, Ipincode)
@@ -84,20 +88,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     const handlePrint = () => window.print()
 
     let subTotalCost = 0
-    let {
-        orderNo,
-        buyer,
-        seller,
-        item: invoiceItemList = [],
-        status,
-        vat,
-        date,
-    } = state
 
     return (
         <Box py={2} className="invoice-viewer">
             <ButtonBox className="viewer_actions">
-                <Link to="/invoice/list">
+                <Link to={`/hospitalData/${IhopsitalId}`}>
                     <IconButton>
                         <Icon>arrow_back</Icon>
                     </IconButton>
@@ -141,6 +136,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <span>
                                 {moment(createdAt).format('MMM Do, YYYY')}
                             </span>
+                        </StyledH5>
+                        {'\n'}
+                        <StyledH5>
+                            {latestStatus == true && (
+                                <strong>Delivered on: </strong>
+                            )}
+
+                            {latestStatus == true && (
+                                <span>
+                                    {moment(updatedAt).format('MMM Do, YYYY')}
+                                </span>
+                            )}
                         </StyledH5>
                     </TextBox>
                 </FlexBox>

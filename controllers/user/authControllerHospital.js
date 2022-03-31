@@ -7,7 +7,9 @@ const login = async (req, res) => {
   if (!email || !password) {
     throw new BadRequestError("Please provide all values");
   }
-  const hospital = await Hospital.findOne({ email }).select("+password");
+  const hospital = await Hospital.findOne({
+    email: { $regex: email, $options: "i" },
+  }).select("+password");
   console.log(hospital);
   if (!hospital) {
     throw new UnAuthenticatedError("Invalid Credentials");

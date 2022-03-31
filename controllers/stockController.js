@@ -7,11 +7,13 @@ import checkPermissions from "../utils/checkPermissions.js";
 
 const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
   // console.log(stock_name, totalQtyInOneBox, totalBox);
-  const stock = await stocks.findOne({ stock_name });
-  console.log(stock);
+  // const stock = await stocks.findOne({
+  //   stock_name: { $regex: stock_name, $options: "i" },
+  // });
+  // console.log(stock);
   try {
     await stocks.updateOne(
-      { stock_name },
+      { stock_name: { $regex: stock_name, $options: "i" } },
       {
         $inc: {
           totalQty: totalBox * totalQtyInOneBox,
@@ -32,7 +34,9 @@ const removeStockQty = async (
   totalBox,
   price
 ) => {
-  const stock = stocks.findOne({ stock_name });
+  const stock = stocks.findOne({
+    stock_name: { $regex: stock_name, $options: "i" },
+  });
   console.log(stock.totalQty - totalBox * totalQtyInOneBox);
   if (stock.totalQty - totalBox * totalQtyInOneBox < 0) {
     console.log("limit exceed");
@@ -42,7 +46,7 @@ const removeStockQty = async (
   }
   try {
     await stocks.updateOne(
-      { stock_name },
+      { stock_name: { $regex: stock_name, $options: "i" } },
       {
         $inc: {
           totalQty: -(totalBox * totalQtyInOneBox),
