@@ -4,7 +4,16 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box, styled } from '@mui/system'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DatePicker from '@mui/lab/DatePicker'
+import { addDays } from 'date-fns'
+import { DateRangePicker } from 'react-date-range'
+import 'react-date-range/dist/styles.css' // main css file
+import 'react-date-range/dist/theme/default.css' // theme css file
+// import MultipleDatesPicker from '@randex/material-ui-multiple-dates-picker'
 import {
+    SearchBox,
     Breadcrumb,
     SimpleCard,
     ContainerTable,
@@ -13,9 +22,11 @@ import {
     SecondaryHeading,
     ThirdHeading,
     SearchIcon,
-    SearchBox,
     SearchInput,
     SearchContainer,
+    DateContainer,
+    DateContainer2,
+    DateChoose,
 } from 'app/components'
 import {
     TableHead,
@@ -24,9 +35,17 @@ import {
     TableCell,
     Icon,
     TablePagination,
+    Button,
+    TextField,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect, Component } from 'react'
+import React, { useEffect, useState } from 'react'
+import * as dayjs from 'dayjs'
+
+// import * as isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+// import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+// const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+// const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
 // import SearchBar from "material-ui-search-bar";
 // import
 import {
@@ -34,6 +53,10 @@ import {
     deleteData,
 } from 'app/redux/actions/admin/StockOutAction'
 // import ReactSearchBox from 'react-search-box'
+import { topBarHeight } from 'app/utils/constant'
+
+// dayjs.extend(isSameOrBefore)
+// dayjs.extend(isSameOrAfter)
 
 const AllStockOutTrueStatus = () => {
     // search for all
@@ -70,6 +93,27 @@ const AllStockOutTrueStatus = () => {
         dispatch(getAllDataStatusTrue(searchText))
     }, [dispatch, searchText])
 
+    // for date chooser
+
+    // const [value2, setValue] = useState('')
+    // const handleFilterDate = (newValue) => {
+    //     const filteredData = stockOutDataTrue.filter((item) => {
+    //         return dayjs(item.createdAt).isSameOrAfter(dayjs(newValue))
+    //     })
+    //     setValue(filteredData)
+    // }
+
+    const [state, setState] = useState([
+        {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 7),
+            key: 'selection',
+        },
+    ])
+
+    // console.log('set value', value2)
+
+    // stockOutDataTrue = value2 || stockOutDataTrue
     return (
         <ContainerTable>
             <div className="breadcrumb">
@@ -79,8 +123,31 @@ const AllStockOutTrueStatus = () => {
                         { name: 'Form' },
                     ]}
                 />
-                <SearchIcon>
-                    {/* <SearchBox /> */}
+                {/* date chooser from--------FROM---------- */}
+                <SearchBox onSearch={handleChangeSearch} />
+                <DateChoose />
+                {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
+                {/* <DateContainer2>
+                    <DateRangePicker
+                        onChange={(item) => setState([item.selection])}
+                        showSelectionPreview={true}
+                        moveRangeOnFirstSelection={false}
+                        months={2}
+                        ranges={state}
+                        direction="horizontal"
+                    /> */}
+                {/* <DatePicker
+                            label="From"
+                            value={value2}
+                            // onChange={(newValue) => {
+                            //     setValue(newValue)
+                            // }}
+                            onChange={(newValue) => handleFilterDate(newValue)}
+                            renderInput={(params) => <TextField {...params} />}
+                        /> */}
+                {/* </DateContainer2> */}
+                {/* <SearchIcon>
+                   
                     <SearchContainer>
                         <SearchInput
                             type="text"
@@ -90,7 +157,7 @@ const AllStockOutTrueStatus = () => {
                             onChange={(e) => handleChangeSearch(e.target.value)}
                         />
                     </SearchContainer>
-                </SearchIcon>
+                </SearchIcon> */}
             </div>
             {/* <ReactSearchBox
                 placeholder="Placeholder"

@@ -6,6 +6,9 @@ import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import * as serviceWorker from './serviceWorker'
 import { StyledEngineProvider } from '@mui/styled-engine'
 import { CssBaseline } from '@mui/material'
+// for date picker
+// import 'react-date-range/dist/styles.css' // main css file
+// import 'react-date-range/dist/theme/default.css'
 
 ReactDOM.render(
     <StyledEngineProvider injectFirst>
@@ -16,7 +19,6 @@ ReactDOM.render(
     </StyledEngineProvider>,
     document.getElementById('root')
 )
-
 // for IE-11 support un-comment cssVars() and it's import in this file
 // and in MatxTheme file
 

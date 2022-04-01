@@ -60,3 +60,8 @@ export {
     StyledButton,
 } from './adminStyleSheet/AllHospitalStyle'
 export { SearchBox, SearchInput, SearchContainer } from './admin/search'
+export {
+    DateChoose,
+    DateContainer,
+    DateContainer2,
+} from './admin/dateChoose/index'
