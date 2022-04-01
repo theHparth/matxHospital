@@ -3,9 +3,8 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/system'
-import { addDays } from 'date-fns'
-import 'react-date-range/dist/styles.css' // main css file
-import 'react-date-range/dist/theme/default.css' // theme css file
+
+import moment from 'moment'
 // import MultipleDatesPicker from '@randex/material-ui-multiple-dates-picker'
 import {
     SearchBox,
@@ -46,7 +45,7 @@ const AllStockOutTrueStatus = () => {
     })
 
     const handleChangeDate = (startDate, endDate) => {
-        // setSearchDate({ startDate, endDate })
+        setSearchDate({ startDate, endDate })
     }
 
     // for pagination purposes
@@ -79,6 +78,13 @@ const AllStockOutTrueStatus = () => {
         dispatch(getAllDataStatusTrue(filterArr))
     }, [dispatch, searchText])
 
+    stockOutDataTrue = stockOutDataTrue.filter((expense) => {
+        return moment(expense.createdAt).isBetween(
+            searchDate.startDate,
+            searchDate.endDate
+        )
+    })
+
     // for date chooser
 
     // const [value2, setValue] = useState('')
@@ -88,18 +94,6 @@ const AllStockOutTrueStatus = () => {
     //     })
     //     setValue(filteredData)
     // }
-
-    const [stateDate, setStateDate] = useState([
-        {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 7),
-            key: 'selection',
-        },
-    ])
-    // const receivedDate = (startDate, endDate) => {
-    //     console.log('start', startDate, 'enddate', endDate)
-    // }
-    // console.log('set value', value2)
 
     // stockOutDataTrue = value2 || stockOutDataTrue
     return (

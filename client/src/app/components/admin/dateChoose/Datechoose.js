@@ -9,6 +9,7 @@ import {
     Grid,
     TextField,
 } from '@mui/material'
+import moment from 'moment'
 import 'react-date-range/dist/styles.css' // main css file
 import 'react-date-range/dist/theme/default.css'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
@@ -69,8 +70,10 @@ const DateChoose = ({ dateProjection }) => {
             startDate: oneYearAgo,
             endDate: new Date(),
             key: 'selection',
+            focusedInput: '',
         },
     ])
+    console.log('new', state)
     useEffect(() => {
         dateProjection(state[0].startDate, state[0].endDate)
     }, [state])
@@ -98,6 +101,16 @@ const DateChoose = ({ dateProjection }) => {
                         months={2}
                         ranges={state}
                         direction="horizontal"
+                        // startDate={state.startDate} // momentPropTypes.momentObj or null,
+                        // endDate={state.endDate} // momentPropTypes.momentObj or null,
+                        // onDatesChange={({ startDate, endDate }) =>
+                        //     setState({ startDate, endDate })
+                        // } // PropTypes.func.isRequired,
+                        // focusedInput={state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                        // onFocusChange={(focusedInput) =>
+                        //     setState({ focusedInput })
+                        // } // PropTypes.func.isRequired,
+                        // initialVisibleMonth={() => moment().add(2, 'M')} // PropTypes.func or null,
                     />
                     <IconButton
                         onClick={toggle}

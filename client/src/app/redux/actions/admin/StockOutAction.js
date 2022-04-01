@@ -112,10 +112,10 @@ const getAllDataStatusTrue = (state) => async (dispatch) => {
     // if (id) {
     //     url = url + `?hospitalId=${id}`
     // }
-    console.log('date', searchDate, 'text', searchText)
-    url = url + `?searchDate=${searchDate}`
+    // console.log('date', searchDate, 'text', searchText)
+    // url = url + `?searchDate=${searchDate}`
     if (searchText) {
-        url = url + `&searchText=${searchText}`
+        url = url + `?searchText=${searchText}`
     }
     console.log(url)
     try {
