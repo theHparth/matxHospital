@@ -73,7 +73,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                 <H4 sx={{ mb: '20px' }}>Update Member</H4>
                 <ValidatorForm onSubmit={handleFormSubmit}>
                     <Grid sx={{ mb: '16px' }} container spacing={4}>
-                        <Grid item sm={6} xs={12}>
+                        <Grid item sm={16} xs={12}>
                             <TextField
                                 label="Name"
                                 type="text"
@@ -114,7 +114,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                             />
                         </Grid>
 
-                        <Grid item sm={6} xs={12}>
+                        <Grid item sm={16} xs={12}>
                             <TextField
                                 label="Age"
                                 onChange={handleChange}

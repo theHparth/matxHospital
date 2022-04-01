@@ -2,10 +2,18 @@ import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
 import { Breadcrumb, FlexBox, Container, StyledButton } from 'app/components'
 import React, { useState, useEffect } from 'react'
-import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
+import {
+    Avatar,
+    Grow,
+    Icon,
+    IconButton,
+    TextField,
+    Button,
+} from '@mui/material'
 import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { H5, Small } from 'app/components/Typography'
+import MemberEditorDialog from './MemberEditorDialog'
 
 // my import
 import {
@@ -16,6 +24,26 @@ import {
 } from 'app/redux/actions/admin/HospitalActions'
 
 const CustomerList = () => {
+    const [uid, setUid] = useState(null)
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        // updatePageData()
+    }
+    // const updatePageData = () => {
+    //     hospitalsData().then(({ data }) => {
+    //         setUserList(data)
+    //     })
+    // }
+
+    // useEffect(() => {
+    //     updatePageData()
+    // }, [])
+
     const { hospitalsData = [] } = useSelector((state) => state.hospitalList)
 
     const dispatch = useDispatch()
@@ -110,19 +138,14 @@ const CustomerList = () => {
                         <StyledButton
                             // variant="contained"
                             sx={{ color: bgSuccess }}
+                            onClick={() => {
+                                dispatch(
+                                    setEditHospital(hospitalsData[dataIndex])
+                                )
+                                setShouldOpenEditorDialog(true)
+                            }}
                         >
-                            <Link
-                                to={`/addHospital`}
-                                onClick={() =>
-                                    dispatch(
-                                        setEditHospital(
-                                            hospitalsData[dataIndex]
-                                        )
-                                    )
-                                }
-                            >
-                                <Icon>edit</Icon>
-                            </Link>
+                            <Icon color="primary">edit</Icon>
                         </StyledButton>
                     </FlexBox>
                 ),
@@ -168,10 +191,17 @@ const CustomerList = () => {
                     ]}
                 />
             </div>
+            <Button
+                sx={{ mb: 2 }}
+                variant="contained"
+                color="primary"
+                onClick={() => setShouldOpenEditorDialog(true)}
+            >
+                Add New Hospital
+            </Button>
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
-                        title={'All Hospital'}
                         data={hospitalsData}
                         columns={columns}
                         options={{
@@ -232,6 +262,13 @@ const CustomerList = () => {
                             },
                         }}
                     />
+                    {shouldOpenEditorDialog && (
+                        <MemberEditorDialog
+                            handleClose={handleDialogClose}
+                            open={shouldOpenEditorDialog}
+                            uid={uid}
+                        />
+                    )}
                 </Box>
             </Box>
         </Container>

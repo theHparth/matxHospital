@@ -165,7 +165,9 @@ const AllStockOutTrueStatus = () => {
                                         {subscriber.hospitalName}
                                     </SecondaryHeading>
                                     <ThirdHeading>
-                                        {subscriber.createdAt}
+                                        {moment(subscriber.createdAt).format(
+                                            'MMM Do, YYYY'
+                                        )}
                                     </ThirdHeading>
                                 </AccordionSummary>
                                 <AccordionDetails

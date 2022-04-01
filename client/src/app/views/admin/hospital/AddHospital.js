@@ -20,8 +20,6 @@ import {
 } from 'app/redux/actions/admin/HospitalActions'
 // import Alert from '../../components/Alert'
 
-import {} from 'app/components/admin/form/index'
-
 const AddHospital = () => {
     const {
         showAlert,
