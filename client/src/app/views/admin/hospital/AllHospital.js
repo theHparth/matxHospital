@@ -35,6 +35,7 @@ const CustomerList = () => {
         setShouldOpenEditorDialog(false)
         setShouldOpenConfirmationDialog(false)
         // updatePageData()
+        dispatch(getHospitalsData())
     }
     const handleDeleteUser = (hospitalId) => {
         // dispatch(getHospitalsData())
@@ -204,14 +205,6 @@ const CustomerList = () => {
 
     return (
         <Container>
-            <div className="breadcrumb">
-                <Breadcrumb
-                    routeSegments={[
-                        { name: 'Add Hospital', path: '/addHospital' },
-                        { name: 'form' },
-                    ]}
-                />
-            </div>
             <Button
                 sx={{ mb: 2 }}
                 variant="contained"

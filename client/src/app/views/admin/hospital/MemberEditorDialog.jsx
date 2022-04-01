@@ -81,24 +81,32 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         })
     }
     const dispatch = useDispatch()
-    console.log('clearValues', clearValues)
+
+    const cancleWithClean = () => {
+        dispatch(clearValue())
+        clear()
+        handleClose()
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (isEditing) {
             dispatch(editHospital(state))
+            console.log(clearValues)
             if (!clearValues) {
                 dispatch(clearValue())
                 clear()
                 handleClose()
             }
-            dispatch(getHospitalsData())
+            // dispatch(getHospitalsData())
         } else {
             dispatch(addHospital(state))
+            // dispatch(getHospitalsData())
             if (!clearValues) {
                 clear()
                 handleClose()
             }
-            dispatch(getHospitalsData())
+            // dispatch(getHospitalsData())
 
             // if (!clearValues) {
             //     clear().then(() => {
@@ -265,7 +273,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                         <Button
                             variant="outlined"
                             color="secondary"
-                            onClick={() => handleClose()}
+                            onClick={cancleWithClean}
                         >
                             Cancel
                         </Button>

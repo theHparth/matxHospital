@@ -14,6 +14,7 @@ export const DELETE_HOSPITAL_BEGIN = 'DELETE_HOSPITAL_BEGIN'
 export const EDIT_HOSPITAL_BEGIN = 'EDIT_HOSPITAL_BEGIN'
 export const EDIT_HOSPITAL_SUCCESS = 'EDIT_HOSPITAL_SUCCESS'
 export const EDIT_HOSPITAL_ERROR = 'EDIT_HOSPITAL_ERROR'
+export const EDIT_HOSPITAL_COMPLETE = 'EDIT_HOSPITAL_COMPLETE'
 export const SHOW_STATS_BEGIN = 'SHOW_STATS_BEGIN'
 export const GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS =
     'GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS'
@@ -141,6 +142,7 @@ const editHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
+        dispatch({ type: CLEAR_VALUES_HOSPITAL })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({

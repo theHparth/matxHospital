@@ -14,6 +14,7 @@ import {
     DISPLAY_ALERT,
     CLEAR_VALUES_HOSPITAL,
     GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
+    EDIT_HOSPITAL_COMPLETE,
 } from '../../actions/admin/HospitalActions'
 
 const initialState = {
@@ -107,6 +108,7 @@ const HospitalReducer = function (state = initialState, action) {
                 _id: '',
             }
         }
+
         case EDIT_HOSPITAL_ERROR: {
             return {
                 ...state,
@@ -155,6 +157,8 @@ const HospitalReducer = function (state = initialState, action) {
         }
         case CLEAR_VALUES_HOSPITAL: {
             const initialState = {
+                isEditing: false,
+                clearValues: false,
                 hospitalName: '',
                 address: '',
                 contect: '',

@@ -12,26 +12,31 @@ export const navigations = [
         type: 'label',
     },
     {
-        name: 'Hospitals',
+        name: 'Hospital Manage',
+        path: '/allHospitals',
         icon: 'library_add',
-        children: [
-            {
-                name: 'Add Hospital',
-                iconText: 'SI',
-                path: '/addHospital',
-            },
-            {
-                name: 'Hospital List',
-                iconText: 'SI',
-                path: '/allHospitals',
-            },
-            // {
-            //     name: 'Hospital Data',
-            //     iconText: 'SI',
-            //     path: '/hospitalData/:id',
-            // },
-        ],
     },
+    // {
+    //     name: 'Hospitals',
+    //     icon: 'library_add',
+    //     children: [
+    //         {
+    //             name: 'Add Hospital',
+    //             iconText: 'SI',
+    //             path: '/addHospital',
+    //         },
+    //         {
+    //             name: 'Hospital List',
+    //             iconText: 'SI',
+    //             path: '/allHospitals',
+    //         },
+    //         // {
+    //         //     name: 'Hospital Data',
+    //         //     iconText: 'SI',
+    //         //     path: '/hospitalData/:id',
+    //         // },
+    //     ],
+    // },
     {
         name: 'Vendor',
         icon: 'person_add',
