@@ -2,7 +2,15 @@ import { generateRandomId } from 'app/utils/utils'
 import React, { useState, useEffect } from 'react'
 // import { getUserById, updateUser, addNewUser } from './TableService'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import { Dialog, Button, Grid, FormControlLabel, Switch } from '@mui/material'
+import {
+    Dialog,
+    Button,
+    Grid,
+    FormControlLabel,
+    Switch,
+    Snackbar,
+    Alert,
+} from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
@@ -78,20 +86,20 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         e.preventDefault()
         if (isEditing) {
             dispatch(editHospital(state))
-                .then(() => {
-                    handleClose()
-                })
-                .then(() => {
-                    dispatch(getHospitalsData())
-                })
+            if (!clearValues) {
+                dispatch(clearValue())
+                clear()
+                handleClose()
+            }
+            dispatch(getHospitalsData())
         } else {
             dispatch(addHospital(state))
-                .then(() => {
-                    handleClose()
-                })
-                .then(() => {
-                    dispatch(getHospitalsData())
-                })
+            if (!clearValues) {
+                clear()
+                handleClose()
+            }
+            dispatch(getHospitalsData())
+
             // if (!clearValues) {
             //     clear().then(() => {
             //         handleClose()
@@ -264,6 +272,21 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                     </FormHandlerBox>
                 </ValidatorForm>
             </Box>
+            {showAlert ? (
+                <Snackbar open={showAlert} autoHideDuration={3000}>
+                    <Alert
+                        severity={
+                            alertText === 'New Hoapital Added!' ||
+                            alertText === 'Hospital Updated!'
+                                ? 'success'
+                                : 'error'
+                        }
+                        sx={{ width: '100%' }}
+                    >
+                        {alertText}
+                    </Alert>
+                </Snackbar>
+            ) : null}
         </Dialog>
     )
 }

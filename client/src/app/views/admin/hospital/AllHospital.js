@@ -13,9 +13,10 @@ import {
 import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { H5, Small } from 'app/components/Typography'
-import MemberEditorDialog from './MemberEditorDialog'
+import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 // my import
+import MemberEditorDialog from './MemberEditorDialog'
 import {
     getHospitalsData,
     setEditHospital,
@@ -25,6 +26,7 @@ import {
 
 const CustomerList = () => {
     const [uid, setUid] = useState(null)
+    const [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
@@ -34,6 +36,22 @@ const CustomerList = () => {
         setShouldOpenConfirmationDialog(false)
         // updatePageData()
     }
+    const handleDeleteUser = (hospitalId) => {
+        // dispatch(getHospitalsData())
+        setHospitalDa(hospitalId)
+        setShouldOpenConfirmationDialog(true)
+    }
+
+    const handleConfirmationResponse = () => {
+        //   deleteUser(user).then(() => {
+        //       handleDialogClose()
+        //   })
+        dispatch(deleteHospital(hospitalDa)).then(() => {
+            handleDialogClose()
+        })
+        dispatch(getHospitalsData())
+    }
+
     // const updatePageData = () => {
     //     hospitalsData().then(({ data }) => {
     //         setUserList(data)
@@ -124,12 +142,15 @@ const CustomerList = () => {
 
                         <StyledButton
                             sx={{ color: bgError }}
-                            onClick={() => {
-                                alert('Are you sure you want to delete?')
-                                dispatch(
-                                    deleteHospital(hospitalsData[dataIndex]._id)
-                                )
-                            }}
+                            onClick={() =>
+                                handleDeleteUser(hospitalsData[dataIndex]._id)
+                            }
+                            // onClick={() => {
+                            //     alert('Are you sure you want to delete?')
+                            //     dispatch(
+                            //         deleteHospital(hospitalsData[dataIndex]._id)
+                            //     )
+                            // }}
                         >
                             <Icon>delete</Icon>
                         </StyledButton>
@@ -267,6 +288,14 @@ const CustomerList = () => {
                             handleClose={handleDialogClose}
                             open={shouldOpenEditorDialog}
                             uid={uid}
+                        />
+                    )}
+                    {shouldOpenConfirmationDialog && (
+                        <ConfirmationDialog
+                            open={shouldOpenConfirmationDialog}
+                            onConfirmDialogClose={handleDialogClose}
+                            onYesClick={handleConfirmationResponse}
+                            text="Are you sure to delete?"
                         />
                     )}
                 </Box>
