@@ -66,6 +66,18 @@ const AllStockOutTrueStatus = () => {
         setSearchText(value)
     }
 
+    // for date search
+    const [searchDate, setSearchDate] = React.useState({
+        startDate: '',
+        endDate: '',
+    })
+
+    const handleChangeDate = (startDate, endDate) => {
+        setSearchDate({ startDate, endDate })
+    }
+
+    console.log('for startDate', searchDate.startDate)
+    console.log('for EndDate', searchDate.endDate)
     // for pagination purposes
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
@@ -91,7 +103,7 @@ const AllStockOutTrueStatus = () => {
 
     useEffect(() => {
         dispatch(getAllDataStatusTrue(searchText))
-    }, [dispatch, searchText])
+    }, [dispatch, searchText, searchDate])
 
     // for date chooser
 
@@ -103,14 +115,16 @@ const AllStockOutTrueStatus = () => {
     //     setValue(filteredData)
     // }
 
-    const [state, setState] = useState([
+    const [stateDate, setStateDate] = useState([
         {
             startDate: new Date(),
             endDate: addDays(new Date(), 7),
             key: 'selection',
         },
     ])
-
+    // const receivedDate = (startDate, endDate) => {
+    //     console.log('start', startDate, 'enddate', endDate)
+    // }
     // console.log('set value', value2)
 
     // stockOutDataTrue = value2 || stockOutDataTrue
@@ -124,18 +138,21 @@ const AllStockOutTrueStatus = () => {
                     ]}
                 />
                 {/* date chooser from--------FROM---------- */}
-                <SearchBox onSearch={handleChangeSearch} />
-                <DateChoose />
+                <SearchBox
+                    onSearch={handleChangeSearch}
+                    onSearchValueChange={searchText}
+                />
+                <DateChoose dateProjection={handleChangeDate} />
                 {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
-                {/* <DateContainer2>
-                    <DateRangePicker
-                        onChange={(item) => setState([item.selection])}
-                        showSelectionPreview={true}
-                        moveRangeOnFirstSelection={false}
-                        months={2}
-                        ranges={state}
-                        direction="horizontal"
-                    /> */}
+                {/* <DateContainer2> */}
+                {/* <DateRangePicker
+                    onChange={(item) => setState([item.selection])}
+                    showSelectionPreview={true}
+                    moveRangeOnFirstSelection={false}
+                    months={2}
+                    ranges={state}
+                    direction="horizontal"
+                /> */}
                 {/* <DatePicker
                             label="From"
                             value={value2}
@@ -146,25 +163,8 @@ const AllStockOutTrueStatus = () => {
                             renderInput={(params) => <TextField {...params} />}
                         /> */}
                 {/* </DateContainer2> */}
-                {/* <SearchIcon>
-                   
-                    <SearchContainer>
-                        <SearchInput
-                            type="text"
-                            placeholder="Search here..."
-                            value={searchText}
-                            autoFocus
-                            onChange={(e) => handleChangeSearch(e.target.value)}
-                        />
-                    </SearchContainer>
-                </SearchIcon> */}
             </div>
-            {/* <ReactSearchBox
-                placeholder="Placeholder"
-                value="Doe"
-                data={stockOutDataTrue.invoiceNum}
-                callback={(record) => console.log(record)}
-            /> */}
+
             <SimpleCard title="Stock out data">
                 <Box width="100%">
                     <AccordionSummary

@@ -1,5 +1,5 @@
 import { Box, styled, useTheme } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { H4 } from '../../Typography'
 import {
     Dialog,
@@ -9,31 +9,22 @@ import {
     Grid,
     TextField,
 } from '@mui/material'
+import 'react-date-range/dist/styles.css' // main css file
+import 'react-date-range/dist/theme/default.css'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DateTimePicker2 from '@mui/lab/DateTimePicker'
 import { topBarHeight } from 'app/utils/constant'
+import { addDays } from 'date-fns'
+import { DateRangePicker } from 'react-date-range'
+
+const DateContainer2 = styled('div')(({ theme }) => ({}))
 
 const DateContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
-    left: 1170,
-    zIndex: 9,
-    paddingRight: '20px',
-    // alignItems: 'center',
-}))
-const DateContainer2 = styled('div')(({ theme }) => ({
-    position: 'absolute',
-    left: 500,
-    zIndex: 9,
-    paddingRight: '90px',
-    // alignItems: 'center',
-}))
-
-const SearchContainer = styled('div')(({ theme }) => ({
-    position: 'absolute',
     top: 25,
-    left: 700,
+    left: 400,
     zIndex: 9,
     // width: '20%',
     // display: 'flex',
@@ -61,7 +52,7 @@ const SearchInput = styled('input')(({ theme }) => ({
     // },
 }))
 
-const DateChoose = () => {
+const DateChoose = ({ dateProjection }) => {
     const [open, setOpen] = useState(false)
     const toggle = () => {
         setOpen(!open)
@@ -70,22 +61,45 @@ const DateChoose = () => {
     const textColor = palette.text.primary
     const iconStyle = { color: textColor }
 
+    const oneYearAgo = new Date()
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 10)
+
+    const [state, setState] = useState([
+        {
+            startDate: oneYearAgo,
+            endDate: new Date(),
+            key: 'selection',
+        },
+    ])
+    useEffect(() => {
+        dateProjection(state[0].startDate, state[0].endDate)
+        // console.log('start date', state[0].startDate)
+        // console.log('End date', state[0].endDate)
+    }, [state])
     return (
         <React.Fragment>
             {!open && (
-                <SearchContainer>
+                <DateContainer>
                     <IconButton onClick={toggle}>
                         <Icon sx={iconStyle}>timer</Icon>
                     </IconButton>
-                </SearchContainer>
+                </DateContainer>
             )}
 
             {open && (
-                <SearchContainer>
-                    <SearchInput
+                <DateContainer>
+                    {/* <SearchInput
                         type="text"
                         placeholder="Search here..."
                         autoFocus
+                    /> */}
+                    <DateRangePicker
+                        onChange={(item) => setState([item.selection])}
+                        showSelectionPreview={true}
+                        moveRangeOnFirstSelection={false}
+                        months={2}
+                        ranges={state}
+                        direction="horizontal"
                     />
                     <IconButton
                         onClick={toggle}
@@ -93,7 +107,7 @@ const DateChoose = () => {
                     >
                         <Icon sx={{ color: textColor }}>close</Icon>
                     </IconButton>
-                </SearchContainer>
+                </DateContainer>
             )}
         </React.Fragment>
 
