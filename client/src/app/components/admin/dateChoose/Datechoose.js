@@ -73,8 +73,6 @@ const DateChoose = ({ dateProjection }) => {
     ])
     useEffect(() => {
         dateProjection(state[0].startDate, state[0].endDate)
-        // console.log('start date', state[0].startDate)
-        // console.log('End date', state[0].endDate)
     }, [state])
     return (
         <React.Fragment>

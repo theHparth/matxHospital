@@ -86,7 +86,7 @@ const edit = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const allStockOutDatas = (searchText) => async (dispatch) => {
+const allStockOutDatas = (searchDate, searchText) => async (dispatch) => {
     let url = '/'
     if (searchText) {
         url = url + `?searchText=${searchText}`
@@ -105,13 +105,17 @@ const allStockOutDatas = (searchText) => async (dispatch) => {
     }
 }
 
-const getAllDataStatusTrue = (searchText) => async (dispatch) => {
+const getAllDataStatusTrue = (state) => async (dispatch) => {
     let url = '/trueAdmin'
+
+    var { searchDate, searchText } = state
     // if (id) {
     //     url = url + `?hospitalId=${id}`
     // }
+    console.log('date', searchDate, 'text', searchText)
+    url = url + `?searchDate=${searchDate}`
     if (searchText) {
-        url = url + `?searchText=${searchText}`
+        url = url + `&searchText=${searchText}`
     }
     console.log(url)
     try {

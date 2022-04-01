@@ -1,14 +1,9 @@
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, styled } from '@mui/system'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import DatePicker from '@mui/lab/DatePicker'
+import { Box } from '@mui/system'
 import { addDays } from 'date-fns'
-import { DateRangePicker } from 'react-date-range'
 import 'react-date-range/dist/styles.css' // main css file
 import 'react-date-range/dist/theme/default.css' // theme css file
 // import MultipleDatesPicker from '@randex/material-ui-multiple-dates-picker'
@@ -21,11 +16,6 @@ import {
     Heading,
     SecondaryHeading,
     ThirdHeading,
-    SearchIcon,
-    SearchInput,
-    SearchContainer,
-    DateContainer,
-    DateContainer2,
     DateChoose,
 } from 'app/components'
 import {
@@ -33,51 +23,32 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Icon,
     TablePagination,
-    Button,
-    TextField,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import * as dayjs from 'dayjs'
 
-// import * as isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-// import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
-// const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
-// const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
-// import SearchBar from "material-ui-search-bar";
-// import
-import {
-    getAllDataStatusTrue,
-    deleteData,
-} from 'app/redux/actions/admin/StockOutAction'
-// import ReactSearchBox from 'react-search-box'
-import { topBarHeight } from 'app/utils/constant'
-
-// dayjs.extend(isSameOrBefore)
-// dayjs.extend(isSameOrAfter)
+import { getAllDataStatusTrue } from 'app/redux/actions/admin/StockOutAction'
 
 const AllStockOutTrueStatus = () => {
     // search for all
-    const [searchText, setSearchText] = React.useState('')
+    let [searchText, setSearchText] = React.useState('')
 
     const handleChangeSearch = (value) => {
         setSearchText(value)
     }
 
     // for date search
-    const [searchDate, setSearchDate] = React.useState({
+    let [searchDate, setSearchDate] = React.useState({
         startDate: '',
         endDate: '',
     })
 
     const handleChangeDate = (startDate, endDate) => {
-        setSearchDate({ startDate, endDate })
+        // setSearchDate({ startDate, endDate })
     }
 
-    console.log('for startDate', searchDate.startDate)
-    console.log('for EndDate', searchDate.endDate)
     // for pagination purposes
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
@@ -102,8 +73,11 @@ const AllStockOutTrueStatus = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllDataStatusTrue(searchText))
-    }, [dispatch, searchText, searchDate])
+        // searchText = 1
+        // searchDate = 2
+        var filterArr = { searchText, searchDate }
+        dispatch(getAllDataStatusTrue(filterArr))
+    }, [dispatch, searchText])
 
     // for date chooser
 
