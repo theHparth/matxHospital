@@ -6,7 +6,11 @@ import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { edit, add, clearValue } from 'app/redux/actions/admin/StockActions'
+import {
+    edit,
+    add,
+    clearValueStock,
+} from 'app/redux/actions/admin/StockActions'
 
 const TextField = styled(TextValidator)(() => ({
     width: '100%',
@@ -19,8 +23,9 @@ const FormHandlerBox = styled('div')(() => ({
     justifyContent: 'space-between',
 }))
 
-const MemberEditorDialog = ({ uid, open, handleClose }) => {
+const StockEditDialog = ({ uid, open, handleClose }) => {
     const {
+        alertType,
         showAlert,
         clearValues,
         isLoading,
@@ -31,44 +36,60 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         stock_name,
         alertText,
     } = useSelector((x) => x.stockList)
-    const [state, setState] = useState({
+
+    const [newStock, setNewStock] = useState({
         id: _id,
         description: description,
         minimumLimit: minimumLimit,
         stock_name: stock_name,
     })
 
-    const clear = () => {
-        setState({
-            id: '',
-            description: '',
-            minimumLimit: '',
-            stock_name: '',
-        })
-    }
+    // const clear = () => {
+    //     setState({
+    //         id: '',
+    //         description: '',
+    //         minimumLimit: '',
+    //         stock_name: '',
+    //     })
+    // }
     const dispatch = useDispatch()
 
     const cancleWithClean = () => {
-        dispatch(clearValue())
-        clear()
+        dispatch(clearValueStock())
+        // clear()
         handleClose()
     }
+    console.log(alertType, 'outside alertType')
 
+    useEffect(() => {
+        if (clearValues == true) {
+            dispatch(clearValueStock())
+            cancleWithClean()
+        }
+    }, [clearValues])
+
+    // console.log(isEditing, 'editing')
+
+    // useEffect(() => {
+    //     dispatch(add(newStock))
+    // }, [isEditing])
+
+    // if (clearValues) {
+    //     dispatch(clearValueStock())
+    //     cancleWithClean()
+    // }
     const handleSubmit = (e) => {
         e.preventDefault()
         if (isEditing) {
-            dispatch(edit(state))
-            if (!clearValues) {
-                dispatch(clearValue())
-                clear()
-                handleClose()
-            }
+            dispatch(edit(newStock))
         } else {
-            dispatch(add(state))
-            if (!clearValues) {
-                clear()
-                handleClose()
-            }
+            dispatch(add(newStock))
+            console.log(alertType, 'inside alertType')
+
+            // cancleWithClean()
+            // if (alertType == 'success') {
+            //     handleClose()
+            // }
         }
     }
 
@@ -76,8 +97,8 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         const name = e.target.name
         const value = e.target.value
 
-        setState({
-            ...state,
+        setNewStock({
+            ...newStock,
             [name]: value,
         })
     }
@@ -97,7 +118,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                                 name="stock_name"
                                 id="standard-basic"
                                 onChange={handleInput}
-                                value={state.stock_name}
+                                value={newStock.stock_name}
                                 validators={['required']}
                                 label="Stock Name"
                                 errorMessages={['this field is required']}
@@ -107,7 +128,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                                 name="description"
                                 id="standard-basic"
                                 onChange={handleInput}
-                                value={state.description}
+                                value={newStock.description}
                                 validators={['required']}
                                 label="Description"
                                 errorMessages={['this field is required']}
@@ -120,7 +141,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                                 name="minimumLimit"
                                 id="standard-basic"
                                 onChange={handleInput}
-                                value={state.minimumLimit}
+                                value={newStock.minimumLimit}
                                 validators={['required']}
                                 label="Minimum limit to show warning"
                                 errorMessages={['this field is required']}
@@ -148,15 +169,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
             </Box>
             {showAlert ? (
                 <Snackbar open={showAlert} autoHideDuration={3000}>
-                    <Alert
-                        severity={
-                            alertText === 'New stock data added!' ||
-                            alertText === 'Stock data updated successfully'
-                                ? 'success'
-                                : 'error'
-                        }
-                        sx={{ width: '100%' }}
-                    >
+                    <Alert severity={alertType} sx={{ width: '100%' }}>
                         {alertText}
                     </Alert>
                 </Snackbar>
@@ -165,4 +178,4 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
     )
 }
 
-export default MemberEditorDialog
+export default StockEditDialog

@@ -1,6 +1,6 @@
 import {
     CREATE_BEGIN,
-    CREATE_SUCCESS,
+    CREATE_SUCCESS_STOCK,
     CREATE_ERROR,
     GET_BEGIN,
     GET_SUCCESS_STOCK,
@@ -19,7 +19,7 @@ const initialState = {
     stockData: [],
     isLoading: false,
     showAlert: false,
-    clearValues: false,
+    clearValues: '',
     alertType: '',
     alertText: '',
     isEditing: false,
@@ -48,7 +48,7 @@ const StockReducer = function (state = initialState, action) {
             return { ...state, isLoading: true }
         }
 
-        case CREATE_SUCCESS: {
+        case CREATE_SUCCESS_STOCK: {
             return {
                 ...state,
                 isLoading: false,
@@ -100,7 +100,7 @@ const StockReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: action.payload.msg,
-                alertType: 'danger',
+                alertType: 'error',
             }
         }
         //delete state
@@ -133,8 +133,9 @@ const StockReducer = function (state = initialState, action) {
         }
         case CLEAR_VALUES_STOCK: {
             const initialState = {
+                // alertType: '',
                 isEditing: false,
-                clearValues: false,
+                clearValues: '',
                 _id: '',
                 description: '',
                 minimumLimit: '',

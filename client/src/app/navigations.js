@@ -21,6 +21,11 @@ export const navigations = [
         path: '/allVendor',
         icon: 'person_add',
     },
+    {
+        name: 'Stock Manage',
+        path: '/allStock',
+        icon: 'history',
+    },
     // {
     //     name: 'Hospitals',
     //     icon: 'library_add',
@@ -58,22 +63,22 @@ export const navigations = [
     //         },
     //     ],
     // },
-    {
-        name: 'Stocks',
-        icon: 'business',
-        children: [
-            {
-                name: 'Add Stock',
-                iconText: 'SI',
-                path: '/addStock',
-            },
-            {
-                name: 'Stock List',
-                iconText: 'SI',
-                path: '/allStock',
-            },
-        ],
-    },
+    // {
+    //     name: 'Stocks',
+    //     icon: 'business',
+    //     children: [
+    //         {
+    //             name: 'Add Stock',
+    //             iconText: 'SI',
+    //             path: '/addStock',
+    //         },
+    //         {
+    //             name: 'Stock List',
+    //             iconText: 'SI',
+    //             path: '/allStock',
+    //         },
+    //     ],
+    // },
     {
         name: 'Werehouse',
         icon: 'business',

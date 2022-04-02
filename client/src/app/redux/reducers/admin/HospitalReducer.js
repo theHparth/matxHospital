@@ -158,7 +158,7 @@ const HospitalReducer = function (state = initialState, action) {
         case CLEAR_VALUES_HOSPITAL: {
             const initialState = {
                 isEditing: false,
-                clearValues: false,
+                clearValues: true,
                 hospitalName: '',
                 address: '',
                 contect: '',

@@ -81,14 +81,14 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         e.preventDefault()
         if (isEditing) {
             dispatch(edit(state))
-            if (!clearValues) {
+            if (clearValues) {
                 dispatch(clearValue())
                 clear()
                 handleClose()
             }
         } else {
             dispatch(add(state))
-            if (!clearValues) {
+            if (clearValues) {
                 clear()
                 handleClose()
             }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const CREATE_BEGIN = 'CREATE_BEGIN'
-export const CREATE_SUCCESS = 'CREATE_SUCCESS'
+export const CREATE_SUCCESS_STOCK = 'CREATE_SUCCESS_STOCK'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
 export const GET_SUCCESS_STOCK = 'GET_SUCCESS_STOCK'
@@ -38,8 +38,8 @@ const add = (state) => async (dispatch) => {
             stock_name,
             minimumLimit,
         })
-        dispatch({ type: CREATE_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_STOCK })
+        dispatch({ type: CREATE_SUCCESS_STOCK })
+        // dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -78,7 +78,7 @@ const edit = (state) => async (dispatch) => {
             stock_name,
         })
         dispatch({ type: EDIT_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_STOCK })
+        // dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -103,7 +103,7 @@ const deleteData = (Id) => async (dispatch) => {
 }
 
 ///////////////////////////////////////////////////////////////
-const clearValue = () => (dispatch) => {
+const clearValueStock = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES_STOCK })
 }
 const clearAlert = () => (dispatch) => {
@@ -118,7 +118,7 @@ const displayAlert = () => (dispatch) => {
 ////////////////////////////////////////////////////////////////////////
 
 export {
-    clearValue,
+    clearValueStock,
     clearAlert,
     displayAlert,
     getAllData,
