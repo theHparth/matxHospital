@@ -67,8 +67,8 @@ const getHospitalsData = (hospitalId) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
+        removeUserFromLocalStorage()
     }
-    // dispatch(clearAlert())
 }
 const hospitalStockInformation = (id) => async (dispatch) => {
     let url = `/hospitalDataAdmin?id=${id}`
@@ -155,7 +155,7 @@ const editHospital = (state) => async (dispatch) => {
 // delete the
 const deleteHospital = (hospitalId) => async (dispatch) => {
     dispatch({ type: DELETE_HOSPITAL_BEGIN })
-    console.log('deleted')
+
     try {
         await authFetch.delete(`/hospitals/${hospitalId}`)
         dispatch(getHospitalsData())

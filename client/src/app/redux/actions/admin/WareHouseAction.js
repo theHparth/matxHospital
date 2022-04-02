@@ -10,6 +10,7 @@ export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
+export const GET_SET_VENDORNAME = 'GET_SET_VENDORNAME'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
@@ -57,6 +58,11 @@ const add = (state) => async (dispatch) => {
 
 const getAllData = (state) => async (dispatch) => {
     try {
+        // if (state) {
+        //     var { vendorInfo } = state
+        //     dispatch({ type: GET_SET_VENDORNAME, payload: { vendorInfo } })
+        // }
+
         const { data } = await authFetch.get('/wereHouse')
         const { stockList } = data
         console.log(stockList)

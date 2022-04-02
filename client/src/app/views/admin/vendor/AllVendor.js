@@ -1,20 +1,59 @@
 import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
-import { Breadcrumb, FlexBox, Container } from 'app/components'
+import { Breadcrumb, FlexBox, Container, StyledButton } from 'app/components'
 import React, { useState, useEffect } from 'react'
-import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
+import {
+    Avatar,
+    Grow,
+    Icon,
+    IconButton,
+    TextField,
+    Button,
+} from '@mui/material'
 import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { H5, Small } from 'app/components/Typography'
+import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 // my import
+import HandleVendor from './HandleVendor'
 import {
     getAllVendor,
     setEditData,
     deleteData,
 } from 'app/redux/actions/admin/VendorActions'
+import { getAllData } from 'app/redux/actions/admin/WareHouseAction'
 
 const CustomerList = () => {
+    // for add and edit diology actions
+    const [uid, setUid] = useState(null)
+    const [hospitalDa, setHospitalDa] = useState(null)
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        // updatePageData()
+        dispatch(getAllVendor())
+    }
+    const handleDeleteUser = (hospitalId) => {
+        // dispatch(getHospitalsData())
+        setHospitalDa(hospitalId)
+        setShouldOpenConfirmationDialog(true)
+    }
+
+    const handleConfirmationResponse = () => {
+        //   deleteUser(user).then(() => {
+        //       handleDialogClose()
+        //   })
+        dispatch(deleteData(hospitalDa)).then(() => {
+            handleDialogClose()
+        })
+        dispatch(getAllVendor())
+    }
+    // complete
     const { vendorData = [] } = useSelector((state) => state.vendorList)
 
     const dispatch = useDispatch()
@@ -26,6 +65,8 @@ const CustomerList = () => {
 
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
+    const bgError = palette.error.main
+    const bgSuccess = palette.success.main
 
     const columns = [
         {
@@ -90,40 +131,57 @@ const CustomerList = () => {
                 customBodyRenderLite: (dataIndex) => (
                     <FlexBox>
                         <Box flexGrow={1}></Box>
+                        <StyledButton
+                            sx={{ color: bgError }}
+                            onClick={() =>
+                                handleDeleteUser(vendorData[dataIndex]._id)
+                            }
+                        >
+                            <Icon>delete</Icon>
+                        </StyledButton>
+                        <Box flexGrow={1}></Box>
 
-                        <IconButton
+                        <StyledButton
+                            // variant="contained"
+                            sx={{ color: bgSuccess }}
                             onClick={() => {
-                                alert('Are you sure you want to delete?')
-                                dispatch(deleteData(vendorData[dataIndex]._id))
+                                dispatch(setEditData(vendorData[dataIndex]))
+                                setShouldOpenEditorDialog(true)
                             }}
                         >
-                            <Icon>
-                                <Icon color="error">close</Icon>
-                            </Icon>
-                        </IconButton>
+                            <Icon color="primary">edit</Icon>
+                        </StyledButton>
+                    </FlexBox>
+                ),
+            },
+        },
+        {
+            name: '',
+            label: '',
+            options: {
+                filter: false,
+                customBodyRenderLite: (dataIndex) => (
+                    <FlexBox>
+                        <Box flexGrow={1}></Box>
 
                         <Link
-                            to={`/addHospital`}
-                            onClick={() =>
-                                dispatch(setEditData(vendorData[dataIndex]))
-                            }
-                        >
-                            <Icon color="error">edit</Icon>
-                        </Link>
-                        {/* <Link
-                            to={`/hospitalData/${hospitalsData[dataIndex]._id}`}
-                            onClick={() =>
-                                dispatch(
-                                    hospitalStockInformation(
-                                        vendorData[dataIndex]._id
-                                    )
-                                )
-                            }
+                            to={`/wereHouseStock/${vendorData[dataIndex].vendor_name}`}
+                            // onClick={() =>
+                            //     dispatch(
+                            //         // getAllData({
+                            //         //     vaendordataIndivisual:
+                            //         //         vendorData[dataIndex],
+                            //         // })
+                            //         getAllData({
+                            //             vendorInfo: vendorData[dataIndex],
+                            //         })
+                            //     )
+                            // }
                         >
                             <IconButton>
                                 <Icon>arrow_right_alt</Icon>
                             </IconButton>
-                        </Link> */}
+                        </Link>
                     </FlexBox>
                 ),
             },
@@ -132,14 +190,22 @@ const CustomerList = () => {
 
     return (
         <Container>
-            <div className="breadcrumb">
+            <Button
+                sx={{ mb: 2 }}
+                variant="contained"
+                color="primary"
+                onClick={() => setShouldOpenEditorDialog(true)}
+            >
+                Add New Vendor
+            </Button>
+            {/* <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
                         { name: 'Add Vendor', path: '/addVendor' },
                         { name: 'Form' },
                     ]}
                 />
-            </div>
+            </div> */}
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
@@ -203,6 +269,21 @@ const CustomerList = () => {
                             },
                         }}
                     />
+                    {shouldOpenEditorDialog && (
+                        <HandleVendor
+                            handleClose={handleDialogClose}
+                            open={shouldOpenEditorDialog}
+                            uid={uid}
+                        />
+                    )}
+                    {shouldOpenConfirmationDialog && (
+                        <ConfirmationDialog
+                            open={shouldOpenConfirmationDialog}
+                            onConfirmDialogClose={handleDialogClose}
+                            onYesClick={handleConfirmationResponse}
+                            text="Are you sure to delete?"
+                        />
+                    )}
                 </Box>
             </Box>
         </Container>

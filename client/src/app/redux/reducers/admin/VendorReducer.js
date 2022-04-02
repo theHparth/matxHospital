@@ -9,7 +9,7 @@ import {
     EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
-    CLEAR_VALUES,
+    CLEAR_VALUES_VENDOR,
     HANDLE_CHANGE,
     CLEAR_VENDOR_ALERT,
     DISPLAY_VENDOR_ALERT,
@@ -27,6 +27,7 @@ const initialState = {
     contect: '',
     email: '',
     pincode: '',
+    clearValues: false,
 }
 
 const VendorReducer = function (state = initialState, action) {
@@ -47,6 +48,7 @@ const VendorReducer = function (state = initialState, action) {
         case CREATE_SUCCESS: {
             return {
                 ...state,
+                clearValues: true,
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
@@ -79,6 +81,7 @@ const VendorReducer = function (state = initialState, action) {
         case EDIT_SUCCESS: {
             return {
                 ...state,
+                clearValues: true,
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
@@ -132,8 +135,10 @@ const VendorReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        case CLEAR_VALUES: {
+        case CLEAR_VALUES_VENDOR: {
             const initialState = {
+                isEditing: false,
+                clearValues: false,
                 vendor_name: '',
                 address: '',
                 contect: '',

@@ -14,10 +14,10 @@ const HospitalView = Loadable(
 // )
 
 const hospitalRoutes = [
-    {
-        path: '/addHospital',
-        element: <AddHospital />,
-    },
+    // {
+    //     path: '/addHospital',
+    //     element: <AddHospital />,
+    // },
     {
         path: '/allHospitals',
         element: <AllHospital />,

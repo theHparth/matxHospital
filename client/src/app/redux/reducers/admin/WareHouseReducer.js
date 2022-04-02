@@ -13,6 +13,7 @@ import {
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
+    GET_SET_VENDORNAME,
 } from '../../actions/admin/WareHouseAction'
 
 const initialState = {
@@ -41,6 +42,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 wereHouseStockData: action.payload.stockList,
             }
         }
+
         case CREATE_BEGIN: {
             return { ...state, isLoading: true }
         }

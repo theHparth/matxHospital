@@ -12,7 +12,7 @@ export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
-export const CLEAR_VALUES = 'CLEAR_VALUES'
+export const CLEAR_VALUES_VENDOR = 'CLEAR_VALUES_VENDOR'
 export const CLEAR_VENDOR_ALERT = 'CLEAR_ALERT'
 export const DISPLAY_VENDOR_ALERT = ' DISPLAY_ALERT'
 
@@ -25,8 +25,8 @@ const authFetch = axios.create({
 })
 
 ///////////////////////////////////////////////////////////////
-const clearValues = () => (dispatch) => {
-    dispatch({ type: CLEAR_VALUES })
+const clearValue = () => (dispatch) => {
+    dispatch({ type: CLEAR_VALUES_VENDOR })
 }
 const clearAlert = () => (dispatch) => {
     setTimeout(() => {
@@ -37,19 +37,15 @@ const displayAlert = () => (dispatch) => {
     dispatch({ type: DISPLAY_VENDOR_ALERT })
     dispatch(clearAlert())
 }
+
+const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+}
 ////////////////////////////////////////////////////////////////////////
 
 const getAllVendor = (state) => async (dispatch) => {
-    // const { search } = state
-
-    // let url = `/vendors?`
-    // if (search) {
-    //     url = url + `&search=${search}`
-    // }
-    // dispatch({ type: GET_BEGIN })
-    // const { logout } = useAuth()
     try {
-        // console.log("state", state);
         const { data } = await authFetch.get('/vendors')
         const { vendorList } = data
         console.log('vendor list', vendorList)
@@ -60,21 +56,14 @@ const getAllVendor = (state) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        // logout()
+        removeUserFromLocalStorage()
     }
-    dispatch(clearAlert())
 }
 
 const add = (state) => async (dispatch) => {
     try {
         const { address, pincode, contect, email, vendor_name } = state
 
-        // vendor_name = (vendor_name) =>
-        //     (vendor_name &&
-        //         vendor_name[0].toUpperCase() + vendor_name.slice(1)) ||
-        //     ''
-
-        // console.log(vendor_name)
         await authFetch.post('/vendors', {
             address,
             pincode,
@@ -83,7 +72,7 @@ const add = (state) => async (dispatch) => {
             vendor_name,
         })
         dispatch({ type: CREATE_SUCCESS })
-        dispatch(clearValues())
+        dispatch({ type: CLEAR_VALUES_VENDOR })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -115,7 +104,7 @@ const edit = (state) => async (dispatch) => {
             vendor_name,
         })
         dispatch({ type: EDIT_SUCCESS })
-        dispatch(clearValues())
+        dispatch({ type: CLEAR_VALUES_VENDOR })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -129,18 +118,17 @@ const edit = (state) => async (dispatch) => {
 // delete the
 const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
-    // const { logout } = useAuth()
     try {
         await authFetch.delete(`/vendors/${Id}`)
         dispatch(getAllVendor())
     } catch (error) {
-        // logout()
         console.log(error)
+        removeUserFromLocalStorage()
     }
 }
 
 export {
-    clearValues,
+    clearValue,
     clearAlert,
     displayAlert,
     getAllVendor,

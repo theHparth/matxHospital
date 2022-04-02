@@ -16,7 +16,7 @@ import { H5, Small } from 'app/components/Typography'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 // my import
-import MemberEditorDialog from './MemberEditorDialog'
+import HandleHospital from './HandleHospital'
 import {
     getHospitalsData,
     setEditHospital,
@@ -52,16 +52,6 @@ const CustomerList = () => {
         })
         dispatch(getHospitalsData())
     }
-
-    // const updatePageData = () => {
-    //     hospitalsData().then(({ data }) => {
-    //         setUserList(data)
-    //     })
-    // }
-
-    // useEffect(() => {
-    //     updatePageData()
-    // }, [])
 
     const { hospitalsData = [] } = useSelector((state) => state.hospitalList)
 
@@ -146,12 +136,6 @@ const CustomerList = () => {
                             onClick={() =>
                                 handleDeleteUser(hospitalsData[dataIndex]._id)
                             }
-                            // onClick={() => {
-                            //     alert('Are you sure you want to delete?')
-                            //     dispatch(
-                            //         deleteHospital(hospitalsData[dataIndex]._id)
-                            //     )
-                            // }}
                         >
                             <Icon>delete</Icon>
                         </StyledButton>
@@ -277,7 +261,7 @@ const CustomerList = () => {
                         }}
                     />
                     {shouldOpenEditorDialog && (
-                        <MemberEditorDialog
+                        <HandleHospital
                             handleClose={handleDialogClose}
                             open={shouldOpenEditorDialog}
                             uid={uid}

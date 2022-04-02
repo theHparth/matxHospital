@@ -15,6 +15,10 @@ const wereHouseRoutes = [
         path: '/wereHouseStock',
         element: <WereHouseStock />,
     },
+    {
+        path: '/wereHouseStock/:vendorname',
+        element: <WereHouseStock />,
+    },
 ]
 
 export default wereHouseRoutes

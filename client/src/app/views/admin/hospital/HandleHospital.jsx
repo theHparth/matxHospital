@@ -92,27 +92,17 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         e.preventDefault()
         if (isEditing) {
             dispatch(editHospital(state))
-            console.log(clearValues)
             if (!clearValues) {
                 dispatch(clearValue())
                 clear()
                 handleClose()
             }
-            // dispatch(getHospitalsData())
         } else {
             dispatch(addHospital(state))
-            // dispatch(getHospitalsData())
             if (!clearValues) {
                 clear()
                 handleClose()
             }
-            // dispatch(getHospitalsData())
-
-            // if (!clearValues) {
-            //     clear().then(() => {
-            //         handleClose()
-            //     })
-            // }
         }
     }
 
@@ -173,7 +163,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                 {isEditing ? (
                     <H4 sx={{ mb: '20px' }}>Update Hospital</H4>
                 ) : (
-                    'Add Hospital'
+                    <H4 sx={{ mb: '20px' }}>Add Hospital</H4>
                 )}
                 <ValidatorForm onSubmit={handleSubmit}>
                     <Grid sx={{ mb: '16px' }} container spacing={4}>
