@@ -16,6 +16,11 @@ export const navigations = [
         path: '/allHospitals',
         icon: 'library_add',
     },
+    {
+        name: 'Vendor Manage',
+        path: '/allVendor',
+        icon: 'person_add',
+    },
     // {
     //     name: 'Hospitals',
     //     icon: 'library_add',
@@ -37,22 +42,22 @@ export const navigations = [
     //         // },
     //     ],
     // },
-    {
-        name: 'Vendor',
-        icon: 'person_add',
-        children: [
-            {
-                name: 'Add Vendor',
-                iconText: 'SI',
-                path: '/addVendor',
-            },
-            {
-                name: 'Vendor List',
-                iconText: 'SI',
-                path: '/allVendor',
-            },
-        ],
-    },
+    // {
+    //     name: 'Vendor',
+    //     icon: 'person_add',
+    //     children: [
+    //         {
+    //             name: 'Add Vendor',
+    //             iconText: 'SI',
+    //             path: '/addVendor',
+    //         },
+    //         {
+    //             name: 'Vendor List',
+    //             iconText: 'SI',
+    //             path: '/allVendor',
+    //         },
+    //     ],
+    // },
     {
         name: 'Stocks',
         icon: 'business',

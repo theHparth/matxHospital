@@ -5,16 +5,18 @@ import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { edit, add } from 'app/redux/actions/admin/VendorActions'
+import { edit, add, clearValue } from 'app/redux/actions/admin/VendorActions'
 
 import { ContainerForm, TextField } from 'app/components'
 
 const AddVendor = () => {
     const {
+        clearValues,
+        isLoading,
+        isEditing,
         showAlert,
         alertType,
         alertText,
-        isLoading,
         address,
         contect,
         email,
@@ -47,15 +49,23 @@ const AddVendor = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (_id) {
+        if (isEditing) {
             dispatch(edit(state))
-            if (alertText == 'Vendor data Updated!') {
+            if (!clearValues) {
+                dispatch(clearValue())
                 clear()
+                // handleClose()
             }
+
+            // if (alertText == 'Vendor data Updated!') {
+            //     clear()
+            // }
         } else {
             dispatch(add(state))
-            if (alertText == 'New Vendor data Added!') {
+            if (!clearValues) {
+                dispatch(clearValue())
                 clear()
+                // handleClose()
             }
         }
     }

@@ -9,7 +9,7 @@ import {
     EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
-    CLEAR_VALUES,
+    CLEAR_VALUES_STOCK,
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
@@ -19,12 +19,11 @@ const initialState = {
     stockData: [],
     isLoading: false,
     showAlert: false,
+    clearValues: false,
     alertType: '',
     alertText: '',
     isEditing: false,
     description: '',
-    // vendor_name: '',
-    // vendor_id: '',
     price: 0,
     qty: 0,
     totalQtyInOneBox: 0,
@@ -56,6 +55,7 @@ const StockReducer = function (state = initialState, action) {
                 showAlert: true,
                 alertType: 'success',
                 alertText: 'New stock data added!',
+                clearValues: true,
             }
         }
         case CREATE_ERROR: {
@@ -78,6 +78,7 @@ const StockReducer = function (state = initialState, action) {
             return {
                 ...state,
                 isLoading: true,
+                isEditing: true,
             }
         }
         // edit VENDOR
@@ -86,7 +87,10 @@ const StockReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
+                isEditing: false,
                 alertType: 'success',
+                clearValues: true,
+                _id: '',
                 alertText: 'Stock data updated successfully',
             }
         }
@@ -127,20 +131,20 @@ const StockReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        // case CLEAR_VALUES: {
-        //     const initialState = {
-        //         vendor_name: '',
-        //         address: '',
-        //         contect: '',
-        //         password: '',
-        //         email: '',
-        //         pincode: '',
-        //     }
-        //     return {
-        //         ...state,
-        //         ...initialState,
-        //     }
-        // }
+        case CLEAR_VALUES_STOCK: {
+            const initialState = {
+                isEditing: false,
+                clearValues: false,
+                _id: '',
+                description: '',
+                minimumLimit: '',
+                stock_name: '',
+            }
+            return {
+                ...state,
+                ...initialState,
+            }
+        }
         case DISPLAY_STOCK_ALERT: {
             return {
                 ...state,

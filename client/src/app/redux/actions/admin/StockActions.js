@@ -12,7 +12,7 @@ export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
-export const CLEAR_VALUES = 'CLEAR_VALUES'
+export const CLEAR_VALUES_STOCK = 'CLEAR_VALUES_STOCK'
 export const CLEAR_STOCK_ALERT = 'CLEAR_STOCK_ALERT'
 export const DISPLAY_STOCK_ALERT = ' DISPLAY_STOCK_ALERT'
 
@@ -24,20 +24,22 @@ const authFetch = axios.create({
     },
 })
 
+const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+}
+
 const add = (state) => async (dispatch) => {
     try {
         var { description, stock_name, minimumLimit } = state
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1)
-        }
-        stock_name = capitalizeFirstLetter(stock_name)
+
         await authFetch.post('/stocks', {
             description,
             stock_name,
             minimumLimit,
         })
         dispatch({ type: CREATE_SUCCESS })
-        dispatch(clearValues())
+        dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -52,14 +54,13 @@ const getAllData = (state) => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/stocks')
         const { stockList } = data
-        // console.log(stockList)
         dispatch({
             type: GET_SUCCESS_STOCK,
             payload: { stockList },
         })
     } catch (error) {
         console.log(error)
-        // logout()
+        removeUserFromLocalStorage()
     }
     dispatch(clearAlert())
 }
@@ -77,7 +78,7 @@ const edit = (state) => async (dispatch) => {
             stock_name,
         })
         dispatch({ type: EDIT_SUCCESS })
-        dispatch(clearValues())
+        dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -91,19 +92,19 @@ const edit = (state) => async (dispatch) => {
 // delete the
 const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
-    // const { logout } = useAuth()
+
     try {
         await authFetch.delete(`/stocks/${Id}`)
         dispatch(getAllData())
     } catch (error) {
-        // logout()
         console.log(error)
+        removeUserFromLocalStorage()
     }
 }
 
 ///////////////////////////////////////////////////////////////
-const clearValues = () => (dispatch) => {
-    dispatch({ type: CLEAR_VALUES })
+const clearValue = () => (dispatch) => {
+    dispatch({ type: CLEAR_VALUES_STOCK })
 }
 const clearAlert = () => (dispatch) => {
     setTimeout(() => {
@@ -117,7 +118,7 @@ const displayAlert = () => (dispatch) => {
 ////////////////////////////////////////////////////////////////////////
 
 export {
-    clearValues,
+    clearValue,
     clearAlert,
     displayAlert,
     getAllData,

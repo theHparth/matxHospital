@@ -34,19 +34,14 @@ const CustomerList = () => {
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
         setShouldOpenConfirmationDialog(false)
-        // updatePageData()
         dispatch(getHospitalsData())
     }
     const handleDeleteUser = (hospitalId) => {
-        // dispatch(getHospitalsData())
         setHospitalDa(hospitalId)
         setShouldOpenConfirmationDialog(true)
     }
 
     const handleConfirmationResponse = () => {
-        //   deleteUser(user).then(() => {
-        //       handleDialogClose()
-        //   })
         dispatch(deleteHospital(hospitalDa)).then(() => {
             handleDialogClose()
         })
@@ -111,16 +106,16 @@ const CustomerList = () => {
         {
             name: 'pincode',
             label: 'Pincode',
-            options: {
-                filter: true,
-            },
+            // options: {
+            //     filter: true,
+            // },
         },
         {
             name: 'contect',
             label: 'Contect',
-            options: {
-                filter: true,
-            },
+            // options: {
+            //     filter: true,
+            // },
         },
         {
             name: '',
@@ -200,11 +195,13 @@ const CustomerList = () => {
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
+                        title={'Hospital list'}
                         data={hospitalsData}
                         columns={columns}
                         options={{
-                            filterType: 'checkbox',
-                            responsive: 'standard',
+                            // filterType: 'checkbox',
+                            // responsive: 'standard',
+
                             // filter: true,
                             // sort: true,
                             // selectableRows: "none", // set checkbox for each row
@@ -215,7 +212,7 @@ const CustomerList = () => {
                             // pagination: true, //set pagination option
                             // viewColumns: false, // set column option
 
-                            elevation: 1,
+                            // elevation: 1,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             customSearchRender: (
                                 searchText,
