@@ -35,28 +35,10 @@ const InventoryDashboard = () => {
     return (
         <Fragment>
             <Grid container spacing={3}>
-                <Grid item sm={8} xs={12}>
-                    <Heading>Sales Activity</Heading>
-                    <StatCard5 />
-                </Grid>
-                <Grid item sm={4} xs={12}>
-                    <Box height="100%" display="flex" flexDirection="column">
-                        <Heading>Inventory Summary</Heading>
-                        <StyledCard sx={{ mb: 2 }} elevation={3}>
-                            <span>QUANTITY IN HAND</span>
-                            <H4>540</H4>
-                        </StyledCard>
-
-                        <StyledCard elevation={3}>
-                            <span>QUANTITY TO BE RECEIVED</span>
-                            <H4>120</H4>
-                        </StyledCard>
-                    </Box>
-                </Grid>
-
                 <Grid item sm={6} xs={12}>
-                    <Card sx={{ px: 3, py: 2 }}>
-                        <Grid container spacing={3} alignItems="center">
+                    <TopSellingTable />
+                    {/* <Card sx={{ px: 3, py: 2 }}> */}
+                    {/*     <Grid container spacing={3} alignItems="center">
                             <Grid item sm={7} xs={12}>
                                 <FlexBox sx={{ py: '12px' }}>
                                     <H5
@@ -85,11 +67,11 @@ const InventoryDashboard = () => {
                             <Grid item sm={5} xs={12}>
                                 <InventoryDoughnutChart />
                             </Grid>
-                        </Grid>
+                        </Grid> */}
 
-                        <Divider sx={{ mt: 3 }} />
+                    {/* <Divider sx={{ mt: 3 }} /> */}
 
-                        <FlexBox sx={{ p: 2 }}>
+                    {/* <FlexBox sx={{ p: 2 }}>
                             <H5 sx={{ m: 0 }}>Purchase Order</H5>
                             <Select
                                 size="small"
@@ -98,30 +80,28 @@ const InventoryDashboard = () => {
                                 <MenuItem value="this_year">This Year</MenuItem>
                                 <MenuItem value="last_year">Last Year</MenuItem>
                             </Select>
-                        </FlexBox>
+                        </FlexBox> */}
 
-                        <Box display="flex" justifyContent="space-around">
-                            <Box py="12px" textAlign="center">
-                                <p>Quantity Ordered</p>
-                                <H4 sx={{ color: textPrimary }}>432</H4>
-                            </Box>
-                            <Divider orientation="vertical" flexItem />
-                            <Box py="12px" textAlign="center">
-                                <p>Total Cost</p>
-                                <H4 sx={{ color: textPrimary }}>
-                                    ${(432432).toLocaleString()}
-                                </H4>
-                            </Box>
-                        </Box>
-                    </Card>
+                    {/* <Box display="flex" justifyContent="space-around">
+                                <Box py="12px" textAlign="center">
+                                    <p>Quantity Ordered</p>
+                                    <H4 sx={{ color: textPrimary }}>432</H4>
+                                </Box>
+                                <Divider orientation="vertical" flexItem />
+                                <Box py="12px" textAlign="center">
+                                    <p>Total Cost</p>
+                                    <H4 sx={{ color: textPrimary }}>
+                                        ${(432432).toLocaleString()}
+                                    </H4>
+                                </Box>
+                            </Box> */}
+                    {/* </Card> */}
                 </Grid>
 
-                <Grid item sm={6} xs={12}>
-                    <TopSellingTable />
-                </Grid>
+                {/* <Grid item sm={6} xs={12}></Grid> */}
             </Grid>
 
-            <Card sx={{ mt: '20px', mb: 3 }} elevation={3}>
+            {/* <Card sx={{ mt: '20px', mb: 3 }} elevation={3}>
                 <FlexBox sx={{ p: 2 }}>
                     <H4>Sales Order Summery</H4>
                     <Select
@@ -133,7 +113,7 @@ const InventoryDashboard = () => {
                     </Select>
                 </FlexBox>
                 <InventoryLineChart />
-            </Card>
+            </Card> */}
         </Fragment>
     )
 }
