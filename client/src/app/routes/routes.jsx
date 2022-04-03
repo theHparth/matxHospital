@@ -86,7 +86,7 @@ export const AllPages = () => {
         user
             ? {
                   path: '/',
-                  element: <Navigate to="dashboard/default" />,
+                  element: <Navigate to="dashboard/inventory-management" />,
               }
             : {
                   path: '/',

@@ -34,6 +34,10 @@ const HospitalSchema = new mongoose.Schema(
       required: [true, "Please provide pincode"],
       maxlength: 5,
     },
+    hospitalStatus: {
+      type: Boolean,
+      default: true,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

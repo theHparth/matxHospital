@@ -191,6 +191,13 @@ const deleteHospital = async (req, res) => {
   checkPermissions(req.user, hospital.createdBy);
 
   await hospital.remove();
+  // const deactiveHospital = await Hospital.findOneAndUpdate(
+  //   { _id: hospitalId },
+  //   { hospitalStatus: !hospital.hospitalStatus },
+  //   {
+  //     new: true,
+  //     runValidators: true,
+  //   }
 
   res.status(StatusCodes.OK).json({ msg: "Success! Hospital data removed" });
 };

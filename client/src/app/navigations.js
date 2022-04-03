@@ -1,12 +1,12 @@
 import { authRoles } from 'app/auth/authRoles'
 
 export const navigations = [
+    // parth
     {
         name: 'Dashboard',
-        path: '/dashboard/default',
-        icon: 'dashboard',
+        path: '/dashboard/inventory-management',
+        icon: 'store',
     },
-    // parth
     {
         label: 'PAGES',
         type: 'label',
@@ -65,6 +65,11 @@ export const navigations = [
     },
     // parth complete
     {
+        name: 'Inventory ',
+        path: '/dashboard/default',
+        icon: 'dashboard',
+    },
+    {
         name: 'Analytics',
         path: '/dashboard/analytics',
         icon: 'analytics',
@@ -75,11 +80,7 @@ export const navigations = [
         path: '/dashboard/alternative',
         icon: 'analytics',
     },
-    {
-        name: 'Inventory Management',
-        path: '/dashboard/inventory-management',
-        icon: 'store',
-    },
+
     {
         label: 'Pages',
         type: 'label',
