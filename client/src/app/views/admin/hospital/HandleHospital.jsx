@@ -2,52 +2,23 @@ import { generateRandomId } from 'app/utils/utils'
 import React, { useState, useEffect } from 'react'
 // import { getUserById, updateUser, addNewUser } from './TableService'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import {
-    Dialog,
-    Button,
-    Grid,
-    FormControlLabel,
-    Switch,
-    Snackbar,
-    Alert,
-} from '@mui/material'
+import { Dialog, Button, Grid, Switch, Snackbar, Alert } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
+import { MyAlert, TextField, FormHandlerBox } from 'app/components'
 
 import {
-    getHospitalsData,
     editHospital,
     addHospital,
     clearValue,
 } from 'app/redux/actions/admin/HospitalActions'
 
-const TextField = styled(TextValidator)(() => ({
-    width: '100%',
-    marginBottom: '16px',
-}))
-
-const FormHandlerBox = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-}))
-
 const MemberEditorDialog = ({ uid, open, handleClose }) => {
-    // const [state, setState] = useState({
-    //     name: '',
-    //     email: '',
-    //     phone: '',
-    //     balance: '',
-    //     age: '',
-    //     company: '',
-    //     address: '',
-    //     isActive: false,
-    // })
     const {
+        alertType,
         showAlert,
         clearValues,
-        isLoading,
         isEditing,
         address,
         contect,
@@ -68,41 +39,26 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         email: email,
         hospitalName: hospitalName,
     })
+    console.log('In Add page')
 
-    const clear = () => {
-        setState({
-            contect: '',
-            pincode: '',
-            address: '',
-            password: '',
-            email: '',
-            id: '',
-            hospitalName: '',
-        })
-    }
     const dispatch = useDispatch()
-
     const cancleWithClean = () => {
-        dispatch(clearValue())
-        clear()
         handleClose()
+        dispatch(clearValue())
     }
+
+    useEffect(() => {
+        if (clearValues == true) {
+            cancleWithClean()
+        }
+    }, [clearValues])
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (isEditing) {
             dispatch(editHospital(state))
-            if (!clearValues) {
-                dispatch(clearValue())
-                clear()
-                handleClose()
-            }
         } else {
             dispatch(addHospital(state))
-            if (!clearValues) {
-                clear()
-                handleClose()
-            }
         }
     }
 
@@ -115,48 +71,6 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
             [name]: value,
         })
     }
-
-    // const handleChange = (event, source) => {
-    //     event.persist()
-    //     if (source === 'switch') {
-    //         setState({
-    //             ...state,
-    //             isActive: event.target.checked,
-    //         })
-    //         return
-    //     }
-
-    //     setState({
-    //         ...state,
-    //         [event.target.name]: event.target.value,
-    //     })
-    // }
-
-    // const handleFormSubmit = () => {
-    //     let { id } = state
-    //     if (id) {
-    //         updateUser({
-    //             ...state,
-    //         }).then(() => {
-    //             handleClose()
-    //         })
-    //     } else {
-    //         addNewUser({
-    //             id: generateRandomId(),
-    //             ...state,
-    //         }).then(() => {
-    //             handleClose()
-    //         })
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getUserById(uid).then((data) => setState({ ...data.data }))
-    // }, [uid])
-    // useEffect(() => {
-    //     dispatch(getHospitalsData())
-    // }, [dispatch])
-
     return (
         <Dialog onClose={handleClose} open={open}>
             <Box p={3}>
@@ -271,19 +185,11 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                 </ValidatorForm>
             </Box>
             {showAlert ? (
-                <Snackbar open={showAlert} autoHideDuration={3000}>
-                    <Alert
-                        severity={
-                            alertText === 'New Hoapital Added!' ||
-                            alertText === 'Hospital Updated!'
-                                ? 'success'
-                                : 'error'
-                        }
-                        sx={{ width: '100%' }}
-                    >
-                        {alertText}
-                    </Alert>
-                </Snackbar>
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
             ) : null}
         </Dialog>
     )

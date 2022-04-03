@@ -39,7 +39,6 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
         handleClose()
         dispatch(clearValueStock())
     }
-    console.log('is edit', isEditing)
 
     useEffect(() => {
         if (clearValues == true) {
@@ -49,7 +48,6 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('is edit', isEditing)
         if (isEditing) {
             dispatch(edit(newStock))
         } else {

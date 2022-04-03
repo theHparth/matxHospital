@@ -10,11 +10,12 @@ import {
     EDIT_HOSPITAL_SUCCESS,
     EDIT_HOSPITAL_ERROR,
     HANDLE_CHANGE,
-    CLEAR_ALERT,
-    DISPLAY_ALERT,
+    CLEAR_HOSPITAL_ALERT,
+    DISPLAY_HOSPITAL_ALERT,
     CLEAR_VALUES_HOSPITAL,
     GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
     EDIT_HOSPITAL_COMPLETE,
+    DELETE_HOSPITAL_SUCCESS,
 } from '../../actions/admin/HospitalActions'
 
 const initialState = {
@@ -22,9 +23,10 @@ const initialState = {
     hospitalIndividualStockData: [],
     isLoading: false,
     showAlert: false,
-    isEdit: false,
-    clearValues: false,
+    clearValues: '',
+    alertType: '',
     alertText: '',
+    isEditing: false,
     isEditing: false,
     hospitalName: '',
     address: '',
@@ -70,6 +72,7 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
+                alertType: 'success',
                 alertText: 'New Hoapital Added!',
                 clearValues: true,
             }
@@ -79,16 +82,11 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
+                alertType: 'warning',
                 alertText: action.payload.msg,
             }
         }
-        case HANDLE_CHANGE: {
-            return {
-                ...state,
-                page: 1,
-                [action.payload.name]: action.payload.value,
-            }
-        }
+
         case EDIT_HOSPITAL_BEGIN: {
             return {
                 ...state,
@@ -103,6 +101,7 @@ const HospitalReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 isEditing: false,
+                alertType: 'success',
                 alertText: 'Hospital Updated!',
                 clearValues: true,
                 _id: '',
@@ -120,6 +119,18 @@ const HospitalReducer = function (state = initialState, action) {
         //delete state
         case DELETE_HOSPITAL_BEGIN: {
             return { ...state, isLoading: false }
+        }
+        case DELETE_HOSPITAL_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                isEditing: false,
+                alertType: 'success',
+                clearValues: true,
+                _id: '',
+                alertText: 'Hospital deactivated !!',
+            }
         }
         case SET_EDIT_HOSPITAL: {
             const subscriber = action.payload.subscriber
@@ -148,36 +159,28 @@ const HospitalReducer = function (state = initialState, action) {
         }
 
         /////////////////////////////////////////////////////////
-        case CLEAR_ALERT: {
+        case CLEAR_HOSPITAL_ALERT: {
             return {
                 ...state,
                 showAlert: false,
+                alertType: '',
                 alertText: '',
             }
         }
         case CLEAR_VALUES_HOSPITAL: {
             const initialState = {
-                isEditing: false,
-                clearValues: true,
-                hospitalName: '',
-                address: '',
-                contect: '',
-                password: '',
-                email: '',
-                pincode: '',
+                clearValues: '',
+                _id: '',
+                description: '',
+                minimumLimit: '',
+                stock_name: '',
             }
             return {
                 ...state,
                 ...initialState,
             }
         }
-        case DISPLAY_ALERT: {
-            return {
-                ...state,
-                showAlert: true,
-                alertText: 'Please provide all values!',
-            }
-        }
+
         default: {
             return {
                 ...state,

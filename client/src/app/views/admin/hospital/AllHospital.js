@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
-import { Breadcrumb, FlexBox, Container, StyledButton } from 'app/components'
+import {
+    Breadcrumb,
+    FlexBox,
+    Container,
+    StyledButton,
+    MyAlert,
+} from 'app/components'
 import React, { useState, useEffect } from 'react'
 import {
     Avatar,
@@ -48,7 +54,12 @@ const CustomerList = () => {
         dispatch(getHospitalsData())
     }
 
-    const { hospitalsData = [] } = useSelector((state) => state.hospitalList)
+    const {
+        hospitalsData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.hospitalList)
 
     const dispatch = useDispatch()
 
@@ -96,11 +107,6 @@ const CustomerList = () => {
             label: 'Address',
             options: {
                 filter: true,
-                // customBodyRenderLite: (dataIndex) => (
-                //     <span className="ellipsis">
-                //         {hospitalsData[dataIndex].address}
-                //     </span>
-                // ),
             },
         },
         {
@@ -273,6 +279,13 @@ const CustomerList = () => {
                         />
                     )}
                 </Box>
+                {showAlert ? (
+                    <MyAlert
+                        isOpen={showAlert}
+                        typeSeverity={alertType}
+                        alrtTextToShow={alertText}
+                    />
+                ) : null}
             </Box>
         </Container>
     )

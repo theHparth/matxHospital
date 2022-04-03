@@ -114,16 +114,12 @@ const clearAlert = () => (dispatch) => {
         dispatch({ type: CLEAR_STOCK_ALERT })
     }, 3000)
 }
-const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_STOCK_ALERT })
-    dispatch(clearAlert())
-}
+
 ////////////////////////////////////////////////////////////////////////
 
 export {
     clearValueStock,
     clearAlert,
-    displayAlert,
     getAllData,
     add,
     setEditData,

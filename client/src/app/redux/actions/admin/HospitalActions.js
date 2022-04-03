@@ -16,13 +16,13 @@ export const EDIT_HOSPITAL_SUCCESS = 'EDIT_HOSPITAL_SUCCESS'
 export const EDIT_HOSPITAL_ERROR = 'EDIT_HOSPITAL_ERROR'
 export const EDIT_HOSPITAL_COMPLETE = 'EDIT_HOSPITAL_COMPLETE'
 export const SHOW_STATS_BEGIN = 'SHOW_STATS_BEGIN'
+export const DELETE_HOSPITAL_SUCCESS = 'DELETE_HOSPITAL_SUCCESS'
 export const GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS =
     'GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
-export const CLEAR_ALERT = 'CLEAR_ALERT'
-export const DISPLAY_ALERT = ' DISPLAY_ALERT'
+export const CLEAR_HOSPITAL_ALERT = 'CLEAR_HOSPITAL_ALERT'
 
 const authFetch = axios.create({
     baseURL: '/api/v1',
@@ -37,13 +37,9 @@ const clearValue = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES_HOSPITAL })
 }
 const clearAlert = () => (dispatch) => {
-    // setTimeout(() => {
-    //     dispatch({ type: CLEAR_ALERT })
-    // }, 3000)
-}
-const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_ALERT })
-    // dispatch(clearAlert())
+    setTimeout(() => {
+        dispatch({ type: CLEAR_HOSPITAL_ALERT })
+    }, 3000)
 }
 
 const removeUserFromLocalStorage = () => {
@@ -85,6 +81,7 @@ const hospitalStockInformation = (id) => async (dispatch) => {
         console.log(error)
         removeUserFromLocalStorage()
     }
+    dispatch(clearAlert())
 }
 
 const addHospital = (state) => async (dispatch) => {
@@ -116,16 +113,10 @@ const addHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    setTimeout(() => {
-        dispatch(clearAlert())
-    }, 3000)
+    // setTimeout(() => {
+    dispatch(clearAlert())
+    // }, 3000)
 }
-
-const handleHospitalChange =
-    ({ name, value }) =>
-    (dispatch) => {
-        dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
-    }
 
 const setEditHospital = (subscriber) => (dispatch) => {
     dispatch({ type: SET_EDIT_HOSPITAL, payload: { subscriber } })
@@ -145,7 +136,6 @@ const editHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: EDIT_HOSPITAL_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_HOSPITAL })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -153,6 +143,7 @@ const editHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
+    dispatch(clearAlert())
 }
 
 // delete the
@@ -161,20 +152,21 @@ const deleteHospital = (hospitalId) => async (dispatch) => {
 
     try {
         await authFetch.delete(`/hospitals/${hospitalId}`)
+        dispatch({ type: DELETE_HOSPITAL_SUCCESS })
+
         dispatch(getHospitalsData())
     } catch (error) {
         console.log(error)
         removeUserFromLocalStorage()
     }
+    dispatch(clearAlert())
 }
 
 export {
     clearValue,
     clearAlert,
-    displayAlert,
     getHospitalsData,
     addHospital,
-    handleHospitalChange,
     setEditHospital,
     editHospital,
     deleteHospital,
