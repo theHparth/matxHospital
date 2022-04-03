@@ -7,6 +7,8 @@ import {
     Icon,
     TablePagination,
     Button,
+    Snackbar,
+    Alert,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Box, useTheme } from '@mui/system'
@@ -19,6 +21,7 @@ import {
     StyledTable,
     StockAlert,
     StyledButton,
+    MyAlert,
 } from 'app/components'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
@@ -59,7 +62,12 @@ const AllStock = () => {
     const bgSecondary = palette.secondary.main
     const bgSuccess = palette.success.main
 
-    let { stockData = [] } = useSelector((state) => state.stockList)
+    let {
+        stockData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.stockList)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -255,6 +263,13 @@ const AllStock = () => {
                             />
                         )}
                     </Box>
+                    {showAlert ? (
+                        <MyAlert
+                            isOpen={showAlert}
+                            typeSeverity={alertType}
+                            alrtTextToShow={alertText}
+                        />
+                    ) : null}
                 </SimpleCard>
             )}
         </ContainerTable>

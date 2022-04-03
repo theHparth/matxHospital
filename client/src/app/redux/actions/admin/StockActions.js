@@ -10,6 +10,7 @@ export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
+export const DELETE_STOCK_SUCCESS = 'DELETE_STOCK_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES_STOCK = 'CLEAR_VALUES_STOCK'
@@ -47,7 +48,9 @@ const add = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    dispatch(clearAlert())
+    setTimeout(() => {
+        dispatch(clearAlert())
+    }, 3000)
 }
 
 const getAllData = (state) => async (dispatch) => {
@@ -95,6 +98,7 @@ const deleteData = (Id) => async (dispatch) => {
 
     try {
         await authFetch.delete(`/stocks/${Id}`)
+        dispatch({ type: DELETE_STOCK_SUCCESS })
         dispatch(getAllData())
     } catch (error) {
         console.log(error)

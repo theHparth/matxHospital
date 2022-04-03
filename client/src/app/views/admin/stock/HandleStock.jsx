@@ -4,6 +4,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { Dialog, Button, Grid, Snackbar, Alert } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
+import { MyAlert } from 'app/components'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -44,27 +45,24 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
         stock_name: stock_name,
     })
 
-    // const clear = () => {
-    //     setState({
-    //         id: '',
-    //         description: '',
-    //         minimumLimit: '',
-    //         stock_name: '',
-    //     })
-    // }
     const dispatch = useDispatch()
-
+    console.log(showAlert, 'alerttyple')
     const cancleWithClean = () => {
-        dispatch(clearValueStock())
-        // clear()
+        // dispatch(clearValueStock())
         handleClose()
+        setTimeout(() => {
+            dispatch(clearValueStock())
+        }, 3000)
+        // clear()
     }
-    console.log(alertType, 'outside alertType')
+    // console.log(alertType, 'outside alertType')
 
     useEffect(() => {
         if (clearValues == true) {
-            dispatch(clearValueStock())
             cancleWithClean()
+            // setTimeout(() => {
+            //     dispatch(clearValueStock())
+            // }, 3000)
         }
     }, [clearValues])
 
@@ -84,7 +82,6 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
             dispatch(edit(newStock))
         } else {
             dispatch(add(newStock))
-            console.log(alertType, 'inside alertType')
 
             // cancleWithClean()
             // if (alertType == 'success') {
@@ -168,11 +165,11 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
                 </ValidatorForm>
             </Box>
             {showAlert ? (
-                <Snackbar open={showAlert} autoHideDuration={3000}>
-                    <Alert severity={alertType} sx={{ width: '100%' }}>
-                        {alertText}
-                    </Alert>
-                </Snackbar>
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
             ) : null}
         </Dialog>
     )

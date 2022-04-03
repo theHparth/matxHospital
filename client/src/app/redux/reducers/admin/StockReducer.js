@@ -13,6 +13,7 @@ import {
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
+    DELETE_STOCK_SUCCESS,
 } from '../../actions/admin/StockActions'
 
 const initialState = {
@@ -92,6 +93,18 @@ const StockReducer = function (state = initialState, action) {
                 clearValues: true,
                 _id: '',
                 alertText: 'Stock data updated successfully',
+            }
+        }
+        case DELETE_STOCK_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                isEditing: false,
+                alertType: 'success',
+                clearValues: true,
+                _id: '',
+                alertText: 'Stock data removed successfully',
             }
         }
         case EDIT_ERROR: {
