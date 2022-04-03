@@ -22,8 +22,8 @@ import { dashboardRoutes } from 'app/views/dashboard/DashboardRoutes'
 import sessionRoutes from 'app/views/sessions/SessionRoutes'
 import MatxLayout from '../components/MatxLayout/MatxLayout'
 import { Navigate } from 'react-router-dom'
-
 // admin
+import profileRoutes from 'app/views/admin/profile/ProfileRoutes'
 import hospitalRoutes from 'app/views/admin/hospital/HospitalRoutes'
 import vendorRoutes from 'app/views/admin/vendor/VendorRoutes'
 import stockRoutes from 'app/views/admin/stock/StockRoutes'
@@ -49,6 +49,7 @@ export const AllPages = () => {
                 ? [
                       ...dashboardRoutes,
                       // admin
+                      ...profileRoutes,
                       ...hospitalRoutes,
                       ...vendorRoutes,
                       ...stockRoutes,

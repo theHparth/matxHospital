@@ -109,7 +109,7 @@ const MatxCustomizer = (props) => {
         <Fragment>
             <Tooltip title="Theme Settings" placement="left">
                 <Label className="open" onClick={tooglePanel}>
-                    DEMOS
+                    THEMES
                 </Label>
             </Tooltip>
 
@@ -137,23 +137,6 @@ const MatxCustomizer = (props) => {
                                 <Icon className="icon">close</Icon>
                             </IconButton>
                         </Controller>
-                        <Box px={3} mb={2} display="flex">
-                            <Button
-                                variant="outlined"
-                                color={tabIndex === 0 ? 'secondary' : 'primary'}
-                                onClick={() => handleTabChange(0)}
-                                sx={{ mr: 2 }}
-                            >
-                                Demos
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color={tabIndex === 1 ? 'secondary' : 'primary'}
-                                onClick={() => handleTabChange(1)}
-                            >
-                                Settings
-                            </Button>
-                        </Box>
 
                         <StyledScrollBar options={{ suppressScrollX: true }}>
                             {tabIndex === 0 && (

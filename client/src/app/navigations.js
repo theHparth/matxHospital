@@ -26,59 +26,6 @@ export const navigations = [
         path: '/allStock',
         icon: 'history',
     },
-    // {
-    //     name: 'Hospitals',
-    //     icon: 'library_add',
-    //     children: [
-    //         {
-    //             name: 'Add Hospital',
-    //             iconText: 'SI',
-    //             path: '/addHospital',
-    //         },
-    //         {
-    //             name: 'Hospital List',
-    //             iconText: 'SI',
-    //             path: '/allHospitals',
-    //         },
-    //         // {
-    //         //     name: 'Hospital Data',
-    //         //     iconText: 'SI',
-    //         //     path: '/hospitalData/:id',
-    //         // },
-    //     ],
-    // },
-    // {
-    //     name: 'Vendor',
-    //     icon: 'person_add',
-    //     children: [
-    //         {
-    //             name: 'Add Vendor',
-    //             iconText: 'SI',
-    //             path: '/addVendor',
-    //         },
-    //         {
-    //             name: 'Vendor List',
-    //             iconText: 'SI',
-    //             path: '/allVendor',
-    //         },
-    //     ],
-    // },
-    // {
-    //     name: 'Stocks',
-    //     icon: 'business',
-    //     children: [
-    //         {
-    //             name: 'Add Stock',
-    //             iconText: 'SI',
-    //             path: '/addStock',
-    //         },
-    //         {
-    //             name: 'Stock List',
-    //             iconText: 'SI',
-    //             path: '/allStock',
-    //         },
-    //     ],
-    // },
     {
         name: 'Werehouse',
         icon: 'business',

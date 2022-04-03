@@ -88,7 +88,18 @@ const IconBox = styled('div')(({ theme }) => ({
 const Layout1Topbar = () => {
     const theme = useTheme()
     const { settings, updateSettings } = useSettings()
-    const { logout, user = {}, hospital = {} } = useAuth()
+    const { logout } = useAuth()
+    const user = localStorage.getItem('user')
+    const hospitalData = localStorage.getItem('hospital')
+    var adminInfo
+    if (user) {
+        adminInfo = JSON.parse(user)
+    }
+    var hospitalInfo
+    if (hospitalData) {
+        hospitalInfo = JSON.parse(hospitalData)
+    }
+
     const isMdScreen = useMediaQuery(theme.breakpoints.down('md'))
 
     const updateSidebarMode = (sidebarSettings) => {
@@ -123,29 +134,8 @@ const Layout1Topbar = () => {
                     <StyledIconButton onClick={handleSidebarToggle}>
                         <Icon>menu</Icon>
                     </StyledIconButton>
-
-                    <IconBox>
-                        <StyledIconButton>
-                            <Icon>mail_outline</Icon>
-                        </StyledIconButton>
-
-                        <StyledIconButton>
-                            <Icon>web_asset</Icon>
-                        </StyledIconButton>
-
-                        <StyledIconButton>
-                            <Icon>star_outline</Icon>
-                        </StyledIconButton>
-                    </IconBox>
                 </Box>
                 <Box display="flex" alignItems="center">
-                    <MatxSearchBox />
-                    <NotificationProvider>
-                        <NotificationBar />
-                    </NotificationProvider>
-
-                    <ShoppingCart />
-
                     <MatxMenu
                         menuButton={
                             <UserMenu>
@@ -154,13 +144,13 @@ const Layout1Topbar = () => {
                                         Hi{' '}
                                         <strong>
                                             {user
-                                                ? user.name
-                                                : hospital.hospitalName}
+                                                ? adminInfo['name']
+                                                : hospitalInfo['hospitalName']}
                                         </strong>
                                     </Span>
                                 </Hidden>
                                 <Avatar
-                                    src={user.avatar}
+                                    // src={user.avatar}
                                     sx={{ cursor: 'pointer' }}
                                 />
                             </UserMenu>
@@ -178,10 +168,7 @@ const Layout1Topbar = () => {
                                 <Span> Profile </Span>
                             </Link>
                         </StyledItem>
-                        <StyledItem>
-                            <Icon> settings </Icon>
-                            <Span> Settings </Span>
-                        </StyledItem>
+
                         <StyledItem onClick={logout}>
                             <Icon> power_settings_new </Icon>
                             <Span> Logout </Span>

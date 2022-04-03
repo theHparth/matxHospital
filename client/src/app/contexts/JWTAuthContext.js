@@ -77,6 +77,7 @@ const AuthContext = createContext({
     // taoken: '',
 
     login: () => Promise.resolve(),
+    updateAdmin: () => Promise.resolve(),
     loginUser: () => Promise.resolve(),
     logout: () => {},
     register: () => Promise.resolve(),
@@ -118,6 +119,17 @@ export const AuthProvider = ({ children }) => {
             return Promise.reject(error)
         }
     )
+
+    // for update requests
+    const authFetchUpdate = axios.create({
+        baseURL: '/api/v1',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+
+    ///
 
     const addUserToLocalStorage = ({
         user,
@@ -193,6 +205,46 @@ export const AuthProvider = ({ children }) => {
             })
         }
         // clearAlert()
+    }
+
+    const updateAdmin = async (state) => {
+        console.log('in update frontened')
+        try {
+            const {
+                name,
+                lastName,
+                address,
+                pincode,
+                contect,
+                email,
+                password,
+            } = state
+            const response = await authFetchUpdate.patch('/auth/updateUser', {
+                name,
+                lastName,
+                address,
+                pincode,
+                contect,
+                email,
+                password,
+            })
+            const { token, user } = response.data
+            removeUserFromLocalStorage()
+            addUserToLocalStorage({ user, token })
+
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user,
+                    token,
+                },
+            })
+        } catch (error) {
+            dispatch({
+                type: 'LOGIN_ERROR',
+                payload: { msg: error.response.data.msg },
+            })
+        }
     }
 
     const register = async (email, name, password) => {
@@ -276,6 +328,7 @@ export const AuthProvider = ({ children }) => {
                 ...state,
                 method: 'JWT',
                 login,
+                updateAdmin,
                 logout,
                 register,
                 loginUser,

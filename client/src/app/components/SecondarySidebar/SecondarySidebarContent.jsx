@@ -48,9 +48,9 @@ const SecondarySidebarContent = ({ chatTheme }) => {
         <SidebarRoot width={'50px'} className="secondary-sidebar">
             <Span sx={{ m: 'auto' }}></Span>
             <MatxCustomizer />
-            <ShoppingCart />
+            {/* <ShoppingCart /> */}
 
-            <ChatHead
+            {/* <ChatHead
                 openChat={openChat}
                 setOpenChat={setOpenChat}
                 icon={
@@ -65,7 +65,7 @@ const SecondarySidebarContent = ({ chatTheme }) => {
                 <ThemeProvider theme={chatTheme}>
                     <Chatbox openChat={openChat} setOpenChat={setOpenChat} />
                 </ThemeProvider>
-            </ChatHead>
+            </ChatHead> */}
             <Span sx={{ m: 'auto' }}></Span>
         </SidebarRoot>
     )

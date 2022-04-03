@@ -54,7 +54,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // }, [dispatch, hospitalName])
     const state = {}
 
-    console.log('hospital Data', Iaddress, Icontect, Iemail, Ipincode)
     var adminInfo = JSON.parse(user)
     var userAdd =
         adminInfo['address'] +
@@ -73,17 +72,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         Icontect +
         '\nEmail: ' +
         Iemail
-
-    console.log(
-        'stock out detail',
-        _id,
-        hospitalName,
-        invoiceNum,
-        stockOutDetail,
-        createdFor,
-        createdAt,
-        alertText
-    )
 
     const handlePrint = () => window.print()
 

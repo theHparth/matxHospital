@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Span } from "../../Typography"
+import { Span } from '../../Typography'
 import useAuth from 'app/hooks/useAuth'
 import { styled, Box } from '@mui/system'
 import useSettings from 'app/hooks/useSettings'
@@ -14,7 +14,7 @@ import MatxMenu from 'app/components/MatxMenu/MatxMenu'
 
 const TopbarContainer = styled('div')(({ theme }) => ({
     zIndex: 98,
-    width: "100%",
+    width: '100%',
     paddingTop: '1rem',
     position: 'relative',
     paddingBottom: '1rem',
@@ -26,9 +26,9 @@ const TopbarContainer = styled('div')(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         paddingLeft: '1rem',
     },
-    "& span": {
-        color: theme.palette.text.primary
-    }
+    '& span': {
+        color: theme.palette.text.primary,
+    },
 }))
 
 const StyledSpan = styled(Span)(({ theme }) => ({
@@ -41,9 +41,9 @@ const StyledItem = styled(MenuItem)(({ theme }) => ({
     minWidth: 185,
     display: 'flex',
     alignItems: 'center',
-    "& a": {
-        width: '100%'
-    }
+    '& a': {
+        width: '100%',
+    },
 }))
 
 const UserProfile = styled(Avatar)(({ theme }) => ({
@@ -65,7 +65,7 @@ const MatxLogo = styled('div')(() => ({
 }))
 
 const IMG = styled('img')(() => ({
-    height: 32
+    height: 32,
 }))
 
 const Layout2Topbar = () => {
@@ -95,11 +95,8 @@ const Layout2Topbar = () => {
         <TopbarContainer>
             <TopbarRoot>
                 <MatxLogo>
-                    <IMG
-                        alt="company-logo"
-                        src="/assets/images/logo.svg"
-                    />
-                    <StyledSpan>Matx</StyledSpan>
+                    {/* <IMG alt="company-logo" src="/assets/images/logo.svg" /> */}
+                    <StyledSpan>Dental</StyledSpan>
                 </MatxLogo>
                 <Box display="flex" alignItems="center">
                     <MatxToolbarMenu offsetTop="64px">

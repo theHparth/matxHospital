@@ -3,6 +3,7 @@ import {
     SimpleCard,
     ContainerForm,
     TextField,
+    MyAlert,
 } from 'app/components'
 import { Box, styled } from '@mui/system'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
@@ -13,14 +14,20 @@ import { Span } from 'app/components/Typography'
 import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { edit, add } from 'app/redux/actions/admin/StockActions'
+import {
+    edit,
+    add,
+    clearValueStock,
+} from 'app/redux/actions/admin/StockActions'
 
 const AddStock = () => {
     const {
-        showAlert,
         alertType,
-        alertText,
+        showAlert,
+        clearValues,
         isLoading,
+        isEditing,
+        alertText,
         description,
         minimumLimit,
         _id,
@@ -33,6 +40,10 @@ const AddStock = () => {
         minimumLimit: minimumLimit,
         stock_name: stock_name,
     })
+    const dispatch = useDispatch()
+    const cancleWithClean = () => {
+        dispatch(clearValueStock())
+    }
     const clear = () => {
         setState({
             id: '',
@@ -41,26 +52,18 @@ const AddStock = () => {
             stock_name: '',
         })
     }
-    const dispatch = useDispatch()
+    useEffect(() => {
+        if (clearValues == true) {
+            cancleWithClean()
+        }
+    }, [clearValues])
+
     const handleSubmit = (e) => {
         e.preventDefault()
-
-        if (_id) {
+        if (isEditing) {
             dispatch(edit(state))
-            if (
-                alertText == 'New stock data added!' ||
-                alertText == 'Stock data updated successfully'
-            ) {
-                clear()
-            }
         } else {
             dispatch(add(state))
-            if (
-                alertText == 'New stock data added!' ||
-                alertText == 'Stock data updated successfully'
-            ) {
-                clear()
-            }
         }
     }
     // // for getting vendor data
@@ -157,23 +160,11 @@ const AddStock = () => {
                 </ValidatorForm>
             </SimpleCard>
             {showAlert ? (
-                <Snackbar
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                    open={showAlert}
-                    autoHideDuration={19000}
-                >
-                    <Alert
-                        severity={
-                            alertText === 'New stock data added!' ||
-                            alertText === 'Stock data updated successfully'
-                                ? 'success'
-                                : 'error'
-                        }
-                        sx={{ width: '100%' }}
-                    >
-                        {alertText}
-                    </Alert>
-                </Snackbar>
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
             ) : null}
         </ContainerForm>
     )
