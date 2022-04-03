@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
-import { Breadcrumb, FlexBox, Container, StyledButton } from 'app/components'
+import {
+    Breadcrumb,
+    FlexBox,
+    Container,
+    StyledButton,
+    MyAlert,
+} from 'app/components'
 import React, { useState, useEffect } from 'react'
 import {
     Avatar,
@@ -22,7 +28,6 @@ import {
     setEditData,
     deleteData,
 } from 'app/redux/actions/admin/VendorActions'
-import { getAllData } from 'app/redux/actions/admin/WareHouseAction'
 
 const CustomerList = () => {
     // for add and edit diology actions
@@ -35,26 +40,26 @@ const CustomerList = () => {
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
         setShouldOpenConfirmationDialog(false)
-        // updatePageData()
         dispatch(getAllVendor())
     }
     const handleDeleteUser = (hospitalId) => {
-        // dispatch(getHospitalsData())
         setHospitalDa(hospitalId)
         setShouldOpenConfirmationDialog(true)
     }
 
     const handleConfirmationResponse = () => {
-        //   deleteUser(user).then(() => {
-        //       handleDialogClose()
-        //   })
         dispatch(deleteData(hospitalDa)).then(() => {
             handleDialogClose()
         })
         dispatch(getAllVendor())
     }
     // complete
-    const { vendorData = [] } = useSelector((state) => state.vendorList)
+    const {
+        vendorData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.vendorList)
 
     const dispatch = useDispatch()
 
@@ -101,11 +106,6 @@ const CustomerList = () => {
             label: 'Address',
             options: {
                 filter: true,
-                // customBodyRenderLite: (dataIndex) => (
-                //     <span className="ellipsis">
-                //         {hospitalsData[dataIndex].address}
-                //     </span>
-                // ),
             },
         },
         {
@@ -285,7 +285,14 @@ const CustomerList = () => {
                         />
                     )}
                 </Box>
-            </Box>
+            </Box>{' '}
+            {showAlert ? (
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
+            ) : null}
         </Container>
     )
 }

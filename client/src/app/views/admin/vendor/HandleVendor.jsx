@@ -1,46 +1,19 @@
-import { generateRandomId } from 'app/utils/utils'
 import React, { useState, useEffect } from 'react'
-// import { getUserById, updateUser, addNewUser } from './TableService'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import {
-    Dialog,
-    Button,
-    Grid,
-    FormControlLabel,
-    Switch,
-    Snackbar,
-    Alert,
-} from '@mui/material'
+import { Dialog, Button, Grid, Snackbar, Alert } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
-
-// import {
-//     getHospitalsData,
-//     editHospital,
-//     addHospital,
-//     clearValue,
-// } from 'app/redux/actions/admin/HospitalActions'
+import { MyAlert, TextField, FormHandlerBox } from 'app/components'
 import { edit, add, clearValue } from 'app/redux/actions/admin/VendorActions'
-
-const TextField = styled(TextValidator)(() => ({
-    width: '100%',
-    marginBottom: '16px',
-}))
-
-const FormHandlerBox = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-}))
 
 const MemberEditorDialog = ({ uid, open, handleClose }) => {
     const {
+        alertType,
+        showAlert,
         clearValues,
         isLoading,
         isEditing,
-        showAlert,
-        alertType,
         alertText,
         address,
         contect,
@@ -59,39 +32,25 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         vendor_name: vendor_name,
         email: email,
     })
-    const clear = () => {
-        setState({
-            vendor_name: '',
-            contect: '',
-            pincode: '',
-            address: '',
-            email: '',
-            id: '',
-        })
-    }
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch()
     const cancleWithClean = () => {
-        dispatch(clearValue())
-        clear()
         handleClose()
+        dispatch(clearValue())
     }
+
+    useEffect(() => {
+        if (clearValues == true) {
+            cancleWithClean()
+        }
+    }, [clearValues])
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (isEditing) {
             dispatch(edit(state))
-            if (clearValues) {
-                dispatch(clearValue())
-                clear()
-                handleClose()
-            }
         } else {
             dispatch(add(state))
-            if (clearValues) {
-                clear()
-                handleClose()
-            }
         }
     }
 
@@ -104,47 +63,6 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
             [name]: value,
         })
     }
-
-    // const handleChange = (event, source) => {
-    //     event.persist()
-    //     if (source === 'switch') {
-    //         setState({
-    //             ...state,
-    //             isActive: event.target.checked,
-    //         })
-    //         return
-    //     }
-
-    //     setState({
-    //         ...state,
-    //         [event.target.name]: event.target.value,
-    //     })
-    // }
-
-    // const handleFormSubmit = () => {
-    //     let { id } = state
-    //     if (id) {
-    //         updateUser({
-    //             ...state,
-    //         }).then(() => {
-    //             handleClose()
-    //         })
-    //     } else {
-    //         addNewUser({
-    //             id: generateRandomId(),
-    //             ...state,
-    //         }).then(() => {
-    //             handleClose()
-    //         })
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getUserById(uid).then((data) => setState({ ...data.data }))
-    // }, [uid])
-    // useEffect(() => {
-    //     dispatch(getHospitalsData())
-    // }, [dispatch])
 
     return (
         <Dialog onClose={handleClose} open={open}>
@@ -234,19 +152,11 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                 </ValidatorForm>
             </Box>
             {showAlert ? (
-                <Snackbar open={showAlert} autoHideDuration={3000}>
-                    <Alert
-                        severity={
-                            alertText === 'Vendor data Updated!' ||
-                            alertText === 'New Vendor data Added!'
-                                ? 'success'
-                                : 'error'
-                        }
-                        sx={{ width: '100%' }}
-                    >
-                        {alertText}
-                    </Alert>
-                </Snackbar>
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
             ) : null}
         </Dialog>
     )

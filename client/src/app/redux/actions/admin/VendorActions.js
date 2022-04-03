@@ -10,11 +10,11 @@ export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
+export const DELETE_VENDOR_SUCCESS = 'DELETE_VENDOR_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES_VENDOR = 'CLEAR_VALUES_VENDOR'
 export const CLEAR_VENDOR_ALERT = 'CLEAR_ALERT'
-export const DISPLAY_VENDOR_ALERT = ' DISPLAY_ALERT'
 
 const authFetch = axios.create({
     baseURL: '/api/v1',
@@ -32,10 +32,6 @@ const clearAlert = () => (dispatch) => {
     setTimeout(() => {
         dispatch({ type: CLEAR_VENDOR_ALERT })
     }, 3000)
-}
-const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_VENDOR_ALERT })
-    dispatch(clearAlert())
 }
 
 const removeUserFromLocalStorage = () => {
@@ -58,6 +54,7 @@ const getAllVendor = (state) => async (dispatch) => {
         console.log(error)
         removeUserFromLocalStorage()
     }
+    dispatch(clearAlert())
 }
 
 const add = (state) => async (dispatch) => {
@@ -72,7 +69,6 @@ const add = (state) => async (dispatch) => {
             vendor_name,
         })
         dispatch({ type: CREATE_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_VENDOR })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -82,12 +78,6 @@ const add = (state) => async (dispatch) => {
     }
     dispatch(clearAlert())
 }
-
-const handleDataChange =
-    ({ name, value }) =>
-    (dispatch) => {
-        dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
-    }
 
 const setEditData = (subscriber) => (dispatch) => {
     dispatch({ type: SET_EDIT, payload: { subscriber } })
@@ -104,7 +94,6 @@ const edit = (state) => async (dispatch) => {
             vendor_name,
         })
         dispatch({ type: EDIT_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_VENDOR })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -120,20 +109,21 @@ const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
     try {
         await authFetch.delete(`/vendors/${Id}`)
+        dispatch({ type: DELETE_VENDOR_SUCCESS })
+
         dispatch(getAllVendor())
     } catch (error) {
         console.log(error)
         removeUserFromLocalStorage()
     }
+    dispatch(clearAlert())
 }
 
 export {
     clearValue,
     clearAlert,
-    displayAlert,
     getAllVendor,
     add,
-    handleDataChange,
     setEditData,
     edit,
     deleteData,

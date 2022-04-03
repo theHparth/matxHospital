@@ -1,8 +1,7 @@
-import { generateRandomId } from 'app/utils/utils'
 import React, { useState, useEffect } from 'react'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import { Dialog, Button, Grid, Snackbar, Alert } from '@mui/material'
-import { Box, styled } from '@mui/system'
+import { ValidatorForm } from 'react-material-ui-form-validator'
+import { Dialog, Button, Grid } from '@mui/material'
+import { Box } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { MyAlert, TextField, FormHandlerBox } from 'app/components'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,11 +19,11 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
         clearValues,
         isLoading,
         isEditing,
+        alertText,
         description,
         minimumLimit,
         _id,
         stock_name,
-        alertText,
     } = useSelector((x) => x.stockList)
 
     const [newStock, setNewStock] = useState({

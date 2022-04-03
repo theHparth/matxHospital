@@ -40,7 +40,6 @@ const add = (state) => async (dispatch) => {
             minimumLimit,
         })
         dispatch({ type: CREATE_SUCCESS_STOCK })
-        // dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({

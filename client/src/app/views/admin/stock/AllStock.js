@@ -1,5 +1,4 @@
 import {
-    IconButton,
     TableHead,
     TableBody,
     TableRow,
@@ -7,15 +6,11 @@ import {
     Icon,
     TablePagination,
     Button,
-    Snackbar,
-    Alert,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import {
-    Breadcrumb,
     SimpleCard,
     ContainerTable,
     StyledTable,
@@ -87,14 +82,6 @@ const AllStock = () => {
     }
     return (
         <ContainerTable>
-            {/* <div className="breadcrumb">
-                <Breadcrumb
-                    routeSegments={[
-                        { name: 'Add Stock', path: '/addStock' },
-                        { name: 'Table' },
-                    ]}
-                />
-            </div> */}
             <Button
                 sx={{ mb: 2 }}
                 variant="contained"

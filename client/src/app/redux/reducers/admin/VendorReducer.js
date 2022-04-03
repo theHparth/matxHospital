@@ -13,12 +13,14 @@ import {
     HANDLE_CHANGE,
     CLEAR_VENDOR_ALERT,
     DISPLAY_VENDOR_ALERT,
+    DELETE_VENDOR_SUCCESS,
 } from '../../actions/admin/VendorActions'
 
 const initialState = {
     vendorData: [],
     isLoading: false,
     showAlert: false,
+    clearValues: '',
     alertType: '',
     alertText: '',
     isEditing: false,
@@ -27,7 +29,6 @@ const initialState = {
     contect: '',
     email: '',
     pincode: '',
-    clearValues: false,
 }
 
 const VendorReducer = function (state = initialState, action) {
@@ -48,10 +49,10 @@ const VendorReducer = function (state = initialState, action) {
         case CREATE_SUCCESS: {
             return {
                 ...state,
-                clearValues: true,
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
+                clearValues: true,
                 alertText: 'New Vendor data Added!',
             }
         }
@@ -64,27 +65,24 @@ const VendorReducer = function (state = initialState, action) {
                 alertText: action.payload.msg,
             }
         }
-        case HANDLE_CHANGE: {
-            return {
-                ...state,
-                page: 1,
-                [action.payload.name]: action.payload.value,
-            }
-        }
+
         case EDIT_BEGIN: {
             return {
                 ...state,
                 isLoading: true,
+                isEditing: true,
             }
         }
         // edit VENDOR
         case EDIT_SUCCESS: {
             return {
                 ...state,
-                clearValues: true,
                 isLoading: false,
                 showAlert: true,
+                isEditing: false,
                 alertType: 'success',
+                clearValues: true,
+                _id: '',
                 alertText: 'Vendor data Updated!',
             }
         }
@@ -94,12 +92,24 @@ const VendorReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: action.payload.msg,
-                alertType: 'danger',
+                alertType: 'error',
             }
         }
         //delete state
         case DELETE_BEGIN: {
             return { ...state, isLoading: false }
+        }
+        case DELETE_VENDOR_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                isEditing: false,
+                alertType: 'success',
+                clearValues: true,
+                _id: '',
+                alertText: 'Vednor Deactivated !!',
+            }
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
@@ -137,8 +147,8 @@ const VendorReducer = function (state = initialState, action) {
         }
         case CLEAR_VALUES_VENDOR: {
             const initialState = {
-                isEditing: false,
-                clearValues: false,
+                clearValues: '',
+                _id: '',
                 vendor_name: '',
                 address: '',
                 contect: '',
@@ -149,14 +159,6 @@ const VendorReducer = function (state = initialState, action) {
             return {
                 ...state,
                 ...initialState,
-            }
-        }
-        case DISPLAY_VENDOR_ALERT: {
-            return {
-                ...state,
-                showAlert: true,
-                alertType: 'danger',
-                alertText: 'Please provide all values!',
             }
         }
         default: {
