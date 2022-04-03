@@ -46,7 +46,7 @@ function CustomizedMenu() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 elevation={0}
-                getContentAnchorEl={null}
+                getcontentanchorel={null}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'center',

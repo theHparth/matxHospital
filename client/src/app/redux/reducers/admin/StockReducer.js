@@ -4,10 +4,10 @@ import {
     CREATE_ERROR,
     GET_BEGIN,
     GET_SUCCESS_STOCK,
-    SET_EDIT,
+    SET_EDIT_STOCK,
     DELETE_BEGIN,
     EDIT_BEGIN,
-    EDIT_SUCCESS,
+    EDIT_SUCCESS_STOCK,
     EDIT_ERROR,
     CLEAR_VALUES_STOCK,
     HANDLE_CHANGE,
@@ -83,7 +83,7 @@ const StockReducer = function (state = initialState, action) {
             }
         }
         // edit VENDOR
-        case EDIT_SUCCESS: {
+        case EDIT_SUCCESS_STOCK: {
             return {
                 ...state,
                 isLoading: false,
@@ -120,7 +120,7 @@ const StockReducer = function (state = initialState, action) {
         case DELETE_BEGIN: {
             return { ...state, isLoading: false }
         }
-        case SET_EDIT: {
+        case SET_EDIT_STOCK: {
             const subscriber = action.payload.subscriber
             const { _id, description, minimumLimit, stock_name } = subscriber
 
@@ -146,8 +146,6 @@ const StockReducer = function (state = initialState, action) {
         }
         case CLEAR_VALUES_STOCK: {
             const initialState = {
-                // alertType: '',
-                isEditing: false,
                 clearValues: '',
                 _id: '',
                 description: '',

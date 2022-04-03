@@ -108,7 +108,7 @@ const addHospital = (state) => async (dispatch) => {
             hospitalName,
         })
         dispatch({ type: CREATE_HOSPITAL_SUCCESS })
-        dispatch({ type: CLEAR_VALUES_HOSPITAL })
+        // dispatch({ type: CLEAR_VALUES_HOSPITAL })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -116,6 +116,9 @@ const addHospital = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
+    setTimeout(() => {
+        dispatch(clearAlert())
+    }, 3000)
 }
 
 const handleHospitalChange =

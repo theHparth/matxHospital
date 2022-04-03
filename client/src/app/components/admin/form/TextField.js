@@ -6,4 +6,10 @@ const TextField = styled(TextValidator)(() => ({
     marginBottom: '16px',
 }))
 
-export default TextField
+const FormHandlerBox = styled('div')(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+}))
+
+export { TextField, FormHandlerBox }

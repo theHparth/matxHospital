@@ -4,7 +4,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { Dialog, Button, Grid, Snackbar, Alert } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
-import { MyAlert } from 'app/components'
+import { MyAlert, TextField, FormHandlerBox } from 'app/components'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -12,17 +12,6 @@ import {
     add,
     clearValueStock,
 } from 'app/redux/actions/admin/StockActions'
-
-const TextField = styled(TextValidator)(() => ({
-    width: '100%',
-    marginBottom: '16px',
-}))
-
-const FormHandlerBox = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-}))
 
 const StockEditDialog = ({ uid, open, handleClose }) => {
     const {
@@ -46,47 +35,25 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
     })
 
     const dispatch = useDispatch()
-    console.log(showAlert, 'alerttyple')
     const cancleWithClean = () => {
-        // dispatch(clearValueStock())
         handleClose()
-        setTimeout(() => {
-            dispatch(clearValueStock())
-        }, 3000)
-        // clear()
+        dispatch(clearValueStock())
     }
-    // console.log(alertType, 'outside alertType')
+    console.log('is edit', isEditing)
 
     useEffect(() => {
         if (clearValues == true) {
             cancleWithClean()
-            // setTimeout(() => {
-            //     dispatch(clearValueStock())
-            // }, 3000)
         }
     }, [clearValues])
 
-    // console.log(isEditing, 'editing')
-
-    // useEffect(() => {
-    //     dispatch(add(newStock))
-    // }, [isEditing])
-
-    // if (clearValues) {
-    //     dispatch(clearValueStock())
-    //     cancleWithClean()
-    // }
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log('is edit', isEditing)
         if (isEditing) {
             dispatch(edit(newStock))
         } else {
             dispatch(add(newStock))
-
-            // cancleWithClean()
-            // if (alertType == 'success') {
-            //     handleClose()
-            // }
         }
     }
 

@@ -5,10 +5,10 @@ export const CREATE_SUCCESS_STOCK = 'CREATE_SUCCESS_STOCK'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
 export const GET_SUCCESS_STOCK = 'GET_SUCCESS_STOCK'
-export const SET_EDIT = 'SET_EDIT'
+export const SET_EDIT_STOCK = 'SET_EDIT_STOCK'
 export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
-export const EDIT_SUCCESS = 'EDIT_SUCCESS'
+export const EDIT_SUCCESS_STOCK = 'EDIT_SUCCESS_STOCK'
 export const EDIT_ERROR = 'EDIT_ERROR'
 export const DELETE_STOCK_SUCCESS = 'DELETE_STOCK_SUCCESS'
 
@@ -48,9 +48,7 @@ const add = (state) => async (dispatch) => {
             payload: { msg: error.response.data.msg },
         })
     }
-    setTimeout(() => {
-        dispatch(clearAlert())
-    }, 3000)
+    dispatch(clearAlert())
 }
 
 const getAllData = (state) => async (dispatch) => {
@@ -69,7 +67,7 @@ const getAllData = (state) => async (dispatch) => {
 }
 
 const setEditData = (subscriber) => (dispatch) => {
-    dispatch({ type: SET_EDIT, payload: { subscriber } })
+    dispatch({ type: SET_EDIT_STOCK, payload: { subscriber } })
 }
 
 const edit = (state) => async (dispatch) => {
@@ -80,7 +78,7 @@ const edit = (state) => async (dispatch) => {
             minimumLimit,
             stock_name,
         })
-        dispatch({ type: EDIT_SUCCESS })
+        dispatch({ type: EDIT_SUCCESS_STOCK })
         // dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
@@ -104,6 +102,7 @@ const deleteData = (Id) => async (dispatch) => {
         console.log(error)
         removeUserFromLocalStorage()
     }
+    dispatch(clearAlert())
 }
 
 ///////////////////////////////////////////////////////////////

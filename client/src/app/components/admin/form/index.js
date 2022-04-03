@@ -1,5 +1,5 @@
 import ContainerForm from './Container'
 import RadioRoot from './RadioRoot'
-import TextField from './TextField'
+import { TextField, FormHandlerBox } from './TextField'
 import InputText from './InputText'
-export { RadioRoot, ContainerForm, TextField, InputText }
+export { RadioRoot, ContainerForm, TextField, InputText, FormHandlerBox }

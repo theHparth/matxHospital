@@ -50,6 +50,7 @@ export {
     ContainerForm,
     TextField,
     InputText,
+    FormHandlerBox,
 } from './admin/form/index'
 export { default as InvoiceAutoGenerate } from './admin/Invoice/AutoGenerateInvoice'
 export {
