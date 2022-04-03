@@ -28,6 +28,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         hospitalName,
         _id,
         alertText,
+        confirmPassword,
     } = useSelector((x) => x.hospitalList)
     const [state, setState] = useState({
         id: _id,
@@ -36,10 +37,10 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         pincode: pincode,
         address: address,
         password: '',
+        confirmPassword: '',
         email: email,
         hospitalName: hospitalName,
     })
-    console.log('In Add page')
 
     const dispatch = useDispatch()
     const cancleWithClean = () => {
@@ -71,6 +72,20 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
             [name]: value,
         })
     }
+
+    // for password verification
+    useEffect(() => {
+        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+            console.log(value)
+
+            if (value !== state.password) {
+                return false
+            }
+            return true
+        })
+        return () => ValidatorForm.removeValidationRule('isPasswordMatch')
+    }, [state.password])
+
     return (
         <Dialog onClose={handleClose} open={open}>
             <Box p={3}>
@@ -114,6 +129,18 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                             />
 
                             <TextField
+                                label="Mobile Nubmer"
+                                onChange={handleHospitalInput}
+                                type="text"
+                                name="contect"
+                                value={state.contect}
+                                validators={['required']}
+                                errorMessages={['this field is required']}
+                            />
+                        </Grid>
+
+                        <Grid item sm={16} xs={12}>
+                            <TextField
                                 label="Email"
                                 onChange={handleHospitalInput}
                                 type="email"
@@ -125,44 +152,34 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                                     'email is not valid',
                                 ]}
                             />
-                        </Grid>
-
-                        <Grid item sm={16} xs={12}>
-                            <TextField
-                                label="Mobile Nubmer"
-                                onChange={handleHospitalInput}
-                                type="text"
-                                name="contect"
-                                value={state.contect}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                            />
-                            {isEditing ? (
-                                ''
-                            ) : (
+                            <div>
                                 <TextField
                                     label="Password"
                                     onChange={handleHospitalInput}
                                     name="password"
                                     type="password"
                                     value={state.password}
-                                    validators={['required']}
+                                    validators={!isEditing && ['required']}
                                     errorMessages={['this field is required']}
                                 />
-                            )}
-
-                            {/* <FormControlLabel
-                                sx={{ my: '20px' }}
-                                control={
-                                    <Switch
-                                        checked={state?.isActive}
-                                        onChange={(event) =>
-                                            handleChange(event, 'switch')
-                                        }
-                                    />
-                                }
-                                label="Active Customer"
-                            /> */}
+                                <TextField
+                                    label="Confirm Password"
+                                    onChange={handleHospitalInput}
+                                    name="confirmPassword"
+                                    type="password"
+                                    value={state.confirmPassword}
+                                    validators={
+                                        !isEditing && [
+                                            'required',
+                                            'isPasswordMatch',
+                                        ]
+                                    }
+                                    errorMessages={[
+                                        'this field is required',
+                                        "password didn't match",
+                                    ]}
+                                />
+                            </div>
                         </Grid>
                     </Grid>
 

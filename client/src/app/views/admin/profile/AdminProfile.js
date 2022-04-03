@@ -132,7 +132,7 @@ const AdminProfile = () => {
                                 id="standard-basic"
                                 onChange={handleInput}
                                 value={state.password}
-                                label="Password"
+                                label="New password"
                             />
                         </Grid>
                     </Grid>

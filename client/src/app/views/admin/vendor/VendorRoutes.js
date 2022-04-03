@@ -13,6 +13,10 @@ const vendorRoutes = [
         path: '/allVendor',
         element: <AllVendor />,
     },
+    {
+        path: '/allVendor/new',
+        element: <AllVendor />,
+    },
 ]
 
 export default vendorRoutes

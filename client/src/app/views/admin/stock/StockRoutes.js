@@ -13,6 +13,10 @@ const StockRoutes = [
         path: '/allStock',
         element: <AllStock />,
     },
+    {
+        path: '/allStock/new',
+        element: <AllStock />,
+    },
 ]
 
 export default StockRoutes

@@ -170,10 +170,13 @@ const HospitalReducer = function (state = initialState, action) {
         case CLEAR_VALUES_HOSPITAL: {
             const initialState = {
                 clearValues: '',
+                hospitalName: '',
+                address: '',
+                contect: '',
+                password: '',
+                email: '',
+                pincode: '',
                 _id: '',
-                description: '',
-                minimumLimit: '',
-                stock_name: '',
             }
             return {
                 ...state,

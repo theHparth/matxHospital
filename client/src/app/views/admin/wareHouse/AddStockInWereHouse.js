@@ -158,8 +158,9 @@ const AddStockInWereHouse = () => {
                                                 <em>None</em>
                                             </MenuItem>
                                             {Object.values(vendorData).map(
-                                                (vender) => (
+                                                (vender, index) => (
                                                     <MenuItem
+                                                        key={index}
                                                         value={
                                                             vender.vendor_name
                                                         }
@@ -169,8 +170,9 @@ const AddStockInWereHouse = () => {
                                                 )
                                             )}
                                             <MenuItem
+                                                key={'last'}
                                                 onClick={() =>
-                                                    navigate('/addVendor')
+                                                    navigate('/allVendor/new')
                                                 }
                                             >
                                                 Add new vendor
@@ -203,17 +205,19 @@ const AddStockInWereHouse = () => {
                                                 <em>None</em>
                                             </MenuItem>
                                             {Object.values(stockData).map(
-                                                (stock) => (
+                                                (stock, index) => (
                                                     <MenuItem
                                                         value={stock.stock_name}
+                                                        key={index}
                                                     >
                                                         {stock.stock_name}
                                                     </MenuItem>
                                                 )
                                             )}
                                             <MenuItem
+                                                key={'last'}
                                                 onClick={() =>
-                                                    navigate('/addStock')
+                                                    navigate('/allStock/new')
                                                 }
                                             >
                                                 Add new stock

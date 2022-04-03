@@ -20,6 +20,7 @@ import {
 } from 'app/components'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
+import { useLocation } from 'react-router-dom'
 import HandleStock from './HandleStock'
 import {
     getAllData,
@@ -33,6 +34,15 @@ const AllStock = () => {
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
+
+    // auto open add new stock
+
+    const location = useLocation()
+    useEffect(() => {
+        if (location.pathname == '/allStock/new') {
+            setShouldOpenEditorDialog(true)
+        }
+    }, [location.pathname])
 
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)

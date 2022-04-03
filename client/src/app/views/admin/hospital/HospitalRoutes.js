@@ -22,6 +22,7 @@ const hospitalRoutes = [
         path: '/allHospitals',
         element: <AllHospital />,
     },
+
     // {
     //     path: '/hospitalData/:id',
     //     element: <IndividualHospitalStock />,

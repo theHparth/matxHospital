@@ -20,6 +20,7 @@ import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { H5, Small } from 'app/components/Typography'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
+import { useLocation } from 'react-router-dom'
 
 // my import
 import HandleVendor from './HandleVendor'
@@ -36,6 +37,15 @@ const CustomerList = () => {
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
+
+    // auto open add vendor dialog
+
+    const location = useLocation()
+    useEffect(() => {
+        if (location.pathname == '/allVendor/new') {
+            setShouldOpenEditorDialog(true)
+        }
+    }, [location.pathname])
 
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)

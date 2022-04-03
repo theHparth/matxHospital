@@ -20,7 +20,7 @@ import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { H5, Small } from 'app/components/Typography'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
-
+import { browserHistory, Router, Route } from 'react-router'
 // my import
 import HandleHospital from './HandleHospital'
 import {
@@ -36,6 +36,10 @@ const CustomerList = () => {
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
+
+    // useEffect(() => {
+    //     setShouldOpenEditorDialog(true)
+    // })
 
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
