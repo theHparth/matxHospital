@@ -18,8 +18,6 @@ import {
 } from '../../actions/admin/StockOutAction'
 
 const initialState = {
-    stockOutDataTrue: [],
-    stockOutDataFalse: [],
     allStockOutData: [],
     isLoading: false,
     showAlert: false,
@@ -50,18 +48,7 @@ const StockOutReducer = function (state = initialState, action) {
         case GET_BEGIN: {
             return { ...state, isLoading: true, showAlert: false }
         }
-        case GET_SUCCESS_STOCKOUT_STATUS_TRUE: {
-            return {
-                ...state,
-                stockOutDataTrue: action.payload.stockOutDataTrueStatus,
-            }
-        }
-        case GET_SUCCESS_STOCKOUT_STATUS_FALSE: {
-            return {
-                ...state,
-                stockOutDataFalse: action.payload.stockOutDataFalseStatus,
-            }
-        }
+
         case GET_ALL_SUCCESS_STOCKOUT: {
             return { ...state, allStockOutData: action.payload.allStockOutData }
         }

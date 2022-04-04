@@ -18,14 +18,18 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DateTimePicker2 from '@mui/lab/DateTimePicker'
 import { topBarHeight } from 'app/utils/constant'
 import { addDays } from 'date-fns'
-import { DateRangePicker } from 'react-date-range'
+// import { DateRangePicker } from 'react-date-range'
+
+import 'rsuite/styles/index.less'
+import { DateRangePicker } from 'rsuite'
+import 'rsuite/dist/rsuite.min.css'
 
 const DateContainer2 = styled('div')(({ theme }) => ({}))
 
 const DateContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
-    top: 25,
-    left: 400,
+    top: 110,
+    left: 600,
     zIndex: 9,
     // width: '20%',
     // display: 'flex',
@@ -65,21 +69,22 @@ const DateChoose = ({ dateProjection }) => {
     const oneYearAgo = new Date()
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 10)
 
-    const [state, setState] = useState([
-        {
-            startDate: oneYearAgo,
-            endDate: new Date(),
-            key: 'selection',
-            focusedInput: '',
-        },
-    ])
-    console.log('new', state)
+    const [state, setState] = useState()
+
     useEffect(() => {
-        dateProjection(state[0].startDate, state[0].endDate)
+        dateProjection(state)
     }, [state])
     return (
         <React.Fragment>
-            {!open && (
+            <DateContainer>
+                <DateRangePicker
+                    appearance="default"
+                    placeholder="Default"
+                    style={{ width: 230 }}
+                    onChange={(item) => setState(item)}
+                />
+            </DateContainer>
+            {/* {!open && (
                 <DateContainer>
                     <IconButton onClick={toggle}>
                         <Icon sx={iconStyle}>timer</Icon>
@@ -89,11 +94,7 @@ const DateChoose = ({ dateProjection }) => {
 
             {open && (
                 <DateContainer>
-                    {/* <SearchInput
-                        type="text"
-                        placeholder="Search here..."
-                        autoFocus
-                    /> */}
+                  
                     <DateRangePicker
                         onChange={(item) => setState([item.selection])}
                         showSelectionPreview={true}
@@ -101,16 +102,7 @@ const DateChoose = ({ dateProjection }) => {
                         months={2}
                         ranges={state}
                         direction="horizontal"
-                        // startDate={state.startDate} // momentPropTypes.momentObj or null,
-                        // endDate={state.endDate} // momentPropTypes.momentObj or null,
-                        // onDatesChange={({ startDate, endDate }) =>
-                        //     setState({ startDate, endDate })
-                        // } // PropTypes.func.isRequired,
-                        // focusedInput={state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                        // onFocusChange={(focusedInput) =>
-                        //     setState({ focusedInput })
-                        // } // PropTypes.func.isRequired,
-                        // initialVisibleMonth={() => moment().add(2, 'M')} // PropTypes.func or null,
+                       
                     />
                     <IconButton
                         onClick={toggle}
@@ -119,104 +111,9 @@ const DateChoose = ({ dateProjection }) => {
                         <Icon sx={{ color: textColor }}>close</Icon>
                     </IconButton>
                 </DateContainer>
-            )}
+            )} */}
         </React.Fragment>
-
-        // const handleDateChange = (date, name) => {
-        //     // setState({
-        //     //     ...state,
-        //     //     [name]: date,
-        //     // })
-        // }
-        // return (
-        //     <Grid container spacing={4}>
-        //         <Grid item sm={6} xs={12}>
-        //             <LocalizationProvider dateAdapter={AdapterDateFns}>
-        //                 <DateTimePicker2
-        //                     value={new Date()}
-        //                     onChange={(date) => handleDateChange(date, 'start')}
-        //                     renderInput={(props) => (
-        //                         <TextField
-        //                             {...props}
-        //                             label="Start date"
-        //                             variant="standard"
-        //                         />
-        //                     )}
-        //                 />
-        //             </LocalizationProvider>
-        //         </Grid>
-        //         <Grid item sm={6} xs={12}>
-        //             <LocalizationProvider dateAdapter={AdapterDateFns}>
-        //                 <DateTimePicker2
-        //                     value={new Date()}
-        //                     onChange={(date) => handleDateChange(date, 'end')}
-        //                     renderInput={(props) => (
-        //                         <TextField
-        //                             {...props}
-        //                             label="End date"
-        //                             variant="standard"
-        //                         />
-        //                     )}
-        //                 />
-        //             </LocalizationProvider>
-        //         </Grid>
-        //     </Grid>
     )
 }
 
 export { DateChoose, DateContainer, DateContainer2 }
-
-// import React, { useState } from 'react'
-// import { styled, useTheme } from '@mui/system'
-// import { Icon, IconButton } from '@mui/material'
-// import { topBarHeight } from 'app/utils/constant'
-
-// const SearchBox = () => {
-//     const [open, setOpen] = useState(false)
-//     const toggle = () => {
-//         setOpen(!open)
-//     }
-//     const { palette } = useTheme()
-//     const textColor = palette.text.primary
-//     const iconStyle = { color: textColor }
-
-//     return (
-//         <React.Fragment>
-//             {!open && (
-//                 <SearchContainer>
-//                     <IconButton onClick={toggle}>
-//                         <Icon sx={iconStyle}>search</Icon>
-//                     </IconButton>
-//                 </SearchContainer>
-//             )}
-
-//             {open && (
-//                 <SearchContainer>
-//                     <SearchInput
-//                         type="text"
-//                         placeholder="Search here..."
-//                         autoFocus
-//                     />
-//                     <IconButton
-//                         onClick={toggle}
-//                         sx={{ mx: 2, verticalAlign: 'middle' }}
-//                     >
-//                         <Icon sx={{ color: textColor }}>close</Icon>
-//                     </IconButton>
-//                 </SearchContainer>
-//             )}
-//         </React.Fragment>
-//         // <div>
-//         //     <SearchContainer>
-//         //         <SearchInput
-//         //             type="text"
-//         //             placeholder="Search here..."
-//         //             autoFocus
-//         //         />
-//         //     </SearchContainer>
-//         //     {/* )} */}
-//         // </div>
-//     )
-// }
-
-// export { SearchBox, SearchInput, SearchContainer }

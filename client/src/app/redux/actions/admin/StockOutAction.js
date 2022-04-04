@@ -86,8 +86,14 @@ const edit = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const allStockOutDatas = (searchDate, searchText) => async (dispatch) => {
+const allStockOutDatas = (state) => async (dispatch) => {
     let url = '/'
+    var { searchDate, searchText } = state
+    // if (id) {
+    //     url = url + `?hospitalId=${id}`
+    // }
+    // console.log('date', searchDate, 'text', searchText)
+    // url = url + `?searchDate=${searchDate}`
     if (searchText) {
         url = url + `?searchText=${searchText}`
     }
@@ -105,47 +111,71 @@ const allStockOutDatas = (searchDate, searchText) => async (dispatch) => {
     }
 }
 
-const getAllDataStatusTrue = (state) => async (dispatch) => {
-    let url = '/trueAdmin'
-
+const getAllSortData = (state) => async (dispatch) => {
+    let url = '/sortData'
     var { searchDate, searchText } = state
-    // if (id) {
+    // if (searchDate) {
     //     url = url + `?hospitalId=${id}`
     // }
-    // console.log('date', searchDate, 'text', searchText)
-    // url = url + `?searchDate=${searchDate}`
-    if (searchText) {
-        url = url + `?searchText=${searchText}`
-    }
-    console.log(url)
     try {
-        const { data } = await authFetch.get(url)
-        const { stockOutDataTrueStatus } = data
-        // console.log(stockList)
+        const { data } = await authFetch.post(url, {
+            searchDate,
+        })
+        const { allStockOutData } = data
+        console.log('in frontenddddd', allStockOutData)
         dispatch({
-            type: GET_SUCCESS_STOCKOUT_STATUS_TRUE,
-            payload: { stockOutDataTrueStatus },
+            type: GET_ALL_SUCCESS_STOCKOUT,
+            payload: { allStockOutData },
         })
     } catch (error) {
-        console.log(error)
-        // logout()
+        if (error.response.status === 401) return
+        dispatch({
+            type: CREATE_ERROR,
+            payload: { msg: error.response.data.msg },
+        })
     }
-    dispatch(clearAlert())
+    // dispatch(clearAlert())
+}
+const getAllDataStatusTrue = (state) => async (dispatch) => {
+    // let url = '/'
+    // var { searchDate, searchText } = state
+    // // if (id) {
+    // //     url = url + `?hospitalId=${id}`
+    // // }
+    // // console.log('date', searchDate, 'text', searchText)
+    // // url = url + `?searchDate=${searchDate}`
+    // if (searchText) {
+    //     url = url + `?searchText=${searchText}`
+    // }
+    // console.log(url)
+    // try {
+    //     const { data } = await authFetch.get(url)
+    //     const { stockOutDataTrueStatus } = data
+    //     // console.log(stockList)
+    //     dispatch({
+    //         type: GET_SUCCESS_STOCKOUT_STATUS_TRUE,
+    //         payload: { stockOutDataTrueStatus },
+    //     })
+    // } catch (error) {
+    //     console.log(error)
+    //     // logout()
+    // }
+    // dispatch(clearAlert())
 }
 const getAllDataStatusFalse = (state) => async (dispatch) => {
-    try {
-        const { data } = await authFetch.get('/falseAdmin')
-        const { stockOutDataFalseStatus } = data
-        // console.log(stockOutDataFalseStatus)
-        dispatch({
-            type: GET_SUCCESS_STOCKOUT_STATUS_FALSE,
-            payload: { stockOutDataFalseStatus },
-        })
-    } catch (error) {
-        console.log(error)
-        // logout()
-    }
-    dispatch(clearAlert())
+    // try {
+    //     const { data } = await authFetch.get('/falseAdmin')
+    //     const { stockOutDataFalseStatus } = data
+    //     // console.log(stockOutDataFalseStatus)
+    //     dispatch({
+    //         type: GET_SUCCESS_STOCKOUT_STATUS_FALSE,
+    //         payload: { stockOutDataFalseStatus },
+    //     })
+    // } catch (error) {
+    //     console.log(error)
+    //     // logout()
+    // }
+    // dispatch(clearAlert())
 }
 
 const deleteData = (Id) => async (dispatch) => {
@@ -176,6 +206,7 @@ const displayAlert = () => (dispatch) => {
 ////////////////////////////////////////////////////////////////////////
 
 export {
+    getAllSortData,
     sendToUser,
     getAllDataStatusTrue,
     getAllDataStatusFalse,
