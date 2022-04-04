@@ -63,7 +63,7 @@ const getHospitalsData = (hospitalId) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        removeUserFromLocalStorage()
+        // removeUserFromLocalStorage()
     }
 }
 const hospitalStockInformation = (id) => async (dispatch) => {
@@ -79,7 +79,7 @@ const hospitalStockInformation = (id) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        removeUserFromLocalStorage()
+        // removeUserFromLocalStorage()
     }
     dispatch(clearAlert())
 }
@@ -151,7 +151,7 @@ const deleteHospital = (hospitalId) => async (dispatch) => {
     dispatch({ type: DELETE_HOSPITAL_BEGIN })
 
     try {
-        await authFetch.delete(`/hospitals/${hospitalId}`)
+        await authFetch.put(`/hospitals/${hospitalId}`)
         dispatch({ type: DELETE_HOSPITAL_SUCCESS })
 
         dispatch(getHospitalsData())

@@ -15,6 +15,10 @@ const authHospital = async (req, res, next) => {
       hospitalName: payload.hospitalName,
     };
 
+    if (!payload.hospitalStatus) {
+      throw new UnAuthenticatedError("Invalid Credentials");
+    }
+
     next();
   } catch (error) {
     throw new UnAuthenticatedError("Authentication Invalid");

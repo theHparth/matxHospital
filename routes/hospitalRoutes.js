@@ -11,6 +11,6 @@ import {
 router.route("/").post(registerHospital).get(getAllHospital);
 // remember about :id
 // router.route("/stats").get(showStats);
-router.route("/:id").delete(deleteHospital).patch(updateHospital);
+router.route("/:id").put(deleteHospital).patch(updateHospital);
 
 export default router;

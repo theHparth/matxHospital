@@ -20,8 +20,7 @@ import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { H5, Small } from 'app/components/Typography'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
-import { browserHistory, Router, Route } from 'react-router'
-// my import
+import { useLocation } from 'react-router-dom' // my import
 import HandleHospital from './HandleHospital'
 import {
     getHospitalsData,
@@ -36,10 +35,6 @@ const CustomerList = () => {
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
-
-    // useEffect(() => {
-    //     setShouldOpenEditorDialog(true)
-    // })
 
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
@@ -58,7 +53,7 @@ const CustomerList = () => {
         dispatch(getHospitalsData())
     }
 
-    const {
+    let {
         hospitalsData = [],
         showAlert,
         alertType,
@@ -71,6 +66,17 @@ const CustomerList = () => {
         dispatch(getHospitalsData())
     }, [dispatch])
     // my import finish
+    const location = useLocation()
+
+    var privatrRoute = false
+    if (location.pathname == '/allHospitalsD') {
+        privatrRoute = true
+    }
+    console.log(privatrRoute)
+
+    hospitalsData = hospitalsData.filter((data) => {
+        return privatrRoute ? !data.hospitalStatus : data.hospitalStatus
+    })
 
     // for design
     const { palette } = useTheme()
@@ -136,14 +142,33 @@ const CustomerList = () => {
                     <FlexBox>
                         <Box flexGrow={1}></Box>
 
-                        <StyledButton
-                            sx={{ color: bgError }}
-                            onClick={() =>
-                                handleDeleteUser(hospitalsData[dataIndex]._id)
-                            }
-                        >
-                            <Icon>delete</Icon>
-                        </StyledButton>
+                        {/* <StyledButton> */}
+                        {privatrRoute ? (
+                            <Button
+                                variant="contained"
+                                color="success"
+                                onClick={() =>
+                                    handleDeleteUser(
+                                        hospitalsData[dataIndex]._id
+                                    )
+                                }
+                            >
+                                Active
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="outlined"
+                                color="error"
+                                onClick={() =>
+                                    handleDeleteUser(
+                                        hospitalsData[dataIndex]._id
+                                    )
+                                }
+                            >
+                                Deactive
+                            </Button>
+                        )}
+
                         <Box flexGrow={1}></Box>
 
                         <StyledButton
@@ -194,14 +219,16 @@ const CustomerList = () => {
 
     return (
         <Container>
-            <Button
-                sx={{ mb: 2 }}
-                variant="contained"
-                color="primary"
-                onClick={() => setShouldOpenEditorDialog(true)}
-            >
-                Add New Hospital
-            </Button>
+            {!privatrRoute && (
+                <Button
+                    sx={{ mb: 2 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setShouldOpenEditorDialog(true)}
+                >
+                    Add New Hospital
+                </Button>
+            )}
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
@@ -279,7 +306,11 @@ const CustomerList = () => {
                             open={shouldOpenConfirmationDialog}
                             onConfirmDialogClose={handleDialogClose}
                             onYesClick={handleConfirmationResponse}
-                            text="Are you sure to delete?"
+                            text={
+                                privatrRoute
+                                    ? 'Sure to active    !!'
+                                    : 'Are you sure to deactive?'
+                            }
                         />
                     )}
                 </Box>
@@ -287,7 +318,11 @@ const CustomerList = () => {
                     <MyAlert
                         isOpen={showAlert}
                         typeSeverity={alertType}
-                        alrtTextToShow={alertText}
+                        alrtTextToShow={
+                            privatrRoute
+                                ? 'Hospital activated successfully'
+                                : alertText
+                        }
                     />
                 ) : null}
             </Box>

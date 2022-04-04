@@ -11,7 +11,7 @@ const login = async (req, res) => {
     email: { $regex: email, $options: "i" },
   }).select("+password");
   console.log(hospital);
-  if (!hospital) {
+  if (!hospital || !hospital.hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
 

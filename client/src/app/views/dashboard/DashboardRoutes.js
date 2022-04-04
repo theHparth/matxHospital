@@ -12,8 +12,7 @@ const InventoryManagement = Loadable(
 export const dashboardRoutes = [
     {
         path: 'dashboard/default',
-        element: <Analytics2 />,
-        auth: authRoles.sa,
+        element: <InventoryManagement />,
     },
     {
         path: 'dashboard/analytics',
@@ -25,6 +24,7 @@ export const dashboardRoutes = [
     },
     {
         path: 'dashboard/inventory-management',
-        element: <InventoryManagement />,
+        element: <Analytics2 />,
+        auth: authRoles.sa,
     },
 ]

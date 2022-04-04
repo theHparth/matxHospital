@@ -56,7 +56,11 @@ HospitalSchema.pre("save", async function () {
 
 HospitalSchema.methods.createJWT = function () {
   return jwt.sign(
-    { hospitalId: this._id, hospitalName: this.hospitalName },
+    {
+      hospitalId: this._id,
+      hospitalName: this.hospitalName,
+      hospitalStatus: this.hospitalStatus,
+    },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_LIFETIME,
