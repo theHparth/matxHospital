@@ -142,47 +142,34 @@ const CustomerList = () => {
                     <FlexBox>
                         <Box flexGrow={1}></Box>
 
-                        {/* <StyledButton> */}
-                        {privatrRoute ? (
-                            <Button
-                                variant="contained"
-                                color="success"
-                                onClick={() =>
-                                    handleDeleteUser(
-                                        hospitalsData[dataIndex]._id
-                                    )
-                                }
-                            >
-                                Active
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="outlined"
-                                color="error"
-                                onClick={() =>
-                                    handleDeleteUser(
-                                        hospitalsData[dataIndex]._id
-                                    )
-                                }
-                            >
-                                Deactive
-                            </Button>
-                        )}
+                        <Button
+                            variant={privatrRoute ? 'contained' : 'outlined'}
+                            color={privatrRoute ? 'success' : 'error'}
+                            onClick={() =>
+                                handleDeleteUser(hospitalsData[dataIndex]._id)
+                            }
+                        >
+                            {privatrRoute ? 'Active' : 'Deactive'}
+                        </Button>
 
                         <Box flexGrow={1}></Box>
 
-                        <StyledButton
-                            // variant="contained"
-                            sx={{ color: bgSuccess }}
-                            onClick={() => {
-                                dispatch(
-                                    setEditHospital(hospitalsData[dataIndex])
-                                )
-                                setShouldOpenEditorDialog(true)
-                            }}
-                        >
-                            <Icon color="primary">edit</Icon>
-                        </StyledButton>
+                        {!privatrRoute && (
+                            <StyledButton
+                                // variant="contained"
+                                sx={{ color: bgSuccess }}
+                                onClick={() => {
+                                    dispatch(
+                                        setEditHospital(
+                                            hospitalsData[dataIndex]
+                                        )
+                                    )
+                                    setShouldOpenEditorDialog(true)
+                                }}
+                            >
+                                <Icon color="primary">edit</Icon>
+                            </StyledButton>
+                        )}
                     </FlexBox>
                 ),
             },

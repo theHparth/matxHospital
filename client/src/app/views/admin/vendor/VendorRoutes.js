@@ -14,6 +14,10 @@ const vendorRoutes = [
         element: <AllVendor />,
     },
     {
+        path: '/allVendorD',
+        element: <AllVendor />,
+    },
+    {
         path: '/allVendor/new',
         element: <AllVendor />,
     },

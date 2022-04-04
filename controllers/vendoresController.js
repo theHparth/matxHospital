@@ -130,9 +130,17 @@ const deleteVendor = async (req, res) => {
 
   checkPermissions(req.user, vendor.createdBy);
 
-  await vendor.remove();
+  // await vendor.remove();
+  const deactiveVendor = await vendors.findOneAndUpdate(
+    { _id: vendorId },
+    { vendorStatus: !vendor.vendorStatus },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-  res.status(StatusCodes.OK).json({ msg: "Success! vendor data removed" });
+  res.status(StatusCodes.OK).json({ deactiveVendor });
 };
 
 export { addVendor, deleteVendor, getAllVendor, updateVendor, onlyVendorsName };

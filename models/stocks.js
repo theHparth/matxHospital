@@ -20,6 +20,7 @@ const StockSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    stockStatus: { type: Boolean, default: true },
     price: {
       type: Number,
     },

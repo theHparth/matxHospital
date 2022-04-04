@@ -64,7 +64,7 @@ const CustomerList = () => {
         dispatch(getAllVendor())
     }
     // complete
-    const {
+    let {
         vendorData = [],
         showAlert,
         alertType,
@@ -77,6 +77,15 @@ const CustomerList = () => {
         dispatch(getAllVendor())
     }, [dispatch])
     // my import finish
+
+    var privatrRoute = false
+    if (location.pathname == '/allVendorD') {
+        privatrRoute = true
+    }
+
+    vendorData = vendorData.filter((data) => {
+        return privatrRoute ? !data.vendorStatus : data.vendorStatus
+    })
 
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
@@ -141,26 +150,29 @@ const CustomerList = () => {
                 customBodyRenderLite: (dataIndex) => (
                     <FlexBox>
                         <Box flexGrow={1}></Box>
-                        <StyledButton
-                            sx={{ color: bgError }}
+
+                        <Button
+                            variant={privatrRoute ? 'contained' : 'outlined'}
+                            color={privatrRoute ? 'success' : 'error'}
                             onClick={() =>
                                 handleDeleteUser(vendorData[dataIndex]._id)
                             }
                         >
-                            <Icon>delete</Icon>
-                        </StyledButton>
+                            {privatrRoute ? 'Active' : 'Deactive'}
+                        </Button>
                         <Box flexGrow={1}></Box>
-
-                        <StyledButton
-                            // variant="contained"
-                            sx={{ color: bgSuccess }}
-                            onClick={() => {
-                                dispatch(setEditData(vendorData[dataIndex]))
-                                setShouldOpenEditorDialog(true)
-                            }}
-                        >
-                            <Icon color="primary">edit</Icon>
-                        </StyledButton>
+                        {!privatrRoute && (
+                            <StyledButton
+                                // variant="contained"
+                                sx={{ color: bgSuccess }}
+                                onClick={() => {
+                                    dispatch(setEditData(vendorData[dataIndex]))
+                                    setShouldOpenEditorDialog(true)
+                                }}
+                            >
+                                <Icon color="primary">edit</Icon>
+                            </StyledButton>
+                        )}
                     </FlexBox>
                 ),
             },
@@ -176,17 +188,6 @@ const CustomerList = () => {
 
                         <Link
                             to={`/wereHouseStock/${vendorData[dataIndex].vendor_name}`}
-                            // onClick={() =>
-                            //     dispatch(
-                            //         // getAllData({
-                            //         //     vaendordataIndivisual:
-                            //         //         vendorData[dataIndex],
-                            //         // })
-                            //         getAllData({
-                            //             vendorInfo: vendorData[dataIndex],
-                            //         })
-                            //     )
-                            // }
                         >
                             <IconButton>
                                 <Icon>arrow_right_alt</Icon>
@@ -200,22 +201,16 @@ const CustomerList = () => {
 
     return (
         <Container>
-            <Button
-                sx={{ mb: 2 }}
-                variant="contained"
-                color="primary"
-                onClick={() => setShouldOpenEditorDialog(true)}
-            >
-                Add New Vendor
-            </Button>
-            {/* <div className="breadcrumb">
-                <Breadcrumb
-                    routeSegments={[
-                        { name: 'Add Vendor', path: '/addVendor' },
-                        { name: 'Form' },
-                    ]}
-                />
-            </div> */}
+            {!privatrRoute && (
+                <Button
+                    sx={{ mb: 2 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setShouldOpenEditorDialog(true)}
+                >
+                    Add New Venodr
+                </Button>
+            )}
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
@@ -300,7 +295,11 @@ const CustomerList = () => {
                 <MyAlert
                     isOpen={showAlert}
                     typeSeverity={alertType}
-                    alrtTextToShow={alertText}
+                    alrtTextToShow={
+                        privatrRoute
+                            ? 'Vendor activated successfully'
+                            : alertText
+                    }
                 />
             ) : null}
         </Container>

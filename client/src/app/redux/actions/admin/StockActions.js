@@ -60,7 +60,7 @@ const getAllData = (state) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        removeUserFromLocalStorage()
+        // removeUserFromLocalStorage()
     }
     dispatch(clearAlert())
 }
@@ -94,7 +94,7 @@ const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
 
     try {
-        await authFetch.delete(`/stocks/${Id}`)
+        await authFetch.put(`/stocks/${Id}`)
         dispatch({ type: DELETE_STOCK_SUCCESS })
         dispatch(getAllData())
     } catch (error) {

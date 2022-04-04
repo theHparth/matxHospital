@@ -1,7 +1,11 @@
 import UserStock from "../../models/User/stockOut.js";
 import StocksHosital from "../../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../../errors/index.js";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnAuthenticatedError,
+} from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 
 const addStockQty = async (
@@ -61,7 +65,10 @@ const removeStockQty = async (
 
 const statusController = async (req, res) => {
   const { id: stockOutId } = req.params;
-
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   const { status } = req.body;
   const stockOutData = await UserStock.findOne({ _id: stockOutId });
 
@@ -118,6 +125,10 @@ const statusController = async (req, res) => {
 };
 
 const statusFalse = async (req, res) => {
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   const queryObject = {
     createdFor: req.hospital.hospitalId,
     status: false,
@@ -129,6 +140,10 @@ const statusFalse = async (req, res) => {
   res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
 };
 const statusTrue = async (req, res) => {
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   // const { hospitalId } = req.query;
   const queryObject = {
     createdFor: req.hospital.hospitalId,
@@ -145,6 +160,10 @@ const statusTrue = async (req, res) => {
 };
 
 const totoalStocksInUser = async (req, res) => {
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   const queryObject = {
     createdFor: req.hospital.hospitalId,
   };
@@ -158,6 +177,10 @@ const totoalStocksInUser = async (req, res) => {
 };
 
 const minimumRequiremantUserChange = async (req, res) => {
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   const { id: stockId } = req.params;
 
   const { minimumLimit } = req.body;

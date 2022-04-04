@@ -35,14 +35,34 @@ const AllStock = () => {
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
 
-    // auto open add new stock
+    let {
+        stockData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.stockList)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getAllData())
+    }, [dispatch])
 
     const location = useLocation()
+    // auto open add new stock
     useEffect(() => {
         if (location.pathname == '/allStock/new') {
             setShouldOpenEditorDialog(true)
         }
     }, [location.pathname])
+
+    var privatrRoute = false
+    if (location.pathname == '/allStockD') {
+        privatrRoute = true
+    }
+
+    stockData = stockData.filter((data) => {
+        return privatrRoute ? !data.stockStatus : data.stockStatus
+    })
 
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
@@ -67,18 +87,6 @@ const AllStock = () => {
     const bgSecondary = palette.secondary.main
     const bgSuccess = palette.success.main
 
-    let {
-        stockData = [],
-        showAlert,
-        alertType,
-        alertText,
-    } = useSelector((state) => state.stockList)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(getAllData())
-    }, [dispatch])
-
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
 
@@ -92,14 +100,16 @@ const AllStock = () => {
     }
     return (
         <ContainerTable>
-            <Button
-                sx={{ mb: 2 }}
-                variant="contained"
-                color="primary"
-                onClick={() => setShouldOpenEditorDialog(true)}
-            >
-                Add New Stock
-            </Button>
+            {!privatrRoute && (
+                <Button
+                    sx={{ mb: 2 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setShouldOpenEditorDialog(true)}
+                >
+                    Add New Stock
+                </Button>
+            )}
 
             {stockData.length == 0 || stockData == undefined ? (
                 <h1>No stock data found..!!</h1>
@@ -122,7 +132,11 @@ const AllStock = () => {
 
                                     {/* <TableCell>Address</TableCell>
                         <TableCell align="center">Pincode</TableCell> */}
-                                    <TableCell align="center">Edit</TableCell>
+                                    {!privatrRoute && (
+                                        <TableCell align="center">
+                                            Edit
+                                        </TableCell>
+                                    )}
                                     <TableCell>Delete</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -160,28 +174,17 @@ const AllStock = () => {
                                                 // colSpan={2}
                                             >
                                                 {subscriber.totalQty ? (
-                                                    subscriber.totalQty <
-                                                    subscriber.minimumLimit ? (
-                                                        <StockAlert
-                                                            bgcolor={
-                                                                bgSecondary
-                                                            }
-                                                        >
-                                                            {
-                                                                subscriber.totalQty
-                                                            }{' '}
-                                                            available
-                                                        </StockAlert>
-                                                    ) : (
-                                                        <StockAlert
-                                                            bgcolor={bgPrimary}
-                                                        >
-                                                            {
-                                                                subscriber.totalQty
-                                                            }{' '}
-                                                            available
-                                                        </StockAlert>
-                                                    )
+                                                    <StockAlert
+                                                        bgcolor={
+                                                            subscriber.totalQty <
+                                                            subscriber.minimumLimit
+                                                                ? bgSecondary
+                                                                : bgPrimary
+                                                        }
+                                                    >
+                                                        {subscriber.totalQty}{' '}
+                                                        available
+                                                    </StockAlert>
                                                 ) : (
                                                     <StockAlert
                                                         bgcolor={bgError}
@@ -191,28 +194,32 @@ const AllStock = () => {
                                                 )}
                                             </TableCell>
 
-                                            <TableCell align="center">
-                                                <StyledButton
-                                                    // variant="contained"
-                                                    sx={{ color: bgSuccess }}
-                                                    onClick={() => {
-                                                        dispatch(
-                                                            setEditData(
-                                                                subscriber
+                                            {!privatrRoute && (
+                                                <TableCell align="center">
+                                                    <StyledButton
+                                                        // variant="contained"
+                                                        sx={{
+                                                            color: bgSuccess,
+                                                        }}
+                                                        onClick={() => {
+                                                            dispatch(
+                                                                setEditData(
+                                                                    subscriber
+                                                                )
                                                             )
-                                                        )
-                                                        setShouldOpenEditorDialog(
-                                                            true
-                                                        )
-                                                    }}
-                                                >
-                                                    <Icon color="primary">
-                                                        edit
-                                                    </Icon>
-                                                </StyledButton>
-                                            </TableCell>
+                                                            setShouldOpenEditorDialog(
+                                                                true
+                                                            )
+                                                        }}
+                                                    >
+                                                        <Icon color="primary">
+                                                            edit
+                                                        </Icon>
+                                                    </StyledButton>
+                                                </TableCell>
+                                            )}
                                             <TableCell>
-                                                <StyledButton
+                                                {/* <StyledButton
                                                     sx={{ color: bgError }}
                                                     onClick={() =>
                                                         handleDeleteUser(
@@ -221,7 +228,33 @@ const AllStock = () => {
                                                     }
                                                 >
                                                     <Icon>delete</Icon>
-                                                </StyledButton>
+                                                </StyledButton> */}
+
+                                                {privatrRoute ? (
+                                                    <Button
+                                                        variant="contained"
+                                                        color="success"
+                                                        onClick={() =>
+                                                            handleDeleteUser(
+                                                                subscriber._id
+                                                            )
+                                                        }
+                                                    >
+                                                        Active
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="error"
+                                                        onClick={() =>
+                                                            handleDeleteUser(
+                                                                subscriber._id
+                                                            )
+                                                        }
+                                                    >
+                                                        Deactive
+                                                    </Button>
+                                                )}
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -264,7 +297,11 @@ const AllStock = () => {
                         <MyAlert
                             isOpen={showAlert}
                             typeSeverity={alertType}
-                            alrtTextToShow={alertText}
+                            alrtTextToShow={
+                                privatrRoute
+                                    ? 'Stock activated successfully'
+                                    : alertText
+                            }
                         />
                     ) : null}
                 </SimpleCard>

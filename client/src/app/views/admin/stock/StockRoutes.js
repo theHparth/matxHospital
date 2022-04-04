@@ -14,6 +14,10 @@ const StockRoutes = [
         element: <AllStock />,
     },
     {
+        path: '/allStockD',
+        element: <AllStock />,
+    },
+    {
         path: '/allStock/new',
         element: <AllStock />,
     },

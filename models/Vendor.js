@@ -31,6 +31,10 @@ const VendorSchema = new mongoose.Schema(
       required: [true, "Please provide pincode"],
       maxlength: 150,
     },
+    vendorStatus: {
+      type: Boolean,
+      default: true,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

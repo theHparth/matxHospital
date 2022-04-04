@@ -1,6 +1,10 @@
 import TodaySellingHospital from "../../models/User/todaySellingUser.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../../errors/index.js";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnAuthenticatedError,
+} from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
 import UserStock from "../../models/User/stockOut.js";
@@ -11,7 +15,10 @@ const AddtodaySellingHospital = async (req, res) => {
 
   req.body.createdFor = req.hospital.hospitalId;
   var createdFor = req.hospital.hospitalId;
-
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   todaySellingData.map((data) => {
     if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
       throw new BadRequestError("Please provide all values");
@@ -33,7 +40,10 @@ const allTodaySelling = async (req, res) => {
   const queryObject = {
     createdFor: req.hospital.hospitalId,
   };
-
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   let result = TodaySellingHospital.find(queryObject);
 
   const stockListTodaySelling = await result;
@@ -45,7 +55,10 @@ const updateTodaySelling = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const { todaySellingData } = req.body;
-
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   const todaySellinginfo = await TodaySellingHospital.findOne({
     _id: stockOutId,
   });
@@ -91,7 +104,10 @@ const updateTodaySelling = async (req, res) => {
 
 const deleteTodaySelling = async (req, res) => {
   const { id: stockOutId } = req.params;
-
+  var hospitalStatus = req.hospital.hospitalStatus;
+  if (hospitalStatus) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
   const todaySellingData = await TodaySellingHospital.findOne({
     _id: stockOutId,
   });

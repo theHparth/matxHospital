@@ -52,7 +52,7 @@ const getAllVendor = (state) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        removeUserFromLocalStorage()
+        // removeUserFromLocalStorage()
     }
     dispatch(clearAlert())
 }
@@ -108,7 +108,7 @@ const edit = (state) => async (dispatch) => {
 const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
     try {
-        await authFetch.delete(`/vendors/${Id}`)
+        await authFetch.put(`/vendors/${Id}`)
         dispatch({ type: DELETE_VENDOR_SUCCESS })
 
         dispatch(getAllVendor())

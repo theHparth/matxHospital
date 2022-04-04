@@ -177,9 +177,17 @@ const deleteStock = async (req, res) => {
 
   checkPermissions(req.user, stock.createdBy);
 
-  await stock.remove();
+  // await stock.remove();
+  const deactiveStock = await stocks.findOneAndUpdate(
+    { _id: stockId },
+    { stockStatus: !stock.stockStatus },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-  res.status(StatusCodes.OK).json({ msg: "Success! stock data removed" });
+  res.status(StatusCodes.OK).json({ deactiveStock });
 };
 
 export {
