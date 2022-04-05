@@ -1,5 +1,4 @@
 import { Card } from '@mui/material'
-import InvoiceViewer from './InvoiceViewer'
 import { useParams } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/system'

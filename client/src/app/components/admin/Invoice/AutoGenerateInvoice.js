@@ -8,6 +8,8 @@ import {
     TableCell,
     TableBody,
     IconButton,
+    Grid,
+    TextField,
 } from '@mui/material'
 import { format } from 'date-fns'
 import { Box, styled } from '@mui/system'
@@ -26,6 +28,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getHospitalsData } from 'app/redux/actions/admin/HospitalActions'
 import moment from 'moment'
 // import json
+import ReactToPrint from 'react-to-print'
+import PrintButton from './PrintButton'
 
 const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     const {
@@ -85,6 +89,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         <Icon>arrow_back</Icon>
                     </IconButton>
                 </Link>
+
                 <div>
                     {/* <Button
                         sx={{ mr: 2, py: 1 }}
@@ -92,7 +97,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         color="primary"
                         onClick={() => toggleInvoiceEditor()}
                     >
-                        Edit Invoice
+                        Edit InvoiceZ
                     </Button> */}
                     <Button
                         sx={{ py: 1 }}
@@ -102,6 +107,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     >
                         Print Invoice
                     </Button>
+                    {/* <PrintButton /> */}
                 </div>
             </ButtonBox>
 
@@ -210,7 +216,23 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </TableBody>
                 </StyledTable>
 
-                <FlexBox px={2} sx={{ justifyContent: 'flex-end' }}>
+                <FlexBox px={2} mb={2} className="viewer__order-info">
+                    <Grid item xs={6}>
+                        <TextField
+                            label="Custom Notes"
+                            name="notes"
+                            size="small"
+                            variant="outlined"
+                            multiline
+                            rows={6}
+                            fullWidth
+                            // value={values.notes}
+                            // onChange={handleChange}
+                        />
+                    </Grid>
+                    {/* </FlexBox>
+
+                <FlexBox px={2} sx={{ justifyContent: 'flex-end' }}> */}
                     <Box display="flex">
                         <Box pr={6}>
                             <Paragraph sx={{ my: 2 }}>Sub Total:</Paragraph>

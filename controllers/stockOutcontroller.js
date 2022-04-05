@@ -5,6 +5,7 @@ import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "./stockController.js";
 import Hospital from "../models/Hospital.js";
 import mongoose from "mongoose";
+import StocksHosital from "../models/User/stocksHospital.js";
 
 const sendStockUser = async (req, res) => {
   const { hospitalName, stockOutDetail } = req.body;
@@ -49,8 +50,11 @@ const sendStockUser = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
-const filterResult = async (queryObject, searchText) => {
+const filterResult = async (queryObject, searchText, status) => {
   console.log(typeof searchText);
+  if (status) {
+    queryObject.status = status;
+  }
 
   var result;
   if (!searchText) {
@@ -108,24 +112,16 @@ const filterResult = async (queryObject, searchText) => {
 };
 
 const getAllSendStockUser = async (req, res) => {
-  var {
-    status,
-    sort,
-    search,
-    invoiceNum,
-    productName,
-    hospitalId,
-    stock_name,
-    searchText,
-    getQtyByStockName,
-    getStockByHospitalName,
-  } = req.query;
+  var { status, searchText, getQtyByStockName, getStockByHospitalName } =
+    req.query;
+  const { searchDate } = req.body;
+  console.log("searchDate in backend", searchDate);
   const queryObject = {
     createdBy: req.user.userId,
   };
 
   let result;
-  result = await filterResult(queryObject, searchText);
+  result = await filterResult(queryObject, searchText, status);
 
   if (getStockByHospitalName) {
     result = await UserStock.aggregate([
@@ -172,6 +168,24 @@ const getAllSendStockUser = async (req, res) => {
       },
     ]);
   }
+  result = result.reverse();
+
+  // result = result.sort("-createdAt");
+
+  // var results = await UserStock.aggregate([
+  //   { $match: { $expr: { $lt: ["$totalQtyUser", "$minimumLimit"] } } },
+  //   {
+  //     $group: {
+  //       _id: "$hospitalName",
+  //       belowLimit: {
+  //         $push: {
+  //           stock_name: "$stock_name",
+  //           totalQtyUser: "$totalQtyUser",
+  //         },
+  //       },
+  //     },
+  //   },
+  // ]);
 
   const allStockOutData = result;
 
@@ -181,42 +195,38 @@ const getAllSendStockUser = async (req, res) => {
 };
 
 const falseStatusProduct = async (req, res) => {
-  const { status, sort, searchText } = req.query;
-  const queryObject = {
-    createdBy: req.user.userId,
-    status: false,
-  };
+  var result = await StocksHosital.aggregate([
+    { $match: { $expr: { $lt: ["$totalQtyUser", "$minimumLimit"] } } },
+    {
+      $group: {
+        _id: "$hospitalName",
+        belowLimit: {
+          $push: {
+            stock_name: "$stock_name",
+            totalQtyUser: "$totalQtyUser",
+          },
+        },
+      },
+    },
+  ]);
 
-  // NO AWAIT
-
-  // let result = UserStock.find(queryObject);
-  let result;
-  // let result = UserStock.find(queryObject);
-  result = await filterResult(queryObject, searchText);
-
-  const stockOutDataFalseStatus = await result;
-
-  const totalHospitals = await UserStock.countDocuments(queryObject);
-
-  res.status(StatusCodes.OK).json({ stockOutDataFalseStatus, totalHospitals });
+  res.status(StatusCodes.OK).json({ result });
 };
 
 const trueStatusProduct = async (req, res) => {
-  const { hospitalId, searchText } = req.query;
-  const queryObject = {
-    createdBy: req.user.userId,
-    status: true,
-  };
-  if (hospitalId) {
-    queryObject.createdFor = hospitalId;
-  }
-  let result;
-  // let result = UserStock.find(queryObject);
-  result = await filterResult(queryObject, searchText);
-
-  const stockOutDataTrueStatus = await result;
-
-  res.status(StatusCodes.OK).json({ stockOutDataTrueStatus });
+  // const { hospitalId, searchText } = req.query;
+  // const queryObject = {
+  //   createdBy: req.user.userId,
+  //   status: true,
+  // };
+  // if (hospitalId) {
+  //   queryObject.createdFor = hospitalId;
+  // }
+  // let result;
+  // // let result = UserStock.find(queryObject);
+  // result = await filterResult(queryObject, searchText);
+  // const stockOutDataTrueStatus = await result;
+  // res.status(StatusCodes.OK).json({ stockOutDataTrueStatus });
 };
 
 const updateSendStockAdmin = async (req, res) => {

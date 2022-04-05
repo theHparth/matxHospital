@@ -68,7 +68,8 @@ const AllStockOutTrueStatus = () => {
 
     useEffect(() => {
         var filterArr = { searchText, searchDate }
-        if (searchDate) {
+        // console.log();
+        if (!searchText) {
             console.log('1st call')
             dispatch(getAllSortData(filterArr))
         } else {

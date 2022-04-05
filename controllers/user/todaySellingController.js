@@ -16,7 +16,7 @@ const AddtodaySellingHospital = async (req, res) => {
   req.body.createdFor = req.hospital.hospitalId;
   var createdFor = req.hospital.hospitalId;
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   todaySellingData.map((data) => {
@@ -41,7 +41,7 @@ const allTodaySelling = async (req, res) => {
     createdFor: req.hospital.hospitalId,
   };
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   let result = TodaySellingHospital.find(queryObject);
@@ -56,7 +56,7 @@ const updateTodaySelling = async (req, res) => {
 
   const { todaySellingData } = req.body;
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   const todaySellinginfo = await TodaySellingHospital.findOne({
@@ -105,7 +105,7 @@ const updateTodaySelling = async (req, res) => {
 const deleteTodaySelling = async (req, res) => {
   const { id: stockOutId } = req.params;
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   const todaySellingData = await TodaySellingHospital.findOne({

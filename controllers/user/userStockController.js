@@ -66,7 +66,7 @@ const removeStockQty = async (
 const statusController = async (req, res) => {
   const { id: stockOutId } = req.params;
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   const { status } = req.body;
@@ -124,9 +124,28 @@ const statusController = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! status updated!" });
 };
 
+// const minimumTheresold = async (req, res) => {
+//   var result = await UserStock.aggregate([
+//     {
+//       $group: {
+//         _id: "$hospitalName",
+//       },
+//     },
+//     {
+//       $project: {
+//         stock_name: 1,
+//         totalQtyUser: 1,
+//         isMinimum: { $lt: ["$totalQtyUser", "$minimumLimit"] },
+//         count: 1,
+//       },
+//     },
+//   ]);
+
+//   res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
+// };
 const statusFalse = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   const queryObject = {
@@ -141,7 +160,7 @@ const statusFalse = async (req, res) => {
 };
 const statusTrue = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   // const { hospitalId } = req.query;
@@ -161,24 +180,35 @@ const statusTrue = async (req, res) => {
 
 const totoalStocksInUser = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   const queryObject = {
     createdFor: req.hospital.hospitalId,
   };
-  // console.log(req.hospital.hospitalName);
   let result = StocksHosital.find(queryObject);
   const presentStockUser = await result;
-  // console.log(stockInDataTrueStatus);
-  // const totalStock = await StocksHosital.countDocuments(queryObject);
+
+  // var result = await StocksHosital.aggregate([
+  //   { $match: { $expr: { $lt: ["$totalQtyUser", "$minimumLimit"] } } },
+  //   {
+  //     $group: {
+  //       _id: "$hospitalName",
+  //       belowLimit: {
+  //         $push: {
+  //           stock_name: "$stock_name",
+  //           totalQtyUser: "$totalQtyUser",
+  //         },
+  //       },
+  //     },
+  //   },
+  // ]);
 
   res.status(StatusCodes.OK).json({ presentStockUser });
 };
-
 const minimumRequiremantUserChange = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (hospitalStatus) {
+  if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   const { id: stockId } = req.params;

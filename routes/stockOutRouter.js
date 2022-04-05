@@ -11,6 +11,7 @@ import {
 } from "../controllers/stockOutcontroller.js";
 
 router.route("/").post(sendStockUser).get(getAllSendStockUser);
+router.route("/sortData").post(getAllSendStockUser);
 router.route("/:id").delete(deleteSendStockAdmin).patch(updateSendStockAdmin);
 // router.route("/user/:id").patch(updateSendStockUser); // to update status after receiving new stock
 router.route("/falseAdmin").get(falseStatusProduct);
