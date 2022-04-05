@@ -14,7 +14,7 @@ import {
     clearValue,
 } from 'app/redux/actions/admin/HospitalActions'
 
-const MemberEditorDialog = ({ uid, open, handleClose }) => {
+const MemberEditorDialog = ({ open, handleClose }) => {
     const {
         alertType,
         showAlert,

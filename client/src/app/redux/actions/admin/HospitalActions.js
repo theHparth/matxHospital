@@ -49,10 +49,10 @@ const removeUserFromLocalStorage = () => {
 
 ////////////////////////////////////////////////////////////////////////
 
-const getHospitalsData = (hospitalId) => async (dispatch) => {
+const getHospitalsData = (hospitalName) => async (dispatch) => {
     let url = '/hospitals'
-    if (hospitalId) {
-        url = url + `?hospitalId=${hospitalId}`
+    if (hospitalName) {
+        url = url + `?hospitalName=${hospitalName}`
     }
     try {
         const { data } = await authFetch.get(url)

@@ -52,7 +52,7 @@ export {
     InputText,
     FormHandlerBox,
 } from './admin/form/index'
-export { default as InvoiceDetails } from './admin/Invoice/InvoiceDetails'
+export { InvoiceDetails } from './admin/Invoice'
 export {
     FlexBox,
     Container,

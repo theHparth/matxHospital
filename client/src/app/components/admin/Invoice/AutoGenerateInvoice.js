@@ -31,32 +31,24 @@ import moment from 'moment'
 import ReactToPrint from 'react-to-print'
 import PrintButton from './PrintButton'
 
-const InvoiceViewer = ({ toggleInvoiceEditor }) => {
-    const {
-        showAlert,
-        clearValues,
-        isLoading,
-        isEditing,
-        _id,
-        hospitalName,
-        invoiceNum,
-        stockOutDetail,
-        createdFor,
-        createdAt,
-        alertText,
-        latestStatus,
-        updatedAt,
-    } = useSelector((x) => x.stockOutList)
-
+const InvoiceViewer = ({ invoiceInfo }) => {
     const user = localStorage.getItem('user')
     const { Iaddress, Icontect, Iemail, Ipincode, IhopsitalId } = useSelector(
         (stat) => stat.hospitalList
     )
+    const {
+        hospitalName,
+        invoiceNum,
+        status,
+        stockOutDetail,
+        updatedAt,
+        createdAt,
+    } = invoiceInfo
+
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getHospitalsData(hospitalName))
     }, [dispatch, hospitalName])
-    const state = {}
 
     var adminInfo = JSON.parse(user)
     var userAdd =
@@ -129,9 +121,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <TextBox>
                         <StyledH5 sx={{ mb: 1 }}>
                             <strong>Order status: </strong>
-                            <span>
-                                {latestStatus == true ? 'Delivered' : 'Pending'}
-                            </span>
+                            <span>{status ? 'Delivered' : 'Pending'}</span>
                         </StyledH5>
                         <StyledH5>
                             <strong>Order date: </strong>
@@ -141,11 +131,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         </StyledH5>
                         {'\n'}
                         <StyledH5>
-                            {latestStatus == true && (
-                                <strong>Delivered on: </strong>
-                            )}
+                            {status && <strong>Delivered on: </strong>}
 
-                            {latestStatus == true && (
+                            {status && (
                                 <span>
                                     {moment(updatedAt).format('MMM Do, YYYY')}
                                 </span>

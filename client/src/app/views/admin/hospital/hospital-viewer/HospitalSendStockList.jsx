@@ -12,6 +12,8 @@ import {
     SecondaryHeading,
     ThirdHeading,
     ContainerTable,
+    StyledButton,
+    InvoiceDetails,
     StyledTable,
 } from 'app/components'
 import {
@@ -24,7 +26,7 @@ import {
     IconButton,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
-
+import React, { useState, useEffect } from 'react'
 // import
 import {
     getAllDataStatusTrue,
@@ -33,12 +35,21 @@ import {
     allStockOutDatas,
 } from 'app/redux/actions/admin/StockOutAction'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect } from 'react'
 import dayjs from 'dayjs'
-
 const AllStockOutTrueStatus = ({ id }) => {
-    //   let date = moment(createdAt)
-    //   date = date.format('MMM Do, YYYY')
+    // for printing
+    const [uid, setUid] = useState(null)
+    const [hospitalDa, setHospitalDa] = useState(null)
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+    const [info, setInfo] = useState()
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        // dispatch(getHospitalsData())
+    }
+    // done
 
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
@@ -132,7 +143,28 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                     >
                                                     </InvoiceAutoGenerate> */}
                                                     {/* > */}
-                                                    <Link
+
+                                                    <StyledButton
+                                                        // variant="contained"
+
+                                                        onClick={() => {
+                                                            // dispatch(
+                                                            //     printStockOutInvoice(
+                                                            //         subscriber
+                                                            //     )
+                                                            // )
+                                                            setShouldOpenEditorDialog(
+                                                                true
+                                                            )
+                                                            setInfo(subscriber)
+                                                        }}
+                                                    >
+                                                        <Icon color="primary">
+                                                            print
+                                                        </Icon>
+                                                    </StyledButton>
+
+                                                    {/* <Link
                                                         to={`/invoice`}
                                                         onClick={() =>
                                                             dispatch(
@@ -143,7 +175,7 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                         }
                                                     >
                                                         <Icon>print</Icon>
-                                                    </Link>
+                                                    </Link> */}
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
@@ -174,6 +206,13 @@ const AllStockOutTrueStatus = ({ id }) => {
                                 </AccordionDetails>
                             </Accordion>
                         ))}
+                    {shouldOpenEditorDialog && (
+                        <InvoiceDetails
+                            handleClose={handleDialogClose}
+                            open={shouldOpenEditorDialog}
+                            invoiceInfo={info}
+                        />
+                    )}
                     <TablePagination
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}

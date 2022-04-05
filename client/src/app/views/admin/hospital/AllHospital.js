@@ -30,7 +30,6 @@ import {
 } from 'app/redux/actions/admin/HospitalActions'
 
 const CustomerList = () => {
-    const [uid, setUid] = useState(null)
     const [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
@@ -292,7 +291,6 @@ const CustomerList = () => {
                         <HandleHospital
                             handleClose={handleDialogClose}
                             open={shouldOpenEditorDialog}
-                            uid={uid}
                         />
                     )}
                     {shouldOpenConfirmationDialog && (

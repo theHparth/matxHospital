@@ -107,12 +107,15 @@ const registerHospital = async (req, res) => {
 };
 
 const getAllHospital = async (req, res) => {
-  const { status, sort, search, hospitalId } = req.query;
+  const { status, sort, search, hospitalId, hospitalName } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
   };
   if (hospitalId) {
     queryObject._id = hospitalId;
+  }
+  if (hospitalName) {
+    queryObject.hospitalName = { $regex: hospitalName, $options: "i" };
   }
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
@@ -120,7 +123,6 @@ const getAllHospital = async (req, res) => {
   // NO AWAIT
 
   let result = Hospital.find(queryObject);
-
   // chain sort conditions
 
   if (sort === "latest") {
@@ -137,6 +139,7 @@ const getAllHospital = async (req, res) => {
   }
 
   const hospitals = await result;
+  console.log(hospitals);
 
   const totalHospitals = await Hospital.countDocuments(queryObject);
   // const numOfPages = Math.ceil(totalHospitals / limit);

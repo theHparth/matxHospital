@@ -1,4 +1,4 @@
-import { Card } from '@mui/material'
+import { Card, Dialog } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/system'
@@ -11,11 +11,14 @@ const StyledCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-const InvoiceDetails = ({ hospitalName, invoiceNum }) => {
+const InvoiceDetails = ({ invoiceInfo, handleClose, open }) => {
+    console.log('invoiceInfo', invoiceInfo)
     return (
-        <StyledCard elevation={6}>
-            <InvoiceAutoGenerate />
-        </StyledCard>
+        <Dialog onClose={handleClose} open={open}>
+            <StyledCard elevation={16}>
+                <InvoiceAutoGenerate invoiceInfo={invoiceInfo} />
+            </StyledCard>
+        </Dialog>
     )
 }
 
