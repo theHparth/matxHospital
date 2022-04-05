@@ -21,9 +21,7 @@ const sendStockUser = async (req, res) => {
   if (invoice) {
     getRandomId();
   }
-  const hospitalData = await Hospital.findOne({
-    hospitalName: { $regex: hospitalName, $options: "i" },
-  });
+  const hospitalData = await Hospital.findOne({ hospitalName });
   if (!hospitalData) {
     throw new BadRequestError("Hospital data not found");
   }
@@ -122,18 +120,9 @@ const getAllSendStockUser = async (req, res) => {
   } = req.query;
   const { searchDate } = req.body;
   console.log("searchDate in backend", searchDate);
-
   const queryObject = {
     createdBy: req.user.userId,
   };
-  // var hospitalIdCreatedFor;
-  // if (getStockByHospitalName) {
-  //   const hospitalData = await Hospital.findOne({
-  //     hospitalName: { $regex: getStockByHospitalName, $options: "i" },
-  //   });
-  //   hospitalIdCreatedFor = hospitalData._id;
-  // }
-
   if (hospitalId) {
     queryObject.createdFor = hospitalId;
   }
