@@ -114,7 +114,7 @@ const statusController = async (req, res) => {
 
   await UserStock.findOneAndUpdate(
     { _id: stockOutId },
-    { status: true },
+    { status: true, deliveryDate: new Date() },
     {
       new: true,
       runValidators: true,

@@ -63,9 +63,10 @@ const AllStockOutTrueStatus = ({ id }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(allStockOutDatas(id))
+        dispatch(allStockOutDatas({ id }))
     }, [dispatch])
     var stockOutDataTrue = allStockOutData
+    console.log(stockOutDataTrue)
     return (
         <ContainerTable>
             <SimpleCard title="Stock info">

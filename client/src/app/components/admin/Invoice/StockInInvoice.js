@@ -53,9 +53,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         (stat) => stat.hospitalList
     )
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getHospitalsData(hospitalName))
-    }, [dispatch, hospitalName])
+    // useEffect(() => {
+    //     dispatch(getHospitalsData(hospitalName))
+    // }, [dispatch, hospitalName])
     const state = {}
 
     var adminInfo = JSON.parse(user)

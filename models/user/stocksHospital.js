@@ -22,10 +22,10 @@ const StockHospitalSchema = new mongoose.Schema(
       ref: "Hospital",
       required: [true, "Please provide created for"],
     },
-
     totalQtyUser: {
       type: Number,
     },
+
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

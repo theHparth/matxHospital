@@ -38,6 +38,7 @@ const HospitalSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    lastActive: {},
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

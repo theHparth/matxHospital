@@ -4,11 +4,9 @@ import Loadable from 'app/components/Loadable/Loadable'
 const AddHospital = Loadable(lazy(() => import('./AddHospital')))
 const AllHospital = Loadable(lazy(() => import('./AllHospital')))
 const Invoice = Loadable(
-    lazy(() => import('./hospital-viewer/invoice/InvoiceDetails'))
+    lazy(() => import('app/components/admin/Invoice/InvoiceDetails'))
 )
-const HospitalView = Loadable(
-    lazy(() => import('./hospital-viewer/HospitalViewer'))
-)
+const Viewer = Loadable(lazy(() => import('./hospital-viewer/Viewer')))
 // const IndividualHospitalStock = Loadable(
 //     lazy(() => import('./IndividualHospitalStock'))
 // )
@@ -33,7 +31,7 @@ const hospitalRoutes = [
     // },
     {
         path: '/hospitalData/:id',
-        element: <HospitalView />,
+        element: <Viewer />,
     },
 
     {

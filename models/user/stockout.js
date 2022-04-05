@@ -30,25 +30,7 @@ const stockOutSchema = new mongoose.Schema(
       type: Object,
       required: [true, "Please provide stock detal"],
     },
-    // stock_name: {
-    //   type: String,
-    //   required: [true, "Please provide stock name"],
-    //   maxlength: 100,
-    // },
-    // totalQtyInOneBox: {
-    //   type: Number,
-    //   required: [true, "Please provide number of qty in one box"],
-    // },
-    // totalBox: {
-    //   type: Number,
-    //   required: [true, "Please provide number of total box"],
-    // },
-    // priceForUser: {
-    //   type: Number,
-    // },
-    // price: {
-    //   type: Number,
-    // },
+    deliveryDate: {},
   },
   { timestamps: true }
 );

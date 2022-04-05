@@ -87,15 +87,15 @@ const edit = (state) => async (dispatch) => {
 }
 
 const allStockOutDatas = (state) => async (dispatch) => {
-    let url = '/'
-    var { searchDate, searchText } = state
-    // if (id) {
-    //     url = url + `?hospitalId=${id}`
-    // }
+    let url = '/?allData=allData}'
+    var { searchDate, searchText, id } = state
+    if (id) {
+        url = url + `&hospitalId=${id}`
+    }
     // console.log('date', searchDate, 'text', searchText)
     // url = url + `?searchDate=${searchDate}`
     if (searchText) {
-        url = url + `?searchText=${searchText}`
+        url = url + `&searchText=${searchText}`
     }
     try {
         const { data } = await authFetch.get(url)

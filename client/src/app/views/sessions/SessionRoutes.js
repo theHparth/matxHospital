@@ -12,7 +12,7 @@ const sessionRoutes = [
         element: <JwtLogin />,
     },
     {
-        path: '/session/userSignin',
+        path: '/session/signinu',
         element: <UserLogin />,
     },
     {

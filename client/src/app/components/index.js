@@ -52,7 +52,7 @@ export {
     InputText,
     FormHandlerBox,
 } from './admin/form/index'
-export { default as InvoiceAutoGenerate } from './admin/Invoice/AutoGenerateInvoice'
+export { default as InvoiceDetails } from './admin/Invoice/InvoiceDetails'
 export {
     FlexBox,
     Container,

@@ -1,6 +1,7 @@
 import Hospital from "../../models/Hospital.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../../errors/index.js";
+import StocksHosital from "../../models/User/stocksHospital.js";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -10,7 +11,48 @@ const login = async (req, res) => {
   const hospital = await Hospital.findOne({
     email: { $regex: email, $options: "i" },
   }).select("+password");
-  console.log(hospital);
+  // for date of last active
+  let date_ob = new Date();
+  let date = ("0" + date_ob.getDate()).slice(-2);
+
+  // current month
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+  // current year
+  let year = date_ob.getFullYear();
+
+  // current hours
+  let hours = date_ob.getHours();
+
+  // current minutes
+  let minutes = date_ob.getMinutes();
+
+  // current seconds
+  let seconds = date_ob.getSeconds();
+
+  var fullDate =
+    year +
+    "/" +
+    month +
+    "/" +
+    date +
+    "--" +
+    hours +
+    ":" +
+    minutes +
+    ":" +
+    seconds;
+
+  await Hospital.findOneAndUpdate(
+    { email },
+    {
+      lastActive: fullDate,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
   if (!hospital || !hospital.hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
@@ -19,11 +61,15 @@ const login = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
+  var hospitalSend = {
+    hospitalName: hospital.hospitalName,
+    address: hospital.address,
+    pincode: hospital.pincode,
+    contect: hospital.contect,
+  };
   const tokenHospital = hospital.createJWT();
   hospital.password = undefined;
-  res
-    .status(StatusCodes.OK)
-    .json({ hospital, tokenHospital, hospitalName: hospital.hospitalName });
+  res.status(StatusCodes.OK).json({ tokenHospital, hospital: hospitalSend });
 };
 
 const update = async (req, res) => {

@@ -1,5 +1,7 @@
 import Hospital from "../models/Hospital.js";
 import { StatusCodes } from "http-status-codes";
+import StocksHosital from "../models/User/stocksHospital.js";
+
 import {
   BadRequestError,
   NotFoundError,
@@ -9,6 +11,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import nodemailer from "nodemailer";
 import checkPermissions from "../utils/checkPermissions.js";
+import UserStock from "../models/User/stockOut.js";
 
 import { google } from "googleapis";
 const OAuth2 = google.auth.OAuth2;
@@ -170,6 +173,22 @@ const updateHospital = async (req, res) => {
   const updatedHospital = await Hospital.findOneAndUpdate(
     { _id: hospitalId },
     req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  await UserStock.updateMany(
+    { createdFor: hospitalId },
+    { hospitalName },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  await StocksHosital.updateMany(
+    { createdFor: hospitalId },
+    { hospitalName },
     {
       new: true,
       runValidators: true,

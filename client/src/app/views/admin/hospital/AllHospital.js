@@ -134,6 +134,13 @@ const CustomerList = () => {
             // },
         },
         {
+            name: 'lastActive',
+            label: 'Last seen',
+            // options: {
+            //     filter: true,
+            // },
+        },
+        {
             name: '',
             label: '',
             options: {

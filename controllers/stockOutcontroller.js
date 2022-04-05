@@ -21,7 +21,9 @@ const sendStockUser = async (req, res) => {
   if (invoice) {
     getRandomId();
   }
-  const hospitalData = await Hospital.findOne({ hospitalName });
+  const hospitalData = await Hospital.findOne({
+    hospitalName: { $regex: hospitalName, $options: "i" },
+  });
   if (!hospitalData) {
     throw new BadRequestError("Hospital data not found");
   }
@@ -70,7 +72,6 @@ const filterResult = async (queryObject, searchText, status) => {
       ],
     });
   } else if (isNaN(searchText) === false) {
-    console.log("isnumbe");
     searchText = parseInt(searchText);
     result = await UserStock.find({
       $and: [
@@ -112,14 +113,30 @@ const filterResult = async (queryObject, searchText, status) => {
 };
 
 const getAllSendStockUser = async (req, res) => {
-  var { status, searchText, getQtyByStockName, getStockByHospitalName } =
-    req.query;
+  var {
+    status,
+    searchText,
+    getQtyByStockName,
+    getStockByHospitalName,
+    hospitalId,
+  } = req.query;
   const { searchDate } = req.body;
   console.log("searchDate in backend", searchDate);
+
   const queryObject = {
     createdBy: req.user.userId,
   };
+  // var hospitalIdCreatedFor;
+  // if (getStockByHospitalName) {
+  //   const hospitalData = await Hospital.findOne({
+  //     hospitalName: { $regex: getStockByHospitalName, $options: "i" },
+  //   });
+  //   hospitalIdCreatedFor = hospitalData._id;
+  // }
 
+  if (hospitalId) {
+    queryObject.createdFor = hospitalId;
+  }
   let result;
   result = await filterResult(queryObject, searchText, status);
 

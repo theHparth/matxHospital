@@ -42,6 +42,7 @@ const AuthGuard = ({ children }) => {
     if (user) {
         isUserRoleAuthenticated = getUserRoleAuthStatus(pathname, user, routes)
     } else {
+        console.log('pathname', pathname)
         isUserRoleAuthenticated = getUserRoleAuthStatus(
             pathname,
             hospital,

@@ -27,7 +27,6 @@ const initialState = {
     alertType: '',
     alertText: '',
     isEditing: false,
-    isEditing: false,
     hospitalName: '',
     address: '',
     contect: '',
