@@ -3,7 +3,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, styled } from '@mui/system'
+import { Box, styled, useTheme } from '@mui/system'
 import {
     Breadcrumb,
     SimpleCard,
@@ -15,6 +15,7 @@ import {
     StyledButton,
     InvoiceDetails,
     StyledTable,
+    StockAlert,
 } from 'app/components'
 import {
     TableHead,
@@ -32,6 +33,11 @@ import { hospitalMinimumTheresold } from 'app/redux/actions/admin/HospitalAction
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 const AllStockOutTrueStatus = () => {
+    const { palette } = useTheme()
+    const bgError = palette.error.main
+    const bgPrimary = palette.primary.main
+    const bgSecondary = palette.secondary.main
+
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
 
@@ -61,7 +67,7 @@ const AllStockOutTrueStatus = () => {
     console.log('minimumThresold', minimumThresold)
     return (
         <ContainerTable>
-            <SimpleCard title="Stock out data">
+            <SimpleCard>
                 <Box width="100%">
                     <AccordionSummary
                         aria-controls="panel1bh-content"
@@ -117,9 +123,26 @@ const AllStockOutTrueStatus = () => {
                                                             }
                                                         </TableCell>
                                                         <TableCell>
-                                                            {
-                                                                subscriber.totalQtyUser
-                                                            }
+                                                            {subscriber.totalQtyUser ? (
+                                                                <StockAlert
+                                                                    bgcolor={
+                                                                        bgSecondary
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        subscriber.totalQtyUser
+                                                                    }{' '}
+                                                                    available
+                                                                </StockAlert>
+                                                            ) : (
+                                                                <StockAlert
+                                                                    bgcolor={
+                                                                        bgError
+                                                                    }
+                                                                >
+                                                                    out of stock
+                                                                </StockAlert>
+                                                            )}
                                                         </TableCell>
                                                         <TableCell>
                                                             {
