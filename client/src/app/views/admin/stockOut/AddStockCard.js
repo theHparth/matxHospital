@@ -29,8 +29,7 @@ const AddStockCard = ({
     hospitalsData,
 }) => {
     const [availableQuantity, setAvailableQuantity] = useState({ totalQty: 0 })
-    const [qtyValid, setQtyValid] = useState(1)
-    const [qtyValidOne, setQtyValidOne] = useState(1)
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setStockOutData([
@@ -49,11 +48,10 @@ const AddStockCard = ({
         setStockOutData([
             ...stockOutData.slice(0, index),
             {
-                hospitalName: '',
-                stockName: '',
+                stock_name: '',
                 availableQuantity: '',
-                quantity: '',
-                quantityPerBox: '',
+                totalBox: '',
+                totalQtyInOneBox: '',
                 // isPriceIncluded: false,
                 price: stockData.price,
                 priceForUser: '',
@@ -70,44 +68,10 @@ const AddStockCard = ({
     }
 
     useEffect(() => {}, [])
-
+    const aaa = () => {}
     return (
         <div>
-            <ValidatorForm onError={() => null}>
-                <Card
-                    sx={{
-                        minWidth: 275,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: '30px',
-                    }}
-                >
-                    <FormControl
-                        variant="standard"
-                        sx={{ m: 1, minWidth: 120, width: 200 }}
-                    >
-                        <InputLabel id="demo-simple-select-standard-label">
-                            Hospital Name
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            onChange={handleChange}
-                            label="Age"
-                            name="hospitalName"
-                            value={stockOutData.hospitalName}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {hospitalsData.map((hospitalObj) => (
-                                <MenuItem value={hospitalObj.hospitalName}>
-                                    {hospitalObj.hospitalName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Card>
+            <ValidatorForm onError={() => null} onSubmit={aaa}>
                 <Card
                     sx={{
                         minWidth: 275,
@@ -142,15 +106,16 @@ const AddStockCard = ({
                                     handleChange(e)
                                 }}
                                 label="Stock Name"
-                                name="stockName"
-                                value={stockOut.stockName}
+                                name="stock_name"
+                                value={stockOut.stock_name}
                                 data-index={availableQuantity}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                {stockData.map((stockObj) => (
+                                {stockData.map((stockObj, index) => (
                                     <MenuItem
+                                        key={index}
                                         value={stockObj.stock_name}
                                         onClick={() => {
                                             setAvailableQuantity(stockObj)
@@ -192,21 +157,16 @@ const AddStockCard = ({
                             label="Box"
                             variant="standard"
                             sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="quantity"
-                            value={stockOut.quantity}
-                            onChange={(e) => {
-                                handleChange(e)
-                                setQtyValid(
-                                    availableQuantity.totalQty / e.target.value
-                                )
-                            }}
+                            name="totalBox"
+                            value={stockOut.totalBox}
+                            onChange={handleChange}
                             validators={[
                                 'required',
                                 'minNumber:1',
                                 // `maxNumber:${
                                 //     availableQuantity.totalQty -
-                                //     stockOutData[index]['quantity'] *
-                                //         stockOutData[index]['quantityPerBox']
+                                //     stockOutData[index]['totalBox'] *
+                                //         stockOutData[index]['totalQtyInOneBox']
                                 // }`,
                             ]}
                         />
@@ -215,21 +175,16 @@ const AddStockCard = ({
                             label="Quantity Per Box"
                             variant="standard"
                             sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="quantityPerBox"
-                            value={stockOut.quantityPerBox}
-                            onChange={(e) => {
-                                handleChange(e)
-                                setQtyValidOne(
-                                    availableQuantity.totalQty / e.target.value
-                                )
-                            }}
+                            name="totalQtyInOneBox"
+                            value={stockOut.totalQtyInOneBox}
+                            onChange={handleChange}
                             validators={[
                                 'required',
                                 'minNumber:1',
                                 // `maxNumber:${
                                 //     availableQuantity.totalQty -
-                                //     stockOutData[index]['quantity'] *
-                                //         stockOutData[index]['quantityPerBox']
+                                //     stockOutData[index]['totalBox'] *
+                                //         stockOutData[index]['totalQtyInOneBox']
                                 // }`,
                             ]}
                         />

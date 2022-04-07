@@ -3,11 +3,9 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Icon,
     TablePagination,
-    Button,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -15,31 +13,17 @@ import {
     ContainerTable,
     StyledTable,
     StockAlert,
-    StyledButton,
-    MyAlert,
 } from 'app/components'
-import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
-import { useLocation } from 'react-router-dom'
-import {
-    getAllData,
-    setEditData,
-    deleteData,
-} from 'app/redux/actions/admin/StockActions'
+import { getAllData } from 'app/redux/actions/admin/StockActions'
 
 const AllStock = () => {
     const { palette } = useTheme()
     const bgError = palette.error.main
     const bgPrimary = palette.primary.main
     const bgSecondary = palette.secondary.main
-    const bgSuccess = palette.success.main
 
-    let {
-        stockData = [],
-        showAlert,
-        alertType,
-        alertText,
-    } = useSelector((state) => state.stockList)
+    let { stockData = [] } = useSelector((state) => state.stockList)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -65,7 +49,7 @@ const AllStock = () => {
 
     return (
         <ContainerTable>
-            {filterStockData.length == 0 || filterStockData == undefined ? (
+            {filterStockData.length === 0 || filterStockData === undefined ? (
                 <h1>Safe Zone..!!</h1>
             ) : (
                 <SimpleCard title="Stocks List">

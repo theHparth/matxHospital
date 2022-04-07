@@ -31,15 +31,15 @@ function AddStockOutForm() {
         dispatch(getHospitalsData())
     }, [dispatch])
 
-    console.log('stock out', stockData)
-    console.log('hospitalsData', hospitalsData)
+    // console.log('stock out', stockData)
+    // console.log('hospitalsData', hospitalsData)
     const [stockOutData, setStockOutData] = React.useState([
         {
-            hospitalName: '',
-            stockName: '',
+            // hospitalName: '',
+            stock_name: '',
             availableQuantity: '',
-            quantity: '1',
-            quantityPerBox: '1',
+            totalBox: '1',
+            totalQtyInOneBox: '',
             pricePerBox: '',
             priceForUser: 0,
             price: stockData.price || 0,
@@ -47,10 +47,10 @@ function AddStockOutForm() {
     ])
     const emptyField = {
         hospitalName: '',
-        stockName: '',
+        stock_name: '',
         availableQuantity: '',
-        quantity: '',
-        quantityPerBox: '',
+        totalBox: '',
+        totalQtyInOneBox: '',
         priceForUser: 0,
         price: 0,
     }
@@ -61,32 +61,31 @@ function AddStockOutForm() {
 
     console.log(stockOutData)
 
+    const [hospital, setHospital] = React.useState()
+    const onChangeHospital = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+
+        setHospital(e.target.value)
+    }
+
     const handleSubmit = () => {
         const data = {
-            hospitalName: stockOutData.hospitalName,
-            stockOutDetail: stockOutData.map((data) => ({
-                stock_name: data.stockName,
-                totalQtyInOneBox: Number(data.quantityPerBox),
-                totalBox: Number(data.quantity),
-                price: Number(data.price),
-                priceForUser: Number(data.priceForUser),
-            })),
+            hospitalName: hospital,
+            stockOutDetail: stockOutData,
+            // stockOutDetail: stockOutData.map((data) => ({
+            //     stock_name: data.stock_name,
+            //     totalQtyInOneBox: Number(data.totalQtyInOneBox),
+            //     totalBox: Number(data.totalBox),
+            //     price: Number(data.price),
+            //     priceForUser: Number(data.priceForUser),
+            // })),
         }
         console.log('stock out data', data)
         dispatch(sendToUser(data))
         setStockOutData([emptyField])
     }
-    const [hospital, setHospital] = React.useState({})
-    const onChangeHospital = (e) => {
-        const name = e.target.name
-        const value = e.target.value
-
-        setStockOutData({
-            ...stockOutData,
-            [name]: value,
-        })
-    }
-
+    const aaa = () => {}
     return (
         <ContainerForm>
             <div>
@@ -108,8 +107,48 @@ function AddStockOutForm() {
                     padding: '30px',
                 }}
             >
+                <Card
+                    sx={{
+                        minWidth: 275,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '30px',
+                    }}
+                >
+                    <FormControl
+                        onSubmit={handleSubmit}
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                    >
+                        <InputLabel id="demo-simple-select-standard-label">
+                            Hospital Name
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            onChange={onChangeHospital}
+                            label="Age"
+                            name="hospitalName"
+                            value={hospital || ''}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {hospitalsData.map((hospitalObj, index) => (
+                                <MenuItem
+                                    value={hospitalObj.hospitalName}
+                                    key={index}
+                                >
+                                    {hospitalObj.hospitalName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Card>
+
                 {stockOutData.map((stockOut, index) => (
                     <AddStockCard
+                        key={index}
                         stockOut={stockOut}
                         stockOutData={stockOutData}
                         setStockOutData={setStockOutData}

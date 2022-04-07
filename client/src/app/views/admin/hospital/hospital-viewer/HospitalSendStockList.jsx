@@ -1,13 +1,10 @@
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 import {
-    Breadcrumb,
     SimpleCard,
-    InvoiceAutoGenerate,
     Heading,
     SecondaryHeading,
     ThirdHeading,
@@ -23,28 +20,21 @@ import {
     TableCell,
     Icon,
     TablePagination,
-    IconButton,
 } from '@mui/material'
-import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 // import
-import {
-    getAllDataStatusTrue,
-    deleteData,
-    setEditData,
-    allStockOutDatas,
-} from 'app/redux/actions/admin/StockOutAction'
+import { allStockOutDatas } from 'app/redux/actions/admin/StockOutAction'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 const AllStockOutTrueStatus = ({ id }) => {
     // for printing
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
-    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
-        useState(false)
+    // const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+    useState(false)
     const [info, setInfo] = useState()
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
-        setShouldOpenConfirmationDialog(false)
+        // setShouldOpenConfirmationDialog(false)
         // dispatch(getHospitalsData())
     }
     // done

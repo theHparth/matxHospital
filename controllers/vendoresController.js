@@ -33,7 +33,6 @@ const onlyVendorsName = async (req, res) => {
       userMap[v._id] = v.vendor_name;
     });
     if (!userMap) {
-      console.log("No Vendor in Database");
       return [];
     }
     return userMap;
@@ -46,15 +45,12 @@ const getAllVendor = async (req, res) => {
   const queryObject = {
     createdBy: req.user.userId,
   };
-  // console.log(queryObject);
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
   // NO AWAIT
 
   let result = vendors.find(queryObject);
-  // console.log(result + "===========");
-  // chain sort conditions
 
   if (sort === "latest") {
     result = result.sort("-createdAt");

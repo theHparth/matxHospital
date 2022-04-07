@@ -1,7 +1,7 @@
 import UserStock from "../models/User/stockOut.js";
 
 const searchDateSort = async (searchDate) => {
-  console.log("in filter page", searchDate);
+  // console.log("in filter page", searchDate);
   var date = [searchDate[0], searchDate[1]];
   //  [ '2022-04-05T23:29:56.162Z', '2022-04-14T23:29:56.162Z' ]
 
@@ -14,7 +14,7 @@ const searchDateSort = async (searchDate) => {
     new_dates.push(yyyy + "-" + mm + "-" + dd);
   });
 
-  console.log(new_dates, "new data");
+  // console.log(new_dates, "new data");
   UserStock.aggregate([
     {
       $project: {

@@ -22,7 +22,7 @@ const minimumThresold = async (req, res) => {
   ]);
 
   const minimumThresoldData = result;
-  console.log("call in backend minimumThresoldData", minimumThresoldData);
+  // console.log("call in backend minimumThresoldData", minimumThresoldData);
   res.status(StatusCodes.OK).json({ minimumThresoldData });
 };
 const hospitalStockViewAdmin = async (req, res) => {

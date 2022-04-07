@@ -4,7 +4,7 @@ import MUIDataTable from 'mui-datatables'
 import { Breadcrumb, FlexBox, Container } from 'app/components'
 import React, { useState, useEffect } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
-import { Box, styled, useTheme } from '@mui/system'
+import { Box, useTheme } from '@mui/system'
 import { H5, Small } from 'app/components/Typography'
 
 const CustomerList = () => {

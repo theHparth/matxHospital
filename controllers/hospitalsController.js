@@ -87,7 +87,7 @@ const registerHospital = async (req, res) => {
   }
 
   req.body.createdBy = req.user.userId;
-  console.log(req.body);
+  // console.log(req.body);
   const hospital = await Hospital.create(req.body);
   // var mailOptions = {
   //   from: process.env.MAIL_FROM,
@@ -139,7 +139,7 @@ const getAllHospital = async (req, res) => {
   }
 
   const hospitals = await result;
-  console.log(hospitals);
+  // console.log(hospitals);
 
   const totalHospitals = await Hospital.countDocuments(queryObject);
   // const numOfPages = Math.ceil(totalHospitals / limit);

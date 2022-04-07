@@ -10,6 +10,7 @@ import { searchDateSort } from "./dataFilter.js";
 
 const sendStockUser = async (req, res) => {
   const { hospitalName, stockOutDetail } = req.body;
+  console.log("stockOutDetail in backend", stockOutDetail);
   const getRandomId = (min = 0, max = 500000) => {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -31,8 +32,8 @@ const sendStockUser = async (req, res) => {
     if (
       !data.totalQtyInOneBox ||
       !data.totalBox ||
-      !data.stock_name ||
-      !data.price
+      !data.stock_name
+      // !data.price
     ) {
       throw new BadRequestError("Please provide all values");
     }

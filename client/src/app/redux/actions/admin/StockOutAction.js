@@ -30,23 +30,11 @@ const authFetch = axios.create({
 
 const sendToUser = (state) => async (dispatch) => {
     try {
-        let {
-            hospitalName,
-            stock_name,
-            totalQtyInOneBox,
-            totalBox,
-            status,
-            price,
-            priceForUser,
-        } = state
+        let { hospitalName, stockOutDetail, messageForHospital } = state
         await authFetch.post('/', {
             hospitalName,
-            stock_name,
-            totalQtyInOneBox,
-            totalBox,
-            status,
-            price,
-            priceForUser,
+            stockOutDetail,
+            messageForHospital,
         })
         dispatch({ type: CREATE_SUCCESS })
         dispatch(clearValues())
