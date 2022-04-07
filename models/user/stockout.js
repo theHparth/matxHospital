@@ -30,6 +30,7 @@ const stockOutSchema = new mongoose.Schema(
       type: Object,
       required: [true, "Please provide stock detal"],
     },
+    messageForHospital: {},
     deliveryDate: {},
   },
   { timestamps: true }

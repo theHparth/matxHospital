@@ -6,6 +6,7 @@ import { addStockQty, removeStockQty } from "./stockController.js";
 import Hospital from "../models/Hospital.js";
 import mongoose from "mongoose";
 import StocksHosital from "../models/User/stocksHospital.js";
+import { searchDateSort } from "./dataFilter.js";
 
 const sendStockUser = async (req, res) => {
   const { hospitalName, stockOutDetail } = req.body;
@@ -119,7 +120,6 @@ const getAllSendStockUser = async (req, res) => {
     hospitalId,
   } = req.query;
   const { searchDate } = req.body;
-  console.log("searchDate in backend", searchDate);
   const queryObject = {
     createdBy: req.user.userId,
   };
@@ -127,8 +127,14 @@ const getAllSendStockUser = async (req, res) => {
     queryObject.createdFor = hospitalId;
   }
   let result;
+
   result = await filterResult(queryObject, searchText, status);
 
+  // console.log("searchDate in backend", searchDate);
+  // if (Array.isArray(searchDate)) {
+
+  // }
+  // console.log("------r-------", result);
   if (getStockByHospitalName) {
     result = await UserStock.aggregate([
       {

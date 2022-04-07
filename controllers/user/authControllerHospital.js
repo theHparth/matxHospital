@@ -36,7 +36,7 @@ const login = async (req, res) => {
     month +
     "/" +
     date +
-    "--" +
+    " - " +
     hours +
     ":" +
     minutes +

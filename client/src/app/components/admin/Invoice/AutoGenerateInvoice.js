@@ -43,6 +43,7 @@ const InvoiceViewer = ({ invoiceInfo }) => {
         stockOutDetail,
         updatedAt,
         createdAt,
+        messageForHospital,
     } = invoiceInfo
 
     const dispatch = useDispatch()
@@ -78,27 +79,7 @@ const InvoiceViewer = ({ invoiceInfo }) => {
     return (
         <Box py={2} className="invoice-viewer">
             <ButtonBox className="viewer_actions">
-                <Link
-                    to={
-                        IhopsitalId
-                            ? `/hospitalData/${IhopsitalId}`
-                            : '/allHospitals'
-                    }
-                >
-                    <IconButton>
-                        <Icon>arrow_back</Icon>
-                    </IconButton>
-                </Link>
-
                 <div>
-                    {/* <Button
-                        sx={{ mr: 2, py: 1 }}
-                        variant="contained"
-                        color="primary"
-                        onClick={() => toggleInvoiceEditor()}
-                    >
-                        Edit InvoiceZ
-                    </Button> */}
                     <Button
                         sx={{ py: 1 }}
                         onClick={handlePrint}
@@ -107,7 +88,6 @@ const InvoiceViewer = ({ invoiceInfo }) => {
                     >
                         Print Invoice
                     </Button>
-                    {/* <PrintButton /> */}
                 </div>
             </ButtonBox>
 
@@ -223,24 +203,7 @@ const InvoiceViewer = ({ invoiceInfo }) => {
                             rows={6}
                             fullWidth
                         >
-                            Join our Online Class: Building Your Collection: A
-                            Master Class for Short Story Writers with Patrick
-                            Ryan — April 21st - 24th. Applications for our
-                            Summer Writers’ Conference which will take place
-                            online July 17th - 24th, 2022 are now open. Apply
-                            today! Together with the Talve-Goodman family, One
-                            Story is pleased to announce our 2022 Adina
-                            Talve-Goodman Fellow: Ani Cooney. We are excited to
-                            announce that One Story is the recipient of a 2020
-                            Whiting Literary Magazine Prize! Congratulations to
-                            the winners and runners-up of our 2022 Teen Writing
-                            Contest! Read excerpts from the winning stories
-                            here. In order for structural change to happen, it
-                            must happen at all levels, from the Big 5 publishers
-                            to small nonprofits like ours. Read about the steps
-                            that One Story is taking to increase the inclusivity
-                            of our organization. One Story’s Submission Manager
-                            is now free!
+                            {messageForHospital}
                         </Paragraph>
                     </Grid>
                     {/* </FlexBox>

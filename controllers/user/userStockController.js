@@ -163,7 +163,7 @@ const statusTrue = async (req, res) => {
   if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
-  // const { hospitalId } = req.query;
+  const { hospitalId } = req.query;
   const queryObject = {
     createdFor: req.hospital.hospitalId,
     status: true,

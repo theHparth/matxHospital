@@ -38,8 +38,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 const AllStockOutTrueStatus = ({ id }) => {
     // for printing
-    const [uid, setUid] = useState(null)
-    const [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
@@ -133,26 +131,8 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
                                                 <TableCell align="center">
-                                                    {/* <InvoiceAutoGenerate
-                                                        invoiceNum={
-                                                            subscriber.invoiceNum
-                                                        }
-                                                        createdFor={
-                                                            subscriber.createdFor
-                                                        }
-                                                    >
-                                                    </InvoiceAutoGenerate> */}
-                                                    {/* > */}
-
                                                     <StyledButton
-                                                        // variant="contained"
-
                                                         onClick={() => {
-                                                            // dispatch(
-                                                            //     printStockOutInvoice(
-                                                            //         subscriber
-                                                            //     )
-                                                            // )
                                                             setShouldOpenEditorDialog(
                                                                 true
                                                             )

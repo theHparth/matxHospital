@@ -15,12 +15,15 @@ import {
     SecondaryHeading,
     ThirdHeading,
     DateChoose,
+    StyledButton,
+    InvoiceDetails,
 } from 'app/components'
 import {
     TableHead,
     TableBody,
     TableRow,
     TableCell,
+    Icon,
     TablePagination,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,6 +36,17 @@ import {
 } from 'app/redux/actions/admin/StockOutAction'
 
 const AllStockOutTrueStatus = () => {
+    // for printing
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+    const [info, setInfo] = useState()
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        // dispatch(getHospitalsData())
+    }
+    // done
     // search for all
     let [searchText, setSearchText] = React.useState('')
 
@@ -165,6 +179,18 @@ const AllStockOutTrueStatus = () => {
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
+                                                <StyledButton
+                                                    onClick={() => {
+                                                        setShouldOpenEditorDialog(
+                                                            true
+                                                        )
+                                                        setInfo(subscriber)
+                                                    }}
+                                                >
+                                                    <Icon color="primary">
+                                                        print
+                                                    </Icon>
+                                                </StyledButton>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -194,6 +220,13 @@ const AllStockOutTrueStatus = () => {
                                 </AccordionDetails>
                             </Accordion>
                         ))}
+                    {shouldOpenEditorDialog && (
+                        <InvoiceDetails
+                            handleClose={handleDialogClose}
+                            open={shouldOpenEditorDialog}
+                            invoiceInfo={info}
+                        />
+                    )}
                     <TablePagination
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}

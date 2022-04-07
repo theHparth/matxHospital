@@ -2,8 +2,10 @@ import stocks from "../models/Stocks.js";
 import { StatusCodes } from "http-status-codes";
 
 import { BadRequestError, NotFoundError } from "../errors/index.js";
+import StocksHosital from "../models/User/stocksHospital.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
+import UserStock from "../models/User/stockOut.js";
 
 const addStockQty = async (stock_name, totalQtyInOneBox, totalBox, price) => {
   // console.log(stock_name, totalQtyInOneBox, totalBox);
@@ -40,7 +42,7 @@ const removeStockQty = async (
   console.log(stock.totalQty - totalBox * totalQtyInOneBox);
   if (stock.totalQty - totalBox * totalQtyInOneBox < 0) {
     console.log("limit exceed");
-    throw new BadRequestError("Please provide all values");
+    throw new BadRequestError("Limit exceeded");
     // return;
     // res.status(StatusCodes.OK).json({ msg: "stock limit exceed" });
   }
@@ -73,10 +75,7 @@ const addStock = async (req, res) => {
   if (!description || !stock_name || !minimumLimit) {
     throw new BadRequestError("Please provide all values");
   }
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  stock_name = capitalizeFirstLetter(stock_name);
+
   var result = {};
   result.stock_name = { $regex: stock_name, $options: "i" };
   const stockAlreadyExists = await stocks.findOne(result);
@@ -157,6 +156,22 @@ const updateStock = async (req, res) => {
   const updatedStock = await stocks.findOneAndUpdate(
     { _id: stockId },
     req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  await UserStock.updateMany(
+    { stockOutDetail: { $elemMatch: { stock_name: stock.stock_name } } },
+    { stock_name },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  await StocksHosital.updateMany(
+    { stock_name: stock.stock_name },
+    { stock_name },
     {
       new: true,
       runValidators: true,
