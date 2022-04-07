@@ -11,7 +11,11 @@ const minimumThresold = async (req, res) => {
       $group: {
         _id: "$hospitalName",
         belowLimit: {
-          $push: { stock_name: "$stock_name", totalQtyUser: "$totalQtyUser" },
+          $push: {
+            stock_name: "$stock_name",
+            totalQtyUser: "$totalQtyUser",
+            minimumLimit: "$minimumLimit",
+          },
         },
       },
     },

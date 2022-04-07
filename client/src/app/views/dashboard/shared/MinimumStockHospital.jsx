@@ -102,6 +102,9 @@ const AllStockOutTrueStatus = () => {
                                                     Stock Name
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
+                                                <TableCell>
+                                                    Minimum required quantity
+                                                </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -116,6 +119,11 @@ const AllStockOutTrueStatus = () => {
                                                         <TableCell>
                                                             {
                                                                 subscriber.totalQtyUser
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {
+                                                                subscriber.minimumLimit
                                                             }
                                                         </TableCell>
                                                     </TableRow>
