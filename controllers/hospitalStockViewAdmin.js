@@ -2,19 +2,35 @@ import StocksHosital from "../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissionsHospital from "../utils/user/checkPermissionsHospital.js";
+import UserStock from "../models/User/stockOut.js";
 
+const minimumThresold = async (req, res) => {
+  var result = await StocksHosital.aggregate([
+    { $match: { $expr: { $lt: ["$totalQtyUser", "$minimumLimit"] } } },
+    {
+      $group: {
+        _id: "$hospitalName",
+        belowLimit: {
+          $push: { stock_name: "$stock_name", totalQtyUser: "$totalQtyUser" },
+        },
+      },
+    },
+  ]);
+
+  const minimumThresoldData = result;
+  console.log("call in backend minimumThresoldData", minimumThresoldData);
+  res.status(StatusCodes.OK).json({ minimumThresoldData });
+};
 const hospitalStockViewAdmin = async (req, res) => {
   const { search, id } = req.query;
   // console.log("backend......", id);
   const queryObject = {
-    createdFor: id,
+    createdBy: req.user.userId,
   };
-  // if (search) {
-  //   queryObject.hospitalName = { $regex: search, $options: "i" };
-  // }
-  // if (id) {
-  //   queryObject.hospitalPresentStock = id;
-  // }
+
+  if (id) {
+    queryObject.createdFor = id;
+  }
 
   let result = StocksHosital.find(queryObject);
   const hospitalPresentStock = await result;
@@ -24,4 +40,4 @@ const hospitalStockViewAdmin = async (req, res) => {
   res.status(StatusCodes.OK).json({ hospitalPresentStock });
 };
 
-export { hospitalStockViewAdmin };
+export { hospitalStockViewAdmin, minimumThresold };

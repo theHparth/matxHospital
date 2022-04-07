@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Tabs, Tab } from '@mui/material'
-import RecentUpdates from './shared/RecentUpdates'
+import MinimumStockHospital from './shared/MinimumStockHospital'
 import InventoryDashboard from './shared/InventoryDashboard'
 import { styled } from '@mui/system'
 
@@ -23,7 +23,7 @@ const InventoryManagement = () => {
                 indicatorColor="primary"
                 textColor="primary"
             >
-                {['Dashboard', 'Recent Updates'].map((item, ind) => (
+                {['Hospital Srock', 'Admin '].map((item, ind) => (
                     <Tab
                         key={ind}
                         value={ind}
@@ -36,8 +36,8 @@ const InventoryManagement = () => {
                 ))}
             </Tabs>
 
-            {tabIndex === 0 && <InventoryDashboard />}
-            {tabIndex === 1 && <RecentUpdates />}
+            {tabIndex === 0 && <MinimumStockHospital />}
+            {tabIndex === 1 && <InventoryDashboard />}
         </Container>
     )
 }

@@ -16,12 +16,15 @@ import {
     GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
     EDIT_HOSPITAL_COMPLETE,
     DELETE_HOSPITAL_SUCCESS,
+    GET_HOSPITAL_MINIMUM_THRESOLD,
 } from '../../actions/admin/HospitalActions'
 
 const initialState = {
     hospitalsData: [],
     hospitalIndividualStockData: [],
     isLoading: false,
+    minimumThresoldData: [],
+    minimumThresold: [],
     showAlert: false,
     clearValues: '',
     alertType: '',
@@ -60,6 +63,12 @@ const HospitalReducer = function (state = initialState, action) {
                 ...state,
                 hospitalIndividualStockData:
                     action.payload.hospitalPresentStock,
+            }
+        }
+        case GET_HOSPITAL_MINIMUM_THRESOLD: {
+            return {
+                ...state,
+                minimumThresold: action.payload.minimumThresoldData,
             }
         }
         case CREATE_HOSPITAL_BEGIN: {

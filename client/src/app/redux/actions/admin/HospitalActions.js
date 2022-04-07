@@ -4,6 +4,7 @@ export const UPDATE_HOSPITAL_BEGIN = 'UPDATE_HOSPITAL_BEGIN'
 export const UPDATE_HOSPITAL_SUCCESS = 'UPDATE_HOSPITAL_SUCCESS'
 export const UPDATE_HOSPITAL_ERROR = 'UPDATE_HOSPITAL_ERROR'
 export const CLEAR_VALUES_HOSPITAL = 'CLEAR_VALUES_HOSPITAL'
+export const GET_HOSPITAL_MINIMUM_THRESOLD = 'GET_HOSPITAL_MINIMUM_THRESOLD'
 export const CREATE_HOSPITAL_BEGIN = 'CREATE_HOSPITAL_BEGIN'
 export const CREATE_HOSPITAL_SUCCESS = 'CREATE_HOSPITAL_SUCCESS'
 export const CREATE_HOSPITAL_ERROR = 'CREATE_HOSPITAL_ERROR'
@@ -65,6 +66,24 @@ const getHospitalsData = (hospitalName) => async (dispatch) => {
         console.log(error)
         // removeUserFromLocalStorage()
     }
+}
+const hospitalMinimumTheresold = () => async (dispatch) => {
+    let url = '/hospitalDataAdmin/minimumThresold'
+
+    dispatch({ type: GET_HOSPITAL_BEGIN })
+    try {
+        const { data } = await authFetch.get(url)
+        const { minimumThresoldData } = data
+        console.log('in action hospital', minimumThresoldData)
+        dispatch({
+            type: GET_HOSPITAL_MINIMUM_THRESOLD,
+            payload: { minimumThresoldData },
+        })
+    } catch (error) {
+        console.log(error)
+        // removeUserFromLocalStorage()
+    }
+    dispatch(clearAlert())
 }
 const hospitalStockInformation = (id) => async (dispatch) => {
     let url = `/hospitalDataAdmin?id=${id}`
@@ -171,4 +190,5 @@ export {
     editHospital,
     deleteHospital,
     hospitalStockInformation,
+    hospitalMinimumTheresold,
 }
