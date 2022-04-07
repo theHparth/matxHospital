@@ -51,7 +51,6 @@ function AddStockOutForm() {
         availableQuantity: '',
         quantity: '',
         quantityPerBox: '',
-        // isPriceIncluded: false,
         priceForUser: 0,
         price: 0,
     }
@@ -64,7 +63,7 @@ function AddStockOutForm() {
 
     const handleSubmit = () => {
         const data = {
-            hospitalName: stockOutData[0].hospitalName,
+            hospitalName: stockOutData.hospitalName,
             stockOutDetail: stockOutData.map((data) => ({
                 stock_name: data.stockName,
                 totalQtyInOneBox: Number(data.quantityPerBox),
@@ -77,6 +76,17 @@ function AddStockOutForm() {
         dispatch(sendToUser(data))
         setStockOutData([emptyField])
     }
+    const [hospital, setHospital] = React.useState({})
+    const onChangeHospital = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+
+        setStockOutData({
+            ...stockOutData,
+            [name]: value,
+        })
+    }
+
     return (
         <ContainerForm>
             <div>

@@ -38,10 +38,6 @@ const AddStockCard = ({
             {
                 ...stockOutData[index],
                 [name]: value,
-                hospitalName:
-                    index === 0 && name === 'hospitalName'
-                        ? value
-                        : stockOutData[0].hospitalName,
                 price: availableQuantity.price,
             },
             ...stockOutData.slice(index + 1, stockOutData.length),
@@ -86,35 +82,41 @@ const AddStockCard = ({
                         padding: '30px',
                     }}
                 >
-                    <div style={{ display: 'flex' }}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
+                    <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                    >
+                        <InputLabel id="demo-simple-select-standard-label">
+                            Hospital Name
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            onChange={handleChange}
+                            label="Age"
+                            name="hospitalName"
+                            value={stockOutData.hospitalName}
                         >
-                            <InputLabel id="demo-simple-select-standard-label">
-                                Hospital Name
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                // value={stockOutData}
-                                onChange={handleChange}
-                                label="Age"
-                                name="hospitalName"
-                                value={stockOut.hospitalName}
-                                disabled={index > 0}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {hospitalsData.map((hospitalObj) => (
+                                <MenuItem value={hospitalObj.hospitalName}>
+                                    {hospitalObj.hospitalName}
                                 </MenuItem>
-                                {hospitalsData.map((hospitalObj) => (
-                                    <MenuItem value={hospitalObj.hospitalName}>
-                                        {hospitalObj.hospitalName}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Card>
+                <Card
+                    sx={{
+                        minWidth: 275,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0px 30px 30px 30px',
+                    }}
+                >
+                    <div style={{ display: 'flex' }}>
                         <FormControl
                             variant="standard"
                             sx={{ m: 1, minWidth: 120, width: 200 }}

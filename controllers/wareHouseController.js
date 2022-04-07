@@ -5,19 +5,44 @@ import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "../controllers/stockController.js";
 
 const addStockinWereHouse = async (req, res) => {
-  const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
-    req.body;
+  // const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
+  //   req.body;
 
-  if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
+  // if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
+  //   throw new BadRequestError("Please provide all values");
+  // }
+
+  // req.body.createdBy = req.user.userId;
+
+  // const stock = await WereHouseStocks.create(req.body);
+
+  // addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
+
+  // res.status(StatusCodes.CREATED).json({ stock });
+  const { invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
+    req.body;
+  if (!invoiceNumStockIn || !vendor_name || !stockInDetail) {
     throw new BadRequestError("Please provide all values");
   }
+  stockInDetail.map((data) => {
+    if (
+      !data.totalQtyInOneBox ||
+      !data.totalBox ||
+      !data.stock_name ||
+      !data.price
+    ) {
+      throw new BadRequestError("Please provide all values");
+    }
+    addStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
 
   req.body.createdBy = req.user.userId;
-
   const stock = await WereHouseStocks.create(req.body);
-
-  addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
-
   res.status(StatusCodes.CREATED).json({ stock });
 };
 
@@ -67,10 +92,9 @@ const getAllStockfromWereHouse = async (req, res) => {
 const updateStockfromWereHouse = async (req, res) => {
   const { id: stockId } = req.params;
 
-  const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
+  const { invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
     req.body;
-  console.log(vendor_name, stock_name, price, totalQtyInOneBox, totalBox);
-  if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
+  if (!invoiceNumStockIn || !vendor_name || !stockInDetail) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -83,6 +107,32 @@ const updateStockfromWereHouse = async (req, res) => {
 
   checkPermissions(req.user, stock.createdBy);
 
+  stockInDetail.map((data) => {
+    if (
+      !data.totalQtyInOneBox ||
+      !data.totalBox ||
+      !data.stock_name ||
+      !data.price
+    ) {
+      throw new BadRequestError("Please provide all values");
+    }
+    addStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
+
+  stock.stockInDetail.map((data) => {
+    removeStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
+
   const updatedStock = await WereHouseStocks.findOneAndUpdate(
     { _id: stockId },
     req.body,
@@ -91,13 +141,13 @@ const updateStockfromWereHouse = async (req, res) => {
       runValidators: true,
     }
   );
-  removeStockQty(
-    stock.stock_name,
-    stock.totalQtyInOneBox,
-    stock.totalBox,
-    stock.price
-  );
-  addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
+  // removeStockQty(
+  //   stock.stock_name,
+  //   stock.totalQtyInOneBox,
+  //   stock.totalBox,
+  //   stock.price
+  // );
+  // addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
 
   res.status(StatusCodes.OK).json({ updatedStock });
 };
@@ -113,13 +163,17 @@ const deleteStockfromWereHouse = async (req, res) => {
 
   checkPermissions(req.user, stock.createdBy);
 
+  stock.stockInDetail.map((data) => {
+    removeStockQty(
+      data.stock_name,
+      data.totalQtyInOneBox,
+      data.totalBox,
+      data.price
+    );
+  });
+
   await stock.remove();
-  removeStockQty(
-    stock.stock_name,
-    stock.totalQtyInOneBox,
-    stock.totalBox,
-    stock.price
-  );
+
   // await WereHouseStocks.remove();
 
   res
