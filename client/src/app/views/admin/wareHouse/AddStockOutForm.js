@@ -33,6 +33,7 @@ function AddStockOutForm() {
             price: '',
             totalQtyInOneBox: '',
             totalBox: '',
+            priceType: 'individualPrice',
         },
     ])
     const emptyField = {

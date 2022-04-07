@@ -135,7 +135,7 @@ const AddStockCard = ({
 
                         <TextField
                             id="standard-basic"
-                            label="Price For user"
+                            label="Price"
                             variant="standard"
                             sx={{ m: 1, minWidth: 120, width: 200 }}
                             name="price"
