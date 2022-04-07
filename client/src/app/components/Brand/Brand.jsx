@@ -2,7 +2,6 @@ import React from 'react'
 import { Span } from '../../components/Typography'
 import { styled, Box } from '@mui/system'
 import useSettings from 'app/hooks/useSettings'
-import MatxLogo from '../MatxLogo/MatxLogo'
 
 const BrandRoot = styled(Box)(({ theme }) => ({
     display: 'flex',

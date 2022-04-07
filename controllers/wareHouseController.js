@@ -43,6 +43,7 @@ const addStockinWereHouse = async (req, res) => {
 
   req.body.createdBy = req.user.userId;
   const stock = await WereHouseStocks.create(req.body);
+  console.log("in server werehouse", stockInDetail);
   res.status(StatusCodes.CREATED).json({ stock });
 };
 

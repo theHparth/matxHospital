@@ -4,12 +4,15 @@ import Loadable from 'app/components/Loadable/Loadable'
 const AddStockInWereHouse = Loadable(
     lazy(() => import('./AddStockInWereHouse'))
 )
+
+const AddStockOutForm = Loadable(lazy(() => import('./AddStockOutForm')))
+
 const WereHouseStock = Loadable(lazy(() => import('./WereHouseStock')))
 
 const wereHouseRoutes = [
     {
         path: '/addStockInWereHouse',
-        element: <AddStockInWereHouse />,
+        element: <AddStockOutForm />,
     },
     {
         path: '/wereHouseStock',

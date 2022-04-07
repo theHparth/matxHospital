@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom'
-import Footer from '../../Footer/Footer'
 import Layout1Topbar from './Layout1Topbar'
 import Layout1Sidenav from './Layout1Sidenav'
 import Scrollbar from 'react-perfect-scrollbar'
@@ -115,9 +114,9 @@ const Layout1 = () => {
                                 <Outlet />
                             </MatxSuspense>
                         </Box>
-                        {settings.footer.show && !settings.footer.fixed && (
+                        {/* {settings.footer.show && !settings.footer.fixed && (
                             <Footer />
-                        )}
+                        )} */}
                     </StyledScrollBar>
                 )}
 
@@ -134,13 +133,13 @@ const Layout1 = () => {
                                 <Outlet />
                             </MatxSuspense>
                         </Box>
-                        {settings.footer.show && !settings.footer.fixed && (
+                        {/* {settings.footer.show && !settings.footer.fixed && (
                             <Footer />
-                        )}
+                        )} */}
                     </ContentBox>
                 )}
 
-                {settings.footer.show && settings.footer.fixed && <Footer />}
+                {/* {settings.footer.show && settings.footer.fixed && <Footer />} */}
             </LayoutContainer>
             {settings.secondarySidebar.show && <SecondarySidebar />}
         </Layout1Root>

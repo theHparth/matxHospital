@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Footer from '../../Footer/Footer'
+// import Footer from '../../Footer/Footer'
 import Layout2Navbar from './Layout2Navbar'
 import Layout2Topbar from './Layout2Topbar'
 import Scrollbar from 'react-perfect-scrollbar'
@@ -84,9 +84,9 @@ const Layout2 = () => {
                         <Box p={0} flexGrow={1} position="relative">
                             <Outlet />
                         </Box>
-                        {settings.footer.show && !settings.footer.fixed && (
+                        {/* {settings.footer.show && !settings.footer.fixed && (
                             <Footer />
-                        )}
+                        )} */}
                     </StyledScrollBar>
                 )}
 
@@ -95,13 +95,13 @@ const Layout2 = () => {
                         <Box p={0} flexGrow={1} position="relative">
                             <Outlet />
                         </Box>
-                        {settings.footer.show && !settings.footer.fixed && (
+                        {/* {settings.footer.show && !settings.footer.fixed && (
                             <Footer />
-                        )}
+                        )} */}
                     </ContentBox>
                 )}
 
-                {settings.footer.show && settings.footer.fixed && <Footer />}
+                {/* {settings.footer.show && settings.footer.fixed && <Footer />} */}
             </Layout2Root>
             {settings.secondarySidebar.show && <SecondarySidebar />}
         </Layout2Container>

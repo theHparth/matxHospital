@@ -44,7 +44,6 @@ const getAllVendor = (state) => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/vendors')
         const { vendorList } = data
-        console.log('vendor list', vendorList)
 
         dispatch({
             type: GET_SUCCESS,

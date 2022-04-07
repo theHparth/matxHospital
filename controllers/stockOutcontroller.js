@@ -32,8 +32,8 @@ const sendStockUser = async (req, res) => {
     if (
       !data.totalQtyInOneBox ||
       !data.totalBox ||
-      !data.stock_name
-      // !data.price
+      !data.stock_name ||
+      !data.price
     ) {
       throw new BadRequestError("Please provide all values");
     }
