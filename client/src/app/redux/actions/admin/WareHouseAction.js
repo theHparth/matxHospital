@@ -69,7 +69,7 @@ const getAllData = (state) => async (dispatch) => {
 }
 
 const setEditData = (subscriber) => (dispatch) => {
-    console.log(subscriber, 'new Data')
+    console.log(subscriber, 'data for update ')
     dispatch({ type: SET_EDIT, payload: { subscriber } })
 }
 

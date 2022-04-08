@@ -17,11 +17,21 @@ import { edit, add } from 'app/redux/actions/admin/WareHouseAction'
 function AddStockOutForm() {
     const navigate = useNavigate()
 
-    let { stockData } = useSelector((state) => state.stockList)
-
     const dispatch = useDispatch()
-
+    let { stockData } = useSelector((state) => state.stockList)
     const { vendorData = [] } = useSelector((states) => states.vendorList)
+    const {
+        isLoading,
+        showAlert,
+        clearValues,
+        alertType,
+        alertText,
+        isEditing,
+        _id,
+        invoiceNumStockIn,
+        vendor_name,
+        stockInDetail,
+    } = useSelector((x) => x.wareHouseStockList)
 
     useEffect(() => {
         dispatch(getAllVendor())
@@ -37,8 +47,6 @@ function AddStockOutForm() {
         },
     ])
     const emptyField = {
-        invoiceNumStockIn: '',
-        vendor_name: '',
         stockInDetail: '',
         stock_name: '',
         price: '',
@@ -50,19 +58,24 @@ function AddStockOutForm() {
         dispatch(getAllData())
     }, [dispatch])
 
-    const [vendor, setHospital] = React.useState()
-    const onChangeVendor = (e) => {
-        setHospital(e.target.value)
-    }
-    const [invoice, setInvoice] = React.useState()
-    const onChangeInvoice = (e) => {
-        setInvoice(e.target.value)
+    const [newVendorInvoice, setVendorInvoice] = React.useState({
+        invoiceNumStockIn: invoiceNumStockIn || '',
+        vendor_name: vendor_name || '',
+    })
+    const onChangeVendorInvoice = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+
+        setVendorInvoice({
+            ...newVendorInvoice,
+            [name]: value,
+        })
     }
 
     const handleSubmit = () => {
         const data = {
-            invoiceNumStockIn: invoice,
-            vendor_name: vendor,
+            invoiceNumStockIn: newVendorInvoice.invoiceNumStockIn,
+            vendor_name: newVendorInvoice.vendor_name,
             stockInDetail: stockOutData,
         }
         console.log('stock out data', data)
@@ -96,7 +109,7 @@ function AddStockOutForm() {
                         minWidth: 275,
                         display: 'flex',
                         flexDirection: 'column',
-                        padding: '30px',
+                        padding: '10px 30px 30px 30px',
                     }}
                 >
                     <div style={{ display: 'flex' }}>
@@ -111,20 +124,24 @@ function AddStockOutForm() {
                             <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
-                                onChange={onChangeVendor}
+                                onChange={onChangeVendorInvoice}
                                 label="Age"
                                 name="vendor_name"
-                                value={vendor || ''}
+                                value={newVendorInvoice.vendor_name || ''}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
                                 {vendorData.map((vendorObj, index) => (
                                     <MenuItem
-                                        value={vendorObj.vendor_name}
+                                        value={
+                                            newVendorInvoice.vendor_name ||
+                                            vendorObj.vendor_name
+                                        }
                                         key={index}
                                     >
-                                        {vendorObj.vendor_name}
+                                        {newVendorInvoice.vendor_name ||
+                                            vendorObj.vendor_name}
                                     </MenuItem>
                                 ))}
                                 <MenuItem
@@ -142,12 +159,14 @@ function AddStockOutForm() {
                             variant="standard"
                             sx={{ m: 1, minWidth: 120, width: 200 }}
                             name="invoiceNumStockIn"
-                            value={invoice || ''}
-                            onChange={onChangeInvoice}
+                            value={newVendorInvoice.invoiceNumStockIn || ''}
+                            onChange={onChangeVendorInvoice}
                         />
                     </div>
                 </Card>
 
+                {/* {stockInDetail.length == 0
+                    ?  */}
                 {stockOutData.map((stockOut, index) => (
                     <AddStockCard
                         key={index}
@@ -157,8 +176,22 @@ function AddStockOutForm() {
                         index={index}
                         stockData={stockData}
                         vendorData={vendorData}
+                        updateStockInDetail={stockInDetail}
                     />
                 ))}
+                {/* : stockInDetail.map((updateStockInDetaili, index) => (
+                          <AddStockCard
+                              key={index}
+                              stockOut={updateStockInDetaili}
+                              stockOutData={stockOutData}
+                              setStockOutData={setStockOutData}
+                              index={index}
+                              stockData={stockData}
+                              vendorData={vendorData}
+                              updateStockInDetail={updateStockInDetaili}
+                          />
+                      ))} */}
+
                 <div style={{ display: 'flex', marginLeft: 'auto' }}>
                     <Button
                         variant="outlined"

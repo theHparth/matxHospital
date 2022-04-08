@@ -18,6 +18,7 @@ const AddStockCard = ({
     setStockOutData,
     index,
     stockData,
+    updateStockInDetail,
 }) => {
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -59,119 +60,244 @@ const AddStockCard = ({
     const aaa = () => {}
     const navigate = useNavigate()
     return (
-        <div>
-            <ValidatorForm onError={() => null} onSubmit={aaa}>
-                <Card
-                    sx={{
-                        minWidth: 275,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: '0px 30px 30px 30px',
-                    }}
-                >
-                    <div style={{ display: 'flex' }}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                        >
-                            <InputLabel id="demo-simple-select-standard-label">
-                                Stock Name
-                            </InputLabel>
+        <ValidatorForm onError={() => null} onSubmit={aaa}>
+            {/* {updateStockInDetail.length == 0 ? ( */}
+            <Card
+                sx={{
+                    minWidth: 275,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '0px 30px 30px 30px',
+                }}
+            >
+                <div style={{ display: 'flex' }}>
+                    <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                    >
+                        <InputLabel id="demo-simple-select-standard-label">
+                            Stock Name
+                        </InputLabel>
 
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                onChange={(e) => {
-                                    handleChange(e)
-                                }}
-                                label="Stock Name"
-                                name="stock_name"
-                                value={stockOut.stock_name}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {stockData.map((stockObj, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        value={stockObj.stock_name}
-                                    >
-                                        {stockObj.stock_name}
-                                    </MenuItem>
-                                ))}
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            onChange={(e) => {
+                                handleChange(e)
+                            }}
+                            label="Stock Name"
+                            name="stock_name"
+                            value={stockOut.stock_name}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {stockData.map((stockObj, index) => (
                                 <MenuItem
-                                    key={'last'}
-                                    onClick={() => navigate('/allStock/new')}
+                                    key={index}
+                                    value={stockObj.stock_name}
                                 >
-                                    Add new stock
+                                    {stockObj.stock_name}
                                 </MenuItem>
-                            </Select>
-                        </FormControl>
+                            ))}
+                            <MenuItem
+                                key={'last'}
+                                onClick={() => navigate('/allStock/new')}
+                            >
+                                Add new stock
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
 
-                        {/* </div>
+                    {/* </div>
                     <div style={{ display: 'flex' }}> */}
-                        <TextValidator
-                            id="standard-basic"
-                            label="Box"
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="totalBox"
-                            value={stockOut.totalBox}
-                            onChange={handleChange}
-                            validators={['required', 'minNumber:1']}
-                            errormessages={['this field is required']}
-                        />
-                        <TextField
-                            id="standard-basic"
-                            label="Quantity Per Box"
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="totalQtyInOneBox"
-                            value={stockOut.totalQtyInOneBox}
-                            onChange={handleChange}
-                            validators={['required', 'minNumber:1']}
-                            errormessages={['this field is required']}
-                        />
+                    <TextValidator
+                        id="standard-basic"
+                        label="Box"
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                        name="totalBox"
+                        value={stockOut.totalBox}
+                        onChange={handleChange}
+                        validators={['required', 'minNumber:1']}
+                        errormessages={['this field is required']}
+                    />
+                    <TextField
+                        id="standard-basic"
+                        label="Quantity Per Box"
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                        name="totalQtyInOneBox"
+                        value={stockOut.totalQtyInOneBox}
+                        onChange={handleChange}
+                        validators={['required', 'minNumber:1']}
+                        errormessages={['this field is required']}
+                    />
 
-                        <TextField
-                            id="standard-basic"
-                            label="Price"
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="price"
-                            value={stockOut.price}
-                            onChange={handleChange}
-                            validators={['required', 'minNumber:1']}
-                            errormessages={['this field is required']}
-                        />
+                    <TextField
+                        id="standard-basic"
+                        label="Price"
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                        name="price"
+                        value={stockOut.price}
+                        onChange={handleChange}
+                        validators={['required', 'minNumber:1']}
+                        errormessages={['this field is required']}
+                    />
 
-                        <Button
-                            variant="outlined"
-                            sx={{
-                                width: '100px',
-                                height: '40px',
-                                marginLeft: 'auto',
-                            }}
-                            onClick={clearForm}
-                        >
-                            Clear
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            color="error"
-                            sx={{
-                                width: '100px',
-                                height: '40px',
-                                marginLeft: 'auto',
-                            }}
-                            onClick={removeField}
-                        >
-                            Remove
-                        </Button>
-                    </div>
-                </Card>
-            </ValidatorForm>
-        </div>
+                    <Button
+                        variant="outlined"
+                        sx={{
+                            width: '100px',
+                            height: '40px',
+                            marginLeft: 'auto',
+                        }}
+                        onClick={clearForm}
+                    >
+                        Clear
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        sx={{
+                            width: '100px',
+                            height: '40px',
+                            marginLeft: 'auto',
+                        }}
+                        onClick={removeField}
+                    >
+                        Remove
+                    </Button>
+                </div>
+            </Card>
+            {/* ) : (
+                updateStockInDetail.map((subscribers, index) => (
+                    <Card
+                        sx={{
+                            minWidth: 275,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            padding: '0px 30px 30px 30px',
+                        }}
+                    >
+                        <div style={{ display: 'flex' }}>
+                            <FormControl
+                                variant="standard"
+                                sx={{ m: 1, minWidth: 120, width: 200 }}
+                            >
+                                <InputLabel id="demo-simple-select-standard-label">
+                                    Stock Name
+                                </InputLabel>
+
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    onChange={(e) => {
+                                        handleChange(e)
+                                    }}
+                                    label="Stock Name"
+                                    name="stock_name"
+                                    value={
+                                        subscribers.stock_name ||
+                                        stockOut.stock_name
+                                    }
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {stockData.map((stockObj, index) => (
+                                        <MenuItem
+                                            key={index}
+                                            value={
+                                                subscribers.stock_name ||
+                                                stockObj.stock_name
+                                            }
+                                        >
+                                            {subscribers.stock_name ||
+                                                stockObj.stock_name}
+                                        </MenuItem>
+                                    ))}
+                                    <MenuItem
+                                        key={'last'}
+                                        onClick={() =>
+                                            navigate('/allStock/new')
+                                        }
+                                    >
+                                        Add new stock
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+
+                           
+                            <TextValidator
+                                id="standard-basic"
+                                label="Box"
+                                variant="standard"
+                                sx={{ m: 1, minWidth: 120, width: 200 }}
+                                name="totalBox"
+                                value={
+                                    subscribers.totalBox || stockOut.totalBox
+                                }
+                                onChange={handleChange}
+                                validators={['required', 'minNumber:1']}
+                                errormessages={['this field is required']}
+                            />
+                            <TextField
+                                id="standard-basic"
+                                label="Quantity Per Box"
+                                variant="standard"
+                                sx={{ m: 1, minWidth: 120, width: 200 }}
+                                name="totalQtyInOneBox"
+                                value={
+                                    subscribers.totalQtyInOneBox ||
+                                    stockOut.totalQtyInOneBox
+                                }
+                                onChange={handleChange}
+                                validators={['required', 'minNumber:1']}
+                                errormessages={['this field is required']}
+                            />
+
+                            <TextField
+                                id="standard-basic"
+                                label="Price"
+                                variant="standard"
+                                sx={{ m: 1, minWidth: 120, width: 200 }}
+                                name="price"
+                                value={subscribers.price || stockOut.price}
+                                onChange={handleChange}
+                                validators={['required', 'minNumber:1']}
+                                errormessages={['this field is required']}
+                            />
+
+                            <Button
+                                variant="outlined"
+                                sx={{
+                                    width: '100px',
+                                    height: '40px',
+                                    marginLeft: 'auto',
+                                }}
+                                onClick={clearForm}
+                            >
+                                Clear
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                color="error"
+                                sx={{
+                                    width: '100px',
+                                    height: '40px',
+                                    marginLeft: 'auto',
+                                }}
+                                onClick={removeField}
+                            >
+                                Remove
+                            </Button>
+                        </div>
+                    </Card>
+                ))
+            )} */}
+        </ValidatorForm>
     )
 }
 
