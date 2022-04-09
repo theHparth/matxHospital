@@ -37,7 +37,7 @@ function AddStockOutForm() {
         dispatch(getAllVendor())
     }, [dispatch])
 
-    const [stockOutData, setStockOutData] = React.useState([
+    var [stockOutData, setStockOutData] = React.useState([
         {
             stock_name: '',
             price: '',
@@ -46,6 +46,13 @@ function AddStockOutForm() {
             priceType: 'individualPrice',
         },
     ])
+    // useEffect(() => {
+    //     if (stockInDetail) {
+    //         stockOutData = stockInDetail.concat(stockOutData)
+    //     }
+    // })
+    console.log(' only edit data', stockInDetail)
+    console.log(' all with edit stockOutData', stockOutData)
     const emptyField = {
         stockInDetail: '',
         stock_name: '',
@@ -165,7 +172,7 @@ function AddStockOutForm() {
                     </div>
                 </Card>
 
-                {/* {stockInDetail.length == 0
+                {/* {!stockInDetail
                     ?  */}
                 {stockOutData.map((stockOut, index) => (
                     <AddStockCard

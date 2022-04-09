@@ -38,7 +38,6 @@ const AddStockCard = ({
             ...stockOutData.slice(0, index),
             {
                 stock_name: '',
-
                 totalBox: '',
                 totalQtyInOneBox: '',
                 price: '',

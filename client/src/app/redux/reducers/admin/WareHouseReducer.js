@@ -36,7 +36,7 @@ const initialState = {
     _id: '',
     invoiceNumStockIn: '',
     vendor_name: '',
-    stockInDetail: [],
+    stockInDetail: '',
 }
 
 const WareHouseReducer = function (state = initialState, action) {
