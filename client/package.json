@@ -39,7 +39,6 @@
         "prop-types": "^15.7.2",
         "qwest": "^4.5.0",
         "react": "^17.0.2",
-        "react-advanced-datetimerange-picker": "^1.0.14",
         "react-apexcharts": "^1.3.9",
         "react-beautiful-dnd": "^13.1.0",
         "react-big-calendar": "^0.38.1",

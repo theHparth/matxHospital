@@ -124,8 +124,8 @@ const AllStockOutTrueStatus = () => {
                     onSearch={handleChangeSearch}
                     onSearchValueChange={searchText}
                 />
+                <DateChoose dateProjection={(state) => setSearchDate(state)} />
             </div>
-            <DateChoose dateProjection={(state) => setSearchDate(state)} />
 
             <SimpleCard title="Stock out data">
                 <Box width="100%">

@@ -1,6 +1,6 @@
 import UserStock from "../models/User/stockOut.js";
 
-const searchDateHospitalSort = async () => {
+const filterDataCalculation = async () => {
   var { getQtyByStockName, searchDate, getStockByHospitalName } = req.body;
   // console.log("in filter page", searchDate);
   var result;
@@ -126,4 +126,4 @@ const searchDateHospitalSort = async () => {
   res.status(StatusCodes.OK).json({ result });
 };
 
-export { searchDateHospitalSort };
+export { filterDataCalculation };

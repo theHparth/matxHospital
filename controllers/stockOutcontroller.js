@@ -115,7 +115,7 @@ const filterResult = async (queryObject, searchText, status) => {
 const getAllSendStockUser = async (req, res) => {
   var { status, searchText, hospitalId } = req.query;
   const { searchDate } = req.body;
-
+  console.log("searchDate in backednd", searchDate);
   const queryObject = {
     createdBy: req.user.userId,
   };
@@ -133,7 +133,7 @@ const getAllSendStockUser = async (req, res) => {
       var dd = d.substring(8, 10);
       new_dates.push(yyyy + "-" + mm + "-" + dd);
     });
-
+    console.log("new_dates", new_dates);
     queryObject.createdAt = { $gte: new_dates[0] };
     queryObject.createdAt = { $lte: new_dates[1] };
   }
@@ -152,85 +152,85 @@ const getAllSendStockUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ allStockOutData, totalHospitals });
 };
 
-const falseStatusProduct = async (req, res) => {};
+// const falseStatusProduct = async (req, res) => {};
 
-const trueStatusProduct = async (req, res) => {
-  var { searchDate } = req.body;
-  var result;
-  if (Array.isArray(searchDate)) {
-    console.log("searchDate in backend", searchDate);
-    var date = [searchDate[0], searchDate[1]];
-    //  [ '2022-04-05T23:29:56.162Z', '2022-04-14T23:29:56.162Z' ]
+// const trueStatusProduct = async (req, res) => {
+//   var { searchDate } = req.body;
+//   var result;
+//   if (Array.isArray(searchDate)) {
+//     console.log("searchDate in backend", searchDate);
+//     var date = [searchDate[0], searchDate[1]];
+//     //  [ '2022-04-05T23:29:56.162Z', '2022-04-14T23:29:56.162Z' ]
 
-    var new_dates = [];
+//     var new_dates = [];
 
-    date.forEach((d) => {
-      var yyyy = d.substring(0, 4);
-      var mm = d.substring(5, 7);
-      var dd = d.substring(8, 10);
-      new_dates.push(yyyy + "-" + mm + "-" + dd);
-    });
-    console.log(new_dates, "new_dates");
-    result = await UserStock.aggregate([
-      {
-        $project: {
-          createdFor: 1,
-          stockOutDetail: 1,
-          createdAt: {
-            $substr: ["$createdAt", 0, 10],
-          },
-        },
-      },
-      {
-        $match: {
-          $and: [
-            {
-              createdAt: {
-                $gte: new_dates[0],
-              },
-            },
-            {
-              createdAt: {
-                $lte: new_dates[1],
-              },
-            },
-          ],
-        },
-      },
-      {
-        $unwind: "$stockOutDetail",
-      },
-      {
-        $group: {
-          _id: {
-            for: "$createdFor",
-            name: "$stockOutDetail.stock_name",
-          },
-          summ: {
-            $sum: {
-              $multiply: [
-                "$stockOutDetail.totalBox",
-                "$stockOutDetail.totalQtyInOneBox",
-              ],
-            },
-          },
-        },
-      },
-      {
-        $group: {
-          _id: "$_id.for",
-          stockInfo: {
-            $push: {
-              itemName: "$_id.name",
-              totalQty: "$summ",
-            },
-          },
-        },
-      },
-    ]);
-  }
-  res.status(StatusCodes.OK).json({ result });
-};
+//     date.forEach((d) => {
+//       var yyyy = d.substring(0, 4);
+//       var mm = d.substring(5, 7);
+//       var dd = d.substring(8, 10);
+//       new_dates.push(yyyy + "-" + mm + "-" + dd);
+//     });
+//     console.log(new_dates, "new_dates");
+//     result = await UserStock.aggregate([
+//       {
+//         $project: {
+//           createdFor: 1,
+//           stockOutDetail: 1,
+//           createdAt: {
+//             $substr: ["$createdAt", 0, 10],
+//           },
+//         },
+//       },
+//       {
+//         $match: {
+//           $and: [
+//             {
+//               createdAt: {
+//                 $gte: new_dates[0],
+//               },
+//             },
+//             {
+//               createdAt: {
+//                 $lte: new_dates[1],
+//               },
+//             },
+//           ],
+//         },
+//       },
+//       {
+//         $unwind: "$stockOutDetail",
+//       },
+//       {
+//         $group: {
+//           _id: {
+//             for: "$createdFor",
+//             name: "$stockOutDetail.stock_name",
+//           },
+//           summ: {
+//             $sum: {
+//               $multiply: [
+//                 "$stockOutDetail.totalBox",
+//                 "$stockOutDetail.totalQtyInOneBox",
+//               ],
+//             },
+//           },
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: "$_id.for",
+//           stockInfo: {
+//             $push: {
+//               itemName: "$_id.name",
+//               totalQty: "$summ",
+//             },
+//           },
+//         },
+//       },
+//     ]);
+//   }
+//   res.status(StatusCodes.OK).json({ result });
+// };
 
 const updateSendStockAdmin = async (req, res) => {
   const { id: stockOutId } = req.params;
@@ -326,6 +326,6 @@ export {
   getAllSendStockUser,
   deleteSendStockAdmin,
   updateSendStockAdmin,
-  falseStatusProduct,
-  trueStatusProduct,
+  // falseStatusProduct,
+  // trueStatusProduct,
 };

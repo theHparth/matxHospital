@@ -6,9 +6,9 @@ import { topBarHeight } from 'app/utils/constant'
 const SearchContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
     top: 25,
-    left: 1100,
+    left: 1150,
     zIndex: 9,
-    // width: '20%',
+    width: '24.5%',
     // display: 'flex',
     paddingRight: '90px',
     alignItems: 'center',
@@ -25,7 +25,7 @@ const SearchInput = styled('input')(({ theme }) => ({
     // border: 'none',
     // outline: 'none',
     fontSize: '1rem',
-    paddingLeft: '20px',
+    paddingLeft: '10px',
     height: 'calc(100% - 25px)',
     // background: theme.palette.primary.main,
     // color: theme.palette.text.primary,
@@ -35,7 +35,7 @@ const SearchInput = styled('input')(({ theme }) => ({
 }))
 
 const SearchBox = ({ onSearch, onSearchValueChange }) => {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(true)
     const toggle = () => {
         setOpen(!open)
     }
@@ -65,12 +65,12 @@ const SearchBox = ({ onSearch, onSearchValueChange }) => {
                         autoFocus
                         onChange={(e) => onSearchProps(e.target.value)}
                     />
-                    <IconButton
+                    {/* <IconButton
                         onClick={toggle}
                         sx={{ mx: 2, verticalAlign: 'middle' }}
                     >
                         <Icon sx={{ color: textColor }}>close</Icon>
-                    </IconButton>
+                    </IconButton> */}
                 </SearchContainer>
             )}
         </React.Fragment>

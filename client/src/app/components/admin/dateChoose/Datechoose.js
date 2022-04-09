@@ -28,8 +28,8 @@ const DateContainer2 = styled('div')(({ theme }) => ({}))
 
 const DateContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
-    top: 110,
-    left: 600,
+    top: 27,
+    left: 900,
     zIndex: 9,
     // width: '20%',
     // display: 'flex',

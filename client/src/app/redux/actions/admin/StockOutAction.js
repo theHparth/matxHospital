@@ -124,54 +124,14 @@ const getAllSortData = (state) => async (dispatch) => {
     }
     // dispatch(clearAlert())
 }
-const getAllDataStatusTrue = (state) => async (dispatch) => {
-    // let url = '/'
-    // var { searchDate, searchText } = state
-    // // if (id) {
-    // //     url = url + `?hospitalId=${id}`
-    // // }
-    // // console.log('date', searchDate, 'text', searchText)
-    // // url = url + `?searchDate=${searchDate}`
-    // if (searchText) {
-    //     url = url + `?searchText=${searchText}`
-    // }
-    // console.log(url)
-    // try {
-    //     const { data } = await authFetch.get(url)
-    //     const { stockOutDataTrueStatus } = data
-    //     // console.log(stockList)
-    //     dispatch({
-    //         type: GET_SUCCESS_STOCKOUT_STATUS_TRUE,
-    //         payload: { stockOutDataTrueStatus },
-    //     })
-    // } catch (error) {
-    //     console.log(error)
-    //     // logout()
-    // }
-    // dispatch(clearAlert())
-}
-const getAllDataStatusFalse = (state) => async (dispatch) => {
-    // try {
-    //     const { data } = await authFetch.get('/falseAdmin')
-    //     const { stockOutDataFalseStatus } = data
-    //     // console.log(stockOutDataFalseStatus)
-    //     dispatch({
-    //         type: GET_SUCCESS_STOCKOUT_STATUS_FALSE,
-    //         payload: { stockOutDataFalseStatus },
-    //     })
-    // } catch (error) {
-    //     console.log(error)
-    //     // logout()
-    // }
-    // dispatch(clearAlert())
-}
+const filterDataCalculation = (state) => async (dispatch) => {}
 
 const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
     // const { logout } = useAuth()
     try {
         await authFetch.delete(`/${Id}`)
-        dispatch(getAllDataStatusFalse())
+        dispatch(allStockOutDatas())
     } catch (error) {
         // logout()
         console.log(error)
@@ -196,8 +156,7 @@ const displayAlert = () => (dispatch) => {
 export {
     getAllSortData,
     sendToUser,
-    getAllDataStatusTrue,
-    getAllDataStatusFalse,
+    filterDataCalculation,
     edit,
     setEditData,
     deleteData,

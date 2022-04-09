@@ -119,14 +119,12 @@ const ChatDB = {
             chats: [
                 {
                     contactId: '323sa680b3249760ea21rt47',
-                    text:
-                        'Do you ever find yourself falling into the “discount trap?”',
+                    text: 'Do you ever find yourself falling into the “discount trap?”',
                     time: '2018-02-10T08:45:28.291Z',
                 },
                 {
                     contactId: '7863a6802ez0e277a0f98534',
-                    text:
-                        'Giving away your knowledge or product just to gain clients?',
+                    text: 'Giving away your knowledge or product just to gain clients?',
                     time: '2018-02-10T08:45:28.291Z',
                 },
                 {
@@ -141,14 +139,12 @@ const ChatDB = {
                 },
                 {
                     contactId: '323sa680b3249760ea21rt47',
-                    text:
-                        'Do you ever find yourself falling into the “discount trap?”',
+                    text: 'Do you ever find yourself falling into the “discount trap?”',
                     time: '2018-02-10T08:45:28.291Z',
                 },
                 {
                     contactId: '7863a6802ez0e277a0f98534',
-                    text:
-                        'Giving away your knowledge or product just to gain clients?',
+                    text: 'Giving away your knowledge or product just to gain clients?',
                     time: '2018-02-10T08:45:28.291Z',
                 },
                 {
@@ -168,14 +164,12 @@ const ChatDB = {
             chats: [
                 {
                     contactId: '14663a3406eb47ffa63d4fec9429cb71',
-                    text:
-                        'Do you ever find yourself falling into the “discount trap?”',
+                    text: 'Do you ever find yourself falling into the “discount trap?”',
                     time: '2019-03-10T08:45:28.291Z',
                 },
                 {
                     contactId: '7863a6802ez0e277a0f98534',
-                    text:
-                        'Giving away your knowledge or product just to gain clients?',
+                    text: 'Giving away your knowledge or product just to gain clients?',
                     time: '2019-03-10T08:45:28.291Z',
                 },
                 {
@@ -290,8 +284,9 @@ Mock.onPost('/api/chat/add').reply((config) => {
             chatRoom.chats.push({ ...chatDetails })
         }
     })
-    let chats = ChatDB.chatCollection.find((chatRoom) => chatRoom.id === chatId)
-        .chats
+    let chats = ChatDB.chatCollection.find(
+        (chatRoom) => chatRoom.id === chatId
+    ).chats
 
     let response = chats.map((chat) => {
         let temp = ChatDB.contacts.find((user) => user.id === chat.contactId)

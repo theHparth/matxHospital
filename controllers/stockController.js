@@ -90,7 +90,7 @@ const addStock = async (req, res) => {
 };
 
 const getAllStock = async (req, res) => {
-  const { status, sort, search } = req.query;
+  const { sort, search } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
