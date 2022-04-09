@@ -17,6 +17,7 @@ import {
     StockAlert,
     StyledButton,
     MyAlert,
+    SearchBox,
 } from 'app/components'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
@@ -41,9 +42,17 @@ const AllStock = () => {
     } = useSelector((state) => state.stockList)
     const dispatch = useDispatch()
 
+    // search for all
+    let [searchText, setSearchText] = React.useState('')
+
+    const handleChangeSearch = (value) => {
+        setSearchText(value)
+    }
+
     useEffect(() => {
-        dispatch(getAllData())
-    }, [dispatch])
+        // var state = { searchText }
+        dispatch(getAllData(searchText))
+    }, [searchText])
 
     const location = useLocation()
     // auto open add new stock
@@ -96,6 +105,7 @@ const AllStock = () => {
         setRowsPerPage(+event.target.value)
         setPage(0)
     }
+
     return (
         <ContainerTable>
             {!privatrRoute && (
@@ -108,6 +118,10 @@ const AllStock = () => {
                     Add New Stock
                 </Button>
             )}
+            <SearchBox
+                onSearch={handleChangeSearch}
+                onSearchValueChange={searchText}
+            />
 
             {stockData.length == 0 || stockData == undefined ? (
                 <h1>No stock data found..!!</h1>

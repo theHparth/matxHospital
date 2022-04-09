@@ -50,9 +50,15 @@ const add = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const getAllData = (state) => async (dispatch) => {
+const getAllData = (searchText) => async (dispatch) => {
+    // const { searchStock } = state
+    let url = '/stocks'
+    // var { searchStock } = state
+    if (searchText) {
+        url = url + `?searchText=${searchText}`
+    }
     try {
-        const { data } = await authFetch.get('/stocks')
+        const { data } = await authFetch.get(url, { searchText })
         const { stockList } = data
         dispatch({
             type: GET_SUCCESS_STOCK,

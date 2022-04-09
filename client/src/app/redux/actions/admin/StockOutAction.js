@@ -75,7 +75,7 @@ const edit = (state) => async (dispatch) => {
 }
 
 const allStockOutDatas = (state) => async (dispatch) => {
-    let url = '/?allData=allData}'
+    let url = '/?allData=allData'
     var { searchDate, searchText, id } = state
     if (id) {
         url = url + `&hospitalId=${id}`
