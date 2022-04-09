@@ -6,7 +6,7 @@ import { addStockQty, removeStockQty } from "./stockController.js";
 import Hospital from "../models/Hospital.js";
 import mongoose from "mongoose";
 import StocksHosital from "../models/User/stocksHospital.js";
-import { searchDateSort } from "./dataFilter.js";
+// import { searchDateHospitalSort } from "./dataFilter.js";
 
 const sendStockUser = async (req, res) => {
   const { hospitalName, stockOutDetail } = req.body;
@@ -113,88 +113,37 @@ const filterResult = async (queryObject, searchText, status) => {
 };
 
 const getAllSendStockUser = async (req, res) => {
-  var {
-    status,
-    searchText,
-    getQtyByStockName,
-    getStockByHospitalName,
-    hospitalId,
-  } = req.query;
+  var { status, searchText, hospitalId } = req.query;
   const { searchDate } = req.body;
+
   const queryObject = {
     createdBy: req.user.userId,
   };
   if (hospitalId) {
     queryObject.createdFor = hospitalId;
   }
+  if (Array.isArray(searchDate)) {
+    var date = [searchDate[0], searchDate[1]];
+
+    var new_dates = [];
+
+    date.forEach((d) => {
+      var yyyy = d.substring(0, 4);
+      var mm = d.substring(5, 7);
+      var dd = d.substring(8, 10);
+      new_dates.push(yyyy + "-" + mm + "-" + dd);
+    });
+
+    queryObject.createdAt = { $gte: new_dates[0] };
+    queryObject.createdAt = { $lte: new_dates[1] };
+  }
   let result;
 
   result = await filterResult(queryObject, searchText, status);
 
-  console.log("------r-------", result);
-  if (getStockByHospitalName) {
-    result = await UserStock.aggregate([
-      {
-        $match: {
-          $and: [
-            { hospitalName: { $regex: getStockByHospitalName, $options: "i" } },
-            // { createdBy: req.user.userId },
-          ],
-        },
-      },
-      { $unwind: "$stockOutDetail" },
-      {
-        $group: {
-          _id: "$stockOutDetail.stock_name",
-          "total Qty": {
-            $sum: {
-              $multiply: [
-                "$stockOutDetail.totalQtyInOneBox",
-                "$stockOutDetail.totalBox",
-              ],
-            },
-          },
-        },
-      },
-    ]);
-  }
-
-  if (getQtyByStockName) {
-    result = await UserStock.aggregate([
-      { $unwind: "$stockOutDetail" },
-      {
-        $group: {
-          _id: "$stockOutDetail.stock_name",
-          "total Qty": {
-            $sum: {
-              $multiply: [
-                "$stockOutDetail.totalQtyInOneBox",
-                "$stockOutDetail.totalBox",
-              ],
-            },
-          },
-        },
-      },
-    ]);
-  }
-  // result = result.reverse();
+  result = result.reverse();
 
   // result = result.sort("-createdAt");
-
-  // var results = await UserStock.aggregate([
-  //   { $match: { $expr: { $lt: ["$totalQtyUser", "$minimumLimit"] } } },
-  //   {
-  //     $group: {
-  //       _id: "$hospitalName",
-  //       belowLimit: {
-  //         $push: {
-  //           stock_name: "$stock_name",
-  //           totalQtyUser: "$totalQtyUser",
-  //         },
-  //       },
-  //     },
-  //   },
-  // ]);
 
   const allStockOutData = result;
 
@@ -203,24 +152,7 @@ const getAllSendStockUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ allStockOutData, totalHospitals });
 };
 
-const falseStatusProduct = async (req, res) => {
-  var result = await StocksHosital.aggregate([
-    { $match: { $expr: { $lt: ["$totalQtyUser", "$minimumLimit"] } } },
-    {
-      $group: {
-        _id: "$hospitalName",
-        belowLimit: {
-          $push: {
-            stock_name: "$stock_name",
-            totalQtyUser: "$totalQtyUser",
-          },
-        },
-      },
-    },
-  ]);
-
-  res.status(StatusCodes.OK).json({ result });
-};
+const falseStatusProduct = async (req, res) => {};
 
 const trueStatusProduct = async (req, res) => {
   var { searchDate } = req.body;

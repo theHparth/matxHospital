@@ -1,7 +1,11 @@
 import UserStock from "../models/User/stockOut.js";
 
-const searchDateSort = async (searchDate) => {
+const searchDateHospitalSort = async () => {
+  var { getQtyByStockName, searchDate, getStockByHospitalName } = req.body;
   // console.log("in filter page", searchDate);
+  var result;
+  // if (Array.isArray(searchDate)) {
+  console.log("searchDate in backend", searchDate);
   var date = [searchDate[0], searchDate[1]];
   //  [ '2022-04-05T23:29:56.162Z', '2022-04-14T23:29:56.162Z' ]
 
@@ -13,16 +17,14 @@ const searchDateSort = async (searchDate) => {
     var dd = d.substring(8, 10);
     new_dates.push(yyyy + "-" + mm + "-" + dd);
   });
-
-  // console.log(new_dates, "new data");
-  UserStock.aggregate([
+  console.log(new_dates, "new_dates");
+  result = await UserStock.aggregate([
     {
       $project: {
         createdFor: 1,
-        itemName: 1,
-        totalQty: 1,
-        createAt: {
-          $substr: ["$createAt", 0, 10],
+        stockOutDetail: 1,
+        createdAt: {
+          $substr: ["$createdAt", 0, 10],
         },
       },
     },
@@ -30,12 +32,12 @@ const searchDateSort = async (searchDate) => {
       $match: {
         $and: [
           {
-            createAt: {
+            createdAt: {
               $gte: new_dates[0],
             },
           },
           {
-            createAt: {
+            createdAt: {
               $lte: new_dates[1],
             },
           },
@@ -43,13 +45,21 @@ const searchDateSort = async (searchDate) => {
       },
     },
     {
+      $unwind: "$stockOutDetail",
+    },
+    {
       $group: {
         _id: {
           for: "$createdFor",
-          name: "$itemName",
+          name: "$stockOutDetail.stock_name",
         },
-        sum: {
-          $sum: "$totalQty",
+        summ: {
+          $sum: {
+            $multiply: [
+              "$stockOutDetail.totalBox",
+              "$stockOutDetail.totalQtyInOneBox",
+            ],
+          },
         },
       },
     },
@@ -59,12 +69,61 @@ const searchDateSort = async (searchDate) => {
         stockInfo: {
           $push: {
             itemName: "$_id.name",
-            totalQty: "$sum",
+            totalQty: "$summ",
           },
         },
       },
     },
   ]);
+
+  if (getStockByHospitalName) {
+    result = await UserStock.aggregate([
+      {
+        $match: {
+          $and: [
+            { hospitalName: { $regex: getStockByHospitalName, $options: "i" } },
+            // { createdBy: req.user.userId },
+          ],
+        },
+      },
+      { $unwind: "$stockOutDetail" },
+      {
+        $group: {
+          _id: "$stockOutDetail.stock_name",
+          "total Qty": {
+            $sum: {
+              $multiply: [
+                "$stockOutDetail.totalQtyInOneBox",
+                "$stockOutDetail.totalBox",
+              ],
+            },
+          },
+        },
+      },
+    ]);
+  }
+
+  if (getQtyByStockName) {
+    result = await UserStock.aggregate([
+      { $unwind: "$stockOutDetail" },
+      {
+        $group: {
+          _id: "$stockOutDetail.stock_name",
+          "total Qty": {
+            $sum: {
+              $multiply: [
+                "$stockOutDetail.totalQtyInOneBox",
+                "$stockOutDetail.totalBox",
+              ],
+            },
+          },
+        },
+      },
+    ]);
+  }
+
+  // }
+  res.status(StatusCodes.OK).json({ result });
 };
 
-export { searchDateSort };
+export { searchDateHospitalSort };
