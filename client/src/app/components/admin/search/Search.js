@@ -6,7 +6,7 @@ import { topBarHeight } from 'app/utils/constant'
 const SearchContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
     top: 25,
-    left: 1150,
+    left: 1135,
     zIndex: 9,
     width: '24.5%',
     // display: 'flex',

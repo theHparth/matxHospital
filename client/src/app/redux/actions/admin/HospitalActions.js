@@ -85,9 +85,14 @@ const hospitalMinimumTheresold = () => async (dispatch) => {
     }
     dispatch(clearAlert())
 }
-const hospitalStockInformation = (id) => async (dispatch) => {
-    let url = `/hospitalDataAdmin?id=${id}`
+const hospitalStockInformation = (state) => async (dispatch) => {
+    var { id, searchText } = state
 
+    let url = `/hospitalDataAdmin?id=${id}`
+    if (searchText) {
+        console.log('searchText', searchText)
+        url = url + `&searchText=${searchText}`
+    }
     dispatch({ type: GET_HOSPITAL_BEGIN })
     try {
         const { data } = await authFetch.get(url)

@@ -26,14 +26,18 @@ const minimumThresold = async (req, res) => {
   res.status(StatusCodes.OK).json({ minimumThresoldData });
 };
 const hospitalStockViewAdmin = async (req, res) => {
-  const { search, id } = req.query;
-  // console.log("backend......", id);
+  const { searchText, id } = req.query;
+  console.log("backend......", id, searchText);
   const queryObject = {
     createdBy: req.user.userId,
   };
 
   if (id) {
     queryObject.createdFor = id;
+  }
+  if (searchText) {
+    console.log("searchText", searchText);
+    queryObject.stock_name = { $regex: searchText, $options: "i" };
   }
 
   let result = StocksHosital.find(queryObject);

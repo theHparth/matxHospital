@@ -5,6 +5,7 @@ import {
     ContainerTable,
     StyledTable,
     StockAlert,
+    SearchBox,
 } from 'app/components'
 import {
     IconButton,
@@ -27,6 +28,14 @@ const HospitalStockInfo = ({ id }) => {
     const bgPrimary = palette.primary.main
     const bgSecondary = palette.secondary.main
 
+    // search for all
+
+    let [searchText, setSearchText] = React.useState('')
+
+    const handleChangeSearch = (value) => {
+        setSearchText(value)
+    }
+
     // const { id } = useParams()
     const { hospitalIndividualStockData = [] } = useSelector(
         (state) => state.hospitalList
@@ -34,8 +43,9 @@ const HospitalStockInfo = ({ id }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(hospitalStockInformation(id))
-    }, [dispatch])
+        var state = { id, searchText }
+        dispatch(hospitalStockInformation(state))
+    }, [searchText])
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
@@ -50,6 +60,10 @@ const HospitalStockInfo = ({ id }) => {
     }
     return (
         <ContainerTable>
+            <SearchBox
+                onSearch={handleChangeSearch}
+                onSearchValueChange={searchText}
+            />
             <Box width="100%" overflow="auto">
                 <StyledTable>
                     <TableHead>
