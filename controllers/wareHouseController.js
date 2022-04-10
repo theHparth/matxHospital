@@ -34,7 +34,7 @@ const addStockinWereHouse = async (req, res) => {
 };
 
 const getAllStockfromWereHouse = async (req, res) => {
-  const { search, searchText, vendorName, startDate, endDate } = req.query;
+  var { search, searchText, vendorName, startDate, endDate } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
@@ -46,25 +46,51 @@ const getAllStockfromWereHouse = async (req, res) => {
   if (vendorName) {
     queryObject.vendor_name = { $regex: vendorName, $options: "i" };
   }
-  if (isNaN(searchText) === false) {
-    queryObject.invoiceNumStockIn = searchText;
-  } else if (searchText) {
-    queryObject.vendor_name = { $regex: searchText, $options: "i" };
-    queryObject.stockInDetail = {
-      $elemMatch: {
-        stock_name: { $regex: searchText, $options: "i" },
-      },
-    };
-  }
+
+  //  else if (searchText) {
+  //   queryObject.vendor_name = { $regex: searchText, $options: "i" };
+  //   queryObject.stockInDetail = {
+  //     $elemMatch: {
+  //       stock_name: { $regex: searchText, $options: "i" },
+  //     },
+  //   };
+  // }
 
   if (startDate) {
     queryObject.createdAt = { $gte: startDate };
     queryObject.createdAt = { $lte: endDate };
   }
-
-  let result = WereHouseStocks.find(queryObject);
-
-  result = result.sort("-createdAt");
+  let result;
+  if (!searchText) {
+    result = WereHouseStocks.find(queryObject);
+  } else {
+    if (isNaN(searchText) === false) {
+      queryObject.invoiceNumStockIn = searchText;
+      searchText = parseInt(searchText);
+      result = WereHouseStocks.find(queryObject);
+    } else {
+      result = WereHouseStocks.find({
+        $and: [
+          queryObject,
+          {
+            $or: [
+              { vendor_name: { $regex: searchText, $options: "i" } },
+              {
+                stockInDetail: {
+                  $elemMatch: {
+                    stock_name: { $regex: searchText, $options: "i" },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      });
+    }
+  }
+  if (result) {
+    result = result.sort("-createdAt");
+  }
 
   const stockList = await result;
 

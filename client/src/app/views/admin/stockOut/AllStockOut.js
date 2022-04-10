@@ -30,10 +30,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 
-import {
-    allStockOutDatas,
-    getAllSortData,
-} from 'app/redux/actions/admin/StockOutAction'
+import { allStockOutDatas } from 'app/redux/actions/admin/StockOutAction'
 
 const AllStockOutTrueStatus = ({ id }) => {
     // for printing

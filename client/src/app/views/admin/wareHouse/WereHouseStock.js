@@ -11,6 +11,8 @@ import {
     ThirdHeading,
     ContainerTable,
     StyledTable,
+    SearchBox,
+    DateChoose,
 } from 'app/components'
 import {
     IconButton,
@@ -24,7 +26,8 @@ import {
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
-
+import dayjs from 'dayjs'
+import moment from 'moment'
 // important
 import {
     getAllData,
@@ -34,7 +37,17 @@ import {
 
 const WereHouseStock = () => {
     const { vendorname } = useParams()
-    console.log('vendorname get', vendorname)
+
+    // search for all
+    let [searchText, setSearchText] = React.useState('')
+
+    const handleChangeSearch = (value) => {
+        setSearchText(value)
+    }
+
+    // for date search
+    let [searchDate, setSearchDate] = React.useState({})
+
     //for pagination purposes
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [page, setPage] = React.useState(0)
@@ -61,10 +74,20 @@ const WereHouseStock = () => {
 
     const dispatch = useDispatch()
 
+    // useEffect(() => {
+    //     var state = {}
+    //     dispatch(getAllData(state))
+    // }, [dispatch])
     useEffect(() => {
-        var state = {}
+        var new_dates = []
+        if (Array.isArray(searchDate)) {
+            new_dates.push(dayjs(searchDate[0]).format('YYYY-MM-DD'))
+            new_dates.push(dayjs(searchDate[1]).format('YYYY-MM-DD'))
+        }
+
+        var state = { searchText, new_dates, vendorname }
         dispatch(getAllData(state))
-    }, [dispatch])
+    }, [dispatch, searchText, searchDate])
 
     if (vendorname) {
         wereHouseStockData = wereHouseStockData.filter((date) => {
@@ -80,6 +103,11 @@ const WereHouseStock = () => {
                         { name: 'Table' },
                     ]}
                 />
+                <SearchBox
+                    onSearch={handleChangeSearch}
+                    onSearchValueChange={searchText}
+                />
+                <DateChoose dateProjection={(state) => setSearchDate(state)} />
             </div>
             {wereHouseStockData.length == 0 ||
             wereHouseStockData == undefined ? (
@@ -119,7 +147,9 @@ const WereHouseStock = () => {
                                             {subscriber.vendor_name}
                                         </SecondaryHeading>
                                         <ThirdHeading>
-                                            {subscriber.createdAt}
+                                            {moment(
+                                                subscriber.createdAt
+                                            ).format('MMM Do, YYYY')}
                                         </ThirdHeading>
                                     </AccordionSummary>
                                     <AccordionDetails
