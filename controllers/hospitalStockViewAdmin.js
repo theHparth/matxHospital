@@ -27,7 +27,6 @@ const minimumThresold = async (req, res) => {
 };
 const hospitalStockViewAdmin = async (req, res) => {
   const { searchText, id } = req.query;
-  console.log("backend......", id, searchText);
   const queryObject = {
     createdBy: req.user.userId,
   };

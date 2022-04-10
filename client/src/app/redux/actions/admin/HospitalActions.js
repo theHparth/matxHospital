@@ -87,8 +87,11 @@ const hospitalMinimumTheresold = () => async (dispatch) => {
 }
 const hospitalStockInformation = (state) => async (dispatch) => {
     var { id, searchText } = state
-
-    let url = `/hospitalDataAdmin?id=${id}`
+    console.log('idddd===', id, 'text', searchText)
+    let url = '/hospitalDataAdmin?all=all'
+    if (id) {
+        url = url + `&id=${id}`
+    }
     if (searchText) {
         console.log('searchText', searchText)
         url = url + `&searchText=${searchText}`

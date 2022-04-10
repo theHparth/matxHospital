@@ -35,45 +35,45 @@ const SearchInput = styled('input')(({ theme }) => ({
 }))
 
 const SearchBox = ({ onSearch, onSearchValueChange }) => {
-    const [open, setOpen] = useState(true)
-    const toggle = () => {
-        setOpen(!open)
-    }
-    const { palette } = useTheme()
-    const textColor = palette.text.primary
-    const iconStyle = { color: textColor }
+    // const [open, setOpen] = useState(true)
+    // const toggle = () => {
+    //     setOpen(!open)
+    // }
+    // const { palette } = useTheme()
+    // const textColor = palette.text.primary
+    // const iconStyle = { color: textColor }
     const onSearchProps = (value) => {
         onSearch(value)
     }
 
     return (
-        <React.Fragment>
-            {!open && (
+        <div>
+            {/* {!open && (
                 <SearchContainer>
                     <IconButton onClick={toggle}>
                         <Icon sx={iconStyle}>search</Icon>
                     </IconButton>
                 </SearchContainer>
-            )}
+            )} */}
 
-            {open && (
-                <SearchContainer>
-                    <SearchInput
-                        type="text"
-                        value={onSearchValueChange}
-                        placeholder="Search here..."
-                        autoFocus
-                        onChange={(e) => onSearchProps(e.target.value)}
-                    />
-                    {/* <IconButton
+            {/* {open && ( */}
+            <SearchContainer>
+                <SearchInput
+                    type="text"
+                    value={onSearchValueChange}
+                    placeholder="Search here..."
+                    // autoFocus
+                    onChange={(e) => onSearchProps(e.target.value)}
+                />
+                {/* <IconButton
                         onClick={toggle}
                         sx={{ mx: 2, verticalAlign: 'middle' }}
                     >
                         <Icon sx={{ color: textColor }}>close</Icon>
                     </IconButton> */}
-                </SearchContainer>
-            )}
-        </React.Fragment>
+            </SearchContainer>
+            {/* )} */}
+        </div>
         // <div>
         //     <SearchContainer>
         //         <SearchInput

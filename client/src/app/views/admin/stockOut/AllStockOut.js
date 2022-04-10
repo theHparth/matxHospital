@@ -28,14 +28,14 @@ import {
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 import {
     allStockOutDatas,
     getAllSortData,
 } from 'app/redux/actions/admin/StockOutAction'
 
-const AllStockOutTrueStatus = () => {
+const AllStockOutTrueStatus = ({ id }) => {
     // for printing
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
@@ -46,7 +46,7 @@ const AllStockOutTrueStatus = () => {
         setShouldOpenConfirmationDialog(false)
         // dispatch(getHospitalsData())
     }
-    // done
+
     // search for all
     let [searchText, setSearchText] = React.useState('')
 
@@ -75,40 +75,29 @@ const AllStockOutTrueStatus = () => {
         setExpanded(isExpanded ? panel : false)
     }
 
-    // important
+    const location = useLocation()
+
+    var privatrRoute = false
+    var searchStatus = true
+    if (location.pathname == '/pendingStockOut') {
+        searchStatus = false
+        privatrRoute = true
+    }
+
     let { allStockOutData = [] } = useSelector((state) => state.stockOutList)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        var filterArr = { searchText, searchDate }
-        // console.log();
-        if (!searchText) {
-            console.log('1st call')
-            dispatch(getAllSortData(filterArr))
-        } else {
-            console.log('2nd call')
-            dispatch(allStockOutDatas(filterArr))
+        var new_dates = []
+        if (Array.isArray(searchDate)) {
+            new_dates.push(dayjs(searchDate[0]).format('YYYY-MM-DD'))
+            new_dates.push(dayjs(searchDate[1]).format('YYYY-MM-DD'))
         }
-    }, [dispatch, searchText, searchDate])
 
-    // allStockOutData = allStockOutData.filter((expense) => {
-    //     return moment(expense.createdAt).isBetween(
-    //         searchDate.startDate,
-    //         searchDate.endDate
-    //     )
-    // })
-    const location = useLocation()
-
-    var privatrRoute = false
-    if (location.pathname == '/pendingStockOut') {
-        privatrRoute = true
-    }
-
-    allStockOutData = allStockOutData.filter((data) => {
-        console.log(data.status)
-        return privatrRoute ? !data.status : data.status
-    })
+        var state = { searchText, new_dates, id, searchStatus }
+        dispatch(allStockOutDatas(state))
+    }, [dispatch, searchText, searchDate, searchStatus])
 
     return (
         <ContainerTable>
@@ -179,18 +168,20 @@ const AllStockOutTrueStatus = () => {
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
-                                                <StyledButton
-                                                    onClick={() => {
-                                                        setShouldOpenEditorDialog(
-                                                            true
-                                                        )
-                                                        setInfo(subscriber)
-                                                    }}
-                                                >
-                                                    <Icon color="primary">
-                                                        print
-                                                    </Icon>
-                                                </StyledButton>
+                                                <TableCell>
+                                                    <StyledButton
+                                                        onClick={() => {
+                                                            setShouldOpenEditorDialog(
+                                                                true
+                                                            )
+                                                            setInfo(subscriber)
+                                                        }}
+                                                    >
+                                                        <Icon color="primary">
+                                                            print
+                                                        </Icon>
+                                                    </StyledButton>
+                                                </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>

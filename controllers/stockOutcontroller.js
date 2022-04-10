@@ -113,33 +113,31 @@ const filterResult = async (queryObject, searchText, status) => {
 };
 
 const getAllSendStockUser = async (req, res) => {
-  var { status, searchText, hospitalId } = req.query;
-  const { searchDate } = req.body;
-  console.log("searchDate in backednd", searchDate);
+  // var { status,, hospitalId } = req.query;
+  const {
+    searchDate,
+    searchText,
+    hospitalId,
+    searchStatus,
+    startDate,
+    endDate,
+  } = req.query;
   const queryObject = {
     createdBy: req.user.userId,
+    status: searchStatus,
   };
   if (hospitalId) {
     queryObject.createdFor = hospitalId;
   }
-  if (Array.isArray(searchDate)) {
-    var date = [searchDate[0], searchDate[1]];
-
-    var new_dates = [];
-
-    date.forEach((d) => {
-      var yyyy = d.substring(0, 4);
-      var mm = d.substring(5, 7);
-      var dd = d.substring(8, 10);
-      new_dates.push(yyyy + "-" + mm + "-" + dd);
-    });
-    console.log("new_dates", new_dates);
-    queryObject.createdAt = { $gte: new_dates[0] };
-    queryObject.createdAt = { $lte: new_dates[1] };
+  // if (Array.isArray(searchDate)) {
+  if (startDate) {
+    queryObject.createdAt = { $gte: startDate };
+    queryObject.createdAt = { $lte: endDate };
   }
+
   let result;
 
-  result = await filterResult(queryObject, searchText, status);
+  result = await filterResult(queryObject, searchText);
 
   result = result.reverse();
 

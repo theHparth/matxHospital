@@ -75,17 +75,39 @@ const edit = (state) => async (dispatch) => {
 }
 
 const allStockOutDatas = (state) => async (dispatch) => {
-    let url = '/?allData=allData'
-    var { searchDate, searchText, id } = state
+    const { new_dates, searchText, id, searchStatus } = state
+
+    let url = `/?searchStatus=${searchStatus}`
+
     if (id) {
         url = url + `&hospitalId=${id}`
     }
-    // console.log('date', searchDate, 'text', searchText)
-    // url = url + `?searchDate=${searchDate}`
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
+    console.log('new_dates coverted', typeof new_dates[0])
+    if (new_dates[0] != undefined) {
+        console.log('first search date', new_dates[0])
+        url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
+    }
+    // // console.log('date', searchDate, 'text', searchText)
+    // // url = url + `?searchDate=${searchDate}`
+    // if (searchText) {
+    //     url = url + `&searchText=${searchText}`
+    // }
     try {
+        // console.log(searchDate, 'searchDate')
+        // var { searchDate, searchText, id } = state
+        // console.log('state', state)
+        // console.log(
+        //     'searchDate',
+        //     searchDate,
+        //     'searchText',
+        //     searchText,
+        //     'id',
+        //     id
+        // )
+
         const { data } = await authFetch.get(url)
         const { allStockOutData } = data
 
@@ -101,10 +123,10 @@ const allStockOutDatas = (state) => async (dispatch) => {
 
 const getAllSortData = (state) => async (dispatch) => {
     let url = '/sortData'
-    var { searchDate, searchText } = state
-    // if (searchDate) {
-    //     url = url + `?hospitalId=${id}`
-    // }
+    var { searchDate, searchText, id } = state
+    if (id) {
+        url = url + `?hospitalId=${id}`
+    }
     try {
         const { data } = await authFetch.post(url, {
             searchDate,

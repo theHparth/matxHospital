@@ -45,7 +45,7 @@ const HospitalStockInfo = ({ id }) => {
     useEffect(() => {
         var state = { id, searchText }
         dispatch(hospitalStockInformation(state))
-    }, [searchText])
+    }, [searchText, id])
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
