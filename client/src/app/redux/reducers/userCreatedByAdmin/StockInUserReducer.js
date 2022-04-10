@@ -10,13 +10,14 @@ import {
     EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
-    CLEAR_VALUES,
+    CLEAR_VALUES_STOCK_USER,
     HANDLE_CHANGE,
     STATUS_EDIT_SUCCESS,
-    CLEAR_STOCK_ALERT,
+    CLEAR_STOCK_ALERT_USER,
     DISPLAY_STOCK_ALERT,
     SET_EDIT_MINIMUM_LIMIT,
     GET_SUCCESS_PRESENT_STOCK,
+    EDIT_MINIMUM_SUCCESS,
 } from '../../actions/userCreatedByAdmin/StockInUserAction'
 
 const initialState = {
@@ -70,20 +71,38 @@ const StockInUserReducer = function (state = initialState, action) {
 
             return {
                 ...state,
+                isLoading: true,
                 isEditing: true,
                 _id,
                 minimumLimit,
                 stock_name,
             }
         }
-        case STATUS_EDIT_SUCCESS: {
+        case EDIT_MINIMUM_SUCCESS: {
             return {
                 ...state,
                 isLoading: false,
                 showAlert: true,
-                status: true,
+                isEditing: false,
                 alertType: 'success',
+                clearValues: true,
+                _id: '',
                 alertText: 'Minimum limit updated successfully',
+            }
+        }
+        case STATUS_EDIT_SUCCESS: {
+            return {
+                ...state,
+                // isLoading: false,
+                // showAlert: true,
+                // alertType: 'success',
+                isLoading: false,
+                showAlert: true,
+                isEditing: false,
+                alertType: 'success',
+                clearValues: true,
+                alertText: 'New stock received received successfully',
+                status: true,
             }
         }
         case EDIT_ERROR: {
@@ -92,84 +111,17 @@ const StockInUserReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: action.payload.msg,
-                alertType: 'danger',
+                alertType: 'error',
             }
         }
-        // case CREATE_BEGIN: {
-        //     return { ...state, isLoading: true }
-        // }
-
-        // case CREATE_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertType: 'success',
-        //         alertText: 'New Stock data Added!',
-        //     }
-        // }
-        // case CREATE_ERROR: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertType: 'warning',
-        //         alertText: action.payload.msg,
-        //     }
-        // }
-        // case HANDLE_CHANGE: {
-        //     return {
-        //         ...state,
-        //         page: 1,
-        //         [action.payload.name]: action.payload.value,
-        //     }
-        // }
-        // case EDIT_BEGIN: {
-        //     return {
-        //         ...state,
-        //         isLoading: true,
-        //     }
-        // }
-        // // edit VENDOR
-        // case EDIT_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertType: 'success',
-        //         alertText: 'Stock data updated successfully',
-        //     }
-        // }
-        // case EDIT_ERROR: {
-        //     return {
-        //         ...state,
-        //         isLoading: false,
-        //         showAlert: true,
-        //         alertText: action.payload.msg,
-        //         alertType: 'danger',
-        //     }
-        // }
         //delete state
         case DELETE_BEGIN: {
             return { ...state, isLoading: false }
         }
-        // case SET_EDIT: {
-        //     const subscriber = action.payload.subscriber
-        //     const { _id, description, minimumLimit, stock_name } = subscriber
-
-        //     return {
-        //         ...state,
-        //         isEditing: true,
-        //         _id,
-        //         description,
-        //         minimumLimit,
-        //         stock_name,
-        //     }
-        // }
 
         /////////////////////////////////////////////////////////
 
-        case CLEAR_STOCK_ALERT: {
+        case CLEAR_STOCK_ALERT_USER: {
             return {
                 ...state,
                 showAlert: false,
@@ -177,28 +129,19 @@ const StockInUserReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        // case CLEAR_VALUES: {
-        //     const initialState = {
-        //         vendor_name: '',
-        //         address: '',
-        //         contect: '',
-        //         password: '',
-        //         email: '',
-        //         pincode: '',
-        //     }
-        //     return {
-        //         ...state,
-        //         ...initialState,
-        //     }
-        // }
-        case DISPLAY_STOCK_ALERT: {
+        case CLEAR_VALUES_STOCK_USER: {
+            const initialState = {
+                clearValues: '',
+                _id: '',
+                minimumLimit: '',
+                stock_name: '',
+            }
             return {
                 ...state,
-                showAlert: true,
-                alertType: 'danger',
-                alertText: 'Please provide all values!',
+                ...initialState,
             }
         }
+
         default: {
             return {
                 ...state,

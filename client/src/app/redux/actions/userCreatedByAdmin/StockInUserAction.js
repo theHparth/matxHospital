@@ -16,10 +16,11 @@ export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
+export const EDIT_MINIMUM_SUCCESS = 'EDIT_MINIMUM_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
-export const CLEAR_VALUES = 'CLEAR_VALUES'
-export const CLEAR_STOCK_ALERT = 'CLEAR_STOCK_ALERT'
+export const CLEAR_VALUES_STOCK_USER = 'CLEAR_VALUES_STOCK_USER'
+export const CLEAR_STOCK_ALERT_USER = 'CLEAR_STOCK_ALERT_USER'
 export const DISPLAY_STOCK_ALERT = ' DISPLAY_STOCK_ALERT'
 
 const authFetch = axios.create({
@@ -89,7 +90,7 @@ const inStockMinimumChange = (state) => async (dispatch) => {
             id,
             minimumLimit,
         })
-        dispatch({ type: STATUS_EDIT_SUCCESS })
+        dispatch({ type: EDIT_MINIMUM_SUCCESS })
         // dispatch(getAllDataStatusFalse())
     } catch (error) {
         if (error.response.status === 401) return
@@ -119,28 +120,25 @@ const statusChange = (id) => async (dispatch) => {
     dispatch(clearAlert())
 }
 ///////////////////////////////////////////////////////////////
-const clearValues = () => (dispatch) => {
-    dispatch({ type: CLEAR_VALUES })
+
+const clearValueStockUser = () => (dispatch) => {
+    dispatch({ type: CLEAR_VALUES_STOCK_USER })
 }
 const clearAlert = () => (dispatch) => {
     setTimeout(() => {
-        dispatch({ type: CLEAR_STOCK_ALERT })
+        dispatch({ type: CLEAR_STOCK_ALERT_USER })
     }, 3000)
 }
-const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_STOCK_ALERT })
-    dispatch(clearAlert())
-}
+
 ////////////////////////////////////////////////////////////////////////
 
 export {
+    clearValueStockUser,
     getAllDataStatusTrue,
     getAllDataStatusFalse,
     inStockUser,
     inStockMinimumChange,
     setEditMinimumLimit,
     statusChange,
-    clearValues,
     clearAlert,
-    displayAlert,
 }

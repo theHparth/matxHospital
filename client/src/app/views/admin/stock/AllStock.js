@@ -34,6 +34,7 @@ const AllStock = () => {
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
+
     let {
         stockData = [],
         showAlert,
