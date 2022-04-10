@@ -85,29 +85,12 @@ const allStockOutDatas = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    console.log('new_dates coverted', typeof new_dates[0])
     if (new_dates[0] != undefined) {
         console.log('first search date', new_dates[0])
         url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
     }
-    // // console.log('date', searchDate, 'text', searchText)
-    // // url = url + `?searchDate=${searchDate}`
-    // if (searchText) {
-    //     url = url + `&searchText=${searchText}`
-    // }
-    try {
-        // console.log(searchDate, 'searchDate')
-        // var { searchDate, searchText, id } = state
-        // console.log('state', state)
-        // console.log(
-        //     'searchDate',
-        //     searchDate,
-        //     'searchText',
-        //     searchText,
-        //     'id',
-        //     id
-        // )
 
+    try {
         const { data } = await authFetch.get(url)
         const { allStockOutData } = data
 

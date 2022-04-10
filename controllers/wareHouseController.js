@@ -5,20 +5,6 @@ import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "../controllers/stockController.js";
 
 const addStockinWereHouse = async (req, res) => {
-  // const { vendor_name, stock_name, price, totalQtyInOneBox, totalBox } =
-  //   req.body;
-
-  // if (!vendor_name || !price || !totalQtyInOneBox || !totalBox || !stock_name) {
-  //   throw new BadRequestError("Please provide all values");
-  // }
-
-  // req.body.createdBy = req.user.userId;
-
-  // const stock = await WereHouseStocks.create(req.body);
-
-  // addStockQty(stock_name, totalQtyInOneBox, totalBox, price);
-
-  // res.status(StatusCodes.CREATED).json({ stock });
   const { invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
     req.body;
   if (!invoiceNumStockIn || !vendor_name || !stockInDetail) {
@@ -48,7 +34,7 @@ const addStockinWereHouse = async (req, res) => {
 };
 
 const getAllStockfromWereHouse = async (req, res) => {
-  const { status, sort, search } = req.query;
+  const { search, searchText, vendorName, startDate, endDate } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
@@ -57,36 +43,31 @@ const getAllStockfromWereHouse = async (req, res) => {
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
+  if (vendorName) {
+    queryObject.vendor_name = { $regex: vendorName, $options: "i" };
+  }
+  if (isNaN(searchText) === false) {
+    queryObject.invoiceNumStockIn = searchText;
+  } else if (searchText) {
+    queryObject.vendor_name = { $regex: searchText, $options: "i" };
+    queryObject.stockInDetail = {
+      $elemMatch: {
+        stock_name: { $regex: searchText, $options: "i" },
+      },
+    };
+  }
+
+  if (startDate) {
+    queryObject.createdAt = { $gte: startDate };
+    queryObject.createdAt = { $lte: endDate };
+  }
 
   let result = WereHouseStocks.find(queryObject);
 
-  if (sort === "latest") {
-    result = result.sort("-createdAt");
-  }
-  if (sort === "oldest") {
-    result = result.sort("createdAt");
-  }
-  if (sort === "a-z") {
-    result = result.sort("position");
-  }
-  if (sort === "z-a") {
-    result = result.sort("-position");
-  }
-
-  //
-
-  // setup pagination
-  // const page = Number(req.query.page) || 1;
-  // const limit = Number(req.query.limit) || 10;
-  // const skip = (page - 1) * limit;
-
-  // result = result.skip(skip).limit(limit);
+  result = result.sort("-createdAt");
 
   const stockList = await result;
-  // console.log(vendorData);
-  // const totalVendors = await vendors.countDocuments(queryObject);
-  // const numOfPages = Math.ceil(totalVendors / limit);
-  // console.log(totalVendors);
+
   res.status(StatusCodes.OK).json({ stockList });
 };
 

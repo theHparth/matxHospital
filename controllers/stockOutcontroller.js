@@ -61,17 +61,19 @@ const filterResult = async (queryObject, searchText, status) => {
   var result;
   if (!searchText) {
     result = await UserStock.find(queryObject);
-  } else if (searchText == "true" || searchText == "false") {
-    searchText === "true" ? true : searchText === "false" ? false : searchText;
-    result = await UserStock.find({
-      $and: [
-        queryObject,
-        {
-          $or: [{ status: searchText }],
-        },
-      ],
-    });
-  } else if (isNaN(searchText) === false) {
+  }
+  // else if (searchText == "true" || searchText == "false") {
+  //   searchText === "true" ? true : searchText === "false" ? false : searchText;
+  //   result = await UserStock.find({
+  //     $and: [
+  //       queryObject,
+  //       {
+  //         $or: [{ status: searchText }],
+  //       },
+  //     ],
+  //   });
+  // }
+  else if (isNaN(searchText) === false) {
     searchText = parseInt(searchText);
     result = await UserStock.find({
       $and: [
@@ -81,16 +83,18 @@ const filterResult = async (queryObject, searchText, status) => {
         },
       ],
     });
-  } else if ((searchText.length == 12, searchText.length == 24)) {
-    result = await UserStock.find({
-      $and: [
-        queryObject,
-        {
-          $or: [{ createdFor: mongoose.Types.ObjectId(searchText) }],
-        },
-      ],
-    });
-  } else {
+  }
+  //  else if ((searchText.length == 12, searchText.length == 24)) {
+  //   result = await UserStock.find({
+  //     $and: [
+  //       queryObject,
+  //       {
+  //         $or: [{ createdFor: mongoose.Types.ObjectId(searchText) }],
+  //       },
+  //     ],
+  //   });
+  // }
+  else {
     result = await UserStock.find({
       $and: [
         queryObject,
@@ -114,14 +118,8 @@ const filterResult = async (queryObject, searchText, status) => {
 
 const getAllSendStockUser = async (req, res) => {
   // var { status,, hospitalId } = req.query;
-  const {
-    searchDate,
-    searchText,
-    hospitalId,
-    searchStatus,
-    startDate,
-    endDate,
-  } = req.query;
+  const { searchText, hospitalId, searchStatus, startDate, endDate } =
+    req.query;
   const queryObject = {
     createdBy: req.user.userId,
     status: searchStatus,

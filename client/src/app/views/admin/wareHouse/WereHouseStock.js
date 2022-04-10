@@ -62,7 +62,8 @@ const WereHouseStock = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllData())
+        var state = {}
+        dispatch(getAllData(state))
     }, [dispatch])
 
     if (vendorname) {

@@ -48,15 +48,26 @@ const add = (state) => async (dispatch) => {
 }
 
 const getAllData = (state) => async (dispatch) => {
-    try {
-        // if (state) {
-        //     var { vendorInfo } = state
-        //     dispatch({ type: GET_SET_VENDORNAME, payload: { vendorInfo } })
-        // }
+    var { search, searchText, vendorName, new_dates } = state
 
-        const { data } = await authFetch.get('/wereHouse')
+    let url = '/wereHouse?all=all'
+
+    if (search) {
+        url = url + `&search=${search}`
+    }
+    if (vendorName) {
+        url = url + `&vendorName=${vendorName}`
+    }
+    if (searchText) {
+        url = url + `&searchText=${searchText}`
+    }
+    // if (new_dates[0] != undefined) {
+    //     console.log('first search date', new_dates[0])
+    //     url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
+    // }
+    try {
+        const { data } = await authFetch.get(url)
         const { stockList } = data
-        console.log(stockList)
         dispatch({
             type: GET_SUCCESS,
             payload: { stockList },
