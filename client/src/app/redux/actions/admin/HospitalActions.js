@@ -25,11 +25,12 @@ export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
 export const CLEAR_HOSPITAL_ALERT = 'CLEAR_HOSPITAL_ALERT'
 
+const token = localStorage.getItem('token')
 const authFetch = axios.create({
     baseURL: '/api/v1',
     headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${token}`,
     },
 })
 

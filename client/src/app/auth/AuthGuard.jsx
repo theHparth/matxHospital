@@ -30,10 +30,10 @@ const getUserRoleAuthStatus = (pathname, user, routes, hospital) => {
 }
 
 const AuthGuard = ({ children }) => {
-    const { isAuthenticated, user, hospital } = useAuth()
+    const { isAuthenticated, user, hospital, isHospital } = useAuth()
 
     // return <>{isAuthenticated ? children : <Navigate to="/session/signin" />}</>
-
+    console.log('isHospital', isHospital)
     const [previouseRoute, setPreviousRoute] = useState(null)
     const { pathname } = useLocation()
     const routes = flat(AllPages())
@@ -65,15 +65,9 @@ const AuthGuard = ({ children }) => {
     else {
         return (
             <Navigate
-                to="/session/signin"
+                to={!isHospital ? '/session/signin' : '/session/signinu'}
                 state={{ redirectUrl: previouseRoute }}
             />
-            // <Redirect
-            //     to={{
-            //         pathname: '/session/signin',
-            //         state: { redirectUrl: previouseRoute },
-            //     }}
-            // />
         )
     }
 }

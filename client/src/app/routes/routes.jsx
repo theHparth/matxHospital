@@ -34,10 +34,23 @@ import stockOutRoutes from 'app/views/admin/stockOut/StockOutRoutes'
 import HospitalSellingHandleRoutes from 'app/views/adminUserCreatedby/HospitalSellingHandle/HospitalSellingHandleRoutes'
 import userDashboardRoutes from 'app/views/adminUserCreatedby/userDashboard/DashboardRoutes'
 import userStockInRoutes from 'app/views/adminUserCreatedby/userStockIn/StockInUserRoutes'
+import axios from 'axios'
 
 export const AllPages = () => {
+    // window.reload()
     const user = localStorage.getItem('user')
-    // console.log('route', user)
+    // const token = localStorage.getItem('token')
+
+    // const authFetch = axios.create({
+    //     baseURL: '/api/v1/auth',
+    //     headers: {
+    //         Accept: 'application/json',
+    //         Authorization: `Bearer ${token}`,
+    //     },
+    // })
+
+    // authFetch.get('/verify')
+
     const all_routes = [
         {
             element: (

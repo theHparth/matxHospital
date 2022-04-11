@@ -46,15 +46,13 @@ function AddStockOutForm() {
             priceType: 'individualPrice',
         },
     ])
-    // useEffect(() => {
-    //     if (stockInDetail) {
-    //         stockOutData = stockInDetail.concat(stockOutData)
-    //     }
-    // })
-    console.log(' only edit data', stockInDetail)
-    console.log(' all with edit stockOutData', stockOutData)
+    useEffect(() => {
+        if (stockInDetail.length) {
+            setStockOutData(stockInDetail)
+        }
+    }, [])
+
     const emptyField = {
-        stockInDetail: '',
         stock_name: '',
         price: '',
         totalQtyInOneBox: '',
@@ -81,12 +79,17 @@ function AddStockOutForm() {
 
     const handleSubmit = () => {
         const data = {
+            id: _id,
             invoiceNumStockIn: newVendorInvoice.invoiceNumStockIn,
             vendor_name: newVendorInvoice.vendor_name,
             stockInDetail: stockOutData,
         }
         console.log('stock out data', data)
-        dispatch(add(data))
+        if (!isEditing) {
+            dispatch(add(data))
+        } else {
+            dispatch(edit(data))
+        }
         setStockOutData([emptyField])
     }
 

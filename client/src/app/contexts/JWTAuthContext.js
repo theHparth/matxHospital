@@ -9,6 +9,7 @@ const initialState = {
     token: null,
     hospital: null,
     tokenHospital: null,
+    isHospital: false,
 }
 
 const reducer = (state, action) => {
@@ -46,6 +47,7 @@ const reducer = (state, action) => {
         }
 
         case 'LOGOUT': {
+            const { isHospital } = action.payload
             return {
                 ...state,
                 isAuthenticated: false,
@@ -53,6 +55,7 @@ const reducer = (state, action) => {
                 token: null,
                 hospital: null,
                 tokenHospital: null,
+                isHospital,
             }
         }
         // case 'REGISTER': {
@@ -137,7 +140,7 @@ export const AuthProvider = ({ children }) => {
         hospital,
         tokenHospital,
     }) => {
-        if (user) {
+        if (user !== null) {
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('token', token)
         } else {
@@ -161,9 +164,10 @@ export const AuthProvider = ({ children }) => {
                 password,
             })
 
-            const { token, user } = response.data
+            const { token, user } = await response.data
 
             addUserToLocalStorage({ user, token })
+            console.log(token, user)
 
             dispatch({
                 type: 'LOGIN',
@@ -264,8 +268,12 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
+        let isHospital = false
+        if (localStorage.getItem('hospital')) {
+            isHospital = true
+        }
         removeUserFromLocalStorage()
-        dispatch({ type: 'LOGOUT' })
+        dispatch({ type: 'LOGOUT', payload: { isHospital: isHospital } })
     }
 
     // ----------------------------------------------------------------
