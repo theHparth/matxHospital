@@ -15,8 +15,8 @@ import {
     SecondaryHeading,
     ThirdHeading,
     DateChoose,
-    StyledButton,
     InvoiceDetails,
+    MyAlert,
 } from 'app/components'
 import {
     TableHead,
@@ -25,18 +25,22 @@ import {
     TableCell,
     Icon,
     TablePagination,
+    Button,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 import {
     allStockOutDatas,
     setEditData,
+    deleteData,
 } from 'app/redux/actions/admin/StockOutAction'
 
 const AllStockOutTrueStatus = ({ id }) => {
-    // for printing
+    // for printing and deleting pperpose
+    const [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
@@ -46,7 +50,18 @@ const AllStockOutTrueStatus = ({ id }) => {
         setShouldOpenConfirmationDialog(false)
         // dispatch(getHospitalsData())
     }
+    const handleDeleteUser = (hospitalId) => {
+        setHospitalDa(hospitalId)
+        setShouldOpenConfirmationDialog(true)
+    }
 
+    const handleConfirmationResponse = () => {
+        dispatch(deleteData(hospitalDa)).then(() => {
+            handleDialogClose()
+            setExpanded(false)
+        })
+        dispatch(allStockOutDatas({ searchStatus: false }))
+    }
     // search for all
     let [searchText, setSearchText] = React.useState('')
 
@@ -84,7 +99,12 @@ const AllStockOutTrueStatus = ({ id }) => {
         privatrRoute = true
     }
 
-    let { allStockOutData = [] } = useSelector((state) => state.stockOutList)
+    let {
+        allStockOutData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.stockOutList)
 
     const dispatch = useDispatch()
 
@@ -168,8 +188,46 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
-                                                <TableCell>
-                                                    <StyledButton
+
+                                                <TableCell align="right">
+                                                    {privatrRoute && (
+                                                        <>
+                                                            <Button
+                                                                variant="outlined"
+                                                                color="success"
+                                                                onClick={() =>
+                                                                    dispatch(
+                                                                        setEditData(
+                                                                            subscriber
+                                                                        )
+                                                                    )
+                                                                }
+                                                            >
+                                                                <Link
+                                                                    to={`/stockOutForm`}
+                                                                >
+                                                                    Edit
+                                                                </Link>
+                                                            </Button>
+                                                            {/* <TableCell></TableCell> */}
+                                                            <Button
+                                                                variant="contained"
+                                                                color="error"
+                                                                onClick={() =>
+                                                                    handleDeleteUser(
+                                                                        subscriber._id
+                                                                    )
+                                                                }
+                                                            >
+                                                                Delete
+                                                            </Button>
+                                                        </>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="primary"
                                                         onClick={() => {
                                                             setShouldOpenEditorDialog(
                                                                 true
@@ -180,26 +238,8 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                         <Icon color="primary">
                                                             print
                                                         </Icon>
-                                                    </StyledButton>
-                                                    {privatrRoute && (
-                                                        <StyledButton
-                                                            onClick={() =>
-                                                                dispatch(
-                                                                    setEditData(
-                                                                        subscriber
-                                                                    )
-                                                                )
-                                                            }
-                                                        >
-                                                            <Link
-                                                                to={`/stockOutForm`}
-                                                            >
-                                                                <Icon color="error">
-                                                                    edit
-                                                                </Icon>
-                                                            </Link>
-                                                        </StyledButton>
-                                                    )}
+                                                        {/* Print */}
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
@@ -230,6 +270,14 @@ const AllStockOutTrueStatus = ({ id }) => {
                                 </AccordionDetails>
                             </Accordion>
                         ))}
+                    {shouldOpenConfirmationDialog && (
+                        <ConfirmationDialog
+                            open={shouldOpenConfirmationDialog}
+                            onConfirmDialogClose={handleDialogClose}
+                            onYesClick={handleConfirmationResponse}
+                            text="Are you sure to delete?"
+                        />
+                    )}
                     {shouldOpenEditorDialog && (
                         <InvoiceDetails
                             handleClose={handleDialogClose}
@@ -253,6 +301,17 @@ const AllStockOutTrueStatus = ({ id }) => {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
+                    {showAlert ? (
+                        <MyAlert
+                            isOpen={showAlert}
+                            typeSeverity={alertType}
+                            alrtTextToShow={
+                                privatrRoute
+                                    ? 'Stock activated successfully'
+                                    : alertText
+                            }
+                        />
+                    ) : null}
                 </Box>
             </SimpleCard>
         </ContainerTable>

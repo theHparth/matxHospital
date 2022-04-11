@@ -26,9 +26,11 @@ import {
 } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import moment from 'moment'
+import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
+
 // important
 import {
     getAllData,
@@ -37,6 +39,30 @@ import {
 } from 'app/redux/actions/admin/WareHouseAction'
 
 const WereHouseStock = () => {
+    //for printing and deleting
+    const [hospitalDa, setHospitalDa] = useState(null)
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+    const [info, setInfo] = useState()
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        // dispatch(getHospitalsData())
+    }
+    const handleDeleteUser = (hospitalId) => {
+        setHospitalDa(hospitalId)
+        setShouldOpenConfirmationDialog(true)
+    }
+
+    const handleConfirmationResponse = () => {
+        dispatch(deleteData(hospitalDa)).then(() => {
+            handleDialogClose()
+            setExpanded(false)
+        })
+        dispatch(getAllData({}))
+    }
+
     const { vendorname } = useParams()
 
     // search for all
@@ -200,18 +226,11 @@ const WereHouseStock = () => {
                                                             </Link>
                                                         </IconButton>
                                                         <IconButton
-                                                            onClick={() => {
-                                                                {
-                                                                    alert(
-                                                                        'Are you sure you want to delete?'
-                                                                    )
-                                                                    dispatch(
-                                                                        deleteData(
-                                                                            subscriber._id
-                                                                        )
-                                                                    )
-                                                                }
-                                                            }}
+                                                            onClick={() =>
+                                                                handleDeleteUser(
+                                                                    subscriber._id
+                                                                )
+                                                            }
                                                         >
                                                             <Icon color="error">
                                                                 close
@@ -255,6 +274,14 @@ const WereHouseStock = () => {
                                     </AccordionDetails>
                                 </Accordion>
                             ))}
+                        {shouldOpenConfirmationDialog && (
+                            <ConfirmationDialog
+                                open={shouldOpenConfirmationDialog}
+                                onConfirmDialogClose={handleDialogClose}
+                                onYesClick={handleConfirmationResponse}
+                                text="Are you sure to delete?"
+                            />
+                        )}
                         <TablePagination
                             sx={{ px: 2 }}
                             rowsPerPageOptions={[5, 10, 25]}

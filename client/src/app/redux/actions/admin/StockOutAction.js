@@ -92,7 +92,7 @@ const allStockOutDatas = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    if (new_dates[0] != undefined) {
+    if (new_dates && new_dates[0] != undefined) {
         console.log('first search date', new_dates[0])
         url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
     }
@@ -145,7 +145,8 @@ const deleteData = (Id) => async (dispatch) => {
     try {
         await authFetch.delete(`/${Id}`)
         dispatch({ type: DELETE_STOCKOUT_SUCCESS })
-        dispatch(allStockOutDatas())
+        var state = { searchStatus: false }
+        dispatch(allStockOutDatas(state))
     } catch (error) {
         // logout()
         console.log(error)
