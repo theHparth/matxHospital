@@ -74,13 +74,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 alertText: action.payload.msg,
             }
         }
-        case HANDLE_CHANGE: {
-            return {
-                ...state,
-                page: 1,
-                [action.payload.name]: action.payload.value,
-            }
-        }
+
         case EDIT_BEGIN: {
             return {
                 ...state,

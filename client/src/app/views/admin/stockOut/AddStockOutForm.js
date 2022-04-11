@@ -1,5 +1,5 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
-import { SimpleCard, Breadcrumb, ContainerForm } from 'app/components'
+import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -9,65 +9,101 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
 
-import { sendToUser } from 'app/redux/actions/admin/StockOutAction'
+import {
+    sendToUser,
+    edit,
+    clearValuesStockOut,
+} from 'app/redux/actions/admin/StockOutAction'
 import { getAllData } from 'app/redux/actions/admin/StockActions'
 import { getHospitalsData } from 'app/redux/actions/admin/HospitalActions'
 function AddStockOutForm() {
     let { stockData } = useSelector((state) => state.stockList)
+    const { hospitalsData } = useSelector((state) => state.hospitalList)
 
     const dispatch = useDispatch()
 
-    const { hospitalsData } = useSelector((state) => state.hospitalList)
+    const {
+        isLoading,
+        showAlert,
+        clearValues,
+        alertType,
+        alertText,
+        isEditing,
+        _id,
+        hospitalName,
+        invoiceNum,
+        stockOutDetail,
+        messageForHospital,
+    } = useSelector((state) => state.stockOutList)
 
     useEffect(() => {
         dispatch(getHospitalsData())
     }, [dispatch])
 
-    const [stockOutData, setStockOutData] = React.useState([
-        {
-            stock_name: '',
-            availableQuantity: '',
-            totalBox: '1',
-            totalQtyInOneBox: '',
-            pricePerBox: '',
-            priceForUser: 0,
-            price: stockData.price || 0,
-        },
-    ])
-    const emptyField = {
-        hospitalName: '',
-        stock_name: '',
-        availableQuantity: '',
-        totalBox: '',
-        totalQtyInOneBox: '',
-        priceForUser: 0,
-        price: 0,
-    }
-
     useEffect(() => {
         dispatch(getAllData())
     }, [dispatch])
 
-    console.log(stockOutData)
+    useEffect(() => {
+        if (stockOutDetail.length) {
+            setStockOutData(stockOutDetail)
+        }
+    }, [])
+    console.log(stockOutDetail)
+    const [stockOutData, setStockOutData] = React.useState([
+        {
+            stock_name: '',
+            availableQuantity: '',
+            totalBox: '',
+            totalQtyInOneBox: '',
+            priceForUser: '',
+            price: stockData.price || 0,
+        },
+    ])
+    const emptyField = {
+        stock_name: '',
+        // availableQuantity: '',
+        totalBox: '',
+        totalQtyInOneBox: '',
+        priceForUser: '',
+        // price: 0,
+    }
 
-    const [hospital, setHospital] = React.useState()
+    const [hospital, setHospital] = React.useState({
+        hospitalName: hospitalName || '',
+    })
     const onChangeHospital = (e) => {
         const name = e.target.name
         const value = e.target.value
 
-        setHospital(e.target.value)
+        setHospital({
+            ...hospital,
+            [name]: value,
+        })
     }
+    useEffect(() => {
+        if (clearValues) {
+            dispatch(clearValuesStockOut())
+            hospital.hospitalName = ''
+        }
+    }, [clearValues])
 
     const handleSubmit = () => {
         const data = {
-            hospitalName: hospital,
+            id: _id,
+            hospitalName: hospital.hospitalName,
             stockOutDetail: stockOutData,
+            invoiceNum: invoiceNum,
         }
-        console.log('stock out data', data)
-        dispatch(sendToUser(data))
+        // dispatch(sendToUser(data))
+        if (!isEditing) {
+            dispatch(sendToUser(data))
+        } else {
+            dispatch(edit(data))
+        }
         setStockOutData([emptyField])
     }
-    const aaa = () => {}
+
     return (
         <ContainerForm>
             <div>
@@ -111,7 +147,7 @@ function AddStockOutForm() {
                             onChange={onChangeHospital}
                             label="Age"
                             name="hospitalName"
-                            value={hospital || ''}
+                            value={hospital.hospitalName || ''}
                         >
                             <MenuItem value="">
                                 <em>None</em>
@@ -170,6 +206,13 @@ function AddStockOutForm() {
                     </Button>
                 </div>
             </Card>
+            {showAlert ? (
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
+            ) : null}
         </ContainerForm>
     )
 }

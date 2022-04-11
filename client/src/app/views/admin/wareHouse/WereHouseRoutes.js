@@ -5,7 +5,7 @@ const AddStockInWereHouse = Loadable(
     lazy(() => import('./AddStockInWereHouse'))
 )
 
-const AddStockOutForm = Loadable(lazy(() => import('./AddStockOutForm')))
+const AddStockOutForm = Loadable(lazy(() => import('./StockInForm')))
 
 const WereHouseStock = Loadable(lazy(() => import('./WereHouseStock')))
 

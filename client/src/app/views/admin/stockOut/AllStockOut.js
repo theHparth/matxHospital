@@ -3,7 +3,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/system'
-import { useLocation } from 'react-router-dom' // my import
+import { useLocation, Link } from 'react-router-dom' // my import
 import moment from 'moment'
 import {
     SearchBox,
@@ -30,7 +30,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 
-import { allStockOutDatas } from 'app/redux/actions/admin/StockOutAction'
+import {
+    allStockOutDatas,
+    setEditData,
+} from 'app/redux/actions/admin/StockOutAction'
 
 const AllStockOutTrueStatus = ({ id }) => {
     // for printing
@@ -178,6 +181,25 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                             print
                                                         </Icon>
                                                     </StyledButton>
+                                                    {privatrRoute && (
+                                                        <StyledButton
+                                                            onClick={() =>
+                                                                dispatch(
+                                                                    setEditData(
+                                                                        subscriber
+                                                                    )
+                                                                )
+                                                            }
+                                                        >
+                                                            <Link
+                                                                to={`/stockOutForm`}
+                                                            >
+                                                                <Icon color="error">
+                                                                    edit
+                                                                </Icon>
+                                                            </Link>
+                                                        </StyledButton>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>

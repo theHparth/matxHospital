@@ -7,14 +7,14 @@ import {
     GET_SUCCESS_STOCKOUT_STATUS_FALSE,
     SET_EDIT,
     DELETE_BEGIN,
-    EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
-    CLEAR_VALUES,
+    CLEAR_VALUES_STOCKOUT,
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
     GET_ALL_SUCCESS_STOCKOUT,
+    DELETE_STOCKOUT_SUCCESS,
 } from '../../actions/admin/StockOutAction'
 
 const initialState = {
@@ -27,7 +27,6 @@ const initialState = {
     description: '',
     // vendor_name: '',
     _id: '',
-    hospitalName: '',
     stock_name: '',
     totalQtyInOneBox: 1,
     totalBox: 1,
@@ -35,12 +34,14 @@ const initialState = {
     priceForUser: 0,
     status: false,
     showPrice: false,
-    invoiceNum: 0,
-    stockOutDetail: [],
     createdFor: '',
     createdAt: '',
     latestStatus: '',
     updatedAt: '',
+    hospitalName: '',
+    invoiceNum: '',
+    stockOutDetail: '',
+    messageForHospital: '',
 }
 
 const StockOutReducer = function (state = initialState, action) {
@@ -58,6 +59,7 @@ const StockOutReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
+                clearValues: true,
                 alertText: 'Stock send successfully',
             }
         }
@@ -71,14 +73,17 @@ const StockOutReducer = function (state = initialState, action) {
             }
         }
         // edit VENDOR
+
         case EDIT_SUCCESS: {
             return {
                 ...state,
                 isLoading: false,
                 showAlert: true,
+                isEditing: false,
                 alertType: 'success',
-                alertText: 'Data updated successfully',
+                clearValues: true,
                 _id: '',
+                alertText: 'Stock out data updated successfully',
             }
         }
         case EDIT_ERROR: {
@@ -87,7 +92,7 @@ const StockOutReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: action.payload.msg,
-                alertType: 'danger',
+                alertType: 'error',
             }
         }
         case SET_EDIT: {
@@ -101,6 +106,8 @@ const StockOutReducer = function (state = initialState, action) {
                 createdAt,
                 status,
                 updatedAt,
+
+                messageForHospital,
             } = subscriber
 
             return {
@@ -114,13 +121,25 @@ const StockOutReducer = function (state = initialState, action) {
                 createdAt,
                 updatedAt,
                 latestStatus: status,
+                messageForHospital,
             }
         }
 
         case DELETE_BEGIN: {
             return { ...state, isLoading: false }
         }
-
+        case DELETE_STOCKOUT_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                isEditing: false,
+                alertType: 'success',
+                clearValues: true,
+                _id: '',
+                alertText: 'Stock data removed successfully',
+            }
+        }
         /////////////////////////////////////////////////////////
 
         case CLEAR_STOCK_ALERT: {
@@ -131,20 +150,19 @@ const StockOutReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        // case CLEAR_VALUES: {
-        //     const initialState = {
-        //         vendor_name: '',
-        //         address: '',
-        //         contect: '',
-        //         password: '',
-        //         email: '',
-        //         pincode: '',
-        //     }
-        //     return {
-        //         ...state,
-        //         ...initialState,
-        //     }
-        // }
+        case CLEAR_VALUES_STOCKOUT: {
+            const initialState = {
+                clearValues: '',
+                _id: '',
+                hospitalName: '',
+                stockOutDetail: '',
+                messageForHospital: '',
+            }
+            return {
+                ...state,
+                ...initialState,
+            }
+        }
         case DISPLAY_STOCK_ALERT: {
             return {
                 ...state,

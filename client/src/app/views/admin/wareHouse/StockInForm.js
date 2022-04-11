@@ -41,6 +41,16 @@ function AddStockOutForm() {
         dispatch(getAllVendor())
     }, [dispatch])
 
+    useEffect(() => {
+        if (stockInDetail.length) {
+            setStockOutData(stockInDetail)
+        }
+    }, [])
+
+    useEffect(() => {
+        dispatch(getAllData())
+    }, [dispatch])
+
     var [stockOutData, setStockOutData] = React.useState([
         {
             stock_name: '',
@@ -50,11 +60,6 @@ function AddStockOutForm() {
             priceType: 'individualPrice',
         },
     ])
-    useEffect(() => {
-        if (stockInDetail.length) {
-            setStockOutData(stockInDetail)
-        }
-    }, [])
 
     const emptyField = {
         stock_name: '',
@@ -62,10 +67,6 @@ function AddStockOutForm() {
         totalQtyInOneBox: '',
         totalBox: '',
     }
-
-    useEffect(() => {
-        dispatch(getAllData())
-    }, [dispatch])
 
     const [newVendorInvoice, setVendorInvoice] = React.useState({
         invoiceNumStockIn: invoiceNumStockIn || '',

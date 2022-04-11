@@ -14,9 +14,10 @@ export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
+export const DELETE_STOCKOUT_SUCCESS = 'DELETE_STOCKOUT_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
-export const CLEAR_VALUES = 'CLEAR_VALUES'
+export const CLEAR_VALUES_STOCKOUT = 'CLEAR_VALUES_STOCKOUT'
 export const CLEAR_STOCK_ALERT = 'CLEAR_STOCK_ALERT'
 export const DISPLAY_STOCK_ALERT = ' DISPLAY_STOCK_ALERT'
 
@@ -37,7 +38,6 @@ const sendToUser = (state) => async (dispatch) => {
             messageForHospital,
         })
         dispatch({ type: CREATE_SUCCESS })
-        dispatch(clearValues())
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -55,16 +55,23 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const { id, hospitalName, invoiceNum, stockOutDetail } = state
-        await authFetch.patch(`/wereHouse/${id}`, {
+        const {
             id,
             hospitalName,
             invoiceNum,
             stockOutDetail,
+            messageForHospital,
+        } = state
+        await authFetch.patch(`/${id}`, {
+            id,
+            hospitalName,
+            invoiceNum,
+            stockOutDetail,
+            messageForHospital,
         })
         dispatch({ type: EDIT_SUCCESS })
-        dispatch(clearValues())
     } catch (error) {
+        console.log(error, 'while editing')
         if (error.response.status === 401) return
         dispatch({
             type: EDIT_ERROR,
@@ -102,6 +109,7 @@ const allStockOutDatas = (state) => async (dispatch) => {
         console.log(error)
         // logout()
     }
+    dispatch(clearAlert())
 }
 
 const getAllSortData = (state) => async (dispatch) => {
@@ -136,6 +144,7 @@ const deleteData = (Id) => async (dispatch) => {
     // const { logout } = useAuth()
     try {
         await authFetch.delete(`/${Id}`)
+        dispatch({ type: DELETE_STOCKOUT_SUCCESS })
         dispatch(allStockOutDatas())
     } catch (error) {
         // logout()
@@ -144,18 +153,15 @@ const deleteData = (Id) => async (dispatch) => {
 }
 
 ///////////////////////////////////////////////////////////////
-const clearValues = () => (dispatch) => {
-    dispatch({ type: CLEAR_VALUES })
+const clearValuesStockOut = () => (dispatch) => {
+    dispatch({ type: CLEAR_VALUES_STOCKOUT })
 }
 const clearAlert = () => (dispatch) => {
     setTimeout(() => {
         dispatch({ type: CLEAR_STOCK_ALERT })
     }, 3000)
 }
-const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_STOCK_ALERT })
-    dispatch(clearAlert())
-}
+
 ////////////////////////////////////////////////////////////////////////
 
 export {
@@ -165,8 +171,7 @@ export {
     edit,
     setEditData,
     deleteData,
-    clearValues,
+    clearValuesStockOut,
     clearAlert,
-    displayAlert,
     allStockOutDatas,
 }
