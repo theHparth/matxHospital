@@ -46,7 +46,6 @@ const getAllStockfromWereHouse = async (req, res) => {
   if (vendorName) {
     queryObject.vendor_name = { $regex: vendorName, $options: "i" };
   }
-
   //  else if (searchText) {
   //   queryObject.vendor_name = { $regex: searchText, $options: "i" };
   //   queryObject.stockInDetail = {
@@ -56,18 +55,53 @@ const getAllStockfromWereHouse = async (req, res) => {
   //   };
   // }
 
-  if (startDate) {
-    queryObject.createdAt = { $gte: startDate };
-    queryObject.createdAt = { $lte: endDate };
-  }
+  // if (startDate) {
+  //   queryObject.createdAt = { $gte: startDate };
+  //   queryObject.createdAt = { $lte: endDate };
+  // }
   let result;
-  if (!searchText) {
+  if (!searchText && !startDate) {
     result = WereHouseStocks.find(queryObject);
   } else {
     if (isNaN(searchText) === false) {
       queryObject.invoiceNumStockIn = searchText;
       searchText = parseInt(searchText);
       result = WereHouseStocks.find(queryObject);
+    } else if (startDate) {
+      console.log("startDate", startDate, "endDate", endDate);
+
+      if (!searchText) {
+        searchText = "";
+      }
+      // queryObject.createdAt = { $gte: startDate };
+      // queryObject.createdAt = { $lte: endDate };
+      result = WereHouseStocks.find({
+        $and: [
+          queryObject,
+          {
+            createdAt: {
+              $gte: startDate,
+            },
+          },
+          {
+            createdAt: {
+              $lte: endDate,
+            },
+          },
+          {
+            $or: [
+              { vendor_name: { $regex: searchText, $options: "i" } },
+              {
+                stockInDetail: {
+                  $elemMatch: {
+                    stock_name: { $regex: searchText, $options: "i" },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      });
     } else {
       result = WereHouseStocks.find({
         $and: [

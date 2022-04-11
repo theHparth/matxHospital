@@ -13,6 +13,7 @@ import {
     StyledTable,
     SearchBox,
     DateChoose,
+    MyAlert,
 } from 'app/components'
 import {
     IconButton,
@@ -68,9 +69,15 @@ const WereHouseStock = () => {
     }
     // completed
 
-    let { wereHouseStockData = [] } = useSelector(
-        (state) => state.wareHouseStockList
-    )
+    let {
+        wereHouseStockData = [],
+        alertType,
+        showAlert,
+        clearValues,
+        isLoading,
+        isEditing,
+        alertText,
+    } = useSelector((state) => state.wareHouseStockList)
 
     const dispatch = useDispatch()
 
@@ -113,7 +120,7 @@ const WereHouseStock = () => {
             wereHouseStockData == undefined ? (
                 <h1> No data Found</h1>
             ) : (
-                <SimpleCard title="Stock out inpending">
+                <SimpleCard>
                     <Box width="100%">
                         <AccordionSummary
                             aria-controls="panel1bh-content"
@@ -264,6 +271,13 @@ const WereHouseStock = () => {
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
+                        {showAlert ? (
+                            <MyAlert
+                                isOpen={showAlert}
+                                typeSeverity={alertType}
+                                alrtTextToShow={alertText}
+                            />
+                        ) : null}
                     </Box>
                 </SimpleCard>
             )}

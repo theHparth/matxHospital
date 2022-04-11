@@ -1,5 +1,5 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
-import { SimpleCard, Breadcrumb, ContainerForm } from 'app/components'
+import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,11 @@ import AddStockCard from './AddStockCard'
 
 import { getAllData } from 'app/redux/actions/admin/StockActions'
 import { getAllVendor } from 'app/redux/actions/admin/VendorActions'
-import { edit, add } from 'app/redux/actions/admin/WareHouseAction'
+import {
+    edit,
+    add,
+    clearValuesWerehouse,
+} from 'app/redux/actions/admin/WareHouseAction'
 
 function AddStockOutForm() {
     const navigate = useNavigate()
@@ -76,6 +80,13 @@ function AddStockOutForm() {
             [name]: value,
         })
     }
+    useEffect(() => {
+        if (clearValues == true) {
+            dispatch(clearValuesWerehouse())
+            newVendorInvoice.vendor_name = ''
+            newVendorInvoice.invoiceNumStockIn = ''
+        }
+    }, [clearValues])
 
     const handleSubmit = () => {
         const data = {
@@ -144,14 +155,10 @@ function AddStockOutForm() {
                                 </MenuItem>
                                 {vendorData.map((vendorObj, index) => (
                                     <MenuItem
-                                        value={
-                                            newVendorInvoice.vendor_name ||
-                                            vendorObj.vendor_name
-                                        }
+                                        value={vendorObj.vendor_name}
                                         key={index}
                                     >
-                                        {newVendorInvoice.vendor_name ||
-                                            vendorObj.vendor_name}
+                                        {vendorObj.vendor_name}
                                     </MenuItem>
                                 ))}
                                 <MenuItem
@@ -189,18 +196,6 @@ function AddStockOutForm() {
                         updateStockInDetail={stockInDetail}
                     />
                 ))}
-                {/* : stockInDetail.map((updateStockInDetaili, index) => (
-                          <AddStockCard
-                              key={index}
-                              stockOut={updateStockInDetaili}
-                              stockOutData={stockOutData}
-                              setStockOutData={setStockOutData}
-                              index={index}
-                              stockData={stockData}
-                              vendorData={vendorData}
-                              updateStockInDetail={updateStockInDetaili}
-                          />
-                      ))} */}
 
                 <div style={{ display: 'flex', marginLeft: 'auto' }}>
                     <Button
@@ -233,6 +228,13 @@ function AddStockOutForm() {
                     </Button>
                 </div>
             </Card>
+            {showAlert ? (
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
+            ) : null}
         </ContainerForm>
     )
 }

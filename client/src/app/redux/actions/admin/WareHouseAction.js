@@ -29,7 +29,6 @@ const add = (state) => async (dispatch) => {
     try {
         let { invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
             state
-        // price = priceType === 'individualPrice' ? price : (box * qty) / price
         await authFetch.post('/wereHouse', {
             invoiceNumStockIn,
             vendor_name,
@@ -61,7 +60,7 @@ const getAllData = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    if (new_dates[0] != undefined) {
+    if (new_dates && new_dates[0] != undefined) {
         console.log('first search date', new_dates[0])
         url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
     }
@@ -74,7 +73,6 @@ const getAllData = (state) => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        // logout()
     }
     dispatch(clearAlert())
 }
@@ -87,20 +85,12 @@ const setEditData = (subscriber) => (dispatch) => {
 const edit = (state) => async (dispatch) => {
     try {
         const {
-            // vendor_name,
-            // price,
-            // qty,
-            // box,
-            // stock_name,
-            // id,
-            // stockTotoalPrice,
             id,
             invoiceNumStockIn,
             vendor_name,
             stockInDetail,
             stockInNote,
         } = state
-        // price = priceType === 'individualPrice' ? price : (box * qty) / price
 
         await authFetch.patch(`/wereHouse/${id}`, {
             invoiceNumStockIn,
@@ -127,7 +117,7 @@ const deleteData = (Id) => async (dispatch) => {
     try {
         await authFetch.delete(`/wereHouse/${Id}`)
         dispatch({ type: DELETE_STOCKIN_SUCCESS })
-        dispatch(getAllData())
+        dispatch(getAllData({}))
     } catch (error) {
         // logout()
         console.log(error)
@@ -135,16 +125,8 @@ const deleteData = (Id) => async (dispatch) => {
 }
 
 ///////////////////////////////////////////////////////////////
-// const clearValues = () => (dispatch) => {
-//     dispatch({ type: CLEAR_VALUES })
-// }
-// const clearAlert = () => (dispatch) => {
-//     setTimeout(() => {
-//         dispatch({ type: CLEAR_STOCK_ALERT })
-//     }, 3000)
-// }
 
-const clearValues = () => (dispatch) => {
+const clearValuesWerehouse = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES_STOCKIN })
 }
 const clearAlert = () => (dispatch) => {
@@ -156,7 +138,7 @@ const clearAlert = () => (dispatch) => {
 ////////////////////////////////////////////////////////////////////////
 
 export {
-    clearValues,
+    clearValuesWerehouse,
     clearAlert,
     getAllData,
     add,
