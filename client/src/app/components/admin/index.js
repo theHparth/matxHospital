@@ -1,3 +1,6 @@
 import { MyAlert } from './Alert/MyAlert'
-
-export { MyAlert }
+import {
+    ExpandedPenal,
+    AccordionComponent,
+} from './expandedPenal/ExpandedPenal'
+export { MyAlert, ExpandedPenal, AccordionComponent }

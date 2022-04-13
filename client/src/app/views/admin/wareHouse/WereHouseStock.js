@@ -14,6 +14,8 @@ import {
     SearchBox,
     DateChoose,
     MyAlert,
+    ExpandedPenal,
+    AccordionComponent,
 } from 'app/components'
 import {
     IconButton,
@@ -148,14 +150,6 @@ const WereHouseStock = () => {
             ) : (
                 <SimpleCard>
                     <Box width="100%">
-                        <AccordionSummary
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                        >
-                            <Heading>Invoice No</Heading>
-                            <SecondaryHeading>Vendor Name</SecondaryHeading>
-                            <ThirdHeading>Date</ThirdHeading>
-                        </AccordionSummary>
                         {/* data print start from here*/}
                         {wereHouseStockData
                             .slice(

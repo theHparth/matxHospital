@@ -140,10 +140,12 @@ export const AuthProvider = ({ children }) => {
         hospital,
         tokenHospital,
     }) => {
-        if (user !== null) {
+        if (user) {
+            console.log('in user side')
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('token', token)
         } else {
+            console.log('in hospital side')
             localStorage.setItem('hospital', JSON.stringify(hospital))
             localStorage.setItem('tokenHospital', tokenHospital)
         }
@@ -164,7 +166,7 @@ export const AuthProvider = ({ children }) => {
                 password,
             })
 
-            const { token, user } = await response.data
+            const { token, user } = response.data
 
             addUserToLocalStorage({ user, token })
             console.log(token, user)
@@ -192,7 +194,7 @@ export const AuthProvider = ({ children }) => {
             })
 
             const { tokenHospital, hospital } = response.data
-
+            console.log(tokenHospital, hospital)
             addUserToLocalStorage({ hospital, tokenHospital })
 
             dispatch({
