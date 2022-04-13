@@ -10,6 +10,7 @@ export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
+export const DELETE_STOCKSELIING_SUCCESS = 'DELETE_STOCKSELIING_SUCCESS'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
@@ -26,15 +27,12 @@ const authFetch = axios.create({
 
 const add = (state) => async (dispatch) => {
     try {
-        let { stock_name, totalQtyInOneBox, totalBox } = state
+        let { todaySellingData } = state
         // price = priceType === 'individualPrice' ? price * box * qty : price
         await authFetch.post('/todaySellingHospital', {
-            stock_name,
-            totalQtyInOneBox,
-            totalBox,
+            todaySellingData,
         })
         dispatch({ type: CREATE_SUCCESS })
-        dispatch(clearValues())
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -45,7 +43,8 @@ const add = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const getAllDataTodaySelling = () => async (dispatch) => {
+const getAllDataTodaySelling = (state) => async (dispatch) => {
+    var { searchText } = state
     try {
         const { data } = await authFetch.get('/todaySellingHospital')
         const { stockListTodaySelling } = data
@@ -68,15 +67,11 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const { stock_name, totalQtyInOneBox, totalBox, id, userPrice } = state
+        const { todaySellingData, id } = state
         await authFetch.patch(`/${id}`, {
-            stock_name,
-            totalQtyInOneBox,
-            totalBox,
-            userPrice,
+            todaySellingData,
         })
         dispatch({ type: EDIT_SUCCESS })
-        dispatch(clearValues())
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -93,7 +88,8 @@ const deleteData = (id) => async (dispatch) => {
     // const { logout } = useAuth()
     try {
         await authFetch.delete(`/${id}`)
-        dispatch(getAllDataTodaySelling())
+        dispatch({ type: DELETE_STOCKSELIING_SUCCESS })
+        dispatch(getAllDataTodaySelling({}))
     } catch (error) {
         // logout()
         console.log(error)
@@ -101,7 +97,7 @@ const deleteData = (id) => async (dispatch) => {
 }
 
 ///////////////////////////////////////////////////////////////
-const clearValues = () => (dispatch) => {
+const clearValuesTodaySelling = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES })
 }
 const clearAlert = () => (dispatch) => {
@@ -109,16 +105,12 @@ const clearAlert = () => (dispatch) => {
         dispatch({ type: CLEAR_STOCK_ALERT })
     }, 3000)
 }
-const displayAlert = () => (dispatch) => {
-    dispatch({ type: DISPLAY_STOCK_ALERT })
-    dispatch(clearAlert())
-}
+
 ////////////////////////////////////////////////////////////////////////
 
 export {
-    clearValues,
+    clearValuesTodaySelling,
     clearAlert,
-    displayAlert,
     getAllDataTodaySelling,
     add,
     setEditData,

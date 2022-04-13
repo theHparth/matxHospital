@@ -1,42 +1,96 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
-import { SimpleCard } from 'app/components'
+import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
 
-function TodaySellingAddForm() {
-    const [stockOutData, setStockOutData] = React.useState([
-        {
-            hospitalName: '',
-            stockName: '',
-            availableQuantity: '',
-            quantity: '',
-            quantityPerBox: '',
-            pricePerBox: '',
-        },
-    ])
-    const emptyField = {
-        hospitalName: '',
-        stockName: '',
-        availableQuantity: '',
-        quantity: '',
-        quantityPerBox: '',
-        isPriceIncluded: false,
-    }
+import { inStockUser } from 'app/redux/actions/userCreatedByAdmin/StockInUserAction'
+import {
+    add,
+    edit,
+    clearValuesTodaySelling,
+} from 'app/redux/actions/userCreatedByAdmin/TodaySellingUserAction'
 
-    useEffect(async () => {
-        const res = await fetch('/api/v1/stockOut/')
-        console.log(res)
-        const json = await res.json()
-        console.log(json)
+function AddStockOutForm() {
+    const dispatch = useDispatch()
+    let { presentStockUserData = [] } = useSelector((x) => x.stockInUserList)
+    const {
+        isLoading,
+        showAlert,
+        clearValues,
+        alertType,
+        alertText,
+        isEditing,
+        _id,
+        todaySellingDataArr,
+        stockInDetail,
+    } = useSelector((x) => x.todaySellingUserList)
+
+    useEffect(() => {
+        if (todaySellingDataArr && todaySellingDataArr.length) {
+            setStockOutData(todaySellingDataArr)
+        }
     }, [])
 
-    console.log(stockOutData)
+    useEffect(() => {
+        dispatch(inStockUser())
+    }, [dispatch])
+
+    var [stockOutData, setStockOutData] = React.useState([
+        {
+            stock_name: '',
+            totalQtyInOneBox: '',
+            totalBox: '',
+        },
+    ])
+
+    const emptyField = {
+        stock_name: '',
+        totalQtyInOneBox: '',
+        totalBox: '',
+    }
+
+    useEffect(() => {
+        if (clearValues == true) {
+            dispatch(clearValuesTodaySelling())
+        }
+    }, [clearValues])
+
+    const handleSubmit = () => {
+        const data = {
+            id: _id,
+
+            todaySellingData: stockOutData,
+        }
+        console.log('stock out data', data)
+        if (!isEditing) {
+            dispatch(add(data))
+        } else {
+            dispatch(edit(data))
+        }
+        setStockOutData([emptyField])
+    }
+
+    console.log('alertType alertText', alertType, alertText)
     return (
-        <div>
+        <ContainerForm>
+            <div>
+                <Breadcrumb
+                    routeSegments={[
+                        {
+                            name: 'Werehouse Stock Details',
+                            path: '/wereHouseStock',
+                        },
+                        { name: 'Table' },
+                    ]}
+                />
+            </div>
             <Card
                 sx={{
                     minWidth: 275,
@@ -45,29 +99,60 @@ function TodaySellingAddForm() {
                     padding: '30px',
                 }}
             >
-                {stockOutData.map((stockData, index) => (
+                {/* {!stockInDetail
+                    ?  */}
+                {stockOutData.map((stockOut, index) => (
                     <AddStockCard
-                        stockData={stockData}
+                        key={index}
+                        stockOut={stockOut}
                         stockOutData={stockOutData}
                         setStockOutData={setStockOutData}
                         index={index}
+                        stockData={presentStockUserData}
+                        updateStockInDetail={stockInDetail}
                     />
                 ))}
-                <Button
-                    variant="outlined"
-                    color="success"
-                    sx={{ m: 1, minWidth: 120, width: 120, marginLeft: 'auto' }}
-                    onClick={() =>
-                        setStockOutData([...stockOutData, emptyField])
-                    }
-                >
-                    Add More
-                </Button>
+
+                <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                    <Button
+                        variant="outlined"
+                        color="success"
+                        sx={{
+                            m: 1,
+                            minWidth: 120,
+                            width: 120,
+                            marginLeft: 'auto',
+                        }}
+                        onClick={() =>
+                            setStockOutData([...stockOutData, emptyField])
+                        }
+                    >
+                        Add More
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        sx={{
+                            m: 1,
+                            minWidth: 120,
+                            width: 120,
+                            marginLeft: 'auto',
+                        }}
+                        onClick={() => handleSubmit()}
+                    >
+                        Submit
+                    </Button>
+                </div>
             </Card>
-        </div>
+            {showAlert ? (
+                <MyAlert
+                    isOpen={showAlert}
+                    typeSeverity={alertType}
+                    alrtTextToShow={alertText}
+                />
+            ) : null}
+        </ContainerForm>
     )
 }
 
-// export default AddStockOutForm
-
-export default TodaySellingAddForm
+export default AddStockOutForm

@@ -13,19 +13,23 @@ import {
     HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
     DISPLAY_STOCK_ALERT,
+    DELETE_STOCKSELIING_SUCCESS,
 } from '../../actions/userCreatedByAdmin/TodaySellingUserAction'
 
 const initialState = {
     todaySellingData: [],
     isLoading: false,
-    showAlert: true,
+    showAlert: false,
+    clearValues: '',
     alertType: '',
     alertText: '',
     isEditing: false,
     stock_name: '',
-    totalQtyInOneBox: 1,
-    totalBox: 1,
-    userPrice: 1,
+    totalQtyInOneBox: '',
+    _id: '',
+    totalBox: '',
+    userPrice: '',
+    todaySellingDataArr: '',
 }
 
 const WareHouseReducer = function (state = initialState, action) {
@@ -49,7 +53,8 @@ const WareHouseReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'New Stock data Added!',
+                clearValues: true,
+                alertText: 'New stock data added!',
             }
         }
         case CREATE_ERROR: {
@@ -61,17 +66,12 @@ const WareHouseReducer = function (state = initialState, action) {
                 alertText: action.payload.msg,
             }
         }
-        case HANDLE_CHANGE: {
-            return {
-                ...state,
-                page: 1,
-                [action.payload.name]: action.payload.value,
-            }
-        }
+
         case EDIT_BEGIN: {
             return {
                 ...state,
                 isLoading: true,
+                isEditing: true,
             }
         }
         // edit VENDOR
@@ -80,7 +80,10 @@ const WareHouseReducer = function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 showAlert: true,
+                isEditing: false,
                 alertType: 'success',
+                clearValues: true,
+                _id: '',
                 alertText: 'Stock data updated successfully',
             }
         }
@@ -90,26 +93,35 @@ const WareHouseReducer = function (state = initialState, action) {
                 isLoading: false,
                 showAlert: true,
                 alertText: action.payload.msg,
-                alertType: 'danger',
+                alertType: 'error',
             }
         }
         //delete state
         case DELETE_BEGIN: {
             return { ...state, isLoading: false }
         }
+        case DELETE_STOCKSELIING_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                isEditing: false,
+                alertType: 'success',
+                clearValues: true,
+                _id: '',
+                alertText: 'Stock data removed successfully',
+            }
+        }
+
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const { _id, stock_name, totalQtyInOneBox, totalBox, userPrice } =
-                subscriber
+            const { _id, todaySellingData } = subscriber
 
             return {
                 ...state,
                 isEditing: true,
                 _id,
-                stock_name,
-                totalQtyInOneBox,
-                totalBox,
-                userPrice,
+                todaySellingDataArr: todaySellingData,
             }
         }
 
@@ -123,28 +135,18 @@ const WareHouseReducer = function (state = initialState, action) {
                 alertText: '',
             }
         }
-        // case CLEAR_VALUES: {
-        //     const initialState = {
-        //         vendor_name: '',
-        //         address: '',
-        //         contect: '',
-        //         password: '',
-        //         email: '',
-        //         pincode: '',
-        //     }
-        //     return {
-        //         ...state,
-        //         ...initialState,
-        //     }
-        // }
-        case DISPLAY_STOCK_ALERT: {
+        case CLEAR_VALUES: {
+            const initialState = {
+                clearValues: '',
+                _id: '',
+                todaySellingDataArr: '',
+            }
             return {
                 ...state,
-                showAlert: true,
-                alertType: 'danger',
-                alertText: 'Please provide all values!',
+                ...initialState,
             }
         }
+
         default: {
             return {
                 ...state,

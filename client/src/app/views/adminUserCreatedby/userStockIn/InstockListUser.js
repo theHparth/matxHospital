@@ -29,9 +29,12 @@ import {
 import HandleEditMinimum from './HandleEditMinimum'
 
 const InstockListUser = () => {
-    let { presentStockUserData, showAlert, alertType, alertText } = useSelector(
-        (state) => state.stockInUserList
-    )
+    let {
+        presentStockUserData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.stockInUserList)
 
     // edit minimum limitconst [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)

@@ -60,7 +60,7 @@ const PreviousSellingEntryManage = () => {
             handleDialogClose()
             setExpanded(false)
         })
-        dispatch(getAllDataTodaySelling())
+        dispatch(getAllDataTodaySelling({}))
     }
 
     // for panel setup
@@ -92,7 +92,7 @@ const PreviousSellingEntryManage = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllDataTodaySelling())
+        dispatch(getAllDataTodaySelling({}))
     }, [dispatch])
 
     console.log('todaySellingData', todaySellingData)
@@ -180,7 +180,9 @@ const PreviousSellingEntryManage = () => {
                                                             }
                                                         >
                                                             <Link
-                                                                to={`/stockOutForm`}
+                                                                to={
+                                                                    '/newEntryForm'
+                                                                }
                                                             >
                                                                 Edit
                                                             </Link>
@@ -276,13 +278,13 @@ const PreviousSellingEntryManage = () => {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                    {/* {showAlert ? (
+                    {showAlert ? (
                         <MyAlert
                             isOpen={showAlert}
                             typeSeverity={alertType}
                             alrtTextToShow={alertText}
                         />
-                    ) : null} */}
+                    ) : null}
                 </Box>
             </SimpleCard>
         </ContainerTable>

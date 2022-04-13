@@ -1,9 +1,9 @@
 import React, { lazy } from 'react'
 import Loadable from 'app/components/Loadable/Loadable'
 
-const AddStockInWereHouse = Loadable(
-    lazy(() => import('./AddStockInWereHouse'))
-)
+// const AddStockInWereHouse = Loadable(
+//     lazy(() => import('./AddStockInWereHouse'))
+// )
 
 const AddStockOutForm = Loadable(lazy(() => import('./StockInForm')))
 
