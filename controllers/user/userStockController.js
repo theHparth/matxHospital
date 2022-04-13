@@ -143,20 +143,22 @@ const statusController = async (req, res) => {
 
 //   res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
 // };
-const statusFalse = async (req, res) => {
+const stockInUserFun = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
+  const { searchText, hospitalId, status, startDate, endDate } = req.query;
   if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
+  console.log(status, "status");
   const queryObject = {
     createdFor: req.hospital.hospitalId,
-    status: false,
+    status: status,
   };
   let result = UserStock.find(queryObject);
-  const stockInDataFalseStatus = await result;
+  const stockInUser = await result;
   const totalStock = await UserStock.countDocuments(queryObject);
 
-  res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
+  res.status(StatusCodes.OK).json({ stockInUser, totalStock });
 };
 const statusTrue = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
@@ -249,7 +251,7 @@ export {
   statusController,
   addStockQty,
   removeStockQty,
-  statusFalse,
+  stockInUserFun,
   statusTrue,
   totoalStocksInUser,
   minimumRequiremantUserChange,

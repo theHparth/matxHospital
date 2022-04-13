@@ -12,7 +12,9 @@ import {
     ThirdHeading,
     ContainerTable,
     StyledTable,
+    InvoiceDetails,
 } from 'app/components'
+import { useLocation, Link } from 'react-router-dom' // my import
 import {
     TableHead,
     TableBody,
@@ -22,25 +24,65 @@ import {
     TablePagination,
     IconButton,
     Button,
+    FormLabel,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    getAllDataStatusFalse,
+    AllstockInUser,
     statusChange,
 } from 'app/redux/actions/userCreatedByAdmin/StockInUserAction'
 import moment from 'moment'
+import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 const PendingStockIn = () => {
-    let { stockInDataFalse = [] } = useSelector(
-        (state) => state.stockInUserList
-    )
+    // for printing and deleting pperpose
+    const [hospitalDa, setHospitalDa] = useState(null)
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+    const [info, setInfo] = useState()
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        dispatch(AllstockInUser({ status: false }))
+    }
+    const handleDeleteUser = (hospitalId) => {
+        setHospitalDa(hospitalId)
+        setShouldOpenConfirmationDialog(true)
+    }
+
+    const handleConfirmationResponse = () => {
+        dispatch(statusChange(hospitalDa)).then(() => {
+            handleDialogClose()
+            setExpanded(false)
+        })
+        // dispatch(allStockOutDatas({ searchStatus: false }))
+    }
+
+    // check for route
+    const location = useLocation()
+
+    var privatrRoute = false
+    var searchStatus = true
+    if (location.pathname == '/allReceivedSrtock') {
+        searchStatus = false
+        privatrRoute = true
+    }
+
+    // get data
+    let { stockInUserData = [] } = useSelector((state) => state.stockInUserList)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getAllDataStatusFalse())
-    }, [dispatch])
+        var state = {}
+        state.status = false
+        if (privatrRoute) {
+            state.status = true
+        }
+        dispatch(AllstockInUser(state))
+    }, [dispatch, privatrRoute])
 
     // for pagination purposes
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -76,7 +118,7 @@ const PendingStockIn = () => {
                 />
             </div>
 
-            <SimpleCard title="Stock out data">
+            <SimpleCard>
                 <Box width="100%">
                     <AccordionSummary
                         aria-controls="panel1bh-content"
@@ -86,7 +128,7 @@ const PendingStockIn = () => {
                         <ThirdHeading>Date</ThirdHeading>
                     </AccordionSummary>
                     {/* data print start from here*/}
-                    {stockInDataFalse
+                    {stockInUserData
                         .slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
@@ -103,9 +145,19 @@ const PendingStockIn = () => {
                                     id="panel2bh-header"
                                 >
                                     <Heading>{subscriber.invoiceNum}</Heading>
-                                    <ThirdHeading>
-                                        {subscriber.createdAt}
-                                    </ThirdHeading>
+                                    <SecondaryHeading>
+                                        {moment(subscriber.createdAt).format(
+                                            'MMM Do, YYYY'
+                                        )}
+                                    </SecondaryHeading>
+
+                                    {privatrRoute && (
+                                        <ThirdHeading>
+                                            <FormLabel color="primary">
+                                                Received
+                                            </FormLabel>
+                                        </ThirdHeading>
+                                    )}
                                 </AccordionSummary>
                                 <AccordionDetails
                                     style={{ backgroundColor: '#F5F5F5' }}
@@ -123,25 +175,34 @@ const PendingStockIn = () => {
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
                                                 <TableCell>
-                                                    {' '}
-                                                    <StyledButton
-                                                        variant="contained"
-                                                        color="secondary"
-                                                        onClick={() => {
-                                                            {
-                                                                alert(
-                                                                    "Are you sure you received this product, then you can't change status "
-                                                                )
-                                                                dispatch(
-                                                                    statusChange(
-                                                                        subscriber._id
-                                                                    )
+                                                    {!privatrRoute && (
+                                                        <Button
+                                                            variant="contained"
+                                                            color="error"
+                                                            onClick={() =>
+                                                                handleDeleteUser(
+                                                                    subscriber._id
                                                                 )
                                                             }
+                                                        >
+                                                            Pending
+                                                        </Button>
+                                                    )}
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="primary"
+                                                        onClick={() => {
+                                                            setShouldOpenEditorDialog(
+                                                                true
+                                                            )
+                                                            setInfo(subscriber)
                                                         }}
                                                     >
-                                                        Pending
-                                                    </StyledButton>
+                                                        <Icon color="primary">
+                                                            print
+                                                        </Icon>
+                                                        {/* Print */}
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
@@ -175,11 +236,26 @@ const PendingStockIn = () => {
                                 </AccordionDetails>
                             </Accordion>
                         ))}
+                    {shouldOpenConfirmationDialog && (
+                        <ConfirmationDialog
+                            open={shouldOpenConfirmationDialog}
+                            onConfirmDialogClose={handleDialogClose}
+                            onYesClick={handleConfirmationResponse}
+                            text="Are you sure you received product?"
+                        />
+                    )}
+                    {shouldOpenEditorDialog && (
+                        <InvoiceDetails
+                            handleClose={handleDialogClose}
+                            open={shouldOpenEditorDialog}
+                            invoiceInfo={info}
+                        />
+                    )}
                     <TablePagination
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={stockInDataFalse.length}
+                        count={stockInUserData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{
@@ -198,93 +274,3 @@ const PendingStockIn = () => {
 }
 
 export default PendingStockIn
-
-//   <SimpleCard title="Stocks List">
-//                 <Box width="100%" overflow="auto">
-//                     <StyledTable>
-//                         <TableHead>
-//                             <TableRow>
-//                                 <TableCell>Hospital Name</TableCell>
-//                                 <TableCell>Stock Name</TableCell>
-//                                 <TableCell>Total Qty</TableCell>
-//                                 <TableCell>Price</TableCell>
-
-//                                 <TableCell>Date</TableCell>
-
-//                                 {/* <TableCell>Address</TableCell>
-//                         <TableCell align="center">Pincode</TableCell> */}
-//                                 {/* <TableCell align="center">Edit</TableCell> */}
-//                                 <TableCell align="center">Action</TableCell>
-//                             </TableRow>
-//                         </TableHead>
-//                         <TableBody>
-//                             {stockInDataFalse
-//                                 .slice(
-//                                     page * rowsPerPage,
-//                                     page * rowsPerPage + rowsPerPage
-//                                 )
-//                                 .map((subscriber, index) => (
-//                                     <TableRow key={index}>
-//                                         <TableCell>
-//                                             {subscriber.hospitalName}
-//                                         </TableCell>
-//                                         <TableCell>
-//                                             {subscriber.stock_name}
-//                                         </TableCell>
-//                                         <TableCell>
-//                                             {subscriber.totalBox *
-//                                                 subscriber.totalQtyInOneBox}
-//                                         </TableCell>
-//                                         <TableCell>
-//                                             ${' '}
-//                                             {subscriber.priceForUser
-//                                                 ? subscriber.priceForUser
-//                                                 : 0}
-//                                         </TableCell>
-
-//                                         <TableCell>
-//                                             {subscriber.createdAt}
-//                                         </TableCell>
-
-//                                         <TableCell align="center">
-//
-//                                             <IconButton
-//                                                 onClick={() => {
-//                                                     {
-//                                                         alert(
-//                                                             "Are you sure you received this product, then you can't change status "
-//                                                         )
-//                                                         dispatch(
-//                                                             statusChange(
-//                                                                 subscriber._id
-//                                                             )
-//                                                         )
-//                                                     }
-//                                                 }}
-//                                             >
-//                                                 Change Status
-//                                             </IconButton>
-//                                         </TableCell>
-//                                     </TableRow>
-//                                 ))}
-//                         </TableBody>
-//                     </StyledTable>
-
-//                     <TablePagination
-//                         sx={{ px: 2 }}
-//                         rowsPerPageOptions={[5, 10, 25]}
-//                         component="div"
-//                         count={stockInDataFalse.length}
-//                         rowsPerPage={rowsPerPage}
-//                         page={page}
-//                         backIconButtonProps={{
-//                             'aria-label': 'Previous Page',
-//                         }}
-//                         nextIconButtonProps={{
-//                             'aria-label': 'Next Page',
-//                         }}
-//                         onPageChange={handleChangePage}
-//                         onRowsPerPageChange={handleChangeRowsPerPage}
-//                     />
-//                 </Box>
-//             </SimpleCard>

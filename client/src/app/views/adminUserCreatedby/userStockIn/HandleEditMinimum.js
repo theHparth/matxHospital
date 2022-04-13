@@ -69,13 +69,12 @@ const StockEditDialog = ({ open, handleClose }) => {
                         <Grid item sm={16} xs={12}>
                             <TextField
                                 type="text"
-                                name="stock_name"
+                                // name="stock_name"
                                 id="standard-basic"
                                 onChange={handleInput}
                                 value={newStock.stock_name}
                                 validators={['required']}
                                 label="Stock Name"
-                                errorMessages={['this field is required']}
                             />
                         </Grid>
 

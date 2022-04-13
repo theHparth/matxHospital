@@ -21,8 +21,7 @@ import {
 } from '../../actions/userCreatedByAdmin/StockInUserAction'
 
 const initialState = {
-    stockInDataTrue: [],
-    stockInDataFalse: [],
+    stockInUserData: [],
     presentStockUserData: [],
     isLoading: false,
     showAlert: false,
@@ -30,8 +29,6 @@ const initialState = {
     alertText: '',
     isEditing: false,
     description: '',
-    // vendor_name: '',
-    // vendor_id: '',
     hospitalName: '',
     stock_name: '',
     totalQtyInOneBox: 1,
@@ -47,16 +44,11 @@ const StockInUserReducer = function (state = initialState, action) {
         case GET_BEGIN: {
             return { ...state, isLoading: true, showAlert: false }
         }
-        case GET_SUCCESS_STOCKOUT_STATUS_TRUE: {
-            return {
-                ...state,
-                stockInDataTrue: action.payload.stockInDataTrueStatus,
-            }
-        }
+
         case GET_SUCCESS_STOCKOUT_STATUS_FALSE: {
             return {
                 ...state,
-                stockInDataFalse: action.payload.stockInDataFalseStatus,
+                stockInUserData: action.payload.stockInUser,
             }
         }
         case GET_SUCCESS_PRESENT_STOCK: {

@@ -45,7 +45,7 @@ const add = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 
-const getAllDataTodaySelling = (state) => async (dispatch) => {
+const getAllDataTodaySelling = () => async (dispatch) => {
     try {
         const { data } = await authFetch.get('/todaySellingHospital')
         const { stockListTodaySelling } = data

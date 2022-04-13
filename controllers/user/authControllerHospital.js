@@ -66,6 +66,7 @@ const login = async (req, res) => {
     address: hospital.address,
     pincode: hospital.pincode,
     contect: hospital.contect,
+    email: hospital.email,
   };
   const tokenHospital = hospital.createJWT();
   hospital.password = undefined;

@@ -48,14 +48,17 @@ const getAllDataStatusTrue = (state) => async (dispatch) => {
     }
     dispatch(clearAlert())
 }
-const getAllDataStatusFalse = (state) => async (dispatch) => {
+const AllstockInUser = (state) => async (dispatch) => {
+    const { status } = state
+    var url = `/stockInUser?status=${status}`
+
     try {
-        const { data } = await authFetch.get('/falseUser')
-        const { stockInDataFalseStatus } = data
+        const { data } = await authFetch.get(url)
+        const { stockInUser } = data
         // console.log('userData', stockInDataFalseStatus)
         dispatch({
             type: GET_SUCCESS_STOCKOUT_STATUS_FALSE,
-            payload: { stockInDataFalseStatus },
+            payload: { stockInUser },
         })
     } catch (error) {
         console.log(error)
@@ -109,7 +112,7 @@ const statusChange = (id) => async (dispatch) => {
             status: true,
         })
         dispatch({ type: STATUS_EDIT_SUCCESS })
-        dispatch(getAllDataStatusFalse())
+        dispatch(AllstockInUser({}))
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -135,7 +138,7 @@ const clearAlert = () => (dispatch) => {
 export {
     clearValueStockUser,
     getAllDataStatusTrue,
-    getAllDataStatusFalse,
+    AllstockInUser,
     inStockUser,
     inStockMinimumChange,
     setEditMinimumLimit,

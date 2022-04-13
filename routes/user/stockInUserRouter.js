@@ -3,7 +3,7 @@ const router = express.Router();
 
 import {
   statusController,
-  statusFalse,
+  stockInUserFun,
   statusTrue,
   totoalStocksInUser,
   minimumRequiremantUserChange,
@@ -17,7 +17,7 @@ import {
 } from "../../controllers/user/todaySellingController.js";
 
 router.route("/status/:id").patch(statusController);
-router.route("/falseUser").get(statusFalse);
+router.route("/stockInUser").get(stockInUserFun);
 router.route("/trueUser").get(statusTrue);
 router.route("/totalStocks").get(totoalStocksInUser);
 router.route("/totalStocks/:id").patch(minimumRequiremantUserChange);

@@ -1,52 +1,75 @@
-// export default PreviousSellingEntryManage
-
-// export default PendingStockIn
-
+import Accordion from '@mui/material/Accordion'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Box } from '@mui/system'
+import { useLocation, Link } from 'react-router-dom' // my import
+import moment from 'moment'
 import {
-    IconButton,
-    Table,
+    SearchBox,
+    Breadcrumb,
+    SimpleCard,
+    ContainerTable,
+    StyledTable,
+    Heading,
+    SecondaryHeading,
+    ThirdHeading,
+    DateChoose,
+    InvoiceDetails,
+    MyAlert,
+} from 'app/components'
+import {
     TableHead,
     TableBody,
     TableRow,
     TableCell,
     Icon,
     TablePagination,
+    Button,
 } from '@mui/material'
-import React, { useEffect } from 'react'
-import { Box, styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
+
 import {
     getAllDataTodaySelling,
     setEditData,
     deleteData,
 } from 'app/redux/actions/userCreatedByAdmin/TodaySellingUserAction'
-import { Link } from 'react-router-dom'
-import {
-    Breadcrumb,
-    SimpleCard,
-    ContainerTable,
-    StyledTable,
-} from 'app/components'
-
-import moment from 'moment'
 
 const PreviousSellingEntryManage = () => {
-    let { todaySellingData } = useSelector(
-        (state) => state.todaySellingUserList
-    )
+    // for printing and deleting pperpose
+    const [hospitalDa, setHospitalDa] = useState(null)
+    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
+    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+        useState(false)
+    const [info, setInfo] = useState()
+    const handleDialogClose = () => {
+        setShouldOpenEditorDialog(false)
+        setShouldOpenConfirmationDialog(false)
+        // dispatch(getHospitalsData())
+    }
+    const handleDeleteUser = (hospitalId) => {
+        setHospitalDa(hospitalId)
+        setShouldOpenConfirmationDialog(true)
+    }
 
-    const dispatch = useDispatch()
-
-    useEffect(() => {
+    const handleConfirmationResponse = () => {
+        dispatch(deleteData(hospitalDa)).then(() => {
+            handleDialogClose()
+            setExpanded(false)
+        })
         dispatch(getAllDataTodaySelling())
-    }, [dispatch])
+    }
 
-    // if (wereHouseStockData.length === 0) {
-    //     return <h2>No Stocks to display...</h2>
-    // }
-    // console.log(stockOutDataFalse)
-    var todaySellingDatas = todaySellingData || []
-    // console.log(stockOutDatas)
+    // for panel setup
+    const [expanded, setExpanded] = React.useState(false)
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false)
+    }
+
+    // for page setup
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
 
@@ -58,92 +81,190 @@ const PreviousSellingEntryManage = () => {
         setRowsPerPage(+event.target.value)
         setPage(0)
     }
+
+    let {
+        todaySellingData = [],
+        showAlert,
+        alertType,
+        alertText,
+    } = useSelector((state) => state.todaySellingUserList)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getAllDataTodaySelling())
+    }, [dispatch])
+
+    console.log('todaySellingData', todaySellingData)
+
     return (
         <ContainerTable>
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Add Stock', path: '/addStock' },
-                        { name: 'Table' },
+                        { name: 'Stock out form', path: '/stockOutForm' },
+                        { name: 'Form' },
                     ]}
                 />
+                {/* date chooser from--------FROM---------- */}
+                {/* <SearchBox
+                    onSearch={handleChangeSearch}
+                    onSearchValueChange={searchText}
+                />
+                <DateChoose dateProjection={(state) => setSearchDate(state)} /> */}
             </div>
 
-            <SimpleCard title="Stocks List">
-                <Box width="100%" overflow="auto">
-                    <StyledTable>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Stock Name</TableCell>
-                                <TableCell>Total Qty</TableCell>
+            <SimpleCard title="Selling Info.">
+                <Box width="100%">
+                    <AccordionSummary
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                    >
+                        <Heading>Seeling date</Heading>
+                        <SecondaryHeading>Total Items</SecondaryHeading>
+                    </AccordionSummary>
+                    {/* data print start from here*/}
+                    {todaySellingData
+                        .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                        )
+                        .map((subscriber, index) => (
+                            <Accordion
+                                expanded={expanded === `panel${index}`}
+                                onChange={handleChange(`panel${index}`)}
+                                key={index}
+                            >
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel2bh-content"
+                                    id="panel2bh-header"
+                                >
+                                    <Heading>
+                                        {' '}
+                                        {moment(subscriber.createdAt).format(
+                                            'MMM Do, YYYY'
+                                        )}
+                                    </Heading>
+                                    <SecondaryHeading>
+                                        {subscriber.todaySellingData.length}
+                                    </SecondaryHeading>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                    style={{ backgroundColor: '#F5F5F5' }}
+                                >
+                                    <StyledTable>
+                                        <TableHead
+                                            style={{
+                                                backgroundColor: '#EBF5FB',
+                                            }}
+                                        >
+                                            <TableRow>
+                                                <TableCell>
+                                                    Stock Name
+                                                </TableCell>
+                                                <TableCell>Total Qty</TableCell>
+                                                <TableCell>Price</TableCell>
 
-                                <TableCell>Date</TableCell>
-                                <TableCell align="center">Action</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {todaySellingDatas
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
-                                .map((subscriber, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            {subscriber.stock_name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {subscriber.totalBox *
-                                                subscriber.totalQtyInOneBox}
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {subscriber.createdAt}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <IconButton>
-                                                <Icon color="error">
-                                                    <Link
-                                                        to={`/newEntryForm`}
-                                                        onClick={() =>
-                                                            dispatch(
-                                                                setEditData(
-                                                                    subscriber
+                                                <TableCell align="right">
+                                                    <>
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="success"
+                                                            onClick={() =>
+                                                                dispatch(
+                                                                    setEditData(
+                                                                        subscriber
+                                                                    )
                                                                 )
+                                                            }
+                                                        >
+                                                            <Link
+                                                                to={`/stockOutForm`}
+                                                            >
+                                                                Edit
+                                                            </Link>
+                                                        </Button>
+                                                        {/* <TableCell></TableCell> */}
+                                                        <Button
+                                                            variant="contained"
+                                                            color="error"
+                                                            onClick={() =>
+                                                                handleDeleteUser(
+                                                                    subscriber._id
+                                                                )
+                                                            }
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </>
+                                                </TableCell>
+                                                {/* <TableCell align="center">
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="primary"
+                                                        onClick={() => {
+                                                            setShouldOpenEditorDialog(
+                                                                true
                                                             )
-                                                        }
+                                                            setInfo(subscriber)
+                                                        }}
                                                     >
-                                                        edit
-                                                    </Link>
-                                                </Icon>
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => {
-                                                    {
-                                                        alert(
-                                                            'Are you sure you want to delete?'
-                                                        )
-                                                        dispatch(
-                                                            deleteData(
-                                                                subscriber._id
-                                                            )
-                                                        )
-                                                    }
-                                                }}
-                                            >
-                                                <Icon color="error">close</Icon>
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </StyledTable>
-
+                                                        <Icon color="primary">
+                                                            print
+                                                        </Icon>
+                                                        
+                                                    </Button>
+                                                </TableCell> */}
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {subscriber.todaySellingData.map(
+                                                (subscriber, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell>
+                                                            {
+                                                                subscriber.stock_name
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {subscriber.totalBox *
+                                                                subscriber.totalQtyInOneBox}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            ${' '}
+                                                            {subscriber.price
+                                                                ? subscriber.price
+                                                                : 0}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            )}
+                                        </TableBody>
+                                    </StyledTable>
+                                </AccordionDetails>
+                            </Accordion>
+                        ))}
+                    {shouldOpenConfirmationDialog && (
+                        <ConfirmationDialog
+                            open={shouldOpenConfirmationDialog}
+                            onConfirmDialogClose={handleDialogClose}
+                            onYesClick={handleConfirmationResponse}
+                            text="Are you sure to delete?"
+                        />
+                    )}
+                    {/* {shouldOpenEditorDialog && (
+                        <InvoiceDetails
+                            handleClose={handleDialogClose}
+                            open={shouldOpenEditorDialog}
+                            invoiceInfo={info}
+                        />
+                    )} */}
                     <TablePagination
                         sx={{ px: 2 }}
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={todaySellingDatas.length}
+                        count={todaySellingData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backIconButtonProps={{
@@ -155,6 +276,13 @@ const PreviousSellingEntryManage = () => {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
+                    {/* {showAlert ? (
+                        <MyAlert
+                            isOpen={showAlert}
+                            typeSeverity={alertType}
+                            alrtTextToShow={alertText}
+                        />
+                    ) : null} */}
                 </Box>
             </SimpleCard>
         </ContainerTable>

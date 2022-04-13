@@ -33,6 +33,7 @@ import PrintButton from './PrintButton'
 
 const InvoiceViewer = ({ invoiceInfo }) => {
     const user = localStorage.getItem('user')
+    const hospital = localStorage.getItem('hospital')
     const { Iaddress, Icontect, Iemail, Ipincode, IhopsitalId } = useSelector(
         (stat) => stat.hospitalList
     )
@@ -51,24 +52,43 @@ const InvoiceViewer = ({ invoiceInfo }) => {
         dispatch(getHospitalsData(hospitalName))
     }, [dispatch, hospitalName])
 
-    var adminInfo = JSON.parse(user)
-    var userAdd =
-        adminInfo['address'] +
-        ' - ' +
-        adminInfo['pincode'] +
-        '\nContect: ' +
-        adminInfo['contect'] +
-        '\nEmail: ' +
-        adminInfo['email']
+    var userAdd
+    if (user) {
+        var adminInfo = JSON.parse(user)
+        userAdd =
+            adminInfo['address'] +
+            ' - ' +
+            adminInfo['pincode'] +
+            '\nContect: ' +
+            adminInfo['contect'] +
+            '\nEmail: ' +
+            adminInfo['email']
+    }
 
-    var hospitalAdd =
-        Iaddress +
-        ' - ' +
-        Ipincode +
-        '\nContect: ' +
-        Icontect +
-        '\nEmail: ' +
-        Iemail
+    var hospitalAdd
+    if (hospital) {
+        var hospitalInfo = JSON.parse(hospital)
+        hospitalAdd =
+            hospitalInfo['address'] +
+            ' - ' +
+            hospitalInfo['pincode'] +
+            '\nContect: ' +
+            hospitalInfo['contect'] +
+            '\nEmail: ' +
+            hospitalInfo['email']
+    }
+
+    // var hospitalAdd =
+    if (Iaddress) {
+        hospitalAdd =
+            Iaddress +
+            ' - ' +
+            Ipincode +
+            '\nContect: ' +
+            Icontect +
+            '\nEmail: ' +
+            Iemail
+    }
 
     const handlePrint = (e) => {
         e.preventDefault()
@@ -130,15 +150,17 @@ const InvoiceViewer = ({ invoiceInfo }) => {
                     mb={2}
                     className="viewer__billing-info"
                 >
-                    <div>
-                        <StyledH5 sx={{ mb: 1 }}>Bill From</StyledH5>
-                        <Paragraph sx={{ mb: 2 }}>
-                            {adminInfo['name']}
-                        </Paragraph>
-                        <Paragraph sx={{ whiteSpace: 'pre' }}>
-                            {userAdd}
-                        </Paragraph>
-                    </div>
+                    {user && (
+                        <div>
+                            <StyledH5 sx={{ mb: 1 }}>Bill From</StyledH5>
+                            <Paragraph sx={{ mb: 2 }}>
+                                {adminInfo['name']}
+                            </Paragraph>
+                            <Paragraph sx={{ whiteSpace: 'pre' }}>
+                                {userAdd}
+                            </Paragraph>
+                        </div>
+                    )}
                     <Box width="100%" textAlign="right">
                         <StyledH5 sx={{ mb: 1 }}>Bill To</StyledH5>
                         <Paragraph sx={{ mb: 2 }}>{hospitalName}</Paragraph>
