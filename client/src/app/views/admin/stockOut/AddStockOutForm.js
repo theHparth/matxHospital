@@ -187,64 +187,11 @@ function AddStockOutForm() {
                             hospitalsData={hospitalsData}
                         />
                     ))}
-                    {/* <Grid
-                        item
-                        xs={6}
-                        sx={{
-                            margin: '30px 7px 10px 0px',
-                            // marginLeft: 'auto',
-                        }}
-                    >
-                        <TextField
-                            label="Custom Notes"
-                            name="messageForHospital"
-                            size="small"
-                            variant="outlined"
-                            multiline
-                            rows={5}
-                            fullWidth
-                            value={hospital.messageForHospital || ''}
-                            onChange={onChangeHospital}
-                        />
-                    </Grid> */}
                 </Card>
-                {/* <Card
-                    sx={{
-                        minWidth: 275,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: '0px 30px 30px 30px',
-                        margin: '10px 0px 0px 0px',
-                    }}
-                > */}
-                {/* <Grid
-                        item
-                        xs={6}
-                        sx={{
-                            margin: '30px 7px 10px 0px',
-                            // marginLeft: 'auto',
-                        }}
-                    >
-                        <TextField
-                            label="Custom Notes"
-                            name="messageForHospital"
-                            size="small"
-                            variant="outlined"
-                            multiline
-                            rows={5}
-                            fullWidth
-                            value={hospital.messageForHospital || ''}
-                            onChange={onChangeHospital}
-                        />
-                    </Grid> */}
+
                 <div style={{ display: 'flex', marginLeft: 'auto' }}>
                     <Grid
                         item
-                        // xs={6}
-                        // sx={{
-                        //     margin: '30px 7px 10px 0px',
-                        //     // marginLeft: 'auto',
-                        // }}
                         sx={{
                             m: 1,
                             minWidth: 300,
@@ -285,8 +232,8 @@ function AddStockOutForm() {
                         color="success"
                         sx={{
                             m: 1,
-                            maxHeight: 38,
                             minWidth: 120,
+                            maxHeight: 38,
                             width: 120,
                             marginLeft: 'auto',
                         }}

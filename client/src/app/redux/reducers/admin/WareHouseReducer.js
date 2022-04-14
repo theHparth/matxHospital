@@ -37,6 +37,7 @@ const initialState = {
     invoiceNumStockIn: '',
     vendor_name: '',
     stockInDetail: '',
+    stockInNote: '',
 }
 
 const WareHouseReducer = function (state = initialState, action) {
@@ -122,8 +123,13 @@ const WareHouseReducer = function (state = initialState, action) {
         }
         case SET_EDIT: {
             const subscriber = action.payload.subscriber
-            const { _id, invoiceNumStockIn, vendor_name, stockInDetail } =
-                subscriber
+            const {
+                _id,
+                invoiceNumStockIn,
+                vendor_name,
+                stockInDetail,
+                stockInNote,
+            } = subscriber
 
             return {
                 ...state,
@@ -132,6 +138,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 invoiceNumStockIn,
                 vendor_name,
                 stockInDetail,
+                stockInNote,
             }
         }
 
@@ -152,6 +159,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 invoiceNumStockIn: '',
                 vendor_name: '',
                 stockInDetail: '',
+                stockInNote: '',
             }
             return {
                 ...state,

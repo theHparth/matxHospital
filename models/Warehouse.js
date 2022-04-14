@@ -22,6 +22,7 @@ const WereHouseSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    stockInNote: {},
   },
   { timestamps: true }
 );

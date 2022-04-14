@@ -196,11 +196,11 @@ const WereHouseStock = () => {
                                                         Total Qty
                                                     </TableCell>
                                                     <TableCell>Price</TableCell>
-                                                    {subscriber.stockInNote && (
+                                                    {/* {subscriber.stockInNote && (
                                                         <TableCell>
                                                             Note
                                                         </TableCell>
-                                                    )}
+                                                    )} */}
                                                     <TableCell align="right">
                                                         <IconButton
                                                             onClick={() =>
@@ -252,16 +252,22 @@ const WereHouseStock = () => {
                                                                     ? subscribers.price
                                                                     : 0}
                                                             </TableCell>
-                                                            {subscriber.stockInNote && (
+                                                            {/* {subscriber.stockInNote && (
                                                                 <TableCell>
                                                                     {
                                                                         subscriber.stockInNote
                                                                     }
                                                                 </TableCell>
-                                                            )}
+                                                            )} */}
                                                             <TableCell></TableCell>
                                                         </TableRow>
                                                     )
+                                                )}
+                                                {subscriber.stockInNote && (
+                                                    <TableCell>
+                                                        Note :{' '}
+                                                        {subscriber.stockInNote}
+                                                    </TableCell>
                                                 )}
                                             </TableBody>
                                         </StyledTable>

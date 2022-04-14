@@ -1,4 +1,4 @@
-import { Button, Card, Paper, TextField } from '@mui/material'
+import { Button, Card, Paper, TextField, Grid } from '@mui/material'
 import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,6 +35,7 @@ function AddStockOutForm() {
         invoiceNumStockIn,
         vendor_name,
         stockInDetail,
+        stockInNote,
     } = useSelector((x) => x.wareHouseStockList)
 
     useEffect(() => {
@@ -71,6 +72,7 @@ function AddStockOutForm() {
     const [newVendorInvoice, setVendorInvoice] = React.useState({
         invoiceNumStockIn: invoiceNumStockIn || '',
         vendor_name: vendor_name || '',
+        stockInNote: stockInNote || '',
     })
     const onChangeVendorInvoice = (e) => {
         const name = e.target.name
@@ -85,6 +87,7 @@ function AddStockOutForm() {
         if (clearValues == true) {
             dispatch(clearValuesWerehouse())
             newVendorInvoice.vendor_name = ''
+            newVendorInvoice.stockInNote = ''
             newVendorInvoice.invoiceNumStockIn = ''
             setStockOutData([emptyField])
         }
@@ -95,6 +98,7 @@ function AddStockOutForm() {
             id: _id,
             invoiceNumStockIn: newVendorInvoice.invoiceNumStockIn,
             vendor_name: newVendorInvoice.vendor_name,
+            stockInNote: newVendorInvoice.stockInNote,
             stockInDetail: stockOutData,
         }
         console.log('stock out data', data)
@@ -200,12 +204,34 @@ function AddStockOutForm() {
                 ))}
 
                 <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                    <Grid
+                        item
+                        sx={{
+                            m: 1,
+                            minWidth: 300,
+                            width: 'auto',
+                            marginLeft: 'auto',
+                        }}
+                    >
+                        <TextField
+                            label="Custom Notes"
+                            name="stockInNote"
+                            size="small"
+                            variant="outlined"
+                            multiline
+                            rows={5}
+                            fullWidth
+                            value={newVendorInvoice.stockInNote || ''}
+                            onChange={onChangeVendorInvoice}
+                        />
+                    </Grid>
                     <Button
                         variant="outlined"
                         color="success"
                         sx={{
                             m: 1,
                             minWidth: 120,
+                            maxHeight: 38,
                             width: 120,
                             marginLeft: 'auto',
                         }}
@@ -221,6 +247,7 @@ function AddStockOutForm() {
                         sx={{
                             m: 1,
                             minWidth: 120,
+                            maxHeight: 38,
                             width: 120,
                             marginLeft: 'auto',
                         }}

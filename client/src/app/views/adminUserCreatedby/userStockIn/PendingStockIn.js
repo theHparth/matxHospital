@@ -231,6 +231,14 @@ const PendingStockIn = () => {
                                                     </TableRow>
                                                 )
                                             )}
+                                            {subscriber.messageForHospital && (
+                                                <TableCell>
+                                                    Note :{' '}
+                                                    {
+                                                        subscriber.messageForHospital
+                                                    }
+                                                </TableCell>
+                                            )}
                                         </TableBody>
                                     </StyledTable>
                                 </AccordionDetails>
