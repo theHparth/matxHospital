@@ -86,6 +86,7 @@ function AddStockOutForm() {
             dispatch(clearValuesWerehouse())
             newVendorInvoice.vendor_name = ''
             newVendorInvoice.invoiceNumStockIn = ''
+            setStockOutData([emptyField])
         }
     }, [clearValues])
 
@@ -102,7 +103,6 @@ function AddStockOutForm() {
         } else {
             dispatch(edit(data))
         }
-        setStockOutData([emptyField])
     }
 
     return (
@@ -172,6 +172,7 @@ function AddStockOutForm() {
                         </FormControl>
 
                         <TextField
+                            // type="number"
                             id="standard-basic"
                             label="Invoice Number"
                             variant="standard"

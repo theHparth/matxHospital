@@ -19,6 +19,13 @@ const addStockinWereHouse = async (req, res) => {
     ) {
       throw new BadRequestError("Please provide all values");
     }
+    if (
+      isNaN(data.totalQtyInOneBox) ||
+      isNaN(data.totalBox) ||
+      isNaN(data.price)
+    ) {
+      throw new BadRequestError("Please enter valid number");
+    }
     addStockQty(
       data.stock_name,
       data.totalQtyInOneBox,
@@ -157,6 +164,13 @@ const updateStockfromWereHouse = async (req, res) => {
       !data.price
     ) {
       throw new BadRequestError("Please provide all values");
+    }
+    if (
+      isNaN(data.totalQtyInOneBox) ||
+      isNaN(data.totalBox) ||
+      isNaN(data.price)
+    ) {
+      throw new BadRequestError("Please enter valid number");
     }
     addStockQty(
       data.stock_name,

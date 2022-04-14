@@ -37,6 +37,13 @@ const sendStockUser = async (req, res) => {
     ) {
       throw new BadRequestError("Please provide all values");
     }
+    if (
+      isNaN(data.totalQtyInOneBox) ||
+      isNaN(data.totalBox) ||
+      isNaN(data.price)
+    ) {
+      throw new BadRequestError("Please enter valid number");
+    }
     removeStockQty(
       data.stock_name,
       data.totalQtyInOneBox,
@@ -260,6 +267,13 @@ const updateSendStockAdmin = async (req, res) => {
       !data.price
     ) {
       throw new BadRequestError("Please provide all values");
+    }
+    if (
+      isNaN(data.totalQtyInOneBox) ||
+      isNaN(data.totalBox) ||
+      isNaN(data.price)
+    ) {
+      throw new BadRequestError("Please enter valid number");
     }
     removeStockQty(
       data.stock_name,

@@ -57,8 +57,9 @@ function AddStockOutForm() {
     }
 
     useEffect(() => {
-        if (clearValues == true) {
+        if (clearValues) {
             dispatch(clearValuesTodaySelling())
+            setStockOutData([emptyField])
         }
     }, [clearValues])
 
@@ -74,7 +75,6 @@ function AddStockOutForm() {
         } else {
             dispatch(edit(data))
         }
-        setStockOutData([emptyField])
     }
 
     console.log('alertType alertText', alertType, alertText)

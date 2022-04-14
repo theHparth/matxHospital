@@ -1,4 +1,4 @@
-import { Button, Card, Paper, TextField } from '@mui/material'
+import { Button, Card, Paper, TextField, Grid } from '@mui/material'
 import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
+import { H5, Paragraph } from 'app/components/Typography'
 
 import {
     sendToUser,
@@ -71,6 +72,7 @@ function AddStockOutForm() {
 
     const [hospital, setHospital] = React.useState({
         hospitalName: hospitalName || '',
+        messageForHospital: messageForHospital || '',
     })
     const onChangeHospital = (e) => {
         const name = e.target.name
@@ -85,6 +87,8 @@ function AddStockOutForm() {
         if (clearValues) {
             dispatch(clearValuesStockOut())
             hospital.hospitalName = ''
+            hospital.messageForHospital = ''
+            setStockOutData([emptyField])
         }
     }, [clearValues])
 
@@ -92,6 +96,7 @@ function AddStockOutForm() {
         const data = {
             id: _id,
             hospitalName: hospital.hospitalName,
+            messageForHospital: hospital.messageForHospital,
             stockOutDetail: stockOutData,
             invoiceNum: invoiceNum,
         }
@@ -101,7 +106,6 @@ function AddStockOutForm() {
         } else {
             dispatch(edit(data))
         }
-        setStockOutData([emptyField])
     }
 
     return (
@@ -163,25 +167,110 @@ function AddStockOutForm() {
                         </Select>
                     </FormControl>
                 </Card>
-
-                {stockOutData.map((stockOut, index) => (
-                    <AddStockCard
-                        key={index}
-                        stockOut={stockOut}
-                        stockOutData={stockOutData}
-                        setStockOutData={setStockOutData}
-                        index={index}
-                        stockData={stockData}
-                        hospitalsData={hospitalsData}
-                    />
-                ))}
+                <Card
+                    sx={{
+                        minWidth: 275,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0px 30px 30px 30px',
+                        // margin: '0px 0px 10px 0px',
+                    }}
+                >
+                    {stockOutData.map((stockOut, index) => (
+                        <AddStockCard
+                            key={index}
+                            stockOut={stockOut}
+                            stockOutData={stockOutData}
+                            setStockOutData={setStockOutData}
+                            index={index}
+                            stockData={stockData}
+                            hospitalsData={hospitalsData}
+                        />
+                    ))}
+                    {/* <Grid
+                        item
+                        xs={6}
+                        sx={{
+                            margin: '30px 7px 10px 0px',
+                            // marginLeft: 'auto',
+                        }}
+                    >
+                        <TextField
+                            label="Custom Notes"
+                            name="messageForHospital"
+                            size="small"
+                            variant="outlined"
+                            multiline
+                            rows={5}
+                            fullWidth
+                            value={hospital.messageForHospital || ''}
+                            onChange={onChangeHospital}
+                        />
+                    </Grid> */}
+                </Card>
+                {/* <Card
+                    sx={{
+                        minWidth: 275,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0px 30px 30px 30px',
+                        margin: '10px 0px 0px 0px',
+                    }}
+                > */}
+                {/* <Grid
+                        item
+                        xs={6}
+                        sx={{
+                            margin: '30px 7px 10px 0px',
+                            // marginLeft: 'auto',
+                        }}
+                    >
+                        <TextField
+                            label="Custom Notes"
+                            name="messageForHospital"
+                            size="small"
+                            variant="outlined"
+                            multiline
+                            rows={5}
+                            fullWidth
+                            value={hospital.messageForHospital || ''}
+                            onChange={onChangeHospital}
+                        />
+                    </Grid> */}
                 <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                    <Grid
+                        item
+                        // xs={6}
+                        // sx={{
+                        //     margin: '30px 7px 10px 0px',
+                        //     // marginLeft: 'auto',
+                        // }}
+                        sx={{
+                            m: 1,
+                            minWidth: 300,
+                            width: 'auto',
+                            marginLeft: 'auto',
+                        }}
+                    >
+                        <TextField
+                            label="Custom Notes"
+                            name="messageForHospital"
+                            size="small"
+                            variant="outlined"
+                            multiline
+                            rows={5}
+                            fullWidth
+                            value={hospital.messageForHospital || ''}
+                            onChange={onChangeHospital}
+                        />
+                    </Grid>
                     <Button
                         variant="outlined"
                         color="success"
                         sx={{
                             m: 1,
                             minWidth: 120,
+                            maxHeight: 38,
                             width: 120,
                             marginLeft: 'auto',
                         }}
@@ -196,6 +285,7 @@ function AddStockOutForm() {
                         color="success"
                         sx={{
                             m: 1,
+                            maxHeight: 38,
                             minWidth: 120,
                             width: 120,
                             marginLeft: 'auto',
@@ -206,6 +296,7 @@ function AddStockOutForm() {
                     </Button>
                 </div>
             </Card>
+            {/* </Card> */}
             {showAlert ? (
                 <MyAlert
                     isOpen={showAlert}

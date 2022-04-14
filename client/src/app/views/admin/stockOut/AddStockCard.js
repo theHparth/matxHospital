@@ -70,147 +70,151 @@ const AddStockCard = ({
     return (
         <div>
             <ValidatorForm onError={() => null} onSubmit={aaa}>
-                <Card
+                {/* <Card
                     sx={{
                         minWidth: 275,
                         display: 'flex',
                         flexDirection: 'column',
                         padding: '0px 30px 30px 30px',
+                        // margin: '0px 0px 10px 0px',
                     }}
-                >
-                    <div style={{ display: 'flex' }}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
+                > */}
+                <div style={{ display: 'flex' }}>
+                    <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                    >
+                        <Badge
+                            badgeContent={availableQuantity.totalQty}
+                            color="primary"
+                            max={999999}
+                            sx={{
+                                width: 'auto',
+                                height: 'auto',
+                            }}
+                        ></Badge>
+
+                        <InputLabel id="demo-simple-select-standard-label">
+                            Stock Name
+                        </InputLabel>
+
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            onChange={(e) => {
+                                handleChange(e)
+                            }}
+                            label="Stock Name"
+                            name="stock_name"
+                            value={stockOut.stock_name}
+                            data-index={availableQuantity}
                         >
-                            <Badge
-                                badgeContent={availableQuantity.totalQty}
-                                color="primary"
-                                max={999999}
-                                sx={{
-                                    width: 'auto',
-                                    height: 'auto',
-                                }}
-                            ></Badge>
-
-                            <InputLabel id="demo-simple-select-standard-label">
-                                Stock Name
-                            </InputLabel>
-
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                onChange={(e) => {
-                                    handleChange(e)
-                                }}
-                                label="Stock Name"
-                                name="stock_name"
-                                value={stockOut.stock_name}
-                                data-index={availableQuantity}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {stockData.map((stockObj, index) => (
+                                <MenuItem
+                                    key={index}
+                                    value={stockObj.stock_name}
+                                    onClick={() => {
+                                        setAvailableQuantity(stockObj)
+                                    }}
+                                >
+                                    {stockObj.stock_name}
                                 </MenuItem>
-                                {stockData.map((stockObj, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        value={stockObj.stock_name}
-                                        onClick={() => {
-                                            setAvailableQuantity(stockObj)
-                                        }}
-                                    >
-                                        {stockObj.stock_name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        {availableQuantity.price ? (
-                            <Chip
-                                label={`costPrice - ${availableQuantity.price}`}
-                                color="secondary"
-                                // disabled={true}
-                                sx={{
-                                    width: '100px',
-                                    height: '20px',
-                                    marginLeft: '20px',
-                                }}
-                            />
-                        ) : null}
-
-                        <Button
-                            variant="outlined"
+                            ))}
+                        </Select>
+                    </FormControl>
+                    {availableQuantity.price ? (
+                        <Chip
+                            label={`costPrice - ${availableQuantity.price}`}
+                            color="secondary"
+                            // disabled={true}
                             sx={{
                                 width: '100px',
-                                height: '40px',
-                                marginLeft: 'auto',
+                                height: '20px',
+                                marginLeft: '20px',
                             }}
-                            onClick={clearForm}
-                        >
-                            Clear
-                        </Button>
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                        <TextValidator
-                            id="standard-basic"
-                            label="Box"
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="totalBox"
-                            value={stockOut.totalBox}
-                            onChange={handleChange}
-                            validators={[
-                                'required',
-                                'minNumber:1',
-                                // `maxNumber:${
-                                //     availableQuantity.totalQty -
-                                //     stockOutData[index]['totalBox'] *
-                                //         stockOutData[index]['totalQtyInOneBox']
-                                // }`,
-                            ]}
                         />
-                        <TextField
-                            id="standard-basic"
-                            label="Quantity Per Box"
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="totalQtyInOneBox"
-                            value={stockOut.totalQtyInOneBox}
-                            onChange={handleChange}
-                            validators={[
-                                'required',
-                                'minNumber:1',
-                                // `maxNumber:${
-                                //     availableQuantity.totalQty -
-                                //     stockOutData[index]['totalBox'] *
-                                //         stockOutData[index]['totalQtyInOneBox']
-                                // }`,
-                            ]}
-                        />
+                    ) : null}
 
-                        <TextField
-                            id="standard-basic"
-                            label="Price For user"
-                            variant="standard"
-                            sx={{ m: 1, minWidth: 120, width: 200 }}
-                            name="priceForUser"
-                            value={stockOut.priceForUser}
-                            onChange={handleChange}
-                        />
+                    <Button
+                        variant="outlined"
+                        sx={{
+                            width: '100px',
+                            height: '40px',
+                            marginLeft: 'auto',
+                        }}
+                        onClick={clearForm}
+                    >
+                        Clear
+                    </Button>
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <TextValidator
+                        type="number"
+                        id="standard-basic"
+                        label="Box"
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                        name="totalBox"
+                        value={stockOut.totalBox}
+                        onChange={handleChange}
+                        validators={[
+                            'required',
+                            'minNumber:1',
+                            // `maxNumber:${
+                            //     availableQuantity.totalQty -
+                            //     stockOutData[index]['totalBox'] *
+                            //         stockOutData[index]['totalQtyInOneBox']
+                            // }`,
+                        ]}
+                    />
+                    <TextField
+                        type="number"
+                        id="standard-basic"
+                        label="Quantity Per Box"
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                        name="totalQtyInOneBox"
+                        value={stockOut.totalQtyInOneBox}
+                        onChange={handleChange}
+                        validators={[
+                            'required',
+                            'minNumber:1',
+                            // `maxNumber:${
+                            //     availableQuantity.totalQty -
+                            //     stockOutData[index]['totalBox'] *
+                            //         stockOutData[index]['totalQtyInOneBox']
+                            // }`,
+                        ]}
+                    />
 
-                        <Button
-                            variant="outlined"
-                            color="error"
-                            sx={{
-                                width: '100px',
-                                height: '40px',
-                                marginLeft: 'auto',
-                            }}
-                            onClick={removeField}
-                        >
-                            Remove
-                        </Button>
-                    </div>
-                </Card>
+                    <TextField
+                        type="number"
+                        id="standard-basic"
+                        label="Price For user"
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120, width: 200 }}
+                        name="priceForUser"
+                        value={stockOut.priceForUser}
+                        onChange={handleChange}
+                    />
+
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        sx={{
+                            width: '100px',
+                            height: '40px',
+                            marginLeft: 'auto',
+                        }}
+                        onClick={removeField}
+                    >
+                        Remove
+                    </Button>
+                </div>
+                {/* </Card> */}
             </ValidatorForm>
         </div>
     )

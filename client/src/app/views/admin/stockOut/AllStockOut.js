@@ -188,6 +188,9 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                 </TableCell>
                                                 <TableCell>Total Qty</TableCell>
                                                 <TableCell>Price</TableCell>
+                                                {/* {subscriber.messageForHospital && (
+                                                    <TableCell>Note</TableCell>
+                                                )} */}
 
                                                 <TableCell align="right">
                                                     {privatrRoute && (
@@ -264,6 +267,14 @@ const AllStockOutTrueStatus = ({ id }) => {
                                                         </TableCell>
                                                     </TableRow>
                                                 )
+                                            )}
+                                            {subscriber.messageForHospital && (
+                                                <TableCell>
+                                                    Note :{' '}
+                                                    {
+                                                        subscriber.messageForHospital
+                                                    }
+                                                </TableCell>
                                             )}
                                         </TableBody>
                                     </StyledTable>

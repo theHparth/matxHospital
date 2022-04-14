@@ -23,6 +23,9 @@ const AddtodaySellingHospital = async (req, res) => {
     if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
       throw new BadRequestError("Please provide all values");
     }
+    if (isNaN(data.totalQtyInOneBox) || isNaN(data.totalBox)) {
+      throw new BadRequestError("Please enter number");
+    }
     removeStockQty(
       createdFor,
       data.stock_name,
@@ -81,6 +84,9 @@ const updateTodaySelling = async (req, res) => {
   todaySellingData.map((data) => {
     if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
       throw new BadRequestError("Please provide all values");
+    }
+    if (isNaN(data.totalQtyInOneBox) || isNaN(data.totalBox)) {
+      throw new BadRequestError("Please enter number");
     }
     removeStockQty(
       createdFor,

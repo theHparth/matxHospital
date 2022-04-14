@@ -111,6 +111,7 @@ const AddStockCard = ({
                     {/* </div>
                     <div style={{ display: 'flex' }}> */}
                     <TextValidator
+                        type="number"
                         id="standard-basic"
                         label="Box"
                         variant="standard"
@@ -122,6 +123,7 @@ const AddStockCard = ({
                         errormessages={['this field is required']}
                     />
                     <TextField
+                        type="number"
                         id="standard-basic"
                         label="Quantity Per Box"
                         variant="standard"
@@ -134,6 +136,7 @@ const AddStockCard = ({
                     />
 
                     <TextField
+                        type="number"
                         id="standard-basic"
                         label="Price"
                         variant="standard"
