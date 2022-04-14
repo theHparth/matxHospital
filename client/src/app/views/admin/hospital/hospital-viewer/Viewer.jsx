@@ -6,7 +6,7 @@ import CustomerLogs from './HospitalLogs'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import HospitalStockInfo from './HospitalStockInfo'
-
+import SellingListHospital from './SellingListHospital'
 const Container = styled('div')(({ theme }) => ({
     margin: '30px',
     [theme.breakpoints.down('sm')]: {
@@ -57,11 +57,11 @@ const CustomerViewer = () => {
 
             {tabIndex === 0 && <HospitalStockInfo id={id} />}
             {tabIndex === 1 && <HospitalSendStockList id={id} />}
-            {tabIndex === 2 && <CustomerLogs id={id} />}
+            {tabIndex === 2 && <SellingListHospital id={id} />}
         </Container>
     )
 }
 
-const tabList = ['Stock Info.', 'Invoices', 'Logs']
+const tabList = ['Stock Info.', 'Invoices', 'Selling List']
 
 export default CustomerViewer

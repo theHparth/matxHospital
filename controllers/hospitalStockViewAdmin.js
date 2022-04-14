@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissionsHospital from "../utils/user/checkPermissionsHospital.js";
 import UserStock from "../models/User/stockOut.js";
+import TodaySellingHospital from "../models/User/todaySellingUser.js";
 
 const minimumThresold = async (req, res) => {
   var result = await StocksHosital.aggregate([
@@ -41,10 +42,20 @@ const hospitalStockViewAdmin = async (req, res) => {
 
   let result = StocksHosital.find(queryObject);
   const hospitalPresentStock = await result;
-  // console.log(hospitalPresentStock);
-  // const totalStock = await StocksHosital.countDocuments(queryObject);
 
   res.status(StatusCodes.OK).json({ hospitalPresentStock });
 };
+const hospitalSellings = async (req, res) => {
+  const { searchText, id } = req.query;
+  const queryObject = {
+    createdFor: id,
+  };
 
-export { hospitalStockViewAdmin, minimumThresold };
+  let result = TodaySellingHospital.find(queryObject);
+
+  const hospitalSelling = await result;
+
+  res.status(StatusCodes.OK).json({ hospitalSelling });
+};
+
+export { hospitalStockViewAdmin, minimumThresold, hospitalSellings };

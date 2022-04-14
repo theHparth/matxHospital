@@ -17,6 +17,7 @@ export const EDIT_HOSPITAL_SUCCESS = 'EDIT_HOSPITAL_SUCCESS'
 export const EDIT_HOSPITAL_ERROR = 'EDIT_HOSPITAL_ERROR'
 export const EDIT_HOSPITAL_COMPLETE = 'EDIT_HOSPITAL_COMPLETE'
 export const SHOW_STATS_BEGIN = 'SHOW_STATS_BEGIN'
+export const GET_HOSPITAL_SELLING_SUCCESS = 'GET_HOSPITAL_SELLING_SUCCESS'
 export const DELETE_HOSPITAL_SUCCESS = 'DELETE_HOSPITAL_SUCCESS'
 export const GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS =
     'GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS'
@@ -89,7 +90,7 @@ const hospitalMinimumTheresold = () => async (dispatch) => {
 const hospitalStockInformation = (state) => async (dispatch) => {
     var { id, searchText } = state
     console.log('idddd===', id, 'text', searchText)
-    let url = '/hospitalDataAdmin?all=all'
+    let url = '/hospitalDataAdmin/?all=all'
     if (id) {
         url = url + `&id=${id}`
     }
@@ -104,6 +105,30 @@ const hospitalStockInformation = (state) => async (dispatch) => {
         dispatch({
             type: GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
             payload: { hospitalPresentStock },
+        })
+    } catch (error) {
+        console.log(error)
+        // removeUserFromLocalStorage()
+    }
+    dispatch(clearAlert())
+}
+const hospitalSellingInfo = (state) => async (dispatch) => {
+    var { id, searchText } = state
+    console.log('idddd===', id, 'text', searchText)
+    let url = '/hospitalDataAdmin/hospitalSelling?all=all'
+    if (id) {
+        url = url + `&id=${id}`
+    }
+    if (searchText) {
+        url = url + `&searchText=${searchText}`
+    }
+    dispatch({ type: GET_HOSPITAL_BEGIN })
+    try {
+        const { data } = await authFetch.get(url)
+        const { hospitalSelling } = data
+        dispatch({
+            type: GET_HOSPITAL_SELLING_SUCCESS,
+            payload: { hospitalSelling },
         })
     } catch (error) {
         console.log(error)
@@ -200,4 +225,5 @@ export {
     deleteHospital,
     hospitalStockInformation,
     hospitalMinimumTheresold,
+    hospitalSellingInfo,
 }
