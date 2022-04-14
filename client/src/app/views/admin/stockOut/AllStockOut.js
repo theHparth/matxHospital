@@ -117,6 +117,7 @@ const AllStockOutTrueStatus = ({ id }) => {
 
         var state = { searchText, new_dates, id, searchStatus }
         dispatch(allStockOutDatas(state))
+        setExpanded(false)
     }, [dispatch, searchText, searchDate, searchStatus])
 
     return (

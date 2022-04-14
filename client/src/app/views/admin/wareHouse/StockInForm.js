@@ -1,5 +1,5 @@
-import { Button, Card, Paper, TextField, Grid } from '@mui/material'
-import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
+import { Button, Card, TextField, Grid } from '@mui/material'
+import { Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -46,7 +46,7 @@ function AddStockOutForm() {
         if (stockInDetail.length) {
             setStockOutData(stockInDetail)
         }
-    }, [])
+    }, [stockInDetail])
 
     useEffect(() => {
         dispatch(getAllData())
@@ -84,14 +84,14 @@ function AddStockOutForm() {
         })
     }
     useEffect(() => {
-        if (clearValues == true) {
+        if (clearValues) {
             dispatch(clearValuesWerehouse())
             newVendorInvoice.vendor_name = ''
             newVendorInvoice.stockInNote = ''
             newVendorInvoice.invoiceNumStockIn = ''
             setStockOutData([emptyField])
         }
-    }, [clearValues])
+    }, [dispatch, clearValues])
 
     const handleSubmit = () => {
         const data = {

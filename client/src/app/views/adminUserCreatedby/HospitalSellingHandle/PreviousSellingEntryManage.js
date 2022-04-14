@@ -93,6 +93,7 @@ const PreviousSellingEntryManage = () => {
 
     useEffect(() => {
         dispatch(getAllDataTodaySelling({}))
+        setExpanded(false)
     }, [dispatch])
 
     console.log('todaySellingData', todaySellingData)

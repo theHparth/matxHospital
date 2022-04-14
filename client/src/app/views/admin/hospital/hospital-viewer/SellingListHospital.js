@@ -62,6 +62,7 @@ const PreviousSellingEntryManage = ({ id }) => {
 
     useEffect(() => {
         dispatch(hospitalSellingInfo({ id }))
+        setExpanded(false)
     }, [dispatch])
     return (
         <ContainerTable>
@@ -75,7 +76,7 @@ const PreviousSellingEntryManage = ({ id }) => {
             {hospitalSellingData.length == 0 ? (
                 <h3>No data available</h3>
             ) : (
-                <SimpleCard title="Selling Info.">
+                <SimpleCard>
                     <Box width="100%">
                         <AccordionSummary
                             aria-controls="panel1bh-content"

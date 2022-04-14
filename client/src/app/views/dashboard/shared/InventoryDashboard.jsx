@@ -1,37 +1,8 @@
 import React, { Fragment } from 'react'
-import StatCard5 from './StatCard5'
 import TopSellingTable from './TopSellingTable'
-import InventoryLineChart from './InventoryLineChart'
-import InventoryDoughnutChart from './InventoryDoughnutChart'
-import { Card, Divider, Grid, MenuItem, Select } from '@mui/material'
-import { H5, H4 } from 'app/components/Typography'
-import { Box, styled, useTheme } from '@mui/system'
-
-const StyledCard = styled(Card)(() => ({
-    height: '100%',
-    display: 'flex',
-    padding: '20px',
-    marginBottom: '16px',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-}))
-
-const FlexBox = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-}))
-
-const Heading = styled(H4)(({ theme }) => ({
-    marginBottom: '16px',
-    color: theme.palette.text.secondary,
-}))
+import { Grid } from '@mui/material'
 
 const InventoryDashboard = () => {
-    const { palette } = useTheme()
-    const textError = palette.error.main
-    const textPrimary = palette.primary.main
-
     return (
         <Fragment>
             <Grid container spacing={3}>

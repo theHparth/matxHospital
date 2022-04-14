@@ -1,19 +1,13 @@
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, styled, useTheme } from '@mui/system'
+import { Box, useTheme } from '@mui/system'
 import {
-    Breadcrumb,
     SimpleCard,
-    InvoiceAutoGenerate,
     Heading,
     SecondaryHeading,
-    ThirdHeading,
     ContainerTable,
-    StyledButton,
-    InvoiceDetails,
     StyledTable,
     StockAlert,
 } from 'app/components'
@@ -22,20 +16,15 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Icon,
     TablePagination,
-    IconButton,
 } from '@mui/material'
-import { Link } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 // import
 import { hospitalMinimumTheresold } from 'app/redux/actions/admin/HospitalActions'
 import { useDispatch, useSelector } from 'react-redux'
-import dayjs from 'dayjs'
 const AllStockOutTrueStatus = () => {
     const { palette } = useTheme()
     const bgError = palette.error.main
-    const bgPrimary = palette.primary.main
     const bgSecondary = palette.secondary.main
 
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -62,6 +51,7 @@ const AllStockOutTrueStatus = () => {
 
     useEffect(() => {
         dispatch(hospitalMinimumTheresold())
+        setExpanded(false)
     }, [dispatch])
 
     console.log('minimumThresold', minimumThresold)

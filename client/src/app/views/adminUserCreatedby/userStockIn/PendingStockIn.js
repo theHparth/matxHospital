@@ -82,6 +82,7 @@ const PendingStockIn = () => {
             state.status = true
         }
         dispatch(AllstockInUser(state))
+        setExpanded(false)
     }, [dispatch, privatrRoute])
 
     // for pagination purposes

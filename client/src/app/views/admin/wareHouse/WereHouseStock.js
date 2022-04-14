@@ -14,8 +14,6 @@ import {
     SearchBox,
     DateChoose,
     MyAlert,
-    ExpandedPenal,
-    AccordionComponent,
 } from 'app/components'
 import {
     IconButton,
@@ -109,10 +107,6 @@ const WereHouseStock = () => {
 
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     var state = {}
-    //     dispatch(getAllData(state))
-    // }, [dispatch])
     useEffect(() => {
         var new_dates = []
         if (Array.isArray(searchDate)) {
@@ -122,7 +116,8 @@ const WereHouseStock = () => {
 
         var state = { searchText, new_dates, vendorname }
         dispatch(getAllData(state))
-    }, [dispatch, searchText, searchDate])
+        setExpanded(false)
+    }, [dispatch, searchText, searchDate, vendorname])
 
     if (vendorname) {
         wereHouseStockData = wereHouseStockData.filter((date) => {
@@ -144,8 +139,8 @@ const WereHouseStock = () => {
                 />
                 <DateChoose dateProjection={(state) => setSearchDate(state)} />
             </div>
-            {wereHouseStockData.length == 0 ||
-            wereHouseStockData == undefined ? (
+            {wereHouseStockData.length === 0 ||
+            wereHouseStockData === undefined ? (
                 <h1> No data Found</h1>
             ) : (
                 <SimpleCard>
