@@ -82,8 +82,9 @@ const edit = (state) => async (dispatch) => {
 }
 
 const allStockOutDatas = (state) => async (dispatch) => {
-    const { new_dates, searchText, id, searchStatus } = state
+    const { searchDate, searchText, id, searchStatus } = state
 
+    // let url = '/?searchStatus=false'
     let url = `/?searchStatus=${searchStatus}`
 
     if (id) {
@@ -92,10 +93,14 @@ const allStockOutDatas = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    if (new_dates && new_dates[0] != undefined) {
-        console.log('first search date', new_dates[0])
-        url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
+    if (searchDate && searchDate[0] != undefined) {
+        console.log('first search date', searchDate)
+        url = url + `&startDate=${searchDate[0]}&endDate=${searchDate[1]}`
     }
+    // if (new_dates && new_dates[0] != undefined) {
+    //     console.log('first search date', new_dates[0])
+    //     url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
+    // }
 
     try {
         const { data } = await authFetch.get(url)

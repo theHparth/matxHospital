@@ -129,24 +129,80 @@ const getAllSendStockUser = async (req, res) => {
     req.query;
   const queryObject = {
     createdBy: req.user.userId,
-    status: searchStatus,
+    // status: searchStatus,
   };
-  if (hospitalId) {
-    queryObject.createdFor = hospitalId;
+  // if (hospitalId) {
+  //   queryObject.createdFor = hospitalId;
+  // }
+  var new_dates = [];
+
+  let months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  var dddd = [];
+  console.log(startDate, endDate, "-------------------");
+  function aaa(d) {
+    var str = d.split(" ");
+    var mon = ("0" + (months.indexOf(str[1]) + 1)).slice(-2);
+    new_dates.push(str[3] + "-" + mon + "-" + str[2]);
+    // dddd.push([[parseInt(str[3])][parseInt(mon)][parseInt(str[2])]]);
   }
-  // if (Array.isArray(searchDate)) {
   if (startDate) {
-    queryObject.createdAt = { $gte: startDate };
-    queryObject.createdAt = { $lte: endDate };
+    aaa(startDate);
+    aaa(endDate);
   }
+  if (startDate) {
+    dddd.push(parseInt(new_dates[0].substring(0, 4)));
+    dddd.push(parseInt(new_dates[0].substring(5, 7)));
+    dddd.push(parseInt(new_dates[0].substring(8, 10)));
+    dddd.push(parseInt(new_dates[1].substring(0, 4)));
+    dddd.push(parseInt(new_dates[1].substring(5, 7)));
+    dddd.push(parseInt(new_dates[1].substring(8, 10)));
+  }
+  // console.log(
+  //   typeof parseInt(new_dates[0].substring(0, 4)),
+  //   "new_dates convertd date",
+  //   dddd
+  // );
+  console.log(dddd, "nddddddddddddddddddddddddddddew_dates convertd date");
+  // if (Array.isArray(searchDate)) {
+  // if (startDate && new_dates[0] == new_dates[1]) {
+  //   // console.log("1=================");
+  //   queryObject.updatedAt = new Date(dddd[0], dddd[1], dddd[2]);
+  // } else
+  if (startDate) {
+    // console.log("2=================");
+    // $gte: new Date(2012, 7, 14),
+    //     $lt: new Date(2012, 7, 15)
+    queryObject.createdAt = { $gte: new_dates[0] };
+    queryObject.createdAt = { $lt: new_dates[1] };
+    // queryObject.updatedAt = { $gte: new Date(dddd[0], dddd[1], dddd[2]) };
+    // queryObject.updatedAt = { $lt: new Date(dddd[3], dddd[4], dddd[5]) };
+  }
+  // if (endDate) {
+  // }
 
   let result;
 
-  result = await filterResult(queryObject, searchText);
+  // result = await filterResult(queryObject, searchText);
+  result = await filterResult(queryObject);
 
   result = result.reverse();
-
-  // result = result.sort("-createdAt");
+  // if (result) {
+  //   result = result.sort("-createdAt");
+  // }
 
   const allStockOutData = result;
 

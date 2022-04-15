@@ -40,7 +40,7 @@ const filterDataCalculation = async (req, res) => {
   result = await UserStock.aggregate([
     {
       $project: {
-        createdFor: 1,
+        hospitalName: 1,
         stockOutDetail: 1,
         createdAt: {
           $substr: ["$createdAt", 0, 10],
@@ -65,7 +65,7 @@ const filterDataCalculation = async (req, res) => {
     {
       $group: {
         _id: {
-          for: "$createdFor",
+          hospitalName: "$hospitalName",
           name: "$stockOutDetail.stock_name",
         },
         summ: {
@@ -80,7 +80,7 @@ const filterDataCalculation = async (req, res) => {
     },
     {
       $group: {
-        _id: "$_id.for",
+        _id: "$_id.hospitalName",
         stockInfo: {
           $push: {
             itemName: "$_id.name",

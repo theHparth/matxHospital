@@ -73,7 +73,7 @@ const AllStockOutTrueStatus = ({ id }) => {
     let [searchDate, setSearchDate] = React.useState({})
 
     // for pagination purposes
-    const [rowsPerPage, setRowsPerPage] = React.useState(10)
+    const [rowsPerPage, setRowsPerPage] = React.useState(25)
     const [page, setPage] = React.useState(0)
 
     const handleChangePage = (event, newPage) => {
@@ -109,13 +109,13 @@ const AllStockOutTrueStatus = ({ id }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        var new_dates = []
-        if (Array.isArray(searchDate)) {
-            new_dates.push(dayjs(searchDate[0]).format('YYYY-MM-DD'))
-            new_dates.push(dayjs(searchDate[1]).format('YYYY-MM-DD'))
-        }
+        // var new_dates = []
+        // if (Array.isArray(searchDate)) {
+        //     new_dates.push(dayjs(searchDate[0]).format('YYYY-MM-DD'))
+        //     new_dates.push(dayjs(searchDate[1]).format('YYYY-MM-DD'))
+        // }
 
-        var state = { searchText, new_dates, id, searchStatus }
+        var state = { searchText, searchDate, id, searchStatus }
         dispatch(allStockOutDatas(state))
         setExpanded(false)
     }, [dispatch, searchText, searchDate, searchStatus])
