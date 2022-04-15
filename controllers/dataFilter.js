@@ -1,22 +1,41 @@
 import UserStock from "../models/User/stockOut.js";
+import { StatusCodes } from "http-status-codes";
 
-const filterDataCalculation = async () => {
-  var { getQtyByStockName, searchDate, getStockByHospitalName } = req.body;
-  // console.log("in filter page", searchDate);
+const filterDataCalculation = async (req, res) => {
+  // var { getQtyByStockName, searchDate, getStockByHospitalName } = req.body;
+  var { sDate, eDate, getStockByHospitalName, getQtyByStockName } = req.query;
+
   var result;
-  // if (Array.isArray(searchDate)) {
-  console.log("searchDate in backend", searchDate);
-  var date = [searchDate[0], searchDate[1]];
-  //  [ '2022-04-05T23:29:56.162Z', '2022-04-14T23:29:56.162Z' ]
 
   var new_dates = [];
 
-  date.forEach((d) => {
-    var yyyy = d.substring(0, 4);
-    var mm = d.substring(5, 7);
-    var dd = d.substring(8, 10);
-    new_dates.push(yyyy + "-" + mm + "-" + dd);
-  });
+  let months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  new_dates = [];
+
+  function aaa(d) {
+    var str = d.split(" ");
+    var mon = ("0" + (months.indexOf(str[1]) + 1)).slice(-2);
+    new_dates.push(str[3] + "-" + mon + "-" + str[2]);
+  }
+  if (sDate) {
+    aaa(sDate);
+    aaa(eDate);
+  }
+
   console.log(new_dates, "new_dates");
   result = await UserStock.aggregate([
     {
@@ -34,10 +53,6 @@ const filterDataCalculation = async () => {
           {
             createdAt: {
               $gte: new_dates[0],
-            },
-          },
-          {
-            createdAt: {
               $lte: new_dates[1],
             },
           },
@@ -56,8 +71,8 @@ const filterDataCalculation = async () => {
         summ: {
           $sum: {
             $multiply: [
-              "$stockOutDetail.totalBox",
-              "$stockOutDetail.totalQtyInOneBox",
+              { $toInt: "$stockOutDetail.totalBox" },
+              { $toInt: "$stockOutDetail.totalQtyInOneBox" },
             ],
           },
         },
@@ -93,8 +108,8 @@ const filterDataCalculation = async () => {
           "total Qty": {
             $sum: {
               $multiply: [
-                "$stockOutDetail.totalQtyInOneBox",
-                "$stockOutDetail.totalBox",
+                { $toInt: "$stockOutDetail.totalBox" },
+                { $toInt: "$stockOutDetail.totalQtyInOneBox" },
               ],
             },
           },
@@ -112,8 +127,8 @@ const filterDataCalculation = async () => {
           "total Qty": {
             $sum: {
               $multiply: [
-                "$stockOutDetail.totalQtyInOneBox",
-                "$stockOutDetail.totalBox",
+                { $toInt: "$stockOutDetail.totalBox" },
+                { $toInt: "$stockOutDetail.totalQtyInOneBox" },
               ],
             },
           },
@@ -121,7 +136,9 @@ const filterDataCalculation = async () => {
       },
     ]);
   }
-
+  if (!result) {
+    result = "no Data";
+  }
   // }
   res.status(StatusCodes.OK).json({ result });
 };

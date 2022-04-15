@@ -218,8 +218,9 @@ const CustomerList = () => {
                         data={vendorData}
                         columns={columns}
                         options={{
-                            filterType: 'checkbox',
-                            responsive: 'standard',
+                            filterType: 'textField',
+                            responsive: 'simple',
+                            selectableRows: 'none',
                             // filter: true,
                             // sort: true,
                             // selectableRows: "none", // set checkbox for each row
@@ -229,7 +230,7 @@ const CustomerList = () => {
                             // print: false, // set print option
                             // pagination: true, //set pagination option
                             // viewColumns: false, // set column option
-                            elevation: 1,
+                            elevation: 0,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             customSearchRender: (
                                 searchText,

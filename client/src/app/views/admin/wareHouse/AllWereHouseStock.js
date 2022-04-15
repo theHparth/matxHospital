@@ -109,6 +109,7 @@ const WereHouseStock = () => {
 
     useEffect(() => {
         var new_dates = []
+        console.log(searchDate)
         if (Array.isArray(searchDate)) {
             new_dates.push(dayjs(searchDate[0]).format('YYYY-MM-DD'))
             new_dates.push(dayjs(searchDate[1]).format('YYYY-MM-DD'))
@@ -124,6 +125,7 @@ const WereHouseStock = () => {
             return date.vendor_name.toLowerCase() === vendorname.toLowerCase()
         })
     }
+
     return (
         <ContainerTable>
             <div className="breadcrumb">

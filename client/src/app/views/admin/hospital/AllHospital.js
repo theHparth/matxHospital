@@ -229,6 +229,9 @@ const CustomerList = () => {
                         data={hospitalsData}
                         columns={columns}
                         options={{
+                            filterType: 'textField',
+                            responsive: 'simple',
+                            selectableRows: 'none',
                             // filterType: 'checkbox',
                             // responsive: 'standard',
 
@@ -242,7 +245,7 @@ const CustomerList = () => {
                             // pagination: true, //set pagination option
                             // viewColumns: false, // set column option
 
-                            // elevation: 1,
+                            elevation: 0,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             customSearchRender: (
                                 searchText,

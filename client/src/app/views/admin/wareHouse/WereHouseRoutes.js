@@ -7,7 +7,7 @@ import Loadable from 'app/components/Loadable/Loadable'
 
 const AddStockOutForm = Loadable(lazy(() => import('./StockInForm')))
 
-const WereHouseStock = Loadable(lazy(() => import('./WereHouseStock')))
+const WereHouseStock = Loadable(lazy(() => import('./AllWereHouseStock')))
 
 const wereHouseRoutes = [
     {
