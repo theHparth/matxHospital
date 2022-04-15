@@ -119,7 +119,7 @@ const AllStockOutTrueStatus = ({ id }) => {
         dispatch(allStockOutDatas(state))
         setExpanded(false)
     }, [dispatch, searchText, searchDate, searchStatus])
-
+    console.log('allStockOutData', allStockOutData)
     return (
         <ContainerTable>
             <div className="breadcrumb">
@@ -136,196 +136,210 @@ const AllStockOutTrueStatus = ({ id }) => {
                 />
                 <DateChoose dateProjection={(state) => setSearchDate(state)} />
             </div>
-
-            <SimpleCard title="Stock out data">
-                <Box width="100%">
-                    <AccordionSummary
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                    >
-                        <Heading>Invoice No</Heading>
-                        <SecondaryHeading>Hospital Name</SecondaryHeading>
-                        <ThirdHeading>Date</ThirdHeading>
-                    </AccordionSummary>
-                    {/* data print start from here*/}
-                    {allStockOutData
-                        .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                        )
-                        .map((subscriber, index) => (
-                            <Accordion
-                                expanded={expanded === `panel${index}`}
-                                onChange={handleChange(`panel${index}`)}
-                                key={index}
-                            >
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel2bh-content"
-                                    id="panel2bh-header"
+            {allStockOutData.length == 0 ? (
+                <h3>No data found</h3>
+            ) : (
+                <SimpleCard title="Stock out data">
+                    <Box width="100%">
+                        <AccordionSummary
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                        >
+                            <Heading>Invoice No</Heading>
+                            <SecondaryHeading>Hospital Name</SecondaryHeading>
+                            <ThirdHeading>Date</ThirdHeading>
+                        </AccordionSummary>
+                        {/* data print start from here*/}
+                        {allStockOutData
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
+                            .map((subscriber, index) => (
+                                <Accordion
+                                    expanded={expanded === `panel${index}`}
+                                    onChange={handleChange(`panel${index}`)}
+                                    key={index}
                                 >
-                                    <Heading>{subscriber.invoiceNum}</Heading>
-                                    <SecondaryHeading>
-                                        {subscriber.hospitalName}
-                                    </SecondaryHeading>
-                                    <ThirdHeading>
-                                        {moment(subscriber.createdAt).format(
-                                            'MMM Do, YYYY'
-                                        )}
-                                    </ThirdHeading>
-                                </AccordionSummary>
-                                <AccordionDetails
-                                    style={{ backgroundColor: '#F5F5F5' }}
-                                >
-                                    <StyledTable>
-                                        <TableHead
-                                            style={{
-                                                backgroundColor: '#EBF5FB',
-                                            }}
-                                        >
-                                            <TableRow>
-                                                <TableCell>
-                                                    Stock Name
-                                                </TableCell>
-                                                <TableCell>Total Qty</TableCell>
-                                                <TableCell>Price</TableCell>
-                                                {/* {subscriber.messageForHospital && (
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel2bh-content"
+                                        id="panel2bh-header"
+                                    >
+                                        <Heading>
+                                            {subscriber.invoiceNum}
+                                        </Heading>
+                                        <SecondaryHeading>
+                                            {subscriber.hospitalName}
+                                        </SecondaryHeading>
+                                        <ThirdHeading>
+                                            {/* {moment(subscriber.createdAt).format(
+                                            'MM-DD-YYYY'
+                                        )} */}
+                                            {subscriber.createdAt &&
+                                                subscriber.createdAt.substring(
+                                                    0,
+                                                    10
+                                                )}
+                                        </ThirdHeading>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                        style={{ backgroundColor: '#F5F5F5' }}
+                                    >
+                                        <StyledTable>
+                                            <TableHead
+                                                style={{
+                                                    backgroundColor: '#EBF5FB',
+                                                }}
+                                            >
+                                                <TableRow>
+                                                    <TableCell>
+                                                        Stock Name
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        Total Qty
+                                                    </TableCell>
+                                                    <TableCell>Price</TableCell>
+                                                    {/* {subscriber.messageForHospital && (
                                                     <TableCell>Note</TableCell>
                                                 )} */}
 
-                                                <TableCell align="right">
-                                                    {privatrRoute && (
-                                                        <>
-                                                            <Button
-                                                                variant="outlined"
-                                                                color="success"
-                                                                onClick={() =>
-                                                                    dispatch(
-                                                                        setEditData(
-                                                                            subscriber
+                                                    <TableCell align="right">
+                                                        {privatrRoute && (
+                                                            <>
+                                                                <Button
+                                                                    variant="outlined"
+                                                                    color="success"
+                                                                    onClick={() =>
+                                                                        dispatch(
+                                                                            setEditData(
+                                                                                subscriber
+                                                                            )
                                                                         )
-                                                                    )
-                                                                }
-                                                            >
-                                                                <Link
-                                                                    to={`/stockOutForm`}
+                                                                    }
                                                                 >
-                                                                    Edit
-                                                                </Link>
-                                                            </Button>
-                                                            {/* <TableCell></TableCell> */}
-                                                            <Button
-                                                                variant="contained"
-                                                                color="error"
-                                                                onClick={() =>
-                                                                    handleDeleteUser(
-                                                                        subscriber._id
-                                                                    )
+                                                                    <Link
+                                                                        to={`/stockOutForm`}
+                                                                    >
+                                                                        Edit
+                                                                    </Link>
+                                                                </Button>
+                                                                {/* <TableCell></TableCell> */}
+                                                                <Button
+                                                                    variant="contained"
+                                                                    color="error"
+                                                                    onClick={() =>
+                                                                        handleDeleteUser(
+                                                                            subscriber._id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    Delete
+                                                                </Button>
+                                                            </>
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                setShouldOpenEditorDialog(
+                                                                    true
+                                                                )
+                                                                setInfo(
+                                                                    subscriber
+                                                                )
+                                                            }}
+                                                        >
+                                                            <Icon color="primary">
+                                                                print
+                                                            </Icon>
+                                                            {/* Print */}
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {subscriber.stockOutDetail.map(
+                                                    (subscriber, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>
+                                                                {
+                                                                    subscriber.stock_name
                                                                 }
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                        </>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <Button
-                                                        variant="outlined"
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            setShouldOpenEditorDialog(
-                                                                true
-                                                            )
-                                                            setInfo(subscriber)
-                                                        }}
-                                                    >
-                                                        <Icon color="primary">
-                                                            print
-                                                        </Icon>
-                                                        {/* Print */}
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {subscriber.stockOutDetail.map(
-                                                (subscriber, index) => (
-                                                    <TableRow key={index}>
-                                                        <TableCell>
-                                                            {
-                                                                subscriber.stock_name
-                                                            }
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {subscriber.totalBox *
-                                                                subscriber.totalQtyInOneBox}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            ${' '}
-                                                            {subscriber.price
-                                                                ? subscriber.price
-                                                                : 0}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                )
-                                            )}
-                                            {subscriber.messageForHospital && (
-                                                <TableCell>
-                                                    Note :{' '}
-                                                    {
-                                                        subscriber.messageForHospital
-                                                    }
-                                                </TableCell>
-                                            )}
-                                        </TableBody>
-                                    </StyledTable>
-                                </AccordionDetails>
-                            </Accordion>
-                        ))}
-                    {shouldOpenConfirmationDialog && (
-                        <ConfirmationDialog
-                            open={shouldOpenConfirmationDialog}
-                            onConfirmDialogClose={handleDialogClose}
-                            onYesClick={handleConfirmationResponse}
-                            text="Are you sure to delete?"
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {subscriber.totalBox *
+                                                                    subscriber.totalQtyInOneBox}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                ${' '}
+                                                                {subscriber.price
+                                                                    ? subscriber.price
+                                                                    : 0}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    )
+                                                )}
+                                                {subscriber.messageForHospital && (
+                                                    <TableCell>
+                                                        Note :{' '}
+                                                        {
+                                                            subscriber.messageForHospital
+                                                        }
+                                                    </TableCell>
+                                                )}
+                                            </TableBody>
+                                        </StyledTable>
+                                    </AccordionDetails>
+                                </Accordion>
+                            ))}
+                        {shouldOpenConfirmationDialog && (
+                            <ConfirmationDialog
+                                open={shouldOpenConfirmationDialog}
+                                onConfirmDialogClose={handleDialogClose}
+                                onYesClick={handleConfirmationResponse}
+                                text="Are you sure to delete?"
+                            />
+                        )}
+                        {shouldOpenEditorDialog && (
+                            <InvoiceDetails
+                                handleClose={handleDialogClose}
+                                open={shouldOpenEditorDialog}
+                                invoiceInfo={info}
+                            />
+                        )}
+                        <TablePagination
+                            sx={{ px: 2 }}
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={allStockOutData.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            backIconButtonProps={{
+                                'aria-label': 'Previous Page',
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'Next Page',
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                         />
-                    )}
-                    {shouldOpenEditorDialog && (
-                        <InvoiceDetails
-                            handleClose={handleDialogClose}
-                            open={shouldOpenEditorDialog}
-                            invoiceInfo={info}
-                        />
-                    )}
-                    <TablePagination
-                        sx={{ px: 2 }}
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={allStockOutData.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                    {showAlert ? (
-                        <MyAlert
-                            isOpen={showAlert}
-                            typeSeverity={alertType}
-                            alrtTextToShow={
-                                privatrRoute
-                                    ? 'Stock activated successfully'
-                                    : alertText
-                            }
-                        />
-                    ) : null}
-                </Box>
-            </SimpleCard>
+                        {showAlert ? (
+                            <MyAlert
+                                isOpen={showAlert}
+                                typeSeverity={alertType}
+                                alrtTextToShow={
+                                    privatrRoute
+                                        ? 'Stock activated successfully'
+                                        : alertText
+                                }
+                            />
+                        ) : null}
+                    </Box>
+                </SimpleCard>
+            )}
         </ContainerTable>
     )
 }
