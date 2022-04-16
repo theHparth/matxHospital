@@ -29,7 +29,7 @@ import vendorRoutes from 'app/views/admin/vendor/VendorRoutes'
 import stockRoutes from 'app/views/admin/stock/StockRoutes'
 import wereHouseRoutes from 'app/views/admin/wareHouse/WereHouseRoutes'
 import stockOutRoutes from 'app/views/admin/stockOut/StockOutRoutes'
-
+import filterRoutes from 'app/views/admin/filter/FilterRouter'
 // hospital routes
 import HospitalSellingHandleRoutes from 'app/views/adminUserCreatedby/HospitalSellingHandle/HospitalSellingHandleRoutes'
 import userDashboardRoutes from 'app/views/adminUserCreatedby/userDashboard/DashboardRoutes'
@@ -68,6 +68,7 @@ export const AllPages = () => {
                       ...stockRoutes,
                       ...wereHouseRoutes,
                       ...stockOutRoutes,
+                      ...filterRoutes,
                       // admin completed
                       ...calendarRoutes,
                       ...chartsRoute,

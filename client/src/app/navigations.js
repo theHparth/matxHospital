@@ -63,7 +63,16 @@ export const navigations = [
             },
         ],
     },
+    {
+        name: 'Filter',
+        path: '/filterdata',
+        icon: 'analytics',
+    },
     // parth complete
+    {
+        label: 'Pages',
+        type: 'label',
+    },
     {
         name: 'Analytics',
         path: '/dashboard/analytics',
@@ -79,10 +88,6 @@ export const navigations = [
         name: 'Inventory Management',
         path: '/dashboard/inventory-management',
         icon: 'store',
-    },
-    {
-        label: 'Pages',
-        type: 'label',
     },
 
     {

@@ -10,6 +10,7 @@ import VendorReducer from './admin/VendorReducer'
 import StockReducer from './admin/StockReducer'
 import WareHouseReducer from './admin/WareHouseReducer'
 import StockOutReducer from './admin/StockOutReducer'
+import filterDataReducer from './admin/filterReducer'
 
 // for hospitals created by admin
 import StockInUserReducer from './userCreatedByAdmin/StockInUserReducer'
@@ -26,6 +27,7 @@ const RootReducer = combineReducers({
     stockList: StockReducer,
     wareHouseStockList: WareHouseReducer,
     stockOutList: StockOutReducer,
+    filterList: filterDataReducer,
 
     //for hospital
     stockInUserList: StockInUserReducer,

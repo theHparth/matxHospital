@@ -3,7 +3,8 @@ import { StatusCodes } from "http-status-codes";
 
 const filterDataCalculation = async (req, res) => {
   // var { getQtyByStockName, searchDate, getStockByHospitalName } = req.body;
-  var { sDate, eDate, getStockByHospitalName, getQtyByStockName } = req.query;
+  var { startDate, endDate, getStockByHospitalName, getQtyByStockName } =
+    req.query;
 
   var result;
 
@@ -31,9 +32,9 @@ const filterDataCalculation = async (req, res) => {
     var mon = ("0" + (months.indexOf(str[1]) + 1)).slice(-2);
     new_dates.push(str[3] + "-" + mon + "-" + str[2]);
   }
-  if (sDate) {
-    aaa(sDate);
-    aaa(eDate);
+  if (startDate) {
+    aaa(startDate);
+    aaa(endDate);
   }
 
   console.log(new_dates, "new_dates");
@@ -139,8 +140,9 @@ const filterDataCalculation = async (req, res) => {
   if (!result) {
     result = "no Data";
   }
+  var filterDataBack = result;
   // }
-  res.status(StatusCodes.OK).json({ result });
+  res.status(StatusCodes.OK).json({ filterDataBack });
 };
 
 export { filterDataCalculation };
