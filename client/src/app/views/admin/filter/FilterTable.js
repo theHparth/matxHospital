@@ -43,7 +43,13 @@ const AllStock = () => {
         console.log(searchDate)
         var state = { searchText, searchDate }
         dispatch(getallFilteredData(state))
-    }, [searchText, searchDate])
+    }, [searchDate, searchText])
+
+    // useEffect(() => {
+    //     filteredData = filteredData.filter((hospi) => {
+    //         return hospi._id == searchText
+    //     })
+    // }, [searchText])
 
     const [rowsPerPage, setRowsPerPage] = React.useState(100)
     const [page, setPage] = React.useState(0)

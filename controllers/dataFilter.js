@@ -3,11 +3,18 @@ import { StatusCodes } from "http-status-codes";
 
 const filterDataCalculation = async (req, res) => {
   // var { getQtyByStockName, searchDate, getStockByHospitalName } = req.body;
-  var { startDate, endDate, getStockByHospitalName, getQtyByStockName } =
-    req.query;
+  var {
+    startDate,
+    endDate,
+    searchText,
+    getStockByHospitalName,
+    getQtyByStockName,
+  } = req.query;
 
   var result;
-
+  if (!searchText) {
+    searchText = "";
+  }
   var new_dates = [];
 
   let months = [
@@ -57,6 +64,7 @@ const filterDataCalculation = async (req, res) => {
               $lte: new_dates[1],
             },
           },
+          { hospitalName: { $regex: searchText, $options: "i" } },
         ],
       },
     },
@@ -140,6 +148,12 @@ const filterDataCalculation = async (req, res) => {
   if (!result) {
     result = "no Data";
   }
+  // if (searchText) {
+  //   result = result.filter((data) => {
+  //     return data._id == searchText;
+  //   });
+  // }
+
   var filterDataBack = result;
   // }
   res.status(StatusCodes.OK).json({ filterDataBack });
