@@ -1,13 +1,11 @@
 import axios from 'axios'
 
-export const CREATE_BEGIN = 'CREATE_BEGIN'
 export const CREATE_SUCCESS = 'CREATE_SUCCESS'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
 export const GET_SUCCESS_TODAY_SELLING = 'GET_SUCCESS_TODAY_SELLING'
 export const SET_EDIT = 'SET_EDIT'
-export const DELETE_BEGIN = 'DELETE_BEGIN'
-export const EDIT_BEGIN = 'EDIT_BEGIN'
+
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
 export const DELETE_STOCKSELIING_SUCCESS = 'DELETE_STOCKSELIING_SUCCESS'
@@ -26,6 +24,10 @@ const authFetch = axios.create({
 })
 
 const add = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         let { todaySellingData } = state
         // price = priceType === 'individualPrice' ? price * box * qty : price
@@ -45,6 +47,10 @@ const add = (state) => async (dispatch) => {
 
 const getAllDataTodaySelling = (state) => async (dispatch) => {
     var { searchText } = state
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { data } = await authFetch.get('/todaySellingHospital')
         const { stockListTodaySelling } = data
@@ -66,6 +72,10 @@ const setEditData = (subscriber) => (dispatch) => {
 }
 
 const edit = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { todaySellingData, id } = state
         await authFetch.patch(`/${id}`, {
@@ -84,7 +94,10 @@ const edit = (state) => async (dispatch) => {
 
 // delete the
 const deleteData = (id) => async (dispatch) => {
-    dispatch({ type: DELETE_BEGIN })
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     // const { logout } = useAuth()
     try {
         await authFetch.delete(`/${id}`)

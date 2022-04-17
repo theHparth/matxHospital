@@ -1,4 +1,5 @@
 import {
+    GET_BEGIN,
     CLEAR_VALUES,
     CREATE_HOSPITAL_BEGIN,
     CREATE_HOSPITAL_SUCCESS,
@@ -48,9 +49,14 @@ const initialState = {
 }
 const HospitalReducer = function (state = initialState, action) {
     switch (action.type) {
+        case GET_BEGIN: {
+            return { ...state, isLoading: true, showAlert: false }
+        }
+
         case GET_HOSPITAL_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
                 hospitalsData: action.payload.hospitals,
                 IhospitalName: action.payload.hospitals[0].hospitalName,
                 Iaddress: action.payload.hospitals[0].address,
@@ -63,6 +69,7 @@ const HospitalReducer = function (state = initialState, action) {
         case GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
                 hospitalIndividualStockData:
                     action.payload.hospitalPresentStock,
             }
@@ -70,17 +77,16 @@ const HospitalReducer = function (state = initialState, action) {
         case GET_HOSPITAL_MINIMUM_THRESOLD: {
             return {
                 ...state,
+                isLoading: false,
                 minimumThresold: action.payload.minimumThresoldData,
             }
         }
         case GET_HOSPITAL_SELLING_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
                 hospitalSellingData: action.payload.hospitalSelling,
             }
-        }
-        case CREATE_HOSPITAL_BEGIN: {
-            return { ...state, isLoading: true }
         }
 
         case CREATE_HOSPITAL_SUCCESS: {
@@ -103,13 +109,6 @@ const HospitalReducer = function (state = initialState, action) {
             }
         }
 
-        case EDIT_HOSPITAL_BEGIN: {
-            return {
-                ...state,
-                isLoading: true,
-                isEditing: true,
-            }
-        }
         // edit hospital
         case EDIT_HOSPITAL_SUCCESS: {
             return {

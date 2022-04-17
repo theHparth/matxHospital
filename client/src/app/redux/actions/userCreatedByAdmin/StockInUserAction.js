@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-export const CREATE_BEGIN = 'CREATE_BEGIN'
 export const CREATE_SUCCESS = 'CREATE_SUCCESS'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
@@ -12,8 +11,6 @@ export const SET_EDIT = 'SET_EDIT'
 export const SET_EDIT_MINIMUM_LIMIT = 'SET_EDIT_MINIMUM_LIMIT'
 export const GET_SUCCESS_PRESENT_STOCK = 'GET_SUCCESS_PRESENT_STOCK'
 export const STATUS_EDIT_SUCCESS = 'STATUS_EDIT_SUCCESS'
-export const DELETE_BEGIN = 'DELETE_BEGIN'
-export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS = 'EDIT_SUCCESS'
 export const EDIT_ERROR = 'EDIT_ERROR'
 export const EDIT_MINIMUM_SUCCESS = 'EDIT_MINIMUM_SUCCESS'
@@ -34,6 +31,10 @@ const authFetch = axios.create({
 const getAllDataStatusTrue = (state) => async (dispatch) => {
     let url = '/trueUser'
 
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { data } = await authFetch.get(url)
         const { stockInDataTrueStatus } = data
@@ -52,6 +53,10 @@ const AllstockInUser = (state) => async (dispatch) => {
     const { status } = state
     var url = `/stockInUser?status=${status}`
 
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { data } = await authFetch.get(url)
         const { stockInUser } = data
@@ -67,6 +72,10 @@ const AllstockInUser = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 const inStockUser = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { data } = await authFetch.get('/totalStocks')
         const { presentStockUser } = data
@@ -87,6 +96,10 @@ const setEditMinimumLimit = (subscriber) => (dispatch) => {
 }
 
 const inStockMinimumChange = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { minimumLimit, id } = state
         await authFetch.patch(`/totalStocks/${id}`, {
@@ -105,6 +118,9 @@ const inStockMinimumChange = (state) => async (dispatch) => {
     dispatch(clearAlert())
 }
 const statusChange = (id) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         // const { id } = state
         await authFetch.patch(`/status/${id}`, {

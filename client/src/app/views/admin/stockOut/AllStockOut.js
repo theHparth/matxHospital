@@ -17,6 +17,7 @@ import {
     DateChoose,
     InvoiceDetails,
     MyAlert,
+    LodingShow,
 } from 'app/components'
 import {
     TableHead,
@@ -104,17 +105,16 @@ const AllStockOutTrueStatus = ({ id }) => {
         showAlert,
         alertType,
         alertText,
+        isLoading,
     } = useSelector((state) => state.stockOutList)
-
+    // isLoading = true
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        // var new_dates = []
-        // if (Array.isArray(searchDate)) {
-        //     new_dates.push(dayjs(searchDate[0]).format('YYYY-MM-DD'))
-        //     new_dates.push(dayjs(searchDate[1]).format('YYYY-MM-DD'))
-        // }
+    // useEffect(() => {
+    //     setSearchDate({})
+    // }, [privatrRoute])
 
+    useEffect(() => {
         var state = { searchText, searchDate, id, searchStatus }
         dispatch(allStockOutDatas(state))
         setExpanded(false)
@@ -134,8 +134,12 @@ const AllStockOutTrueStatus = ({ id }) => {
                     onSearch={handleChangeSearch}
                     onSearchValueChange={searchText}
                 />
-                <DateChoose dateProjection={(state) => setSearchDate(state)} />
+                <DateChoose
+                    dateProjection={(state) => setSearchDate(state)}
+                    onSearchDate={searchDate}
+                />
             </div>
+            {isLoading && <LodingShow />}
             {allStockOutData.length == 0 ? (
                 <h3>No data found</h3>
             ) : (

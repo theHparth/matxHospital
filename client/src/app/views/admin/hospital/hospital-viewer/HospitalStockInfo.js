@@ -6,6 +6,7 @@ import {
     StyledTable,
     StockAlert,
     SearchBox,
+    LodingShow,
 } from 'app/components'
 import {
     IconButton,
@@ -37,7 +38,7 @@ const HospitalStockInfo = ({ id }) => {
     }
 
     // const { id } = useParams()
-    const { hospitalIndividualStockData = [] } = useSelector(
+    const { hospitalIndividualStockData = [], isLoading } = useSelector(
         (state) => state.hospitalList
     )
     const dispatch = useDispatch()
@@ -64,6 +65,8 @@ const HospitalStockInfo = ({ id }) => {
                 onSearch={handleChangeSearch}
                 onSearchValueChange={searchText}
             />
+            {isLoading && <LodingShow />}
+
             <Box width="100%" overflow="auto">
                 <StyledTable>
                     <TableHead>

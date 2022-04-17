@@ -49,11 +49,8 @@ const WareHouseReducer = function (state = initialState, action) {
             return {
                 ...state,
                 wereHouseStockData: action.payload.stockList,
+                isLoading: false,
             }
-        }
-
-        case CREATE_BEGIN: {
-            return { ...state, isLoading: true }
         }
 
         case CREATE_SUCCESS: {
@@ -76,13 +73,6 @@ const WareHouseReducer = function (state = initialState, action) {
             }
         }
 
-        case EDIT_BEGIN: {
-            return {
-                ...state,
-                isLoading: true,
-                isEditing: true,
-            }
-        }
         // edit VENDOR
         case EDIT_SUCCESS_STOCKIN: {
             return {

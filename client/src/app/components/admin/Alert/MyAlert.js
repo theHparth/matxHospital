@@ -1,4 +1,4 @@
-import { Snackbar, Alert } from '@mui/material'
+import { Snackbar, Alert, LinearProgress } from '@mui/material'
 
 const MyAlert = ({ isOpen, typeSeverity, alrtTextToShow }) => (
     <Snackbar
@@ -18,4 +18,15 @@ const MyAlert = ({ isOpen, typeSeverity, alrtTextToShow }) => (
     </Snackbar>
 )
 
-export { MyAlert }
+const LodingShow = () => {
+    return (
+        <div>
+            {' '}
+            <LinearProgress />
+            <br />
+            <LinearProgress color="secondary" />
+        </div>
+    )
+}
+
+export { MyAlert, LodingShow }

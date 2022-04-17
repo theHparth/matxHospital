@@ -1,5 +1,4 @@
 import {
-    CREATE_BEGIN,
     CREATE_SUCCESS_STOCK,
     CREATE_ERROR,
     GET_BEGIN,
@@ -42,11 +41,9 @@ const StockReducer = function (state = initialState, action) {
         case GET_SUCCESS_STOCK: {
             return {
                 ...state,
+                isLoading: false,
                 stockData: action.payload.stockList,
             }
-        }
-        case CREATE_BEGIN: {
-            return { ...state, isLoading: true }
         }
 
         case CREATE_SUCCESS_STOCK: {
@@ -69,13 +66,6 @@ const StockReducer = function (state = initialState, action) {
             }
         }
 
-        case EDIT_BEGIN: {
-            return {
-                ...state,
-                isLoading: true,
-                isEditing: true,
-            }
-        }
         // edit VENDOR
         case EDIT_SUCCESS_STOCK: {
             return {

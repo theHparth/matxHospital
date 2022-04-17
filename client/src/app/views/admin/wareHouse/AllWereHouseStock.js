@@ -14,6 +14,7 @@ import {
     SearchBox,
     DateChoose,
     MyAlert,
+    LodingShow,
 } from 'app/components'
 import {
     IconButton,
@@ -141,6 +142,8 @@ const WereHouseStock = () => {
                 />
                 <DateChoose dateProjection={(state) => setSearchDate(state)} />
             </div>
+            {isLoading && <LodingShow />}
+
             {wereHouseStockData.length === 0 ||
             wereHouseStockData === undefined ? (
                 <h1> No data Found</h1>

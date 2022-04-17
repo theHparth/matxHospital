@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export const GET_FILTER_BEGIN = 'GET_FILTER_BEGIN'
 export const GET_FILTER_SUCCESS = 'GET_FILTER_SUCCESS'
 export const CLEAR_VALUES_STOCKOUT = 'CLEAR_VALUES_STOCKOUT'
 export const CLEAR_STOCK_ALERT = 'CLEAR_STOCK_ALERT'
+export const GET_BEGIN = 'GET_BEGIN'
 
 const authFetch = axios.create({
     baseURL: '/api/v1/stockOut',
@@ -14,7 +14,7 @@ const authFetch = axios.create({
 })
 
 const getallFilteredData = (state) => async (dispatch) => {
-    const { searchDate, hospitalName, searchText } = state
+    const { searchDate, hospitalName, searchText, searchStock } = state
     console.log('in action ', searchDate)
     // let url = '/?searchStatus=false'
     let url = '/filterDataCalculation/?all=all'
@@ -26,13 +26,16 @@ const getallFilteredData = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
+    if (searchStock) {
+        url = url + `&searchStock=${searchStock}`
+    }
     // if (new_dates && new_dates[0] != undefined) {
     //     console.log('first search date', new_dates[0])
     //     url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
     // }
 
     try {
-        dispatch({ type: GET_FILTER_BEGIN })
+        dispatch({ type: GET_BEGIN })
         const { data } = await authFetch.get(url)
         const { filterDataBack } = data
 

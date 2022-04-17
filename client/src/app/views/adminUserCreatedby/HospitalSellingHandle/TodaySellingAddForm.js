@@ -1,5 +1,11 @@
 import { Button, Card, Paper, TextField } from '@mui/material'
-import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
+import {
+    SimpleCard,
+    Breadcrumb,
+    ContainerForm,
+    MyAlert,
+    LodingShow,
+} from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -90,6 +96,7 @@ function AddStockOutForm() {
                         { name: 'Table' },
                     ]}
                 />
+                {isLoading && <LodingShow />}
             </div>
             <Card
                 sx={{

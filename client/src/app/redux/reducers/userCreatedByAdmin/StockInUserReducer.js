@@ -1,13 +1,10 @@
 import {
-    CREATE_BEGIN,
     CREATE_SUCCESS,
     CREATE_ERROR,
     GET_BEGIN,
     GET_SUCCESS_STOCKOUT_STATUS_TRUE,
     GET_SUCCESS_STOCKOUT_STATUS_FALSE,
     SET_EDIT,
-    DELETE_BEGIN,
-    EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
     CLEAR_VALUES_STOCK_USER,
@@ -49,12 +46,14 @@ const StockInUserReducer = function (state = initialState, action) {
             return {
                 ...state,
                 stockInUserData: action.payload.stockInUser,
+                isLoading: false,
             }
         }
         case GET_SUCCESS_PRESENT_STOCK: {
             return {
                 ...state,
                 presentStockUserData: action.payload.presentStockUser,
+                isLoading: false,
             }
         }
         case SET_EDIT_MINIMUM_LIMIT: {
@@ -63,7 +62,6 @@ const StockInUserReducer = function (state = initialState, action) {
 
             return {
                 ...state,
-                isLoading: true,
                 isEditing: true,
                 _id,
                 minimumLimit,
@@ -85,9 +83,7 @@ const StockInUserReducer = function (state = initialState, action) {
         case STATUS_EDIT_SUCCESS: {
             return {
                 ...state,
-                // isLoading: false,
-                // showAlert: true,
-                // alertType: 'success',
+
                 isLoading: false,
                 showAlert: true,
                 isEditing: false,
@@ -105,10 +101,6 @@ const StockInUserReducer = function (state = initialState, action) {
                 alertText: action.payload.msg,
                 alertType: 'error',
             }
-        }
-        //delete state
-        case DELETE_BEGIN: {
-            return { ...state, isLoading: false }
         }
 
         /////////////////////////////////////////////////////////

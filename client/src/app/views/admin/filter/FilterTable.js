@@ -34,16 +34,20 @@ const AllStock = () => {
 
     // search for all
     let [searchText, setSearchText] = React.useState('')
+    let [searchStock, setSearchStock] = React.useState({})
 
     const handleChangeSearch = (value) => {
         setSearchText(value)
     }
+    const handleChangeSearchSrock = (value) => {
+        setSearchStock(value)
+    }
 
     useEffect(() => {
         console.log(searchDate)
-        var state = { searchText, searchDate }
+        var state = { searchText, searchDate, searchStock }
         dispatch(getallFilteredData(state))
-    }, [searchDate, searchText])
+    }, [searchDate, searchText, searchStock])
 
     // useEffect(() => {
     //     filteredData = filteredData.filter((hospi) => {
@@ -73,6 +77,11 @@ const AllStock = () => {
                 onSearch={handleChangeSearch}
                 onSearchValueChange={searchText}
             />
+            {/* <SearchBox
+                second={true}
+                onSearch={handleChangeSearchSrock}
+                onSearchValueChange={searchStock}
+            /> */}
             <DateChoose dateProjection={(state) => setSearchDate(state)} />
 
             {filteredData.length == 0 || filteredData == undefined ? (

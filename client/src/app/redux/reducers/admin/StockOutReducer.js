@@ -51,7 +51,11 @@ const StockOutReducer = function (state = initialState, action) {
         }
 
         case GET_ALL_SUCCESS_STOCKOUT: {
-            return { ...state, allStockOutData: action.payload.allStockOutData }
+            return {
+                ...state,
+                isLoading: false,
+                allStockOutData: action.payload.allStockOutData,
+            }
         }
         case CREATE_SUCCESS: {
             return {
@@ -126,7 +130,7 @@ const StockOutReducer = function (state = initialState, action) {
         }
 
         case DELETE_BEGIN: {
-            return { ...state, isLoading: false }
+            return { ...state, isLoading: true }
         }
         case DELETE_STOCKOUT_SUCCESS: {
             return {
@@ -163,14 +167,7 @@ const StockOutReducer = function (state = initialState, action) {
                 ...initialState,
             }
         }
-        case DISPLAY_STOCK_ALERT: {
-            return {
-                ...state,
-                showAlert: true,
-                alertType: 'danger',
-                alertText: 'Please provide all values!',
-            }
-        }
+
         default: {
             return {
                 ...state,

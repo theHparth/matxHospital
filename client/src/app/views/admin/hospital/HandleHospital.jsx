@@ -6,7 +6,7 @@ import { Dialog, Button, Grid, Switch, Snackbar, Alert } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
-import { MyAlert, TextField, FormHandlerBox } from 'app/components'
+import { MyAlert, TextField, FormHandlerBox, LodingShow } from 'app/components'
 
 import {
     editHospital,
@@ -29,6 +29,7 @@ const MemberEditorDialog = ({ open, handleClose }) => {
         _id,
         alertText,
         confirmPassword,
+        isLoading,
     } = useSelector((x) => x.hospitalList)
     const [state, setState] = useState({
         id: _id,
@@ -94,6 +95,7 @@ const MemberEditorDialog = ({ open, handleClose }) => {
                 ) : (
                     <H4 sx={{ mb: '20px' }}>Add Hospital</H4>
                 )}
+                {isLoading && <LodingShow />}
                 <ValidatorForm onSubmit={handleSubmit}>
                     <Grid sx={{ mb: '16px' }} container spacing={4}>
                         <Grid item sm={16} xs={12}>

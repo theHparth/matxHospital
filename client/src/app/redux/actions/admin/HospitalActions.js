@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+export const GET_BEGIN = 'GET_BEGIN'
 export const UPDATE_HOSPITAL_BEGIN = 'UPDATE_HOSPITAL_BEGIN'
 export const UPDATE_HOSPITAL_SUCCESS = 'UPDATE_HOSPITAL_SUCCESS'
 export const UPDATE_HOSPITAL_ERROR = 'UPDATE_HOSPITAL_ERROR'
@@ -57,6 +58,9 @@ const getHospitalsData = (hospitalName) => async (dispatch) => {
     if (hospitalName) {
         url = url + `?hospitalName=${hospitalName}`
     }
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const { data } = await authFetch.get(url)
         const { hospitals } = data
@@ -72,7 +76,9 @@ const getHospitalsData = (hospitalName) => async (dispatch) => {
 const hospitalMinimumTheresold = () => async (dispatch) => {
     let url = '/hospitalDataAdmin/minimumThresold'
 
-    dispatch({ type: GET_HOSPITAL_BEGIN })
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const { data } = await authFetch.get(url)
         const { minimumThresoldData } = data
@@ -89,16 +95,16 @@ const hospitalMinimumTheresold = () => async (dispatch) => {
 }
 const hospitalStockInformation = (state) => async (dispatch) => {
     var { id, searchText } = state
-    console.log('idddd===', id, 'text', searchText)
     let url = '/hospitalDataAdmin/?all=all'
     if (id) {
         url = url + `&id=${id}`
     }
     if (searchText) {
-        console.log('searchText', searchText)
         url = url + `&searchText=${searchText}`
     }
-    dispatch({ type: GET_HOSPITAL_BEGIN })
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const { data } = await authFetch.get(url)
         const { hospitalPresentStock } = data
@@ -114,7 +120,6 @@ const hospitalStockInformation = (state) => async (dispatch) => {
 }
 const hospitalSellingInfo = (state) => async (dispatch) => {
     var { id, searchText } = state
-    console.log('idddd===', id, 'text', searchText)
     let url = '/hospitalDataAdmin/hospitalSelling?all=all'
     if (id) {
         url = url + `&id=${id}`
@@ -122,7 +127,9 @@ const hospitalSellingInfo = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    dispatch({ type: GET_HOSPITAL_BEGIN })
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const { data } = await authFetch.get(url)
         const { hospitalSelling } = data
@@ -138,6 +145,9 @@ const hospitalSellingInfo = (state) => async (dispatch) => {
 }
 
 const addHospital = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const {
             address,
@@ -176,7 +186,9 @@ const setEditHospital = (subscriber) => (dispatch) => {
 }
 
 const editHospital = (state) => async (dispatch) => {
-    dispatch({ type: EDIT_HOSPITAL_BEGIN })
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const { address, pincode, contect, email, username, id, hospitalName } =
             state
@@ -201,8 +213,9 @@ const editHospital = (state) => async (dispatch) => {
 
 // delete the
 const deleteHospital = (hospitalId) => async (dispatch) => {
-    dispatch({ type: DELETE_HOSPITAL_BEGIN })
-
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         await authFetch.put(`/hospitals/${hospitalId}`)
         dispatch({ type: DELETE_HOSPITAL_SUCCESS })

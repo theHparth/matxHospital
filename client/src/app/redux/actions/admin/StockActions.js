@@ -1,13 +1,11 @@
 import axios from 'axios'
 
-export const CREATE_BEGIN = 'CREATE_BEGIN'
 export const CREATE_SUCCESS_STOCK = 'CREATE_SUCCESS_STOCK'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
 export const GET_SUCCESS_STOCK = 'GET_SUCCESS_STOCK'
 export const SET_EDIT_STOCK = 'SET_EDIT_STOCK'
 export const DELETE_BEGIN = 'DELETE_BEGIN'
-export const EDIT_BEGIN = 'EDIT_BEGIN'
 export const EDIT_SUCCESS_STOCK = 'EDIT_SUCCESS_STOCK'
 export const EDIT_ERROR = 'EDIT_ERROR'
 export const DELETE_STOCK_SUCCESS = 'DELETE_STOCK_SUCCESS'
@@ -31,6 +29,9 @@ const removeUserFromLocalStorage = () => {
 }
 
 const add = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         var { description, stock_name, minimumLimit } = state
 
@@ -57,6 +58,11 @@ const getAllData = (searchText) => async (dispatch) => {
     if (searchText) {
         url = url + `?searchText=${searchText}`
     }
+
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { data } = await authFetch.get(url, { searchText })
         const { stockList } = data
@@ -76,6 +82,10 @@ const setEditData = (subscriber) => (dispatch) => {
 }
 
 const edit = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { description, id, stock_name, minimumLimit } = state
         await authFetch.patch(`/stocks/${id}`, {
@@ -84,7 +94,6 @@ const edit = (state) => async (dispatch) => {
             stock_name,
         })
         dispatch({ type: EDIT_SUCCESS_STOCK })
-        // dispatch({ type: CLEAR_VALUES_STOCK })
     } catch (error) {
         if (error.response.status === 401) return
         dispatch({
@@ -97,8 +106,9 @@ const edit = (state) => async (dispatch) => {
 
 // delete the
 const deleteData = (Id) => async (dispatch) => {
-    dispatch({ type: DELETE_BEGIN })
-
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         await authFetch.put(`/stocks/${Id}`)
         dispatch({ type: DELETE_STOCK_SUCCESS })

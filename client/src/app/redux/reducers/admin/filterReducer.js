@@ -1,8 +1,8 @@
 import {
     GET_FILTER_SUCCESS,
     CLEAR_VALUES_STOCKOUT,
-    GET_FILTER_BEGIN,
     CLEAR_STOCK_ALERT,
+    GET_BEGIN,
 } from '../../actions/admin/filterAction'
 
 const initialState = {
@@ -16,12 +16,16 @@ const initialState = {
 
 const StockOutReducer = function (state = initialState, action) {
     switch (action.type) {
-        case GET_FILTER_BEGIN: {
+        case GET_BEGIN: {
             return { ...state, isLoading: true, showAlert: false }
         }
 
         case GET_FILTER_SUCCESS: {
-            return { ...state, filteredData: action.payload.filterDataBack }
+            return {
+                ...state,
+                isLoading: false,
+                filteredData: action.payload.filterDataBack,
+            }
         }
 
         /////////////////////////////////////////////////////////

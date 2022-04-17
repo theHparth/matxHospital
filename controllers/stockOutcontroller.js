@@ -32,8 +32,8 @@ const sendStockUser = async (req, res) => {
     if (
       !data.totalQtyInOneBox ||
       !data.totalBox ||
-      !data.stock_name ||
-      !data.price
+      !data.stock_name
+      // !data.price
     ) {
       throw new BadRequestError("Please provide all values");
     }
@@ -188,7 +188,9 @@ const getAllSendStockUser = async (req, res) => {
   let result;
 
   result = await filterResult(queryObject, searchText);
-
+  if (!result) {
+    result = {};
+  }
   result = result.reverse();
 
   const allStockOutData = result;

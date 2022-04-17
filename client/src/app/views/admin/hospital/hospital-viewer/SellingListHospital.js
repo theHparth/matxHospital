@@ -17,6 +17,7 @@ import {
     DateChoose,
     InvoiceDetails,
     MyAlert,
+    LodingShow,
 } from 'app/components'
 import {
     TableHead,
@@ -54,7 +55,7 @@ const PreviousSellingEntryManage = ({ id }) => {
         setPage(0)
     }
 
-    let { hospitalSellingData = [] } = useSelector(
+    let { hospitalSellingData = [], isLoading } = useSelector(
         (state) => state.hospitalList
     )
 
@@ -72,6 +73,7 @@ const PreviousSellingEntryManage = ({ id }) => {
                     onSearchValueChange={searchText}
                 />
                 <DateChoose dateProjection={(state) => setSearchDate(state)} /> */}
+            {isLoading && <LodingShow />}
 
             {hospitalSellingData.length == 0 ? (
                 <h3>No data available</h3>

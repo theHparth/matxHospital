@@ -9,11 +9,15 @@ const filterDataCalculation = async (req, res) => {
     searchText,
     getStockByHospitalName,
     getQtyByStockName,
+    searchStock,
   } = req.query;
 
   var result;
   if (!searchText) {
     searchText = "";
+  }
+  if (!searchStock) {
+    searchStock = "";
   }
   var new_dates = [];
 
@@ -65,6 +69,13 @@ const filterDataCalculation = async (req, res) => {
             },
           },
           { hospitalName: { $regex: searchText, $options: "i" } },
+          {
+            stockOutDetail: {
+              $elemMatch: {
+                stock_name: { $regex: searchStock, $options: "i" },
+              },
+            },
+          },
         ],
       },
     },

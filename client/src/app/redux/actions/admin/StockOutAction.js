@@ -31,6 +31,9 @@ const authFetch = axios.create({
 
 const sendToUser = (state) => async (dispatch) => {
     try {
+        dispatch({
+            type: GET_BEGIN,
+        })
         let { hospitalName, stockOutDetail, messageForHospital } = state
         await authFetch.post('/', {
             hospitalName,
@@ -103,6 +106,9 @@ const allStockOutDatas = (state) => async (dispatch) => {
     // }
 
     try {
+        dispatch({
+            type: GET_BEGIN,
+        })
         const { data } = await authFetch.get(url)
         const { allStockOutData } = data
 
@@ -124,6 +130,9 @@ const getAllSortData = (state) => async (dispatch) => {
         url = url + `?hospitalId=${id}`
     }
     try {
+        dispatch({
+            type: GET_BEGIN,
+        })
         const { data } = await authFetch.post(url, {
             searchDate,
         })
@@ -142,7 +151,6 @@ const getAllSortData = (state) => async (dispatch) => {
     }
     // dispatch(clearAlert())
 }
-const filterDataCalculation = (state) => async (dispatch) => {}
 
 const deleteData = (Id) => async (dispatch) => {
     dispatch({ type: DELETE_BEGIN })
@@ -173,7 +181,6 @@ const clearAlert = () => (dispatch) => {
 export {
     getAllSortData,
     sendToUser,
-    filterDataCalculation,
     edit,
     setEditData,
     deleteData,

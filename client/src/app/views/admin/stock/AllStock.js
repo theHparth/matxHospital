@@ -18,6 +18,7 @@ import {
     StyledButton,
     MyAlert,
     SearchBox,
+    LodingShow,
 } from 'app/components'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
@@ -40,6 +41,7 @@ const AllStock = () => {
         showAlert,
         alertType,
         alertText,
+        isLoading,
     } = useSelector((state) => state.stockList)
     const dispatch = useDispatch()
 
@@ -124,6 +126,7 @@ const AllStock = () => {
                 onSearchValueChange={searchText}
             />
 
+            {isLoading && <LodingShow />}
             {stockData.length == 0 || stockData == undefined ? (
                 <h1>No stock data found..!!</h1>
             ) : (

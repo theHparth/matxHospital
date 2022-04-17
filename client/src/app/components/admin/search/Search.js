@@ -20,6 +20,23 @@ const SearchContainer = styled('div')(({ theme }) => ({
     // },
 }))
 
+const SearchContainer2 = styled('div')(({ theme }) => ({
+    position: 'absolute',
+    top: 25,
+    left: 435,
+    zIndex: 9,
+    width: '24.5%',
+    // display: 'flex',
+    paddingRight: '90px',
+    alignItems: 'center',
+    height: topBarHeight,
+    // background: theme.palette.primary.main,
+    // color: theme.palette.text.primary,
+    // '&::placeholder': {
+    //     color: theme.palette.text.primary,
+    // },
+}))
+
 const SearchInput = styled('input')(({ theme }) => ({
     width: '100%',
     // border: 'none',
@@ -34,7 +51,7 @@ const SearchInput = styled('input')(({ theme }) => ({
     // },
 }))
 
-const SearchBox = ({ onSearch, onSearchValueChange }) => {
+const SearchBox = ({ onSearch, onSearchValueChange, second }) => {
     // const [open, setOpen] = useState(true)
     // const toggle = () => {
     //     setOpen(!open)
@@ -72,6 +89,23 @@ const SearchBox = ({ onSearch, onSearchValueChange }) => {
                         <Icon sx={{ color: textColor }}>close</Icon>
                     </IconButton> */}
             </SearchContainer>
+            {second && (
+                <SearchContainer2>
+                    <SearchInput
+                        type="text"
+                        value={onSearchValueChange}
+                        placeholder="Search here..."
+                        // autoFocus
+                        onChange={(e) => onSearchProps(e.target.value)}
+                    />
+                    {/* <IconButton
+                        onClick={toggle}
+                        sx={{ mx: 2, verticalAlign: 'middle' }}
+                    >
+                        <Icon sx={{ color: textColor }}>close</Icon>
+                    </IconButton> */}
+                </SearchContainer2>
+            )}
             {/* )} */}
         </div>
         // <div>

@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-export const CREATE_BEGIN = 'CREATE_BEGIN'
 export const CREATE_SUCCESS = 'CREATE_SUCCESS'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
@@ -41,6 +40,9 @@ const removeUserFromLocalStorage = () => {
 ////////////////////////////////////////////////////////////////////////
 
 const getAllVendor = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         const { data } = await authFetch.get('/vendors')
         const { vendorList } = data
@@ -57,6 +59,10 @@ const getAllVendor = (state) => async (dispatch) => {
 }
 
 const add = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { address, pincode, contect, email, vendor_name } = state
 
@@ -83,6 +89,10 @@ const setEditData = (subscriber) => (dispatch) => {
 }
 
 const edit = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { address, pincode, contect, email, vendor_name, id } = state
         await authFetch.patch(`/vendors/${id}`, {
@@ -105,7 +115,9 @@ const edit = (state) => async (dispatch) => {
 
 // delete the
 const deleteData = (Id) => async (dispatch) => {
-    dispatch({ type: DELETE_BEGIN })
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         await authFetch.put(`/vendors/${Id}`)
         dispatch({ type: DELETE_VENDOR_SUCCESS })

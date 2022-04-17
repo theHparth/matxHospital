@@ -66,4 +66,4 @@ export {
     DateContainer,
     DateContainer2,
 } from './admin/dateChoose/index'
-export { MyAlert, ExpandedPenal, AccordionComponent } from './admin'
+export { MyAlert, ExpandedPenal, AccordionComponent, LodingShow } from './admin'

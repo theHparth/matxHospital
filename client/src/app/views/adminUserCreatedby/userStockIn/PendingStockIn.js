@@ -13,6 +13,7 @@ import {
     ContainerTable,
     StyledTable,
     InvoiceDetails,
+    LodingShow,
 } from 'app/components'
 import { useLocation, Link } from 'react-router-dom' // my import
 import {
@@ -71,7 +72,9 @@ const PendingStockIn = () => {
     }
 
     // get data
-    let { stockInUserData = [] } = useSelector((state) => state.stockInUserList)
+    let { stockInUserData = [], isLoading } = useSelector(
+        (state) => state.stockInUserList
+    )
 
     const dispatch = useDispatch()
 
@@ -118,6 +121,7 @@ const PendingStockIn = () => {
                     ]}
                 />
             </div>
+            {isLoading && <LodingShow />}
 
             <SimpleCard>
                 <Box width="100%">

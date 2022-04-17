@@ -1,12 +1,9 @@
 import {
-    CREATE_BEGIN,
     CREATE_SUCCESS,
     CREATE_ERROR,
     GET_BEGIN,
     GET_SUCCESS_TODAY_SELLING,
     SET_EDIT,
-    DELETE_BEGIN,
-    EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
     CLEAR_VALUES,
@@ -41,10 +38,8 @@ const WareHouseReducer = function (state = initialState, action) {
             return {
                 ...state,
                 todaySellingData: action.payload.stockListTodaySelling,
+                isLoading: false,
             }
-        }
-        case CREATE_BEGIN: {
-            return { ...state, isLoading: true }
         }
 
         case CREATE_SUCCESS: {
@@ -67,13 +62,6 @@ const WareHouseReducer = function (state = initialState, action) {
             }
         }
 
-        case EDIT_BEGIN: {
-            return {
-                ...state,
-                isLoading: true,
-                isEditing: true,
-            }
-        }
         // edit VENDOR
         case EDIT_SUCCESS: {
             return {
@@ -96,10 +84,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 alertType: 'error',
             }
         }
-        //delete state
-        case DELETE_BEGIN: {
-            return { ...state, isLoading: false }
-        }
+
         case DELETE_STOCKSELIING_SUCCESS: {
             return {
                 ...state,

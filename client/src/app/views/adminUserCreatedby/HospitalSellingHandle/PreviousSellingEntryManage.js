@@ -17,6 +17,7 @@ import {
     DateChoose,
     InvoiceDetails,
     MyAlert,
+    LodingShow,
 } from 'app/components'
 import {
     TableHead,
@@ -87,6 +88,7 @@ const PreviousSellingEntryManage = () => {
         showAlert,
         alertType,
         alertText,
+        isLoading,
     } = useSelector((state) => state.todaySellingUserList)
 
     const dispatch = useDispatch()
@@ -113,6 +115,7 @@ const PreviousSellingEntryManage = () => {
                     onSearchValueChange={searchText}
                 />
                 <DateChoose dateProjection={(state) => setSearchDate(state)} /> */}
+                {isLoading && <LodingShow />}
             </div>
 
             <SimpleCard title="Selling Info.">

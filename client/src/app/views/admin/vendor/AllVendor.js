@@ -6,6 +6,7 @@ import {
     Container,
     StyledButton,
     MyAlert,
+    LodingShow,
 } from 'app/components'
 import React, { useState, useEffect } from 'react'
 import {
@@ -69,6 +70,7 @@ const CustomerList = () => {
         showAlert,
         alertType,
         alertText,
+        isLoading,
     } = useSelector((state) => state.vendorList)
 
     const dispatch = useDispatch()
@@ -211,6 +213,7 @@ const CustomerList = () => {
                     Add New Venodr
                 </Button>
             )}
+            {isLoading && <LodingShow />}
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable

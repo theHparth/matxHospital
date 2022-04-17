@@ -26,6 +26,9 @@ const authFetch = axios.create({
 })
 
 const add = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         let { invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
             state
@@ -64,6 +67,10 @@ const getAllData = (state) => async (dispatch) => {
         console.log('first search date', new_dates[0])
         url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
     }
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const { data } = await authFetch.get(url)
         const { stockList } = data
@@ -83,6 +90,10 @@ const setEditData = (subscriber) => (dispatch) => {
 }
 
 const edit = (state) => async (dispatch) => {
+    dispatch({
+        type: GET_BEGIN,
+    })
+
     try {
         const {
             id,
@@ -112,8 +123,9 @@ const edit = (state) => async (dispatch) => {
 
 // delete the
 const deleteData = (Id) => async (dispatch) => {
-    dispatch({ type: DELETE_BEGIN })
-    // const { logout } = useAuth()
+    dispatch({
+        type: GET_BEGIN,
+    })
     try {
         await authFetch.delete(`/wereHouse/${Id}`)
         dispatch({ type: DELETE_STOCKIN_SUCCESS })

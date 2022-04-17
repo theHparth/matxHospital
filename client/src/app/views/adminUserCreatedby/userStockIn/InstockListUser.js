@@ -25,6 +25,7 @@ import {
     StockAlert,
     MyAlert,
     StyledButton,
+    LodingShow,
 } from 'app/components'
 import HandleEditMinimum from './HandleEditMinimum'
 
@@ -34,6 +35,7 @@ const InstockListUser = () => {
         showAlert,
         alertType,
         alertText,
+        isLoading,
     } = useSelector((state) => state.stockInUserList)
 
     // edit minimum limitconst [hospitalDa, setHospitalDa] = useState(null)
@@ -81,6 +83,8 @@ const InstockListUser = () => {
     return (
         <ContainerTable>
             <SimpleCard title="Stocks List">
+                {isLoading && <LodingShow />}
+
                 <Box width="100%" overflow="auto">
                     <StyledTable>
                         <TableHead>
@@ -160,7 +164,7 @@ const InstockListUser = () => {
                                                 }}
                                             >
                                                 <Icon color="primary">
-                                                    Edit
+                                                    edit
                                                 </Icon>
                                             </StyledButton>
                                         </TableCell>

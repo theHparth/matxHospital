@@ -43,7 +43,7 @@ const SearchInput = styled('input')(({ theme }) => ({
     // },
 }))
 
-const DateChoose = ({ dateProjection }) => {
+const DateChoose = ({ dateProjection, onSearchDate }) => {
     const oneYearAgo = new Date()
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 10)
 
@@ -61,6 +61,7 @@ const DateChoose = ({ dateProjection }) => {
                     placeholder="Default"
                     style={{ width: 230 }}
                     onChange={(item) => setState(item)}
+                    // value={onSearchDate}
                     // disabledDate={(date) => dateFns.isAfter(date, new Date())}
                     // maxDate={new Date()}
                 />
