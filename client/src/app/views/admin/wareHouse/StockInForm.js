@@ -25,7 +25,6 @@ function AddStockOutForm() {
     let { stockData } = useSelector((state) => state.stockList)
     const { vendorData = [] } = useSelector((states) => states.vendorList)
     const {
-        isLoading,
         showAlert,
         clearValues,
         alertType,

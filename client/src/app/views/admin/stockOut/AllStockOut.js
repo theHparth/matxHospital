@@ -4,7 +4,6 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/system'
 import { useLocation, Link } from 'react-router-dom' // my import
-import moment from 'moment'
 import {
     SearchBox,
     Breadcrumb,
@@ -30,7 +29,6 @@ import {
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 import {
@@ -95,7 +93,7 @@ const AllStockOutTrueStatus = ({ id }) => {
 
     var privatrRoute = false
     var searchStatus = true
-    if (location.pathname == '/pendingStockOut') {
+    if (location.pathname === '/pendingStockOut') {
         searchStatus = false
         privatrRoute = true
     }
@@ -119,7 +117,16 @@ const AllStockOutTrueStatus = ({ id }) => {
         dispatch(allStockOutDatas(state))
         setExpanded(false)
     }, [dispatch, searchText, searchDate, searchStatus])
-    console.log('allStockOutData', allStockOutData)
+
+    // useEffect(() => {
+    //     console.log(
+    //         shouldOpenConfirmationDialog,
+    //         'shouldOpenConfirmationDialog'
+    //     )
+    //     if (shouldOpenConfirmationDialog) {
+    //         isLoading = false
+    //     }
+    // }, [shouldOpenConfirmationDialog])
     return (
         <ContainerTable>
             <div className="breadcrumb">
@@ -140,7 +147,7 @@ const AllStockOutTrueStatus = ({ id }) => {
                 />
             </div>
             {isLoading && <LodingShow />}
-            {allStockOutData.length == 0 ? (
+            {allStockOutData.length === 0 ? (
                 <h3>No data found</h3>
             ) : (
                 <SimpleCard title="Stock out data">

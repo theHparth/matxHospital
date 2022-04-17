@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
 import {
-    Breadcrumb,
     FlexBox,
     Container,
     StyledButton,
@@ -33,7 +32,6 @@ import {
 
 const CustomerList = () => {
     // for add and edit diology actions
-    const [uid, setUid] = useState(null)
     const [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
@@ -43,7 +41,7 @@ const CustomerList = () => {
 
     const location = useLocation()
     useEffect(() => {
-        if (location.pathname == '/allVendor/new') {
+        if (location.pathname === '/allVendor/new') {
             setShouldOpenEditorDialog(true)
         }
     }, [location.pathname])
@@ -81,7 +79,7 @@ const CustomerList = () => {
     // my import finish
 
     var privatrRoute = false
-    if (location.pathname == '/allVendorD') {
+    if (location.pathname === '/allVendorD') {
         privatrRoute = true
     }
 
@@ -91,7 +89,6 @@ const CustomerList = () => {
 
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
-    const bgError = palette.error.main
     const bgSuccess = palette.success.main
 
     const columns = [
@@ -282,7 +279,6 @@ const CustomerList = () => {
                         <HandleVendor
                             handleClose={handleDialogClose}
                             open={shouldOpenEditorDialog}
-                            uid={uid}
                         />
                     )}
                     {shouldOpenConfirmationDialog && (

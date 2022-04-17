@@ -3,19 +3,15 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/system'
-import { useLocation, Link } from 'react-router-dom' // my import
+import { Link } from 'react-router-dom' // my import
 import moment from 'moment'
 import {
-    SearchBox,
     Breadcrumb,
     SimpleCard,
     ContainerTable,
     StyledTable,
     Heading,
     SecondaryHeading,
-    ThirdHeading,
-    DateChoose,
-    InvoiceDetails,
     MyAlert,
     LodingShow,
 } from 'app/components'
@@ -24,13 +20,11 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Icon,
     TablePagination,
     Button,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
 import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
 import {
@@ -42,12 +36,9 @@ import {
 const PreviousSellingEntryManage = () => {
     // for printing and deleting pperpose
     const [hospitalDa, setHospitalDa] = useState(null)
-    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
-    const [info, setInfo] = useState()
     const handleDialogClose = () => {
-        setShouldOpenEditorDialog(false)
         setShouldOpenConfirmationDialog(false)
         // dispatch(getHospitalsData())
     }

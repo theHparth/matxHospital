@@ -26,13 +26,13 @@ const sidebarBG = [
 
 const ThemeName = styled('div')(({ theme }) => ({
     marginBottom: '16px',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
 }))
 
 const ToolbarContainer = styled('div')(() => ({
-    margin: "8px",
-    display: "flex",
-    flexWrap: "wrap",
+    margin: '8px',
+    display: 'flex',
+    flexWrap: 'wrap',
 }))
 
 const ToolbarContent = styled('div')(({ color }) => ({
@@ -41,7 +41,7 @@ const ToolbarContent = styled('div')(({ color }) => ({
     margin: '8px',
     cursor: 'pointer',
     borderRadius: '4px',
-    display: "flex",
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     boxShadow: themeShadows[3],
@@ -51,7 +51,7 @@ const ToolbarContent = styled('div')(({ color }) => ({
 const IMG = styled('img')(() => ({
     width: '100%',
     maxHeight: 152,
-    display: 'block'
+    display: 'block',
 }))
 
 const Layout1Customizer = ({ settings, handleChange, handleControlChange }) => {
@@ -170,10 +170,7 @@ const Layout1Customizer = ({ settings, handleChange, handleControlChange }) => {
                                             )
                                         }
                                     >
-                                        <IMG
-                                            src={bg}
-                                            alt=""
-                                        />
+                                        <IMG src={bg} alt="" />
                                     </Paper>
                                 </BadgeSelected>
                             </Grid>

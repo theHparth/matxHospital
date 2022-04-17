@@ -3,12 +3,7 @@ import React, { Fragment } from 'react'
 import { Grid } from '@mui/material'
 
 import TopSellingTable from './shared/TopSellingTable'
-import { styled, useTheme } from '@mui/system'
-
-const AnalyticsRoot = styled('div')(({ theme }) => ({
-    padding: '28px 32px 86px 32px',
-    background: theme.palette.primary.main,
-}))
+import { styled } from '@mui/system'
 
 const ContentBox = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -18,33 +13,7 @@ const ContentBox = styled('div')(({ theme }) => ({
     },
 }))
 
-const Title = styled('span')(() => ({
-    fontSize: '1rem',
-    fontWeight: '500',
-    textTransform: 'capitalize',
-}))
-
-const SubTitle = styled('span')(({ theme }) => ({
-    fontSize: '0.875rem',
-    color: theme.palette.text.secondary,
-}))
-
-const Header = styled(Title)(() => ({
-    marginBottom: 2,
-    color: 'rgba(255, 255, 255, 0.87)',
-}))
-
-const H4 = styled('h4')(({ theme }) => ({
-    fontSize: '1rem',
-    fontWeight: '500',
-    marginBottom: '16px',
-    textTransform: 'capitalize',
-    color: theme.palette.text.secondary,
-}))
-
 const Analytics = () => {
-    const { palette } = useTheme()
-
     return (
         <Fragment>
             <ContentBox className="analytics">

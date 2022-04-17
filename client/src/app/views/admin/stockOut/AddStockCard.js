@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { SimpleCard } from 'app/components'
 
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import Card from '@mui/material/Card'
-import Box from '@mui/material/Box'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
-import { Badge, Button, Snackbar, Chip, Alert, TextField } from '@mui/material'
-
-const bull = (
-    <Box
-        component="span"
-        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-        •
-    </Box>
-)
+import { Badge, Button, Chip, TextField } from '@mui/material'
 
 const AddStockCard = ({
     stockOut,

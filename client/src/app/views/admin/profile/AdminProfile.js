@@ -3,15 +3,13 @@ import {
     SimpleCard,
     ContainerForm,
     TextField,
-    MyAlert,
 } from 'app/components'
-import { Box, styled } from '@mui/system'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
+import { ValidatorForm } from 'react-material-ui-form-validator'
 // import { getAllVendor } from 'app/redux/actions/VendorActions'
 
-import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
+import { Button, Icon, Grid } from '@mui/material'
 import { Span } from 'app/components/Typography'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import useAuth from 'app/hooks/useAuth'
 

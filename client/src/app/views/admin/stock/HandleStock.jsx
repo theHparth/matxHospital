@@ -17,7 +17,7 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
         alertType,
         showAlert,
         clearValues,
-        isLoading,
+
         isEditing,
         alertText,
         description,
@@ -40,7 +40,7 @@ const StockEditDialog = ({ uid, open, handleClose }) => {
     }
 
     useEffect(() => {
-        if (clearValues == true) {
+        if (clearValues) {
             cancleWithClean()
         }
     }, [clearValues])

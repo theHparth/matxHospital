@@ -1,13 +1,13 @@
 export const navigationsUser = [
-    {
-        name: 'Dashboard',
-        path: '/user/dashboard/default',
-        icon: 'dashboard',
-    },
-    {
-        label: 'PAGES',
-        type: 'label',
-    },
+    // {
+    //     name: 'Dashboard',
+    //     path: '/user/dashboard/default',
+    //     icon: 'dashboard',
+    // },
+    // {
+    //     label: 'PAGES',
+    //     type: 'label',
+    // },
     {
         name: 'New Arriving',
         icon: 'business',

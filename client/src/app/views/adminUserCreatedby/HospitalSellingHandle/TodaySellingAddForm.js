@@ -1,19 +1,8 @@
-import { Button, Card, Paper, TextField } from '@mui/material'
-import {
-    SimpleCard,
-    Breadcrumb,
-    ContainerForm,
-    MyAlert,
-    LodingShow,
-} from 'app/components'
+import { Button, Card } from '@mui/material'
+import { Breadcrumb, ContainerForm, MyAlert, LodingShow } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
 
 import { inStockUser } from 'app/redux/actions/userCreatedByAdmin/StockInUserAction'
@@ -26,7 +15,7 @@ import {
 function AddStockOutForm() {
     const dispatch = useDispatch()
     let { presentStockUserData = [] } = useSelector((x) => x.stockInUserList)
-    const {
+    let {
         isLoading,
         showAlert,
         clearValues,
@@ -37,7 +26,7 @@ function AddStockOutForm() {
         todaySellingDataArr,
         stockInDetail,
     } = useSelector((x) => x.todaySellingUserList)
-
+    // isLoading = false
     useEffect(() => {
         if (todaySellingDataArr && todaySellingDataArr.length) {
             setStockOutData(todaySellingDataArr)

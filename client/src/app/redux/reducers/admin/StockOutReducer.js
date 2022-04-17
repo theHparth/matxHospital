@@ -1,18 +1,13 @@
 import {
-    CREATE_BEGIN,
     CREATE_SUCCESS,
     CREATE_ERROR,
     GET_BEGIN,
-    GET_SUCCESS_STOCKOUT_STATUS_TRUE,
-    GET_SUCCESS_STOCKOUT_STATUS_FALSE,
     SET_EDIT,
     DELETE_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
     CLEAR_VALUES_STOCKOUT,
-    HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
-    DISPLAY_STOCK_ALERT,
     GET_ALL_SUCCESS_STOCKOUT,
     DELETE_STOCKOUT_SUCCESS,
 } from '../../actions/admin/StockOutAction'
@@ -117,6 +112,7 @@ const StockOutReducer = function (state = initialState, action) {
             return {
                 ...state,
                 isEditing: true,
+                isLoading: false,
                 _id,
                 hospitalName,
                 invoiceNum,

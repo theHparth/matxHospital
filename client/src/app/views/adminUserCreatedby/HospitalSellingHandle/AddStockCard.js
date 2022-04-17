@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { SimpleCard } from 'app/components'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
 import { Icon } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Card from '@mui/material/Card'
-import Box from '@mui/material/Box'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
-import { Badge, Button, Snackbar, Chip, Alert, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 
 const AddStockCard = ({
     stockOut,
@@ -54,7 +51,6 @@ const AddStockCard = ({
 
     useEffect(() => {}, [])
     const aaa = () => {}
-    const navigate = useNavigate()
     return (
         <ValidatorForm onError={() => null} onSubmit={aaa}>
             {/* {updateStockInDetail.length == 0 ? ( */}

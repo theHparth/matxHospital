@@ -28,7 +28,7 @@ const SideNavMobile = styled('div')(({ theme }) => ({
 
 const Sidenav = ({ children }) => {
     const { settings, updateSettings } = useSettings()
-    const { isAuthenticated, user, hospital } = useAuth()
+    const { user } = useAuth()
 
     const updateSidebarMode = (sidebarSettings) => {
         let activeLayoutSettingsName = settings.activeLayout + 'Settings'

@@ -1,3 +1,3 @@
-import { SearchBox, SearchInput, SearchContainer } from './Search'
+import { SearchBox } from './Search'
 
-export { SearchBox, SearchInput, SearchContainer }
+export { SearchBox }

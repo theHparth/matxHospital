@@ -2,31 +2,15 @@ import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box } from '@mui/system'
 import {
-    Breadcrumb,
-    SimpleCard,
     Heading,
     SecondaryHeading,
     ThirdHeading,
-    ContainerTable,
     StyledTable,
-    SearchBox,
-    DateChoose,
-    MyAlert,
 } from 'app/components'
-import {
-    IconButton,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Icon,
-    TablePagination,
-} from '@mui/material'
-import { Link, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect, useState } from 'react'
+import { TableHead, TableBody, TableRow, TableCell } from '@mui/material'
+
+import React from 'react'
 
 const ExpandedPenal = ({ firstHeader, secondHeader, thirdHeader }) => {
     return (

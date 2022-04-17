@@ -63,7 +63,7 @@ const getAllData = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    if (new_dates && new_dates[0] != undefined) {
+    if (new_dates && new_dates[0] !== undefined) {
         console.log('first search date', new_dates[0])
         url = url + `&startDate=${new_dates[0]}&endDate=${new_dates[1]}`
     }

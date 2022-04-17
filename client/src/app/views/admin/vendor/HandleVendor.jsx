@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import { Dialog, Button, Grid, Snackbar, Alert } from '@mui/material'
-import { Box, styled } from '@mui/system'
+import { ValidatorForm } from 'react-material-ui-form-validator'
+import { Dialog, Button, Grid } from '@mui/material'
+import { Box } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
 import { MyAlert, TextField, FormHandlerBox } from 'app/components'
@@ -12,7 +12,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         alertType,
         showAlert,
         clearValues,
-        isLoading,
+
         isEditing,
         alertText,
         address,
@@ -40,7 +40,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
     }
 
     useEffect(() => {
-        if (clearValues == true) {
+        if (clearValues) {
             cancleWithClean()
         }
     }, [clearValues])

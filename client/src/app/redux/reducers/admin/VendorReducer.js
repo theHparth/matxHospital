@@ -1,18 +1,13 @@
 import {
-    CREATE_BEGIN,
     CREATE_SUCCESS,
     CREATE_ERROR,
     GET_BEGIN,
     GET_SUCCESS,
     SET_EDIT,
-    DELETE_BEGIN,
-    EDIT_BEGIN,
     EDIT_SUCCESS,
     EDIT_ERROR,
     CLEAR_VALUES_VENDOR,
-    HANDLE_CHANGE,
     CLEAR_VENDOR_ALERT,
-    DISPLAY_VENDOR_ALERT,
     DELETE_VENDOR_SUCCESS,
 } from '../../actions/admin/VendorActions'
 

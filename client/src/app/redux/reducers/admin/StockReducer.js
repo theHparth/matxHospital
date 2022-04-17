@@ -5,13 +5,10 @@ import {
     GET_SUCCESS_STOCK,
     SET_EDIT_STOCK,
     DELETE_BEGIN,
-    EDIT_BEGIN,
     EDIT_SUCCESS_STOCK,
     EDIT_ERROR,
     CLEAR_VALUES_STOCK,
-    HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
-    DISPLAY_STOCK_ALERT,
     DELETE_STOCK_SUCCESS,
 } from '../../actions/admin/StockActions'
 

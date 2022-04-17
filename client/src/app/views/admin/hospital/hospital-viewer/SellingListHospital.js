@@ -3,20 +3,13 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/system'
-import { useLocation, Link } from 'react-router-dom' // my import
 import moment from 'moment'
 import {
-    SearchBox,
-    Breadcrumb,
     SimpleCard,
     ContainerTable,
     StyledTable,
     Heading,
     SecondaryHeading,
-    ThirdHeading,
-    DateChoose,
-    InvoiceDetails,
-    MyAlert,
     LodingShow,
 } from 'app/components'
 import {
@@ -24,14 +17,10 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Icon,
     TablePagination,
-    Button,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
-import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
+import React, { useEffect } from 'react'
 
 import { hospitalSellingInfo } from 'app/redux/actions/admin/HospitalActions'
 
@@ -64,7 +53,7 @@ const PreviousSellingEntryManage = ({ id }) => {
     useEffect(() => {
         dispatch(hospitalSellingInfo({ id }))
         setExpanded(false)
-    }, [dispatch])
+    }, [dispatch, id])
     return (
         <ContainerTable>
             {/* date chooser from--------FROM---------- */}
@@ -75,7 +64,7 @@ const PreviousSellingEntryManage = ({ id }) => {
                 <DateChoose dateProjection={(state) => setSearchDate(state)} /> */}
             {isLoading && <LodingShow />}
 
-            {hospitalSellingData.length == 0 ? (
+            {hospitalSellingData.length === 0 ? (
                 <h3>No data available</h3>
             ) : (
                 <SimpleCard>

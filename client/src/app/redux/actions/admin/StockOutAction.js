@@ -96,7 +96,7 @@ const allStockOutDatas = (state) => async (dispatch) => {
     if (searchText) {
         url = url + `&searchText=${searchText}`
     }
-    if (searchDate && searchDate[0] != undefined) {
+    if (searchDate && searchDate[0] !== undefined) {
         console.log('first search date', searchDate)
         url = url + `&startDate=${searchDate[0]}&endDate=${searchDate[1]}`
     }
@@ -125,7 +125,7 @@ const allStockOutDatas = (state) => async (dispatch) => {
 
 const getAllSortData = (state) => async (dispatch) => {
     let url = '/sortData'
-    var { searchDate, searchText, id } = state
+    var { searchDate, id } = state
     if (id) {
         url = url + `?hospitalId=${id}`
     }

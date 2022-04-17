@@ -1,12 +1,6 @@
 import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
-import {
-    Breadcrumb,
-    FlexBox,
-    Container,
-    StyledButton,
-    MyAlert,
-} from 'app/components'
+import { FlexBox, Container, StyledButton, MyAlert } from 'app/components'
 import React, { useState, useEffect } from 'react'
 import {
     Avatar,
@@ -68,7 +62,7 @@ const CustomerList = () => {
     const location = useLocation()
 
     var privatrRoute = false
-    if (location.pathname == '/allHospitalsD') {
+    if (location.pathname === '/allHospitalsD') {
         privatrRoute = true
     }
     console.log(privatrRoute)
@@ -80,7 +74,6 @@ const CustomerList = () => {
     // for design
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
-    const bgError = palette.error.main
     const bgSuccess = palette.success.main
 
     const columns = [

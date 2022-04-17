@@ -3,26 +3,20 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Icon,
     TablePagination,
     Button,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { Box, useTheme } from '@mui/system'
+import React, { useEffect } from 'react'
+import { Box } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     SimpleCard,
     ContainerTable,
     StyledTable,
-    StockAlert,
-    StyledButton,
-    MyAlert,
     SearchBox,
     DateChoose,
 } from 'app/components'
-import ConfirmationDialog from 'app/components/ConfirmationDialog/ConfirmationDialog'
 
-import { useLocation } from 'react-router-dom'
 import { getallFilteredData } from 'app/redux/actions/admin/filterAction'
 
 const AllStock = () => {
@@ -34,20 +28,15 @@ const AllStock = () => {
 
     // search for all
     let [searchText, setSearchText] = React.useState('')
-    let [searchStock, setSearchStock] = React.useState({})
 
     const handleChangeSearch = (value) => {
         setSearchText(value)
     }
-    const handleChangeSearchSrock = (value) => {
-        setSearchStock(value)
-    }
 
     useEffect(() => {
-        console.log(searchDate)
-        var state = { searchText, searchDate, searchStock }
+        var state = { searchText, searchDate }
         dispatch(getallFilteredData(state))
-    }, [searchDate, searchText, searchStock])
+    }, [dispatch, searchDate, searchText])
 
     // useEffect(() => {
     //     filteredData = filteredData.filter((hospi) => {
@@ -77,14 +66,10 @@ const AllStock = () => {
                 onSearch={handleChangeSearch}
                 onSearchValueChange={searchText}
             />
-            {/* <SearchBox
-                second={true}
-                onSearch={handleChangeSearchSrock}
-                onSearchValueChange={searchStock}
-            /> */}
+
             <DateChoose dateProjection={(state) => setSearchDate(state)} />
 
-            {filteredData.length == 0 || filteredData == undefined ? (
+            {filteredData.length === 0 || filteredData === undefined ? (
                 <h1>No stock data found..!!</h1>
             ) : (
                 <SimpleCard title="Stocks List">

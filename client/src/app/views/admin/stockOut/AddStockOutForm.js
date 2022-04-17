@@ -1,5 +1,5 @@
-import { Button, Card, Paper, TextField, Grid } from '@mui/material'
-import { SimpleCard, Breadcrumb, ContainerForm, MyAlert } from 'app/components'
+import { Button, Card, TextField, Grid } from '@mui/material'
+import { Breadcrumb, ContainerForm, MyAlert } from 'app/components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import AddStockCard from './AddStockCard'
-import { H5, Paragraph } from 'app/components/Typography'
 
 import {
     sendToUser,
@@ -24,7 +23,6 @@ function AddStockOutForm() {
     const dispatch = useDispatch()
 
     const {
-        isLoading,
         showAlert,
         clearValues,
         alertType,
@@ -50,7 +48,6 @@ function AddStockOutForm() {
             setStockOutData(stockOutDetail)
         }
     }, [])
-    console.log(stockOutDetail)
     const [stockOutData, setStockOutData] = React.useState([
         {
             stock_name: '',

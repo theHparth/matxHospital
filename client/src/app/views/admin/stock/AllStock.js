@@ -55,18 +55,18 @@ const AllStock = () => {
     useEffect(() => {
         // var state = { searchText }
         dispatch(getAllData(searchText))
-    }, [searchText])
+    }, [dispatch, searchText])
 
     const location = useLocation()
     // auto open add new stock
     useEffect(() => {
-        if (location.pathname == '/allStock/new') {
+        if (location.pathname === '/allStock/new') {
             setShouldOpenEditorDialog(true)
         }
     }, [location.pathname])
 
     var privatrRoute = false
-    if (location.pathname == '/allStockD') {
+    if (location.pathname === '/allStockD') {
         privatrRoute = true
     }
 
@@ -127,7 +127,7 @@ const AllStock = () => {
             />
 
             {isLoading && <LodingShow />}
-            {stockData.length == 0 || stockData == undefined ? (
+            {stockData.length === 0 || stockData === undefined ? (
                 <h1>No stock data found..!!</h1>
             ) : (
                 <SimpleCard title="Stocks List">

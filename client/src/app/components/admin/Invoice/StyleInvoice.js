@@ -1,20 +1,8 @@
-import {
-    Icon,
-    Button,
-    Divider,
-    Table,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody,
-    IconButton,
-} from '@mui/material'
-import { format } from 'date-fns'
+import { Table } from '@mui/material'
 import { Box, styled } from '@mui/system'
 // import { getInvoiceById } from './InvoiceService'
-import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { H5, Paragraph } from 'app/components/Typography'
+
+import { H5 } from 'app/components/Typography'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',

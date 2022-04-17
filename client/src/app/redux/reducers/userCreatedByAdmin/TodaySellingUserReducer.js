@@ -7,9 +7,7 @@ import {
     EDIT_SUCCESS,
     EDIT_ERROR,
     CLEAR_VALUES,
-    HANDLE_CHANGE,
     CLEAR_STOCK_ALERT,
-    DISPLAY_STOCK_ALERT,
     DELETE_STOCKSELIING_SUCCESS,
 } from '../../actions/userCreatedByAdmin/TodaySellingUserAction'
 
@@ -104,6 +102,7 @@ const WareHouseReducer = function (state = initialState, action) {
 
             return {
                 ...state,
+                isLoading: false,
                 isEditing: true,
                 _id,
                 todaySellingDataArr: todaySellingData,
@@ -118,6 +117,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 showAlert: false,
                 alertType: '',
                 alertText: '',
+                isLoading: false,
             }
         }
         case CLEAR_VALUES: {
@@ -125,6 +125,7 @@ const WareHouseReducer = function (state = initialState, action) {
                 clearValues: '',
                 _id: '',
                 todaySellingDataArr: '',
+                isLoading: false,
             }
             return {
                 ...state,
@@ -135,6 +136,7 @@ const WareHouseReducer = function (state = initialState, action) {
         default: {
             return {
                 ...state,
+                isLoading: false,
             }
         }
     }

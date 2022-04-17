@@ -58,9 +58,9 @@ const getHospitalsData = (hospitalName) => async (dispatch) => {
     if (hospitalName) {
         url = url + `?hospitalName=${hospitalName}`
     }
-    dispatch({
-        type: GET_BEGIN,
-    })
+    // dispatch({
+    //     type: GET_BEGIN,
+    // })
     try {
         const { data } = await authFetch.get(url)
         const { hospitals } = data

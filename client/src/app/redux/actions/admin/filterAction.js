@@ -14,12 +14,12 @@ const authFetch = axios.create({
 })
 
 const getallFilteredData = (state) => async (dispatch) => {
-    const { searchDate, hospitalName, searchText, searchStock } = state
+    const { searchDate, searchText, searchStock } = state
     console.log('in action ', searchDate)
     // let url = '/?searchStatus=false'
     let url = '/filterDataCalculation/?all=all'
 
-    if (searchDate && searchDate[0] != undefined) {
+    if (searchDate && searchDate[0] !== undefined) {
         console.log('first search date', searchDate)
         url = url + `&startDate=${searchDate[0]}&endDate=${searchDate[1]}`
     }

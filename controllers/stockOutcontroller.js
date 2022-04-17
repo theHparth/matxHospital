@@ -39,8 +39,8 @@ const sendStockUser = async (req, res) => {
     }
     if (
       isNaN(data.totalQtyInOneBox) ||
-      isNaN(data.totalBox) ||
-      isNaN(data.price)
+      isNaN(data.totalBox)
+      // isNaN(data.price)
     ) {
       throw new BadRequestError("Please enter valid number");
     }

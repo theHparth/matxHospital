@@ -46,11 +46,13 @@ const add = (state) => async (dispatch) => {
 }
 
 const getAllDataTodaySelling = (state) => async (dispatch) => {
-    var { searchText } = state
+    // var { searchText } = state
     dispatch({
         type: GET_BEGIN,
     })
-
+    // if (searchText) {
+    //     return
+    // }
     try {
         const { data } = await authFetch.get('/todaySellingHospital')
         const { stockListTodaySelling } = data

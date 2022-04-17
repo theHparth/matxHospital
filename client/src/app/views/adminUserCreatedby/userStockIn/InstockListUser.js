@@ -1,6 +1,4 @@
 import {
-    IconButton,
-    Table,
     TableHead,
     TableBody,
     TableRow,
@@ -9,19 +7,16 @@ import {
     TablePagination,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Box, styled, useTheme } from '@mui/system'
+import { Box, useTheme } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     setEditMinimumLimit,
     inStockUser,
 } from 'app/redux/actions/userCreatedByAdmin/StockInUserAction'
-import { Link } from 'react-router-dom'
 import {
-    Breadcrumb,
     SimpleCard,
     ContainerTable,
     StyledTable,
-    Theme,
     StockAlert,
     MyAlert,
     StyledButton,
@@ -37,18 +32,8 @@ const InstockListUser = () => {
         alertText,
         isLoading,
     } = useSelector((state) => state.stockInUserList)
-
     // edit minimum limitconst [hospitalDa, setHospitalDa] = useState(null)
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
-    const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
-        useState(false)
-
-    // search for all
-    let [searchText, setSearchText] = React.useState('')
-
-    const handleChangeSearch = (value) => {
-        setSearchText(value)
-    }
 
     const { palette } = useTheme()
     const bgError = palette.error.main
@@ -77,7 +62,6 @@ const InstockListUser = () => {
 
     const handleDialogClose = () => {
         setShouldOpenEditorDialog(false)
-        setShouldOpenConfirmationDialog(false)
         dispatch(inStockUser())
     }
     return (

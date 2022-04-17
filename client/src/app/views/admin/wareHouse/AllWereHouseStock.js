@@ -42,12 +42,10 @@ import {
 const WereHouseStock = () => {
     //for printing and deleting
     const [hospitalDa, setHospitalDa] = useState(null)
-    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false)
     const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
         useState(false)
-    const [info, setInfo] = useState()
+
     const handleDialogClose = () => {
-        setShouldOpenEditorDialog(false)
         setShouldOpenConfirmationDialog(false)
         // dispatch(getHospitalsData())
     }
@@ -100,9 +98,8 @@ const WereHouseStock = () => {
         wereHouseStockData = [],
         alertType,
         showAlert,
-        clearValues,
         isLoading,
-        isEditing,
+
         alertText,
     } = useSelector((state) => state.wareHouseStockList)
 

@@ -1,19 +1,7 @@
 import { Box, styled } from '@mui/system'
-import {
-    Button,
-    Card,
-    Divider,
-    Icon,
-    Fade,
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-} from '@mui/material'
+import { Button, TableCell } from '@mui/material'
 
-import { H5, Small } from 'app/components/Typography'
+import { Small } from 'app/components/Typography'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',

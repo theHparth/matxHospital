@@ -1,22 +1,16 @@
 import {
-    Icon,
     Button,
     Divider,
-    Table,
     TableHead,
     TableRow,
     TableCell,
     TableBody,
-    IconButton,
     Grid,
-    TextField,
 } from '@mui/material'
-import { format } from 'date-fns'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 // import { getInvoiceById } from './InvoiceService'
-import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { H5, Paragraph } from 'app/components/Typography'
+import React, { useEffect } from 'react'
+import { Paragraph } from 'app/components/Typography'
 import {
     StyledTable,
     StyledH5,
@@ -27,14 +21,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { getHospitalsData } from 'app/redux/actions/admin/HospitalActions'
 import moment from 'moment'
-// import json
-import ReactToPrint from 'react-to-print'
-import PrintButton from './PrintButton'
 
 const InvoiceViewer = ({ invoiceInfo }) => {
     const user = localStorage.getItem('user')
     const hospital = localStorage.getItem('hospital')
-    const { Iaddress, Icontect, Iemail, Ipincode, IhopsitalId } = useSelector(
+    const { Iaddress, Icontect, Iemail, Ipincode } = useSelector(
         (stat) => stat.hospitalList
     )
     const {

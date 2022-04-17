@@ -1,7 +1,6 @@
 import React, { lazy } from 'react'
 import Loadable from 'app/components/Loadable/Loadable'
 
-const AddHospital = Loadable(lazy(() => import('./AddHospital')))
 const AllHospital = Loadable(lazy(() => import('./AllHospital')))
 const Invoice = Loadable(
     lazy(() => import('app/components/admin/Invoice/InvoiceDetails'))

@@ -1,9 +1,8 @@
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 import {
     Breadcrumb,
     SimpleCard,
@@ -15,7 +14,7 @@ import {
     InvoiceDetails,
     LodingShow,
 } from 'app/components'
-import { useLocation, Link } from 'react-router-dom' // my import
+import { useLocation } from 'react-router-dom' // my import
 import {
     TableHead,
     TableBody,
@@ -23,7 +22,6 @@ import {
     TableCell,
     Icon,
     TablePagination,
-    IconButton,
     Button,
     FormLabel,
 } from '@mui/material'
@@ -58,16 +56,13 @@ const PendingStockIn = () => {
             handleDialogClose()
             setExpanded(false)
         })
-        // dispatch(allStockOutDatas({ searchStatus: false }))
     }
 
     // check for route
     const location = useLocation()
 
     var privatrRoute = false
-    var searchStatus = true
-    if (location.pathname == '/allReceivedSrtock') {
-        searchStatus = false
+    if (location.pathname === '/allReceivedSrtock') {
         privatrRoute = true
     }
 
@@ -105,11 +100,6 @@ const PendingStockIn = () => {
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false)
     }
-
-    //button style
-    const StyledButton = styled(Button)(({ theme }) => ({
-        margin: theme.spacing(1),
-    }))
 
     return (
         <ContainerTable>

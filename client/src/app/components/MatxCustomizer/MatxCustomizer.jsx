@@ -8,7 +8,6 @@ import { themeShadows } from '../MatxTheme/themeColors'
 import {
     Icon,
     Card,
-    Link,
     Button,
     Drawer,
     Tooltip,
@@ -92,7 +91,6 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
 
 const MatxCustomizer = (props) => {
     const [open, setOpen] = useState(false)
-    const [tabIndex, setTabIndex] = useState(0)
     const { settings, updateSettings } = useSettings()
     const theme = useTheme()
     const secondary = theme.palette.text.secondary
@@ -100,9 +98,7 @@ const MatxCustomizer = (props) => {
     const tooglePanel = () => {
         setOpen(!open)
     }
-    const handleTabChange = (index) => {
-        setTabIndex(index)
-    }
+
     let activeTheme = { ...settings.themes[settings.activeTheme] }
 
     return (
@@ -139,69 +135,51 @@ const MatxCustomizer = (props) => {
                         </Controller>
 
                         <StyledScrollBar options={{ suppressScrollX: true }}>
-                            {tabIndex === 0 && (
-                                <Box sx={{ mb: 4, mx: 3 }}>
-                                    <Box sx={{ color: secondary }}>Layouts</Box>
+                            <Box sx={{ mb: 4, mx: 3 }}>
+                                <Box sx={{ color: secondary }}>Layouts</Box>
 
-                                    <Box display="flex" flexDirection="column">
-                                        {demoLayouts.map((layout) => (
-                                            <LayoutBox
-                                                color="secondary"
-                                                badgeContent={'Pro'}
-                                                invisible={!layout.isPro}
-                                                key={layout.name}
-                                            >
-                                                <Card
-                                                    sx={{
-                                                        position: 'relative',
-                                                    }}
-                                                    onClick={() =>
-                                                        updateSettings(
-                                                            layout.options
-                                                        )
-                                                    }
-                                                    elevation={4}
-                                                >
-                                                    <Box
-                                                        sx={{
-                                                            overflow: 'hidden',
-                                                        }}
-                                                        className="layout-name"
-                                                    >
-                                                        <Button
-                                                            variant="contained"
-                                                            color="secondary"
-                                                        >
-                                                            {layout.name}
-                                                        </Button>
-                                                    </Box>
-
-                                                    <IMG
-                                                        src={layout.thumbnail}
-                                                        alt={layout.name}
-                                                    />
-                                                </Card>
-                                            </LayoutBox>
-                                        ))}
-                                    </Box>
-                                </Box>
-                            )}
-
-                            {/* END LAYOUT */}
-                            {tabIndex === 1 && (
-                                <div>
-                                    <div className="helpText">
-                                        We used React context API to control
-                                        layout. Check out the{' '}
-                                        <Link
-                                            href="http://demos.ui-lib.com/matx-react-doc/layout.html"
-                                            target="_blank"
+                                <Box display="flex" flexDirection="column">
+                                    {demoLayouts.map((layout) => (
+                                        <LayoutBox
+                                            color="secondary"
+                                            badgeContent={'Pro'}
+                                            invisible={!layout.isPro}
+                                            key={layout.name}
                                         >
-                                            Documentation
-                                        </Link>
-                                    </div>
-                                </div>
-                            )}
+                                            <Card
+                                                sx={{
+                                                    position: 'relative',
+                                                }}
+                                                onClick={() =>
+                                                    updateSettings(
+                                                        layout.options
+                                                    )
+                                                }
+                                                elevation={4}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        overflow: 'hidden',
+                                                    }}
+                                                    className="layout-name"
+                                                >
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                    >
+                                                        {layout.name}
+                                                    </Button>
+                                                </Box>
+
+                                                <IMG
+                                                    src={layout.thumbnail}
+                                                    alt={layout.name}
+                                                />
+                                            </Card>
+                                        </LayoutBox>
+                                    ))}
+                                </Box>
+                            </Box>
                         </StyledScrollBar>
                     </MaxCustomaizer>
                 </Drawer>
@@ -277,7 +255,7 @@ const demoLayouts = [
     {
         name: 'Dark Theme',
         thumbnail: '/assets/images/screenshots/layout3-customizer.png',
-        isPro: true,
+        isPro: false,
         options: {
             activeLayout: 'layout1',
             activeTheme: 'purpleDark1',
@@ -297,21 +275,21 @@ const demoLayouts = [
             },
         },
     },
-    {
-        name: 'Horizontal Navigation',
-        thumbnail: '/assets/images/screenshots/layout4-customizer.png',
-        isPro: true,
-        options: {
-            activeLayout: 'layout2',
-            activeTheme: 'purple1',
-            layout2Settings: {
-                mode: 'full',
-            },
-            footer: {
-                theme: 'slateDark1',
-            },
-        },
-    },
+    // {
+    //     name: 'Horizontal Navigation',
+    //     thumbnail: '/assets/images/screenshots/layout4-customizer.png',
+    //     isPro: true,
+    //     options: {
+    //         activeLayout: 'layout2',
+    //         activeTheme: 'purple1',
+    //         layout2Settings: {
+    //             mode: 'full',
+    //         },
+    //         footer: {
+    //             theme: 'slateDark1',
+    //         },
+    //     },
+    // },
 ]
 
 export default MatxCustomizer

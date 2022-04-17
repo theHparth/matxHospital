@@ -1,17 +1,10 @@
 import {
-    CREATE_SUCCESS,
-    CREATE_ERROR,
     GET_BEGIN,
-    GET_SUCCESS_STOCKOUT_STATUS_TRUE,
-    GET_SUCCESS_STOCKOUT_STATUS_FALSE,
-    SET_EDIT,
-    EDIT_SUCCESS,
+    GET_SUCCESS_STOCKOUT,
     EDIT_ERROR,
     CLEAR_VALUES_STOCK_USER,
-    HANDLE_CHANGE,
     STATUS_EDIT_SUCCESS,
     CLEAR_STOCK_ALERT_USER,
-    DISPLAY_STOCK_ALERT,
     SET_EDIT_MINIMUM_LIMIT,
     GET_SUCCESS_PRESENT_STOCK,
     EDIT_MINIMUM_SUCCESS,
@@ -42,7 +35,7 @@ const StockInUserReducer = function (state = initialState, action) {
             return { ...state, isLoading: true, showAlert: false }
         }
 
-        case GET_SUCCESS_STOCKOUT_STATUS_FALSE: {
+        case GET_SUCCESS_STOCKOUT: {
             return {
                 ...state,
                 stockInUserData: action.payload.stockInUser,
@@ -52,8 +45,8 @@ const StockInUserReducer = function (state = initialState, action) {
         case GET_SUCCESS_PRESENT_STOCK: {
             return {
                 ...state,
-                presentStockUserData: action.payload.presentStockUser,
                 isLoading: false,
+                presentStockUserData: action.payload.presentStockUser,
             }
         }
         case SET_EDIT_MINIMUM_LIMIT: {
@@ -66,6 +59,7 @@ const StockInUserReducer = function (state = initialState, action) {
                 _id,
                 minimumLimit,
                 stock_name,
+                isLoading: false,
             }
         }
         case EDIT_MINIMUM_SUCCESS: {
@@ -111,6 +105,7 @@ const StockInUserReducer = function (state = initialState, action) {
                 showAlert: false,
                 alertType: '',
                 alertText: '',
+                isLoading: false,
             }
         }
         case CLEAR_VALUES_STOCK_USER: {
@@ -119,6 +114,7 @@ const StockInUserReducer = function (state = initialState, action) {
                 _id: '',
                 minimumLimit: '',
                 stock_name: '',
+                isLoading: false,
             }
             return {
                 ...state,
@@ -129,6 +125,7 @@ const StockInUserReducer = function (state = initialState, action) {
         default: {
             return {
                 ...state,
+                isLoading: false,
             }
         }
     }

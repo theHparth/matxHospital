@@ -1,21 +1,15 @@
 import {
     GET_BEGIN,
-    CLEAR_VALUES,
-    CREATE_HOSPITAL_BEGIN,
     CREATE_HOSPITAL_SUCCESS,
     CREATE_HOSPITAL_ERROR,
     GET_HOSPITAL_SUCCESS,
     SET_EDIT_HOSPITAL,
     DELETE_HOSPITAL_BEGIN,
-    EDIT_HOSPITAL_BEGIN,
     EDIT_HOSPITAL_SUCCESS,
     EDIT_HOSPITAL_ERROR,
-    HANDLE_CHANGE,
     CLEAR_HOSPITAL_ALERT,
-    DISPLAY_HOSPITAL_ALERT,
     CLEAR_VALUES_HOSPITAL,
     GET_HOSPITAL_INDIVIDUAL_DATA_SUCCESS,
-    EDIT_HOSPITAL_COMPLETE,
     DELETE_HOSPITAL_SUCCESS,
     GET_HOSPITAL_MINIMUM_THRESOLD,
     GET_HOSPITAL_SELLING_SUCCESS,
@@ -162,6 +156,7 @@ const HospitalReducer = function (state = initialState, action) {
             return {
                 ...state,
                 isEditing: true,
+                isLoading: false,
                 _id,
                 address,
                 pincode,
@@ -180,6 +175,7 @@ const HospitalReducer = function (state = initialState, action) {
                 showAlert: false,
                 alertType: '',
                 alertText: '',
+                isLoading: false,
             }
         }
         case CLEAR_VALUES_HOSPITAL: {
@@ -192,6 +188,7 @@ const HospitalReducer = function (state = initialState, action) {
                 email: '',
                 pincode: '',
                 _id: '',
+                isLoading: false,
             }
             return {
                 ...state,

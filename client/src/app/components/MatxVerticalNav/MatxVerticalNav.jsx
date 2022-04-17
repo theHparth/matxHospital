@@ -150,7 +150,13 @@ const MatxVerticalNav = ({ items }) => {
                         <NavLink
                             to={item.path}
                             className={({ isActive }) =>
-                                isActive ? `navItemActive ${mode === 'compact' && 'compactNavItem'}` : `${mode === 'compact' && 'compactNavItem'}`
+                                isActive
+                                    ? `navItemActive ${
+                                          mode === 'compact' && 'compactNavItem'
+                                      }`
+                                    : `${
+                                          mode === 'compact' && 'compactNavItem'
+                                      }`
                             }
                         >
                             <ButtonBase
@@ -168,7 +174,8 @@ const MatxVerticalNav = ({ items }) => {
                                             className={`nav-bullet`}
                                             sx={{
                                                 display:
-                                                    mode === 'compact' && 'none',
+                                                    mode === 'compact' &&
+                                                    'none',
                                             }}
                                         />
                                         <Box
@@ -177,7 +184,8 @@ const MatxVerticalNav = ({ items }) => {
                                                 ml: '20px',
                                                 fontSize: '11px',
                                                 display:
-                                                    mode !== 'compact' && 'none',
+                                                    mode !== 'compact' &&
+                                                    'none',
                                             }}
                                         >
                                             {item.iconText}
@@ -197,7 +205,7 @@ const MatxVerticalNav = ({ items }) => {
                                     </BadgeValue>
                                 )}
                             </ButtonBase>
-                        </NavLink >
+                        </NavLink>
                     </InternalLink>
                 )
             }

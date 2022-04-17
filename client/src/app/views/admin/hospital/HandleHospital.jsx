@@ -1,9 +1,7 @@
-import { generateRandomId } from 'app/utils/utils'
 import React, { useState, useEffect } from 'react'
-// import { getUserById, updateUser, addNewUser } from './TableService'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import { Dialog, Button, Grid, Switch, Snackbar, Alert } from '@mui/material'
-import { Box, styled } from '@mui/system'
+import { ValidatorForm } from 'react-material-ui-form-validator'
+import { Dialog, Button, Grid } from '@mui/material'
+import { Box } from '@mui/system'
 import { H4 } from 'app/components/Typography'
 import { useDispatch, useSelector } from 'react-redux'
 import { MyAlert, TextField, FormHandlerBox, LodingShow } from 'app/components'
@@ -24,11 +22,11 @@ const MemberEditorDialog = ({ open, handleClose }) => {
         contect,
         email,
         pincode,
-        password,
+
         hospitalName,
         _id,
         alertText,
-        confirmPassword,
+
         isLoading,
     } = useSelector((x) => x.hospitalList)
     const [state, setState] = useState({
@@ -50,7 +48,7 @@ const MemberEditorDialog = ({ open, handleClose }) => {
     }
 
     useEffect(() => {
-        if (clearValues == true) {
+        if (clearValues) {
             cancleWithClean()
         }
     }, [clearValues])

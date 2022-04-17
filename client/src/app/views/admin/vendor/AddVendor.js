@@ -1,8 +1,8 @@
 import { Breadcrumb, SimpleCard } from 'app/components'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 import { Span } from 'app/components/Typography'
 import React, { useState } from 'react'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
+import { ValidatorForm } from 'react-material-ui-form-validator'
 import { Button, Icon, Grid, Snackbar, Alert } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { edit, add, clearValue } from 'app/redux/actions/admin/VendorActions'
@@ -15,7 +15,7 @@ const AddVendor = () => {
         isLoading,
         isEditing,
         showAlert,
-        alertType,
+
         alertText,
         address,
         contect,

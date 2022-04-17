@@ -3,10 +3,8 @@ import axios from 'axios'
 export const CREATE_SUCCESS = 'CREATE_SUCCESS'
 export const CREATE_ERROR = 'CREATE_ERROR'
 export const GET_BEGIN = 'GET_BEGIN'
-export const GET_SUCCESS_STOCKOUT_STATUS_TRUE =
-    'GET_SUCCESS_STOCKOUT_STATUS_TRUE'
-export const GET_SUCCESS_STOCKOUT_STATUS_FALSE =
-    'GET_SUCCESS_STOCKOUT_STATUS_FALSE'
+export const GET_SUCCESS_STOCKOUT = 'GET_SUCCESS_STOCKOUT'
+
 export const SET_EDIT = 'SET_EDIT'
 export const SET_EDIT_MINIMUM_LIMIT = 'SET_EDIT_MINIMUM_LIMIT'
 export const GET_SUCCESS_PRESENT_STOCK = 'GET_SUCCESS_PRESENT_STOCK'
@@ -28,27 +26,6 @@ const authFetch = axios.create({
     },
 })
 
-const getAllDataStatusTrue = (state) => async (dispatch) => {
-    let url = '/trueUser'
-
-    dispatch({
-        type: GET_BEGIN,
-    })
-
-    try {
-        const { data } = await authFetch.get(url)
-        const { stockInDataTrueStatus } = data
-        // console.log(stockList)
-        dispatch({
-            type: GET_SUCCESS_STOCKOUT_STATUS_TRUE,
-            payload: { stockInDataTrueStatus },
-        })
-    } catch (error) {
-        console.log(error)
-        // logout()
-    }
-    dispatch(clearAlert())
-}
 const AllstockInUser = (state) => async (dispatch) => {
     const { status } = state
     var url = `/stockInUser?status=${status}`
@@ -62,7 +39,7 @@ const AllstockInUser = (state) => async (dispatch) => {
         const { stockInUser } = data
         // console.log('userData', stockInDataFalseStatus)
         dispatch({
-            type: GET_SUCCESS_STOCKOUT_STATUS_FALSE,
+            type: GET_SUCCESS_STOCKOUT,
             payload: { stockInUser },
         })
     } catch (error) {
@@ -153,7 +130,6 @@ const clearAlert = () => (dispatch) => {
 
 export {
     clearValueStockUser,
-    getAllDataStatusTrue,
     AllstockInUser,
     inStockUser,
     inStockMinimumChange,
