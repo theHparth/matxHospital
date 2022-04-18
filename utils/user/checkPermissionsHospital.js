@@ -1,9 +1,13 @@
 import { UnAuthenticatedError } from "../../errors/index.js";
+import Hospital from "../../models/Hospital.js";
 
-const checkPermissionsHospital = (requestUser, resourceUserId) => {
-  // if (requestHospital.hospitalName === hospitalname) return;
-  if (requestUser.hospitalId === resourceUserId.toString()) return;
-  console.log("not authorized");
+const checkPermissionsHospital = (requestUser, resourceUserId, forStatus) => {
+  if (
+    requestUser.hospitalId === resourceUserId.toString() &&
+    forStatus.hospitalStatus
+  )
+    return;
+
   throw new UnAuthenticatedError("Not authorized to access this route");
 };
 

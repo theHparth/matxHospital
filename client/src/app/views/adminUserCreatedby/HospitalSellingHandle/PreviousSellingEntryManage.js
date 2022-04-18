@@ -62,7 +62,7 @@ const PreviousSellingEntryManage = () => {
     }
 
     // for page setup
-    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [rowsPerPage, setRowsPerPage] = React.useState(25)
     const [page, setPage] = React.useState(0)
 
     const handleChangePage = (event, newPage) => {

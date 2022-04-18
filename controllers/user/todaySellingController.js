@@ -7,7 +7,7 @@ import {
 } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
-
+import Hospital from "../../models/Hospital.js";
 import StocksHosital from "../../models/User/stocksHospital.js";
 
 const AddtodaySellingHospital = async (req, res) => {
@@ -15,9 +15,14 @@ const AddtodaySellingHospital = async (req, res) => {
 
   req.body.createdFor = req.hospital.hospitalId;
   var createdFor = req.hospital.hospitalId;
-  var hospitalStatus = req.hospital.hospitalStatus;
-  if (!hospitalStatus) {
-    throw new UnAuthenticatedError("Invalid Credentials");
+
+  // if status is flase , not authorized
+  var hospitalName = req.hospital.hospitalName;
+  var forStatus = await Hospital.findOne({
+    hospitalName,
+  });
+  if (!forStatus.hospitalStatus) {
+    throw new UnAuthenticatedError("Not authorized to access this route");
   }
 
   for (var data of todaySellingData) {
@@ -64,7 +69,11 @@ const allTodaySelling = async (req, res) => {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
   let result = TodaySellingHospital.find(queryObject);
-
+  if (!result) {
+    result = {};
+  }
+  result = result.sort("-createdAt");
+  // result = result.reverse();
   const stockListTodaySelling = await result;
 
   res.status(StatusCodes.OK).json({ stockListTodaySelling });
@@ -74,10 +83,13 @@ const updateTodaySelling = async (req, res) => {
   const { id: stockOutId } = req.params;
 
   const { todaySellingData } = req.body;
-  var hospitalStatus = req.hospital.hospitalStatus;
-  if (!hospitalStatus) {
-    throw new UnAuthenticatedError("Invalid Credentials");
-  }
+
+  // if status is flase , not authorized
+  var hospitalName = req.hospital.hospitalName;
+  var forStatus = await Hospital.findOne({
+    hospitalName,
+  });
+
   const todaySellinginfo = await TodaySellingHospital.findOne({
     _id: stockOutId,
   });
@@ -86,7 +98,11 @@ const updateTodaySelling = async (req, res) => {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
 
-  checkPermissionsHospital(req.hospital, todaySellinginfo.createdFor);
+  checkPermissionsHospital(
+    req.hospital,
+    todaySellinginfo.createdFor,
+    forStatus
+  );
   var createdFor = req.hospital.hospitalId;
 
   todaySellinginfo.todaySellingData.map((data) => {
@@ -151,7 +167,19 @@ const deleteTodaySelling = async (req, res) => {
   if (!todaySellingData) {
     throw new NotFoundError(`No job with id :${stockOutId}`);
   }
-  checkPermissionsHospital(req.hospital, todaySellingData.createdFor);
+
+  // if status is flase , not authorized
+  var hospitalName = req.hospital.hospitalName;
+  var forStatus = await Hospital.findOne({
+    hospitalName,
+  });
+
+  checkPermissionsHospital(
+    req.hospital,
+    todaySellingData.createdFor,
+    forStatus
+  );
+
   await todaySellingData.remove();
   var createdFor = req.hospital.hospitalId;
 

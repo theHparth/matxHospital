@@ -1,6 +1,8 @@
 import UserStock from "../../models/User/stockOut.js";
 import StocksHosital from "../../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
+import Hospital from "../../models/Hospital.js";
+
 import {
   BadRequestError,
   NotFoundError,
@@ -55,20 +57,25 @@ const removeStockQty = async (
 
 const statusController = async (req, res) => {
   const { id: stockOutId } = req.params;
-  var hospitalStatus = req.hospital.hospitalStatus;
-  if (!hospitalStatus) {
-    throw new UnAuthenticatedError("Invalid Credentials");
-  }
+  // var hospitalStatus = req.hospital.hospitalStatus;
+  // console.log(hospitalStatus, "status=======");
+  // if (!hospitalStatus) {
+  //   throw new UnAuthenticatedError("Invalid Credentials");
+  // }
   const { status } = req.body;
   const stockOutData = await UserStock.findOne({ _id: stockOutId });
 
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockOutId}`);
   }
-  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
+  var hospitalName = req.hospital.hospitalName;
+  var forStatus = await Hospital.findOne({
+    hospitalName,
+  });
+
+  checkPermissionsHospital(req.hospital, stockOutData.createdFor, forStatus);
   var createdFor = stockOutData.createdFor;
   var createdBy = stockOutData.createdBy;
-  var hospitalName = req.hospital.hospitalName;
 
   stockOutData.stockOutDetail.map(async (data) => {
     var stock_name = data.stock_name;
@@ -133,12 +140,10 @@ const statusController = async (req, res) => {
 
 //   res.status(StatusCodes.OK).json({ stockInDataFalseStatus, totalStock });
 // };
+
 const stockInUserFun = async (req, res) => {
-  var hospitalStatus = req.hospital.hospitalStatus;
   const { searchText, hospitalId, status, startDate, endDate } = req.query;
-  if (!hospitalStatus) {
-    throw new UnAuthenticatedError("Invalid Credentials");
-  }
+
   console.log(status, "status");
   const queryObject = {
     createdFor: req.hospital.hospitalId,
@@ -150,6 +155,7 @@ const stockInUserFun = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ stockInUser, totalStock });
 };
+
 const statusTrue = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
   if (!hospitalStatus) {
@@ -172,9 +178,7 @@ const statusTrue = async (req, res) => {
 
 const totoalStocksInUser = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
-  if (!hospitalStatus) {
-    throw new UnAuthenticatedError("Invalid Credentials");
-  }
+
   const queryObject = {
     createdFor: req.hospital.hospitalId,
   };
@@ -198,6 +202,7 @@ const totoalStocksInUser = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ presentStockUser });
 };
+
 const minimumRequiremantUserChange = async (req, res) => {
   var hospitalStatus = req.hospital.hospitalStatus;
   if (!hospitalStatus) {
@@ -211,9 +216,11 @@ const minimumRequiremantUserChange = async (req, res) => {
   if (!stockOutData) {
     throw new NotFoundError(`No stock data with id :${stockId}`);
   }
-
-  checkPermissionsHospital(req.hospital, stockOutData.createdFor);
   var hospitalName = stockOutData.hospitalName;
+  var forStatus = await Hospital.findOne({
+    hospitalName,
+  });
+  checkPermissionsHospital(req.hospital, stockOutData.createdFor, forStatus);
   var stock_name = stockOutData.stock_name;
   var createdFor = stockOutData.createdFor;
   var totalQtyUser = stockOutData.totalQtyUser;

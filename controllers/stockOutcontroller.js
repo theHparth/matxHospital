@@ -319,19 +319,10 @@ const updateSendStockAdmin = async (req, res) => {
   }
 
   for (var data of stockOutDetail) {
-    if (
-      !data.totalQtyInOneBox ||
-      !data.totalBox ||
-      !data.stock_name ||
-      !data.price
-    ) {
+    if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
       throw new BadRequestError("Please provide all values");
     }
-    if (
-      isNaN(data.totalQtyInOneBox) ||
-      isNaN(data.totalBox) ||
-      isNaN(data.price)
-    ) {
+    if (isNaN(data.totalQtyInOneBox) || isNaN(data.totalBox)) {
       throw new BadRequestError("Please enter valid number");
     }
     removeStockQty(
