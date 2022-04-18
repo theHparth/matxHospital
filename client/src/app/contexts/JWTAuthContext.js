@@ -10,6 +10,7 @@ const initialState = {
     hospital: null,
     tokenHospital: null,
     isHospital: false,
+    msg: '',
 }
 
 const reducer = (state, action) => {
@@ -38,11 +39,12 @@ const reducer = (state, action) => {
             }
         }
         case 'LOGIN_ERROR': {
-            const { msg } = action.payload
+            const { msg, isHospital } = action.payload
 
             return {
                 ...state,
                 msg,
+                isHospital,
             }
         }
 
@@ -181,7 +183,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: 'LOGIN_ERROR',
-                payload: { msg: error.response.data.msg },
+                payload: { msg: error.response.data.msg, isHospital: false },
             })
         }
     }
@@ -207,7 +209,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             dispatch({
                 type: 'LOGIN_ERROR',
-                payload: { msg: error.response.data.msg },
+                payload: { msg: error.response.data.msg, isHospital: true },
             })
         }
         // clearAlert()

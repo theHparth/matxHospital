@@ -75,7 +75,7 @@ const UserLogin = () => {
             await loginUser(userInfo.email, userInfo.password)
             navigate('/')
         } catch (e) {
-            setMessage(e.message)
+            setMessage(e.message, 'aaaa')
             setLoading(false)
         }
     }
