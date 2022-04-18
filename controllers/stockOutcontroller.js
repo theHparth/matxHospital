@@ -6,11 +6,11 @@ import { addStockQty, removeStockQty } from "./stockController.js";
 import Hospital from "../models/Hospital.js";
 import mongoose from "mongoose";
 import StocksHosital from "../models/User/stocksHospital.js";
-// import { searchDateHospitalSort } from "./dataFilter.js";
+import stocks from "../models/Stocks.js";
 
 const sendStockUser = async (req, res) => {
   const { hospitalName, stockOutDetail } = req.body;
-  console.log("stockOutDetail in backend", stockOutDetail);
+
   const getRandomId = (min = 0, max = 500000) => {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -28,29 +28,44 @@ const sendStockUser = async (req, res) => {
     throw new BadRequestError("Hospital data not found");
   }
 
-  stockOutDetail.map((data) => {
+  for (var data of stockOutDetail) {
     if (
       !data.totalQtyInOneBox ||
       !data.totalBox ||
-      !data.stock_name
-      // !data.price
+      !data.stock_name ||
+      !data.price
     ) {
       throw new BadRequestError("Please provide all values");
     }
     if (
       isNaN(data.totalQtyInOneBox) ||
-      isNaN(data.totalBox)
-      // isNaN(data.price)
+      isNaN(data.totalBox) ||
+      isNaN(data.price)
     ) {
       throw new BadRequestError("Please enter valid number");
     }
+
+    const stockData = await stocks.findOne({
+      stock_name: data.stock_name,
+    });
+
+    if (
+      stockData &&
+      stockData.totalQty < data.totalQtyInOneBox * data.totalBox
+    ) {
+      throw new BadRequestError(
+        `Only ${stockData.totalQty} qty. available of ${data.stock_name} `
+      );
+    }
+
     removeStockQty(
       data.stock_name,
       data.totalQtyInOneBox,
       data.totalBox,
       data.price
     );
-  });
+  }
+
   req.body.invoiceNum = invoiceNum;
   req.body.createdBy = req.user.userId;
   req.body.createdFor = hospitalData._id;
@@ -67,7 +82,6 @@ const filterResult = async (queryObject, searchText, status) => {
 
   var result;
   if (!searchText) {
-    console.log("no search text===========================>>>>");
     result = await UserStock.find(queryObject);
   }
   // else if (searchText == "true" || searchText == "false") {
@@ -304,7 +318,7 @@ const updateSendStockAdmin = async (req, res) => {
     return;
   }
 
-  stockOutDetail.map((data) => {
+  for (var data of stockOutDetail) {
     if (
       !data.totalQtyInOneBox ||
       !data.totalBox ||
@@ -326,7 +340,17 @@ const updateSendStockAdmin = async (req, res) => {
       data.totalBox,
       data.price
     );
+  }
+
+  const stockData = await stocks.findOne({
+    stock_name: data.stock_name,
   });
+
+  if (stockData && stockData.totalQty < data.totalQtyInOneBox * data.totalBox) {
+    throw new BadRequestError(
+      `Only ${stockData.totalQty} qty. available of ${data.stock_name} `
+    );
+  }
 
   stockOutData.stockOutDetail.map((data) => {
     addStockQty(

@@ -39,7 +39,7 @@ const removeStockQty = async (
   const stock = stocks.findOne({
     stock_name: { $regex: stock_name, $options: "i" },
   });
-  console.log(stock.totalQty - totalBox * totalQtyInOneBox);
+
   if (stock.totalQty - totalBox * totalQtyInOneBox < 0) {
     console.log("limit exceed");
     throw new BadRequestError("Limit exceeded");

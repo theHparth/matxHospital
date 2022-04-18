@@ -39,7 +39,7 @@ const AddStockCard = ({
                 availableQuantity: '',
                 totalBox: '',
                 totalQtyInOneBox: '',
-                price: stockData.price,
+                price: '',
                 priceForUser: '',
             },
             ...stockOutData.slice(index + 1, stockOutData.length),
@@ -106,6 +106,7 @@ const AddStockCard = ({
                                     value={stockObj.stock_name}
                                     onClick={() => {
                                         setAvailableQuantity(stockObj)
+                                        // priceSet(stockObj)
                                     }}
                                 >
                                     {stockObj.stock_name}

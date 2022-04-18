@@ -7,8 +7,8 @@ import {
 } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
-import UserStock from "../../models/User/stockOut.js";
-import mongoose from "mongoose";
+
+import StocksHosital from "../../models/User/stocksHospital.js";
 
 const AddtodaySellingHospital = async (req, res) => {
   const { todaySellingData } = req.body;
@@ -19,20 +19,36 @@ const AddtodaySellingHospital = async (req, res) => {
   if (!hospitalStatus) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
-  todaySellingData.map((data) => {
+
+  for (var data of todaySellingData) {
+    // todaySellingData.map((data) => {
     if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
       throw new BadRequestError("Please provide all values");
     }
     if (isNaN(data.totalQtyInOneBox) || isNaN(data.totalBox)) {
       throw new BadRequestError("Please enter number");
     }
+
+    const stockData = await StocksHosital.findOne({
+      stock_name: data.stock_name,
+    });
+
+    if (
+      stockData &&
+      stockData.totalQtyUser < data.totalQtyInOneBox * data.totalBox
+    ) {
+      throw new BadRequestError(
+        `Only ${stockData.totalQtyUser} qty. available of ${data.stock_name} `
+      );
+    }
+
     removeStockQty(
       createdFor,
       data.stock_name,
       data.totalQtyInOneBox,
       data.totalBox
     );
-  });
+  }
 
   const todaySelling = await TodaySellingHospital.create(req.body);
 
@@ -81,20 +97,34 @@ const updateTodaySelling = async (req, res) => {
       data.totalBox
     );
   });
-  todaySellingData.map((data) => {
+  for (var data of todaySellingData) {
+    // todaySellingData.map((data) => {
     if (!data.totalQtyInOneBox || !data.totalBox || !data.stock_name) {
       throw new BadRequestError("Please provide all values");
     }
     if (isNaN(data.totalQtyInOneBox) || isNaN(data.totalBox)) {
       throw new BadRequestError("Please enter number");
     }
+    const stockData = await StocksHosital.findOne({
+      stock_name: data.stock_name,
+    });
+
+    if (
+      stockData &&
+      stockData.totalQtyUser < data.totalQtyInOneBox * data.totalBox
+    ) {
+      throw new BadRequestError(
+        `Only ${stockData.totalQtyUser} qty. available of ${data.stock_name} `
+      );
+    }
+
     removeStockQty(
       createdFor,
       data.stock_name,
       data.totalQtyInOneBox,
       data.totalBox
     );
-  });
+  }
   req.body.createdFor = req.hospital.hospitalId;
   const updatedStock = await TodaySellingHospital.findOneAndUpdate(
     { _id: stockOutId },
