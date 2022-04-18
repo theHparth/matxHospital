@@ -36,6 +36,10 @@ const authFetch = axios.create({
     },
 })
 
+function FirstCapitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 ///////////////////////////////////////////////////////////////
 const clearValue = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES_HOSPITAL })
@@ -149,7 +153,7 @@ const addHospital = (state) => async (dispatch) => {
         type: GET_BEGIN,
     })
     try {
-        const {
+        var {
             address,
             pincode,
             contect,
@@ -158,6 +162,8 @@ const addHospital = (state) => async (dispatch) => {
             password,
             hospitalName,
         } = state
+
+        hospitalName = FirstCapitalize(hospitalName)
         await authFetch.post('/hospitals', {
             address,
             pincode,
@@ -190,8 +196,9 @@ const editHospital = (state) => async (dispatch) => {
         type: GET_BEGIN,
     })
     try {
-        const { address, pincode, contect, email, username, id, hospitalName } =
+        var { address, pincode, contect, email, username, id, hospitalName } =
             state
+        hospitalName = FirstCapitalize(hospitalName)
         await authFetch.patch(`/hospitals/${id}`, {
             address,
             pincode,

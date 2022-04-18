@@ -29,12 +29,17 @@ const authFetch = axios.create({
     },
 })
 
+function FirstCapitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 const sendToUser = (state) => async (dispatch) => {
     try {
         dispatch({
             type: GET_BEGIN,
         })
         let { hospitalName, stockOutDetail, messageForHospital } = state
+        messageForHospital = FirstCapitalize(messageForHospital)
         await authFetch.post('/', {
             hospitalName,
             stockOutDetail,
@@ -58,13 +63,14 @@ const setEditData = (subscriber) => (dispatch) => {
 
 const edit = (state) => async (dispatch) => {
     try {
-        const {
+        let {
             id,
             hospitalName,
             invoiceNum,
             stockOutDetail,
             messageForHospital,
         } = state
+        messageForHospital = FirstCapitalize(messageForHospital)
         await authFetch.patch(`/${id}`, {
             id,
             hospitalName,

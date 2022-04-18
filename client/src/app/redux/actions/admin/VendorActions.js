@@ -23,6 +23,10 @@ const authFetch = axios.create({
     },
 })
 
+function FirstCapitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 ///////////////////////////////////////////////////////////////
 const clearValue = () => (dispatch) => {
     dispatch({ type: CLEAR_VALUES_VENDOR })
@@ -64,8 +68,8 @@ const add = (state) => async (dispatch) => {
     })
 
     try {
-        const { address, pincode, contect, email, vendor_name } = state
-
+        let { address, pincode, contect, email, vendor_name } = state
+        vendor_name = FirstCapitalize(vendor_name)
         await authFetch.post('/vendors', {
             address,
             pincode,
@@ -94,7 +98,8 @@ const edit = (state) => async (dispatch) => {
     })
 
     try {
-        const { address, pincode, contect, email, vendor_name, id } = state
+        let { address, pincode, contect, email, vendor_name, id } = state
+        vendor_name = FirstCapitalize(vendor_name)
         await authFetch.patch(`/vendors/${id}`, {
             address,
             pincode,

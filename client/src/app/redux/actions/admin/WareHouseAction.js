@@ -25,6 +25,10 @@ const authFetch = axios.create({
     },
 })
 
+function FirstCapitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 const add = (state) => async (dispatch) => {
     dispatch({
         type: GET_BEGIN,
@@ -32,6 +36,7 @@ const add = (state) => async (dispatch) => {
     try {
         let { invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
             state
+        stockInNote = FirstCapitalize(stockInNote)
         await authFetch.post('/wereHouse', {
             invoiceNumStockIn,
             vendor_name,
@@ -95,14 +100,9 @@ const edit = (state) => async (dispatch) => {
     })
 
     try {
-        const {
-            id,
-            invoiceNumStockIn,
-            vendor_name,
-            stockInDetail,
-            stockInNote,
-        } = state
-
+        let { id, invoiceNumStockIn, vendor_name, stockInDetail, stockInNote } =
+            state
+        stockInNote = FirstCapitalize(stockInNote)
         await authFetch.patch(`/wereHouse/${id}`, {
             invoiceNumStockIn,
             vendor_name,

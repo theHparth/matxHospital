@@ -1,3 +1,4 @@
+import { ViewArrayOutlined } from '@mui/icons-material'
 import axios from 'axios'
 
 export const CREATE_SUCCESS_STOCK = 'CREATE_SUCCESS_STOCK'
@@ -23,6 +24,10 @@ const authFetch = axios.create({
     },
 })
 
+function FirstCapitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 const removeUserFromLocalStorage = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -34,6 +39,11 @@ const add = (state) => async (dispatch) => {
     })
     try {
         var { description, stock_name, minimumLimit } = state
+
+        // function FirstCapitalize(str) {
+        //     return str.charAt(0).toUpperCase() + str.slice(1)
+        // }
+        stock_name = FirstCapitalize(stock_name)
 
         await authFetch.post('/stocks', {
             description,
@@ -87,7 +97,13 @@ const edit = (state) => async (dispatch) => {
     })
 
     try {
-        const { description, id, stock_name, minimumLimit } = state
+        var { description, id, stock_name, minimumLimit } = state
+
+        function FirstCapitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1)
+        }
+        stock_name = FirstCapitalize(stock_name)
+
         await authFetch.patch(`/stocks/${id}`, {
             description,
             minimumLimit,
