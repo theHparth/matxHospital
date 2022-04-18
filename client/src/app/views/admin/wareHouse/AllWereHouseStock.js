@@ -15,6 +15,7 @@ import {
     DateChoose,
     MyAlert,
     LodingShow,
+    H1Alert,
 } from 'app/components'
 import {
     IconButton,
@@ -141,9 +142,8 @@ const WereHouseStock = () => {
             </div>
             {isLoading && <LodingShow />}
 
-            {wereHouseStockData.length === 0 ||
-            wereHouseStockData === undefined ? (
-                <h1> No data Found</h1>
+            {wereHouseStockData.length === 0 ? (
+                <H1Alert />
             ) : (
                 <SimpleCard>
                     <Box width="100%">

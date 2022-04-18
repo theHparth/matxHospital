@@ -8,7 +8,7 @@ import Select from '@mui/material/Select'
 import Card from '@mui/material/Card'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
-import { Button, TextField } from '@mui/material'
+import { Button, TextField, Checkbox } from '@mui/material'
 
 const AddStockCard = ({
     stockOut,
@@ -131,6 +131,20 @@ const AddStockCard = ({
                         onChange={handleChange}
                         validators={['required', 'minNumber:1']}
                         errormessages={['this field is required']}
+                    />
+
+                    <Checkbox
+                        size="small"
+                        sx={{ m: 1, minWidth: 10, width: 20 }}
+                        onChange={({ target: { checked } }) =>
+                            handleChange({
+                                target: {
+                                    name: 'agreement',
+                                    value: checked,
+                                },
+                            })
+                        }
+                        checked={stockOut.priceType || true}
                     />
 
                     <TextField

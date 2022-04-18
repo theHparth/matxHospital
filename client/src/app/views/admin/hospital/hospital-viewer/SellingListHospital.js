@@ -11,6 +11,7 @@ import {
     Heading,
     SecondaryHeading,
     LodingShow,
+    H1Alert,
 } from 'app/components'
 import {
     TableHead,
@@ -23,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 
 import { hospitalSellingInfo } from 'app/redux/actions/admin/HospitalActions'
+import { H1 } from 'app/components/Typography'
 
 const PreviousSellingEntryManage = ({ id }) => {
     // for panel setup
@@ -65,7 +67,7 @@ const PreviousSellingEntryManage = ({ id }) => {
             {isLoading && <LodingShow />}
 
             {hospitalSellingData.length === 0 ? (
-                <h3>No data available</h3>
+                <H1Alert />
             ) : (
                 <SimpleCard>
                     <Box width="100%">

@@ -1,4 +1,5 @@
 import { Snackbar, Alert, LinearProgress } from '@mui/material'
+import { H1 } from 'app/components/Typography'
 
 const MyAlert = ({ isOpen, typeSeverity, alrtTextToShow }) => (
     <Snackbar
@@ -29,4 +30,8 @@ const LodingShow = () => {
     )
 }
 
-export { MyAlert, LodingShow }
+const H1Alert = () => {
+    return <H1 sx={{ mb: '20px' }}>No data available</H1>
+}
+
+export { MyAlert, LodingShow, H1Alert }

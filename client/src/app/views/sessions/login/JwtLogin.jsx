@@ -168,7 +168,7 @@ const JwtLogin = () => {
                                             />
                                         )}
                                     </Box>
-                                    <Span sx={{ mr: 1, ml: '20px' }}>or</Span>
+                                    {/* <Span sx={{ mr: 1, ml: '20px' }}>or</Span>
                                     <Button
                                         sx={{ textTransform: 'capitalize' }}
                                         onClick={() =>
@@ -176,16 +176,16 @@ const JwtLogin = () => {
                                         }
                                     >
                                         Sign up
-                                    </Button>
+                                    </Button> */}
                                 </FlexBox>
-                                <Button
+                                {/* <Button
                                     sx={{ color: textPrimary }}
                                     onClick={() =>
                                         navigate('/session/forgot-password')
                                     }
                                 >
                                     Forgot password?
-                                </Button>
+                                </Button> */}
                             </ValidatorForm>
                         </ContentBox>
                     </Grid>

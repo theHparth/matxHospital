@@ -17,6 +17,7 @@ import {
     InvoiceDetails,
     MyAlert,
     LodingShow,
+    H1Alert,
 } from 'app/components'
 import {
     TableHead,
@@ -147,8 +148,9 @@ const AllStockOutTrueStatus = ({ id }) => {
                 />
             </div>
             {isLoading && <LodingShow />}
+
             {allStockOutData.length === 0 ? (
-                <h3>No data found</h3>
+                <H1Alert />
             ) : (
                 <SimpleCard title="Stock out data">
                     <Box width="100%">

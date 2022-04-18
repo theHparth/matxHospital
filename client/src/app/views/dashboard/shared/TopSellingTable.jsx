@@ -13,6 +13,7 @@ import {
     ContainerTable,
     StyledTable,
     StockAlert,
+    H1Alert,
 } from 'app/components'
 
 import { getAllData } from 'app/redux/actions/admin/StockActions'
@@ -49,8 +50,8 @@ const AllStock = () => {
 
     return (
         <ContainerTable>
-            {filterStockData.length === 0 || filterStockData === undefined ? (
-                <h1>Safe Zone..!!</h1>
+            {filterStockData.length === 0 ? (
+                <H1Alert />
             ) : (
                 <SimpleCard title="Stocks List">
                     <Box width="100%" overflow="auto">

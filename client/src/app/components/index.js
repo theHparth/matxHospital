@@ -40,4 +40,10 @@ export {
 } from './admin/adminStyleSheet/AllHospitalStyle'
 export { SearchBox } from './admin/search'
 export { DateChoose } from './admin/dateChoose/index'
-export { MyAlert, ExpandedPenal, AccordionComponent, LodingShow } from './admin'
+export {
+    MyAlert,
+    ExpandedPenal,
+    AccordionComponent,
+    LodingShow,
+    H1Alert,
+} from './admin'

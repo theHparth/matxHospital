@@ -10,6 +10,7 @@ import {
     ContainerTable,
     StyledTable,
     StockAlert,
+    H1Alert,
 } from 'app/components'
 import {
     TableHead,
@@ -58,113 +59,121 @@ const AllStockOutTrueStatus = () => {
     return (
         <ContainerTable>
             <SimpleCard>
-                <Box width="100%">
-                    <AccordionSummary
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                    >
-                        <SecondaryHeading>Hospital Name</SecondaryHeading>
-                    </AccordionSummary>
-                    {/* data print start from here*/}
-                    {minimumThresold
-                        .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                        )
-                        .map((subscriber, index) => (
-                            <Accordion
-                                expanded={expanded === `panel${index}`}
-                                onChange={handleChange(`panel${index}`)}
-                                key={index}
-                            >
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel2bh-content"
-                                    id="panel2bh-header"
+                {minimumThresold.length === 0 ? (
+                    <H1Alert />
+                ) : (
+                    <Box width="100%">
+                        <AccordionSummary
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                        >
+                            <SecondaryHeading>Hospital Name</SecondaryHeading>
+                        </AccordionSummary>
+                        {/* data print start from here*/}
+                        {minimumThresold
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
+                            .map((subscriber, index) => (
+                                <Accordion
+                                    expanded={expanded === `panel${index}`}
+                                    onChange={handleChange(`panel${index}`)}
+                                    key={index}
                                 >
-                                    <Heading> {subscriber._id}</Heading>
-                                </AccordionSummary>
-                                <AccordionDetails
-                                    style={{ backgroundColor: '#F5F5F5' }}
-                                >
-                                    <StyledTable>
-                                        <TableHead
-                                            style={{
-                                                backgroundColor: '#EBF5FB',
-                                            }}
-                                        >
-                                            <TableRow>
-                                                <TableCell>
-                                                    Stock Name
-                                                </TableCell>
-                                                <TableCell>Total Qty</TableCell>
-                                                <TableCell>
-                                                    Minimum required quantity
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {subscriber.belowLimit.map(
-                                                (subscriber, index) => (
-                                                    <TableRow key={index}>
-                                                        <TableCell>
-                                                            {
-                                                                subscriber.stock_name
-                                                            }
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {subscriber.totalQtyUser ? (
-                                                                <StockAlert
-                                                                    bgcolor={
-                                                                        bgSecondary
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        subscriber.totalQtyUser
-                                                                    }{' '}
-                                                                    available
-                                                                </StockAlert>
-                                                            ) : (
-                                                                <StockAlert
-                                                                    bgcolor={
-                                                                        bgError
-                                                                    }
-                                                                >
-                                                                    out of stock
-                                                                </StockAlert>
-                                                            )}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {
-                                                                subscriber.minimumLimit
-                                                            }
-                                                        </TableCell>
-                                                    </TableRow>
-                                                )
-                                            )}
-                                        </TableBody>
-                                    </StyledTable>
-                                </AccordionDetails>
-                            </Accordion>
-                        ))}
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel2bh-content"
+                                        id="panel2bh-header"
+                                    >
+                                        <Heading> {subscriber._id}</Heading>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                        style={{ backgroundColor: '#F5F5F5' }}
+                                    >
+                                        <StyledTable>
+                                            <TableHead
+                                                style={{
+                                                    backgroundColor: '#EBF5FB',
+                                                }}
+                                            >
+                                                <TableRow>
+                                                    <TableCell>
+                                                        Stock Name
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        Total Qty
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        Minimum required
+                                                        quantity
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {subscriber.belowLimit.map(
+                                                    (subscriber, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>
+                                                                {
+                                                                    subscriber.stock_name
+                                                                }
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {subscriber.totalQtyUser ? (
+                                                                    <StockAlert
+                                                                        bgcolor={
+                                                                            bgSecondary
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            subscriber.totalQtyUser
+                                                                        }{' '}
+                                                                        available
+                                                                    </StockAlert>
+                                                                ) : (
+                                                                    <StockAlert
+                                                                        bgcolor={
+                                                                            bgError
+                                                                        }
+                                                                    >
+                                                                        out of
+                                                                        stock
+                                                                    </StockAlert>
+                                                                )}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {
+                                                                    subscriber.minimumLimit
+                                                                }
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    )
+                                                )}
+                                            </TableBody>
+                                        </StyledTable>
+                                    </AccordionDetails>
+                                </Accordion>
+                            ))}
 
-                    <TablePagination
-                        sx={{ px: 2 }}
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={minimumThresold.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Box>
+                        <TablePagination
+                            sx={{ px: 2 }}
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={minimumThresold.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            backIconButtonProps={{
+                                'aria-label': 'Previous Page',
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'Next Page',
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Box>
+                )}
             </SimpleCard>
         </ContainerTable>
     )

@@ -5,6 +5,7 @@ import {
     StockAlert,
     SearchBox,
     LodingShow,
+    H1Alert,
 } from 'app/components'
 import {
     TableHead,
@@ -61,81 +62,90 @@ const HospitalStockInfo = ({ id }) => {
                 onSearchValueChange={searchText}
             />
             {isLoading && <LodingShow />}
-
-            <Box width="100%" overflow="auto">
-                <StyledTable>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Hospital Name</TableCell>
-                            <TableCell>Stock Name</TableCell>
-                            <TableCell>Totoal Qty.</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {hospitalIndividualStockData
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((subscriber, index) => (
-                                <TableRow key={index}>
-                                    <TableCell align="left">
-                                        {subscriber.hospitalName}
-                                    </TableCell>
-                                    <TableCell>
-                                        {subscriber.stock_name}
-                                    </TableCell>
-                                    {/* <TableCell>
+            {hospitalIndividualStockData.length === 0 ? (
+                <H1Alert />
+            ) : (
+                <Box width="100%" overflow="auto">
+                    <StyledTable>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Hospital Name</TableCell>
+                                <TableCell>Stock Name</TableCell>
+                                <TableCell>Totoal Qty.</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {hospitalIndividualStockData
+                                .slice(
+                                    page * rowsPerPage,
+                                    page * rowsPerPage + rowsPerPage
+                                )
+                                .map((subscriber, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell align="left">
+                                            {subscriber.hospitalName}
+                                        </TableCell>
+                                        <TableCell>
+                                            {subscriber.stock_name}
+                                        </TableCell>
+                                        {/* <TableCell>
                                             {subscriber.totalQtyUser}
                                         </TableCell> */}
-                                    <TableCell
-                                        sx={{ px: 0 }}
-                                        align="left"
-                                        // colSpan={2}
-                                    >
-                                        {subscriber.totalQtyUser ? (
-                                            subscriber.totalQtyUser <
-                                            subscriber.minimumLimit ? (
-                                                <StockAlert
-                                                    bgcolor={bgSecondary}
-                                                >
-                                                    {subscriber.totalQtyUser}{' '}
-                                                    available
-                                                </StockAlert>
+                                        <TableCell
+                                            sx={{ px: 0 }}
+                                            align="left"
+                                            // colSpan={2}
+                                        >
+                                            {subscriber.totalQtyUser ? (
+                                                subscriber.totalQtyUser <
+                                                subscriber.minimumLimit ? (
+                                                    <StockAlert
+                                                        bgcolor={bgSecondary}
+                                                    >
+                                                        {
+                                                            subscriber.totalQtyUser
+                                                        }{' '}
+                                                        available
+                                                    </StockAlert>
+                                                ) : (
+                                                    <StockAlert
+                                                        bgcolor={bgPrimary}
+                                                    >
+                                                        {
+                                                            subscriber.totalQtyUser
+                                                        }{' '}
+                                                        available
+                                                    </StockAlert>
+                                                )
                                             ) : (
-                                                <StockAlert bgcolor={bgPrimary}>
-                                                    {subscriber.totalQtyUser}{' '}
-                                                    available
+                                                <StockAlert bgcolor={bgError}>
+                                                    out of stock
                                                 </StockAlert>
-                                            )
-                                        ) : (
-                                            <StockAlert bgcolor={bgError}>
-                                                out of stock
-                                            </StockAlert>
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
-                </StyledTable>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </StyledTable>
 
-                <TablePagination
-                    sx={{ px: 2 }}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={hospitalIndividualStockData.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Box>
+                    <TablePagination
+                        sx={{ px: 2 }}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={hospitalIndividualStockData.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        backIconButtonProps={{
+                            'aria-label': 'Previous Page',
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'Next Page',
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Box>
+            )}
         </ContainerTable>
     )
 }
