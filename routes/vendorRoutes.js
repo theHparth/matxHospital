@@ -6,7 +6,7 @@ import {
   deleteVendor,
   getAllVendor,
   updateVendor,
-} from "../controllers/VendoresController.js";
+} from "../controllers/vendoresController.js";
 
 router.route("/").post(addVendor).get(getAllVendor);
 // remember about :id
