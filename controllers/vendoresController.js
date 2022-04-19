@@ -1,6 +1,5 @@
 import vendors from "../models/Vendor.js";
 import { StatusCodes } from "http-status-codes";
-import mongoose from "mongoose";
 
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 

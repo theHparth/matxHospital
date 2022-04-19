@@ -1,7 +1,6 @@
-import Hospital from "../../models/Hospital.js";
+import Hospital from "../../models/hospital.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../../errors/index.js";
-import StocksHosital from "../../models/User/stocksHospital.js";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
