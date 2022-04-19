@@ -1,4 +1,4 @@
-import Hospital from "../models/hospital.js";
+import Hospital from "../models/Hospital.js";
 import { StatusCodes } from "http-status-codes";
 import StocksHosital from "../models/User/stocksHospital.js";
 

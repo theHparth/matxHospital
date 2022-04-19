@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import { addStockQty, removeStockQty } from "./stockController.js";
-import Hospital from "../models/hospital.js";
+import Hospital from "../models/Hospital.js";
 import StocksHosital from "../models/User/stocksHospital.js";
 import stocks from "../models/Stocks.js";
 

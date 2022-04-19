@@ -7,7 +7,7 @@ import {
 } from "../../errors/index.js";
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
-import Hospital from "../../models/hospital.js";
+import Hospital from "../../models/Hospital.js";
 import StocksHosital from "../../models/User/stocksHospital.js";
 
 const AddtodaySellingHospital = async (req, res) => {
