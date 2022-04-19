@@ -9,47 +9,47 @@ import {
 } from "../errors/index.js";
 import dotenv from "dotenv";
 dotenv.config();
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 import checkPermissions from "../utils/checkPermissions.js";
 import UserStock from "../models/User/stockOut.js";
 
-import { google } from "googleapis";
-const OAuth2 = google.auth.OAuth2;
-// import OAuth2 from "google.auth.OAuth2";
-import http from "http";
+// import { google } from "googleapis";
+// const OAuth2 = google.auth.OAuth2;
+// // import OAuth2 from "google.auth.OAuth2";
+// import http from "http";
 
-const oauth2Client = new OAuth2(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET,
-  "https://developers.google.com/oauthplayground"
-);
+// const oauth2Client = new OAuth2(
+//   process.env.CLIENT_ID,
+//   process.env.CLIENT_SECRET,
+//   "https://developers.google.com/oauthplayground"
+// );
 
-oauth2Client.setCredentials({
-  refresh_token: process.env.REFRESH_TOKEN,
-});
+// oauth2Client.setCredentials({
+//   refresh_token: process.env.REFRESH_TOKEN,
+// });
 
-const accessToken = new Promise((resolve, reject) => {
-  oauth2Client.getAccessToken((err, token) => {
-    // console.log(token);
-    // if (err) {
-    //   reject("Failed to create access token :(");
-    // }
-    // return token;
-    resolve(token);
-  });
-});
+// const accessToken = new Promise((resolve, reject) => {
+//   oauth2Client.getAccessToken((err, token) => {
+//     // console.log(token);
+//     // if (err) {
+//     //   reject("Failed to create access token :(");
+//     // }
+//     // return token;
+//     resolve(token);
+//   });
+// });
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    type: "OAuth2",
-    user: process.env.USER_NAME,
-    accessToken,
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    refreshToken: process.env.REFRESH_TOKEN,
-  },
-});
+// var transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     type: "OAuth2",
+//     user: process.env.USER_NAME,
+//     accessToken,
+//     clientId: process.env.CLIENT_ID,
+//     clientSecret: process.env.CLIENT_SECRET,
+//     refreshToken: process.env.REFRESH_TOKEN,
+//   },
+// });
 // require("dotenv").config();
 
 // var transporter = nodemailer.createTransport({
