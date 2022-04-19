@@ -133,7 +133,7 @@ const AddStockCard = ({
                         errormessages={['this field is required']}
                     />
 
-                    <Checkbox
+                    {/* <Checkbox
                         size="small"
                         sx={{ m: 1, minWidth: 10, width: 20 }}
                         onChange={({ target: { checked } }) =>
@@ -145,7 +145,7 @@ const AddStockCard = ({
                             })
                         }
                         checked={stockOut.priceType || true}
-                    />
+                    /> */}
 
                     <TextField
                         type="number"
