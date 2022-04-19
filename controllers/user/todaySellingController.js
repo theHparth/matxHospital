@@ -1,4 +1,4 @@
-import TodaySellingHospital from "../../models/User/TodaySellingUser.js";
+import TodaySellingHospital from "../../models/User/todaySellingUser.js";
 import { StatusCodes } from "http-status-codes";
 import {
   BadRequestError,
@@ -8,7 +8,7 @@ import {
 import checkPermissionsHospital from "../../utils/user/checkPermissionsHospital.js";
 import { addStockQty, removeStockQty } from "./userStockController.js";
 import Hospital from "../../models/Hospital.js";
-import StocksHosital from "../../models/User/StocksHospital.js";
+import StocksHosital from "../../models/User/stocksHospital.js";
 
 const AddtodaySellingHospital = async (req, res) => {
   const { todaySellingData } = req.body;

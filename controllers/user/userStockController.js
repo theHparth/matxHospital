@@ -1,5 +1,5 @@
-import UserStock from "../../models/User/StockOut.js";
-import StocksHosital from "../../models/User/StocksHospital.js";
+import UserStock from "../../models/User/stockOut.js";
+import StocksHosital from "../../models/User/stocksHospital.js";
 import { StatusCodes } from "http-status-codes";
 import Hospital from "../../models/Hospital.js";
 
