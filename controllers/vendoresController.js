@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 
 import checkPermissions from "../utils/checkPermissions.js";
-
+//aa
 const addVendor = async (req, res) => {
   const { vendor_name, address, pincode, contect, email } = req.body;
 
