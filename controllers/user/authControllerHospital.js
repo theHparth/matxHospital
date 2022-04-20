@@ -1,4 +1,4 @@
-import Hospital from "../../models/Hospital.js";
+import Hospital from "../../models/Hospital";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../../errors/index.js";
 
