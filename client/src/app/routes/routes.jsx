@@ -33,7 +33,7 @@ export const AllPages = () => {
 
     // authFetch.get('/verify')
 
-    const all_routes = [
+    return [
         {
             element: (
                 <AuthGuard>
@@ -43,7 +43,6 @@ export const AllPages = () => {
             children: user
                 ? [
                       ...dashboardRoutes,
-                      // admin
                       ...profileRoutes,
                       ...hospitalRoutes,
                       ...vendorRoutes,
@@ -51,11 +50,8 @@ export const AllPages = () => {
                       ...wereHouseRoutes,
                       ...stockOutRoutes,
                       ...filterRoutes,
-
-                      // admin completed
                   ]
                 : [
-                      //hospitals
                       ...HospitalSellingHandleRoutes,
                       ...userDashboardRoutes,
                       ...userStockInRoutes,
@@ -77,6 +73,4 @@ export const AllPages = () => {
             element: <NotFound />,
         },
     ]
-
-    return all_routes
 }

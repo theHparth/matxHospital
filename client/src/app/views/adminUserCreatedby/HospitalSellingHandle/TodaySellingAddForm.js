@@ -31,6 +31,7 @@ function AddStockOutForm() {
         if (todaySellingDataArr && todaySellingDataArr.length) {
             setStockOutData(todaySellingDataArr)
         }
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -56,6 +57,7 @@ function AddStockOutForm() {
             dispatch(clearValuesTodaySelling())
             setStockOutData([emptyField])
         }
+        // eslint-disable-next-line
     }, [clearValues])
 
     const handleSubmit = () => {

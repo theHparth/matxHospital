@@ -174,13 +174,12 @@ const InvoiceViewer = ({ invoiceInfo }) => {
                     </TableHead>
                     <TableBody>
                         {stockOutDetail.map((item, index) => {
-                            {
-                                item.priceForUser &&
-                                    (subTotalCost +=
-                                        item.totalBox *
-                                        item.totalQtyInOneBox *
-                                        item.priceForUser)
-                            }
+                            item.priceForUser &&
+                                (subTotalCost +=
+                                    item.totalBox *
+                                    item.totalQtyInOneBox *
+                                    item.priceForUser)
+
                             return (
                                 <TableRow key={index}>
                                     <TableCell align="left">

@@ -42,6 +42,7 @@ const HospitalStockInfo = ({ id }) => {
     useEffect(() => {
         var state = { id, searchText }
         dispatch(hospitalStockInformation(state))
+        // eslint-disable-next-line
     }, [searchText, id])
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5)

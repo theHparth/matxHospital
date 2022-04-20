@@ -1,4 +1,3 @@
-import { ViewArrayOutlined } from '@mui/icons-material'
 import axios from 'axios'
 
 export const CREATE_SUCCESS_STOCK = 'CREATE_SUCCESS_STOCK'

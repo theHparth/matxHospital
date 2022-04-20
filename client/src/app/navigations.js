@@ -1,5 +1,3 @@
-import { authRoles } from 'app/auth/authRoles'
-
 export const navigations = [
     {
         name: 'Dashboard',

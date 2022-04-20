@@ -117,6 +117,7 @@ const AllStockOutTrueStatus = ({ id }) => {
         var state = { searchText, searchDate, id, searchStatus }
         dispatch(allStockOutDatas(state))
         setExpanded(false)
+        // eslint-disable-next-line
     }, [dispatch, searchText, searchDate, searchStatus])
 
     // useEffect(() => {

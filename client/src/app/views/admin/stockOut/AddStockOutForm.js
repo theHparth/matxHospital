@@ -47,6 +47,7 @@ function AddStockOutForm() {
         if (stockOutDetail.length) {
             setStockOutData(stockOutDetail)
         }
+        // eslint-disable-next-line
     }, [])
     const [stockOutData, setStockOutData] = React.useState([
         {
@@ -87,6 +88,7 @@ function AddStockOutForm() {
             hospital.messageForHospital = ''
             setStockOutData([emptyField])
         }
+        // eslint-disable-next-line
     }, [clearValues])
 
     const handleSubmit = () => {

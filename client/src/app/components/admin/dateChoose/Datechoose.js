@@ -37,6 +37,7 @@ const DateChoose = ({ dateProjection, onSearchDate }) => {
     useEffect(() => {
         // console.log('state', state)
         dateProjection(state)
+        // eslint-disable-next-line
     }, [state])
     return (
         <React.Fragment>

@@ -51,6 +51,7 @@ const MemberEditorDialog = ({ open, handleClose }) => {
         if (clearValues) {
             cancleWithClean()
         }
+        // eslint-disable-next-line
     }, [clearValues])
 
     const handleSubmit = (e) => {

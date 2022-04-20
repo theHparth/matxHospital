@@ -55,6 +55,7 @@ const AddStock = () => {
         if (clearValues) {
             cancleWithClean()
         }
+        // eslint-disable-next-line
     }, [clearValues])
 
     const handleSubmit = (e) => {

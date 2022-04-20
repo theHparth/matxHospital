@@ -24,7 +24,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 
 import { hospitalSellingInfo } from 'app/redux/actions/admin/HospitalActions'
-import { H1 } from 'app/components/Typography'
 
 const PreviousSellingEntryManage = ({ id }) => {
     // for panel setup

@@ -90,6 +90,7 @@ function AddStockOutForm() {
             newVendorInvoice.invoiceNumStockIn = ''
             setStockOutData([emptyField])
         }
+        // eslint-disable-next-line
     }, [dispatch, clearValues])
 
     const handleSubmit = () => {
