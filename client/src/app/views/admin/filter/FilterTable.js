@@ -58,9 +58,9 @@ const AllStock = () => {
 
     return (
         <ContainerTable>
-            <Button sx={{ mb: 2 }} variant="contained" color="primary">
+            {/* <Button sx={{ mb: 2 }} variant="contained" color="primary">
                 Add New Stock
-            </Button>
+            </Button> */}
 
             <SearchBox
                 onSearch={handleChangeSearch}

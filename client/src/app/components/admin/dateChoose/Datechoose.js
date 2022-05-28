@@ -18,7 +18,7 @@ const DateContainer = styled('div')(() => ({
     zIndex: 9,
     // width: '20%',
     // display: 'flex',
-    paddingRight: '90px',
+    // paddingRight: '90px',
     alignItems: 'center',
     height: topBarHeight,
     // background: theme.palette.primary.main,

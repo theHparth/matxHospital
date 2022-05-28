@@ -48,7 +48,6 @@ const filterDataCalculation = async (req, res) => {
     aaa(endDate);
   }
 
-  console.log(new_dates, "new_dates");
   result = await StocksOut.aggregate([
     {
       $project: {
@@ -68,13 +67,17 @@ const filterDataCalculation = async (req, res) => {
               $lte: new_dates[1],
             },
           },
-          { hospitalName: { $regex: searchText, $options: "i" } },
           {
-            stockOutDetail: {
-              $elemMatch: {
-                stock_name: { $regex: searchStock, $options: "i" },
+            $or: [
+              { hospitalName: { $regex: searchText, $options: "i" } },
+              {
+                stockOutDetail: {
+                  $elemMatch: {
+                    stock_name: { $regex: searchText, $options: "i" },
+                  },
+                },
               },
-            },
+            ],
           },
         ],
       },
@@ -111,51 +114,63 @@ const filterDataCalculation = async (req, res) => {
     },
   ]);
 
-  if (getStockByHospitalName) {
-    result = await StocksOut.aggregate([
-      {
-        $match: {
-          $and: [
-            { hospitalName: { $regex: getStockByHospitalName, $options: "i" } },
-            // { createdBy: req.user.userId },
-          ],
-        },
-      },
-      { $unwind: "$stockOutDetail" },
-      {
-        $group: {
-          _id: "$stockOutDetail.stock_name",
-          "total Qty": {
-            $sum: {
-              $multiply: [
-                { $toInt: "$stockOutDetail.totalBox" },
-                { $toInt: "$stockOutDetail.totalQtyInOneBox" },
-              ],
-            },
-          },
-        },
-      },
-    ]);
-  }
+  console.log(
+    getStockByHospitalName,
+    "getStockByHospitalName------------------------------------"
+  );
+  // if (getStockByHospitalName) {
+  //   result = await StocksOut.aggregate([
+  //     {
+  //       $match: {
+  //         $or: [
+  //           { hospitalName: { $regex: getStockByHospitalName, $options: "i" } },
+  //           // { itemName: { $regex: getStockByHospitalName, $options: "i" } },
+  //           // { createdBy: req.user.userId },
+  //           {
+  //             stockOutDetail: {
+  //               $elemMatch: {
+  //                 stock_name: { $regex: getStockByHospitalName, $options: "i" },
+  //               },
+  //             },
+  //           },
+  //         ],
+  //       },
+  //     },
+  //     { $unwind: "$stockOutDetail" },
+  //     {
+  //       $group: {
+  //         _id: "$stockOutDetail.stock_name",
+  //         "total Qty": {
+  //           $sum: {
+  //             $multiply: [
+  //               { $toInt: "$stockOutDetail.totalBox" },
+  //               { $toInt: "$stockOutDetail.totalQtyInOneBox" },
+  //             ],
+  //           },
+  //         },
+  //       },
+  //     },
+  //   ]);
+  // }
 
-  if (getQtyByStockName) {
-    result = await StocksOut.aggregate([
-      { $unwind: "$stockOutDetail" },
-      {
-        $group: {
-          _id: "$stockOutDetail.stock_name",
-          "total Qty": {
-            $sum: {
-              $multiply: [
-                { $toInt: "$stockOutDetail.totalBox" },
-                { $toInt: "$stockOutDetail.totalQtyInOneBox" },
-              ],
-            },
-          },
-        },
-      },
-    ]);
-  }
+  // if (getQtyByStockName) {
+  //   result = await StocksOut.aggregate([
+  //     { $unwind: "$stockOutDetail" },
+  //     {
+  //       $group: {
+  //         _id: "$stockOutDetail.stock_name",
+  //         "total Qty": {
+  //           $sum: {
+  //             $multiply: [
+  //               { $toInt: "$stockOutDetail.totalBox" },
+  //               { $toInt: "$stockOutDetail.totalQtyInOneBox" },
+  //             ],
+  //           },
+  //         },
+  //       },
+  //     },
+  //   ]);
+  // }
   if (!result) {
     result = "no Data";
   }

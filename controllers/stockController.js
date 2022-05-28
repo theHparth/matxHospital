@@ -96,15 +96,36 @@ const getAllStock = async (req, res) => {
     createdBy: req.user.userId,
   };
 
-  if (searchText) {
-    queryObject.stock_name = { $regex: searchText, $options: "i" };
-  }
+  // if (searchText) {
+  //   queryObject.stock_name = { $regex: searchText, $options: "i" };
+  // }
   // NO AWAIT
-
-  let result = Stocks.find(queryObject);
-
-  result = result.sort("-createdAt");
-
+  let result;
+  if (!searchText) {
+    result = Stocks.find(queryObject);
+  } else {
+    result = await Stocks.find({
+      $and: [
+        queryObject,
+        {
+          $or: [
+            { stock_name: { $regex: searchText, $options: "i" } },
+            { description: { $regex: searchText, $options: "i" } },
+            // {
+            //   stockOutDetail: {
+            //     $elemMatch: {
+            //       stock_name: { $regex: searchText, $options: "i" },
+            //     },
+            //   },
+            // },
+          ],
+        },
+      ],
+    });
+  }
+  // if (result) {
+  //   result = result.sort("-createdAt");
+  // }
   const stockList = await result;
 
   res.status(StatusCodes.OK).json({ stockList });

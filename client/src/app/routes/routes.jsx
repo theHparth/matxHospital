@@ -65,7 +65,7 @@ export const AllPages = () => {
               }
             : {
                   path: '/',
-                  element: <Navigate to="/user/dashboard/default" />,
+                  element: <Navigate to="pendingStockInUser" />,
               },
         ,
         {
